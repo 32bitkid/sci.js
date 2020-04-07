@@ -1,29 +1,29 @@
-import {IBitWriter} from "@32bitkid/bits";
+import { IBitWriter } from '@32bitkid/bits';
 
-import * as Pic from "./commands";
-import Operation from "./operations";
+import * as Pic from './commands/commands';
+import Operation from './operations';
 
 const enum OpCode {
-    SetVisual   = 0xf0,
-    DisableVisual   = 0xf1,
+    SetVisual = 0xf0,
+    DisableVisual = 0xf1,
     SetPriority = 0xf2,
     DisablePriority = 0xf3,
-    SetControl  = 0xfb,
-    DisableControl  = 0xfc,
+    SetControl = 0xfb,
+    DisableControl = 0xfc,
 
-    SortLines   = 0xf7,
+    ShortLines = 0xf7,
     MediumLines = 0xf6,
-    LongLines   = 0xf5,
+    LongLines = 0xf5,
 
-    SetPattern     = 0xf9,
-    ShortPatterns  = 0xf4,
+    SetPattern = 0xf9,
+    ShortPatterns = 0xf4,
     MediumPatterns = 0xfd,
-    LongPatterns   = 0xfa,
+    LongPatterns = 0xfa,
 
     Fills = 0xf8,
 
-    Extended = 0xfe ,
-    Done     = 0xff,
+    Extended = 0xfe,
+    Done = 0xff,
 }
 
 const enum OpxCode {
@@ -32,7 +32,7 @@ const enum OpxCode {
 }
 
 function writeSetLayer(cmd: Pic.Layer.SetCommand, target: IBitWriter): void {
-    switch(cmd.layer) {
+    switch (cmd.layer) {
         case Pic.Layer.Type.Priority:
             target.write8(OpCode.SetPriority);
             break;
@@ -47,7 +47,7 @@ function writeSetLayer(cmd: Pic.Layer.SetCommand, target: IBitWriter): void {
 }
 
 function writeDisableLayer(cmd: Pic.Layer.DisableCommand, target: IBitWriter): void {
-    switch(cmd.layer) {
+    switch (cmd.layer) {
         case Pic.Layer.Type.Priority:
             target.write8(OpCode.DisablePriority);
             break;
@@ -61,30 +61,30 @@ function writeDisableLayer(cmd: Pic.Layer.DisableCommand, target: IBitWriter): v
 }
 
 function writePoint24(x: number, y: number, target: IBitWriter): void {
-    const hiX = (x >>> 8) & 0xF;
+    const hiX = (x >>> 8) & 0xf;
     target.write4(hiX);
-    const hiY = (y >>> 8) & 0xF;
+    const hiY = (y >>> 8) & 0xf;
     target.write4(hiY);
-    const loX = x & 0xFF;
-    const loY = y & 0xFF;
+    const loX = x & 0xff;
+    const loY = y & 0xff;
     target.write8(loX, loY);
 }
 
 function writePoint16(x: number, y: number, target: IBitWriter): void {
     const neg = 0x80;
     if (y >= 0) {
-        target.write8(y&0x7f);
+        target.write8(y & 0x7f);
     } else {
-        target.write8(neg | (-y&0x7f));
+        target.write8(neg | (-y & 0x7f));
     }
-    target.write8((x>>>0)&0xFF);
+    target.write8((x >>> 0) & 0xff);
 }
 
 function writePoint8(x: number, y: number, target: IBitWriter): void {
     target.write1(x < 0);
-    target.write(Math.abs(x)&0x7, 3);
+    target.write(Math.abs(x) & 0x7, 3);
     target.write1(y < 0);
-    target.write(Math.abs(y)&0x7, 3);
+    target.write(Math.abs(y) & 0x7, 3);
 }
 
 function writeFills(cmd: Pic.Draw.FillsCommand, target: IBitWriter): void {
@@ -106,15 +106,19 @@ function writePatterns(cmd: Pic.Draw.PatternsCommand, target: IBitWriter): void 
     // TODO determine best delta size for set.
     const { points } = cmd;
     const deltas = points.map((point, i): [number, number, number?] => {
-        if (i === 0) { return point; }
+        if (i === 0) {
+            return point;
+        }
         const [x2, y2, code] = point;
         const [x1, y1] = points[i - 1];
-        return [x2-x1, y2-y1, code];
+        return [x2 - x1, y2 - y1, code];
     });
 
-    const maxDelta = deltas.reduce((max, [x, y]): number => (
-        Math.abs(x) > max ? Math.abs(x) : Math.abs(y) > max ? Math.abs(y) : max
-    ), 0);
+    const maxDelta = deltas.reduce(
+        (max, [x, y]): number =>
+            Math.abs(x) > max ? Math.abs(x) : Math.abs(y) > max ? Math.abs(y) : max,
+        0,
+    );
 
     if (maxDelta >= 128 || points.length === 1) {
         target.write8(OpCode.LongPatterns);
@@ -136,7 +140,9 @@ function writePatterns(cmd: Pic.Draw.PatternsCommand, target: IBitWriter): void 
         target.write8(OpCode.ShortPatterns);
         const [first, ...rest] = deltas;
         const [x, y, code] = first;
-        if (code !== undefined) { target.write8(code); }
+        if (code !== undefined) {
+            target.write8(code);
+        }
         writePoint24(x, y, target);
         rest.forEach(([dx, dy, code]): void => {
             if (code !== undefined) target.write8(code);
