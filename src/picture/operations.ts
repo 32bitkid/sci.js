@@ -1,16 +1,16 @@
 const enum Operation {
-    Done = -1,
-    SetLayer,
-    DisableLayer,
+  Done = -1,
+  SetLayer,
+  DisableLayer,
 
-    Lines,
-    Fills,
-    SetPattern,
-    Patterns,
+  Lines,
+  Fills,
+  SetPattern,
+  Patterns,
 
-    UpdatePalette,
+  UpdatePalette,
 
-    SetPalette,
+  SetPalette,
 }
 
 export default Operation;
