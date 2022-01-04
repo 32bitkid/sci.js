@@ -1,0 +1,13 @@
+{
+  "name": "@32bitkid/bitreader",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc",
+    "test": "jest src/"
+  },
+  "author": "J. Holmes <32bitkid@gmail.com>",
+  "license": "ISC"
+}
