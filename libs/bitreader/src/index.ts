@@ -1,1 +1,2 @@
-export { default as BitReader } from './bitreader';
+export { ArrayBufferBitReader } from './array-buffer-bit-reader';
+export { BitReader } from './bit-reader';
