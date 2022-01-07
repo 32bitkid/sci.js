@@ -18,12 +18,12 @@
   },
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
+    "libs/sci0",
     "libs/bitreader"
   ],
   "devDependencies": {
     "@types/jest": "^27.4.0",
     "prettier": "^2.5.1",
-    "rimraf": "^3.0.2",
     "ts-jest": "^27.1.2",
     "typescript": "^4.5.4"
   }

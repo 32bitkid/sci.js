@@ -1,18 +1,15 @@
-interface ReadableStreamLike {
-  read(size?: number): string | Buffer;
-}
-
 export class BitReader {
-  private readonly r: ReadableStreamLike;
+  private readonly view: DataView;
 
-  private bytes: Uint8Array = Uint8Array.of();
-  private idx: number = 0;
-  private bitsRemaining: number = 0;
+  private idx: number;
+  private bitBuffer: number;
+  private bitsRemaining: number;
 
-  private bitBuffer: number = 0;
-
-  constructor(r: ReadableStreamLike) {
-    this.r = r;
+  constructor(buffer: ArrayBufferLike) {
+    this.view = new DataView(buffer);
+    this.idx = 0;
+    this.bitBuffer = 0;
+    this.bitsRemaining = 0;
   }
 
   isByteAligned(): boolean {
@@ -22,6 +19,19 @@ export class BitReader {
   align(): BitReader {
     this._trash(this.bitsRemaining & 0b111);
     return this;
+  }
+
+  seek(offset: number): BitReader {
+    this.idx = offset;
+    this.bitBuffer = 0;
+    this.bitsRemaining = 0;
+    return this;
+  }
+
+  read32(n: number): number {
+    const result = this.peek32(n);
+    this.skip(n);
+    return result;
   }
 
   peek32(n: number): number {
@@ -40,19 +50,9 @@ export class BitReader {
 
       this.bitBuffer = 0;
       this.bitsRemaining = 0;
+      this.idx += bitsToSkip >>> 3;
 
-      let bytesToSkip = bitsToSkip >>> 3;
       bitsToSkip &= 0b111;
-
-      while (bytesToSkip > 0) {
-        if (bytesToSkip < this.bytes.length - this.idx) {
-          this.idx += bytesToSkip;
-          bytesToSkip = 0;
-        } else {
-          bytesToSkip -= this.bytes.length - this.idx;
-          this._nextChunk();
-        }
-      }
     }
 
     if (bitsToSkip > 0) {
@@ -71,34 +71,22 @@ export class BitReader {
   private _fill(n: number): BitReader {
     if (n <= this.bitsRemaining) return this;
 
-    let total = (32 - this.bitsRemaining) >>> 3;
+    let total = Math.floor((32 - this.bitsRemaining) / 8);
 
-    for (let i = 0; i < total; i++) {
-      const pos = 32 - 8 - this.bitsRemaining;
-
-      if (this.bytes.length <= this.idx) {
-        if (this.bitsRemaining > n) return this;
-        this._nextChunk();
-      }
-
-      this.bitBuffer |= this.bytes[this.idx] << pos;
-      this.idx += 1;
-      this.bitsRemaining += 8;
+    if (this.idx + total > this.view.byteLength) {
+      total = this.view.byteLength - this.idx;
     }
 
-    return this;
-  }
+    if (total << 3 < n) throw new Error('Buffer underflow!');
 
-  private _nextChunk(): BitReader {
-    const chunk = this.r.read();
-    if (chunk === null) throw new Error('EOF');
-    if (chunk.length === 0) throw new Error('EOF');
-    this.bytes = new Uint8Array(
-      typeof chunk === 'string'
-        ? new Buffer(chunk, 'binary').buffer
-        : chunk.buffer,
-    );
-    this.idx = 0;
+    for (let i = 0; i < total; i++) {
+      const pos = 32 - 8 - (i << 3) - this.bitsRemaining;
+      this.bitBuffer |= this.view.getUint8(this.idx + i) << pos;
+    }
+
+    this.idx += total;
+    this.bitsRemaining += total << 3;
+
     return this;
   }
 }

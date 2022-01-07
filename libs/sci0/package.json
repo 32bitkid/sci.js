@@ -1,5 +1,5 @@
 {
-  "name": "@32bitkid/bitreader",
+  "name": "@32bitkid/sci0",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -9,6 +9,10 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
-  "author": "J. Holmes <32bitkid@gmail.com>",
-  "license": "ISC"
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/through2": "^2.0.36",
+    "through2": "^4.0.2"
+  }
 }

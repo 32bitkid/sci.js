@@ -1,2 +1,2 @@
-export { ArrayBufferBitReader } from './array-buffer-bit-reader';
 export { BitReader } from './bit-reader';
+export { AsyncBitReader } from './async-bit-reader';
