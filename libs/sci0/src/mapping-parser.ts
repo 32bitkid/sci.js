@@ -1,21 +1,7 @@
 import through from 'through2';
 
-export enum ResourceType {
-  VIEW = 0,
-  PIC,
-  SCRIPT,
-  TEXT,
-  SOUND,
-  MEMORY,
-  VOCAB,
-  FONT,
-  CURSOR,
-  PATCH,
-}
-
 export interface ResourceMap {
-  type: ResourceType;
-  number: number;
+  id: number;
   file: number;
   offset: number;
 }
@@ -49,8 +35,7 @@ const read = (view: DataView, offset: number): Entry => {
 };
 
 const parse = ([head, tail]: Entry): ResourceMap => ({
-  type: head >>> 11,
-  number: head & 0b111_1111_1111,
+  id: head,
   file: tail >>> 26,
   offset: tail & 0b11_1111_1111_1111_1111_1111_1111,
 });

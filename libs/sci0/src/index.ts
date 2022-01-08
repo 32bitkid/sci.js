@@ -1,6 +1,11 @@
+export { ResourceMap, mappingParser, parseAllMappings } from './mapping-parser';
+export { ResourceHeader } from './resource-header';
 export {
-  mappingParser,
-  parseAllMappings,
-  ResourceMap,
   ResourceType,
-} from './mapping-parser';
+  getResourceNumber,
+  getResourceType,
+  getResourceIdStr,
+  getResourceTypeStr,
+  isResourceType,
+  isResourceNumber,
+} from './resource-id';
