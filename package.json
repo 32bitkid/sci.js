@@ -19,7 +19,7 @@
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
     "libs/sci0",
-    "libs/bitreader"
+    "libs/readers"
   ],
   "devDependencies": {
     "@types/jest": "^27.4.0",
