@@ -1,3 +1,9 @@
+type BitReaderMode = 'msb' | 'lsb';
+
+interface BitReaderOptions {
+  mode?: BitReaderMode;
+}
+
 export class BitReader {
   private readonly view: DataView;
 
@@ -5,11 +11,24 @@ export class BitReader {
   private bitBuffer: number;
   private bitsRemaining: number;
 
-  constructor(buffer: ArrayBufferLike) {
+  private readonly _fillPos: (n: number) => number;
+  private readonly _peek: (n: number) => number;
+  private readonly _trash: (n: number) => void;
+
+  readonly mode: BitReaderMode;
+
+  constructor(buffer: ArrayBuffer, opts: BitReaderOptions = {}) {
+    const { mode = 'msb' } = opts;
+
     this.view = new DataView(buffer);
     this.idx = 0;
     this.bitBuffer = 0;
     this.bitsRemaining = 0;
+    this.mode = mode;
+
+    this._fillPos = mode === 'msb' ? this._msbFillPos : this._lsbFillPos;
+    this._peek = mode === 'msb' ? this._msbPeek : this._lsbPeek;
+    this._trash = mode === 'msb' ? this._msbTrash : this._lsbTrash;
   }
 
   isByteAligned(): boolean {
@@ -38,7 +57,7 @@ export class BitReader {
     if (n > 32 || n < 0) throw new Error('Out of range');
     if (n === 0) return 0;
     this._fill(n);
-    return this.bitBuffer >>> (32 - n);
+    return this._peek(n);
   }
 
   skip(n: number): BitReader {
@@ -62,14 +81,8 @@ export class BitReader {
     return this;
   }
 
-  private _trash(n: number): BitReader {
-    this.bitBuffer <<= n;
-    this.bitsRemaining -= n;
-    return this;
-  }
-
-  private _fill(n: number): BitReader {
-    if (n <= this.bitsRemaining) return this;
+  private _fill(n: number): void {
+    if (n <= this.bitsRemaining) return;
 
     let total = Math.floor((32 - this.bitsRemaining) / 8);
 
@@ -80,13 +93,31 @@ export class BitReader {
     if (total << 3 < n) throw new Error('Buffer underflow!');
 
     for (let i = 0; i < total; i++) {
-      const pos = 32 - 8 - (i << 3) - this.bitsRemaining;
-      this.bitBuffer |= this.view.getUint8(this.idx + i) << pos;
+      this.bitBuffer |= this.view.getUint8(this.idx + i) << this._fillPos(i);
     }
 
     this.idx += total;
     this.bitsRemaining += total << 3;
-
-    return this;
   }
+
+  /* Most-significant bit first */
+  private _msbPeek = (n: number): number => this.bitBuffer >>> (32 - n);
+
+  private _msbTrash(n: number): void {
+    this.bitBuffer <<= n;
+    this.bitsRemaining -= n;
+  }
+
+  private _msbFillPos = (i: number): number =>
+    24 - (i << 3) - this.bitsRemaining;
+
+  /* Least-significant bit first */
+  private _lsbPeek = (n: number): number => this.bitBuffer & (~0 >>> (32 - n));
+
+  private _lsbTrash(n: number): void {
+    this.bitBuffer >>>= n;
+    this.bitsRemaining -= n;
+  }
+
+  private _lsbFillPos = (i: number): number => (i << 3) + this.bitsRemaining;
 }
