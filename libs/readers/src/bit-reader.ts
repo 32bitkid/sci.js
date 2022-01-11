@@ -17,10 +17,13 @@ export class BitReader {
 
   readonly mode: BitReaderMode;
 
-  constructor(buffer: ArrayBuffer, opts: BitReaderOptions = {}) {
+  constructor(bytes: Uint8Array, opts: BitReaderOptions = {}) {
     const { mode = 'msb' } = opts;
 
-    this.view = new DataView(buffer);
+    const begin = bytes.byteOffset;
+    const end = begin + bytes.byteLength;
+
+    this.view = new DataView(bytes.buffer.slice(begin, end));
     this.idx = 0;
     this.bitBuffer = 0;
     this.bitsRemaining = 0;
@@ -90,7 +93,8 @@ export class BitReader {
       total = this.view.byteLength - this.idx;
     }
 
-    if (total << 3 < n) throw new Error('Buffer underflow!');
+    if (total << 3 < n - this.bitsRemaining)
+      throw new Error('Buffer underflow!');
 
     for (let i = 0; i < total; i++) {
       this.bitBuffer |= this.view.getUint8(this.idx + i) << this._fillPos(i);
