@@ -18,8 +18,9 @@
   },
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
-    "libs/sci0",
-    "libs/readers"
+    "libs/readers",
+    "libs/codecs",
+    "libs/sci0"
   ],
   "devDependencies": {
     "@types/jest": "^27.4.0",
