@@ -1,39 +1,90 @@
 import { BitReader } from '@32bitkid/readers';
+import { Sequence, CodeMapping } from './shared';
+import { concat } from './concat';
 
-interface LzwDecodeOptions {
-  literalWidth?: number;
+export const EOF_MARKER = Object.freeze([] as const);
+export const RESET_MARKER = Object.freeze([] as const);
+
+interface CommonLzwDecodeOptions {
   order?: 'msb' | 'lsb';
 }
 
-const concat = (parts: number[][]): Uint8Array => {
-  const len = parts.reduce((sum, it) => sum + it.length, 0);
-  const result = new Uint8Array(len);
-  parts.reduce((sum, it) => {
-    result.set(it, sum);
-    return sum + it.length;
-  }, 0);
-  return result;
-};
+interface LiteralLzwDecodeOptions {
+  literalWidth: number;
+}
+
+type InitialDictionary = (typeof EOF_MARKER | typeof RESET_MARKER | number)[];
+
+interface CustomLzwDecodeOptions {
+  dictionary: InitialDictionary;
+}
+
+type LzwDecodeOptions =
+  | CommonLzwDecodeOptions
+  | (CommonLzwDecodeOptions & LiteralLzwDecodeOptions)
+  | (CommonLzwDecodeOptions & CustomLzwDecodeOptions);
 
 const MAX_CODE_LENGTH = 12;
 
+interface LzwInit {
+  readonly DICTIONARY: Readonly<CodeMapping[]>;
+  readonly TOP: number;
+  readonly CODE_WIDTH: number;
+}
+
+const initFromLiteralWidth = (literalWidth: number): LzwInit => {
+  const dict: CodeMapping[] = [];
+  let top: number;
+  for (top = 0; top < 1 << literalWidth; top++) {
+    dict.push([top, [top]]);
+  }
+  dict.push([top++, RESET_MARKER]);
+  dict.push([top++, EOF_MARKER]);
+
+  return {
+    DICTIONARY: dict,
+    TOP: top,
+    CODE_WIDTH: Math.ceil(Math.log2(top)),
+  };
+};
+
+const initFromDict = (seq: InitialDictionary): LzwInit => {
+  if (!seq.some((it) => it === EOF_MARKER))
+    throw new Error('initial dictionary does not contain EOF_MARKER');
+  const top = seq.length;
+  const dict = seq.map<CodeMapping>((it, i) => [
+    i,
+    typeof it === 'number' ? [it] : it,
+  ]);
+
+  return {
+    DICTIONARY: dict,
+    TOP: top,
+    CODE_WIDTH: Math.ceil(Math.log2(top)),
+  };
+};
+
+const init = (
+  opts: LiteralLzwDecodeOptions | CustomLzwDecodeOptions | Record<never, never>,
+): LzwInit => {
+  if ('literalWidth' in opts) return initFromLiteralWidth(opts.literalWidth);
+  if ('dictionary' in opts) return initFromDict(opts.dictionary);
+
+  return initFromLiteralWidth(8);
+};
+
 export const decode = (
   source: Uint8Array,
-  opts: LzwDecodeOptions = {},
+  opts: LzwDecodeOptions,
 ): Uint8Array => {
-  const outputs: number[][] = [];
-  const { literalWidth = 8, order = 'lsb' } = opts;
+  const outputs: Sequence[] = [];
+  const { order = 'lsb' } = opts;
 
-  const RESET_CODE = 1 << literalWidth;
-  const EOF_CODE = RESET_CODE + 1;
+  const { DICTIONARY, TOP, CODE_WIDTH } = init(opts);
 
-  const DEFAULT_DICT = Array(1 << literalWidth)
-    .fill(null)
-    .map<[number, number[]]>((_, i) => [i, [i]]);
-
-  let seen: Map<number, number[]> = new Map(DEFAULT_DICT);
-  let codeWidth = literalWidth + 1;
-  let nextCode = EOF_CODE + 1;
+  let seen = new Map(DICTIONARY);
+  let codeWidth = CODE_WIDTH;
+  let nextCode = TOP;
   let previous: number[] | null = null;
 
   const r = new BitReader(source, { mode: order });
@@ -41,19 +92,20 @@ export const decode = (
   while (true) {
     const next = r.read32(codeWidth);
 
-    const isReset = next === RESET_CODE;
+    const match = seen.get(next);
+
+    const isReset = match === RESET_MARKER;
     if (isReset) {
-      seen = new Map(DEFAULT_DICT);
-      codeWidth = literalWidth + 1;
-      nextCode = EOF_CODE + 1;
+      seen = new Map(DICTIONARY);
+      codeWidth = CODE_WIDTH;
+      nextCode = TOP;
       previous = null;
       continue;
     }
 
-    const isEOF = next === EOF_CODE;
+    const isEOF = match === EOF_MARKER;
     if (isEOF) break;
 
-    const match = seen.get(next);
     if (match) {
       outputs.push(match);
       if (previous) {
