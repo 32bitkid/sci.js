@@ -1,6 +1,4 @@
 import { BitReader } from '@32bitkid/readers';
-import { concat } from './concat';
-import { Sequence } from './shared';
 
 type Node = [value: number, siblings: number];
 
@@ -27,13 +25,16 @@ export const decode = (bytes: Uint8Array): Uint8Array => {
   for (let i = 0; i < nodeCount; i++)
     nodes.set(i, [br.read32(8), br.read32(8)]);
 
-  const result: Sequence[] = [];
+  const result: number[] = [];
 
   while (true) {
     const [c, ok] = nextCode(br, nodes, 0);
     if (ok && c === terminal) break;
-    result.push([c]);
+    result.push(c);
   }
 
-  return concat(result);
+  return result.reduce((buffer, i, idx) => {
+    buffer[idx] = i;
+    return buffer;
+  }, new Uint8Array(result.length));
 };
