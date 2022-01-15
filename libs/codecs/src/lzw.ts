@@ -1,4 +1,4 @@
-import { BitReader } from '@32bitkid/readers';
+import { BitReader } from '@4bitlabs/readers';
 import { Sequence, CodeMapping } from './shared';
 import { concat } from './concat';
 

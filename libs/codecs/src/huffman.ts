@@ -1,4 +1,4 @@
-import { BitReader } from '@32bitkid/readers';
+import { BitReader } from '@4bitlabs/readers';
 
 type Node = [value: number, siblings: number];
 
