@@ -17,3 +17,5 @@ export {
 } from './resource-id';
 
 export { decompress } from './compression';
+
+export * as Cursor from './cursor';
