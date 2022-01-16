@@ -1,8 +1,4 @@
-interface ImageLike {
-  readonly width: number;
-  readonly height: number;
-  readonly data: Uint8ClampedArray;
-}
+import { ImageLike } from './image-like';
 
 const BLACK = Uint8ClampedArray.of(0x00, 0x00, 0x00, 0xff);
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);

@@ -1,3 +1,5 @@
+import { ImageLike } from './image-like';
+
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);
 const TRANS = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0x00);
 
@@ -10,10 +12,17 @@ interface ParseFontOptions {
   colors?: [Uint8ClampedArray, Uint8ClampedArray];
 }
 
+export type Glyph = ImageLike;
+
+export interface FontFace {
+  characters: Glyph[];
+  lineHeight: number;
+}
+
 export const parseFrom = (
   source: Uint8Array,
   options: ParseFontOptions = {},
-) => {
+): FontFace => {
   const { colors: [OFF, ON] = [TRANS, WHITE] } = options;
   const headerView = new DataView(source.buffer, source.byteOffset, 6);
   const count = headerView.getUint16(2, true);
@@ -29,7 +38,7 @@ export const parseFrom = (
   const characters = pointers.map((offset) => {
     const [width, height] = [source[offset], source[offset + 1]];
 
-    const widthBytes = Math.ceil(width / 8);
+    const widthBytes = (width + 7) >>> 3;
 
     const data = new Uint8ClampedArray(width * height * 4);
 
@@ -37,8 +46,8 @@ export const parseFrom = (
       const yOffset = offset + 2 + y * widthBytes;
 
       for (let x = 0; x < width; x++) {
-        const idx = yOffset + Math.floor(x / 8);
-        const bit = (source[idx] >>> (7 - (x % 8))) & 1;
+        const idx = yOffset + (x >>> 3);
+        const bit = (source[idx] >>> (7 - (x & 0b111))) & 1;
         data.set(bit ? ON : OFF, x * 4 + y * width * 4);
       }
     }
