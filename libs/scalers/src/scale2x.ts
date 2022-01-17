@@ -1,7 +1,5 @@
 import { ImageLike } from '@4bitlabs/sci0/dist/image-like';
 
-import { eql } from './eql';
-
 export const scale2x = (input: ImageLike): ImageLike => {
   const [oWidth, oHeight] = [input.width << 1, input.height << 1];
   const output = {
@@ -34,10 +32,10 @@ export const scale2x = (input: ImageLike): ImageLike => {
       const c = ix - 1 >= 0 ? iy * iStride + (ix - 1) : p;
       const d = iy + 1 < input.height ? (iy + 1) * iStride + ix : p;
 
-      const aIsB = eql(src, a, b);
-      const cIsD = eql(src, c, d);
-      const aIsC = eql(src, a, c);
-      const bIsD = eql(src, b, d);
+      const aIsB = src[a] == src[b];
+      const cIsD = src[c] == src[d];
+      const aIsC = src[a] == src[c];
+      const bIsD = src[b] == src[d];
 
       const p1 = aIsC && !cIsD && !aIsB ? a : p;
       const p2 = aIsB && !aIsC && !bIsD ? b : p;
