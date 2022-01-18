@@ -11,6 +11,40 @@ const PIXEL = [
   [6, 6, 7, 8, 8],
 ].flat();
 
+const lerp = (v0: number, v1: number, t: number): number =>
+  v0 * (1 - t) + v1 * t;
+
+const cgaQuant = (r: number, g: number, b: number, a: number): number => {
+  r = Math.round(r / 0x55) * 0x55;
+  g = Math.round(g / 0x55) * 0x55;
+  b = Math.round(b / 0x55) * 0x55;
+
+  if (r === 0xaa && g === 0xaa && b === 0x00) g = 0x55;
+  return ((r << 16) | (g << 8) | b | (a << 24)) >>> 0;
+};
+
+const cgaLerp = (c1: number, c2: number, d: 0 | 1 | 2 | 3): number => {
+  const [r1, g1, b1, a1] = [
+    (c1 >>> 16) & 0xff,
+    (c1 >>> 8) & 0xff,
+    (c1 >>> 0) & 0xff,
+    (c1 >>> 24) & 0xff,
+  ];
+
+  const [r2, g2, b2, a2] = [
+    (c2 >>> 16) & 0xff,
+    (c2 >>> 8) & 0xff,
+    (c2 >>> 0) & 0xff,
+    (c2 >>> 24) & 0xff,
+  ];
+
+  const r = lerp(r1, r2, d / 3) >>> 0;
+  const g = lerp(g1, g2, d / 3) >>> 0;
+  const b = lerp(b1, b2, d / 3) >>> 0;
+  const a = lerp(a1, a2, d / 3) >>> 0;
+  return cgaQuant(r, g, b, a);
+};
+
 export const scale5x6 = (input: ImageLike, shave = false): ImageLike => {
   const output = {
     data: new Uint8ClampedArray(input.width * 5 * (input.height * 6) * 4),
@@ -57,9 +91,9 @@ export const scale5x6 = (input: ImageLike, shave = false): ImageLike => {
             src[a] !== src[e] &&
             src[a] !== src[p[0]]
           ) {
-            dst[oOffset] = 0xffaaaaaa; //src[a];
-            dst[oOffset + 1] = 0xff555555; //src[a];
-            dst[oOffset + oStride] = 0xff555555; //src[a];
+            dst[oOffset] = cgaLerp(src[a], src[p[0]], 1);
+            dst[oOffset + 1] = cgaLerp(src[a], src[p[0]], 2);
+            dst[oOffset + oStride] = cgaLerp(src[a], src[p[0]], 2);
           }
           if (
             src[c] === src[b] &&
@@ -67,9 +101,9 @@ export const scale5x6 = (input: ImageLike, shave = false): ImageLike => {
             src[c] !== src[e] &&
             src[c] !== src[p[2]]
           ) {
-            dst[oOffset + 4] = 0xffaaaaaa; //src[c];
-            dst[oOffset + 3] = 0xff555555; //src[a];
-            dst[oOffset + oStride + 4] = 0xff555555; //src[a];
+            dst[oOffset + 4] = cgaLerp(src[c], src[p[2]], 1);
+            dst[oOffset + 3] = cgaLerp(src[c], src[p[2]], 2);
+            dst[oOffset + oStride + 4] = cgaLerp(src[c], src[p[2]], 2);
           }
           if (
             src[g] === src[h] &&
@@ -77,9 +111,9 @@ export const scale5x6 = (input: ImageLike, shave = false): ImageLike => {
             src[g] !== src[e] &&
             src[g] !== src[p[6]]
           ) {
-            dst[oOffset + 5 * oStride] = 0xffaaaaaa; //src[g];
-            dst[oOffset + 1 + 5 * oStride] = 0xff555555; //src[a];
-            dst[oOffset + 4 * oStride] = 0xff555555; //src[a];
+            dst[oOffset + 5 * oStride] = cgaLerp(src[g], src[p[6]], 1);
+            dst[oOffset + 1 + 5 * oStride] = cgaLerp(src[g], src[p[6]], 2);
+            dst[oOffset + 4 * oStride] = cgaLerp(src[g], src[p[6]], 2);
           }
           if (
             src[i] === src[h] &&
@@ -87,9 +121,9 @@ export const scale5x6 = (input: ImageLike, shave = false): ImageLike => {
             src[i] !== src[e] &&
             src[i] !== src[p[8]]
           ) {
-            dst[oOffset + 4 + 5 * oStride] = 0xffaaaaaa; //src[i];
-            dst[oOffset + 3 + 5 * oStride] = 0xff555555; //src[a];
-            dst[oOffset + 4 + 4 * oStride] = 0xff555555; //src[a];
+            dst[oOffset + 4 + 5 * oStride] = cgaLerp(src[i], src[p[8]], 1);
+            dst[oOffset + 3 + 5 * oStride] = cgaLerp(src[i], src[p[8]], 2);
+            dst[oOffset + 4 + 4 * oStride] = cgaLerp(src[i], src[p[8]], 2);
           }
         }
       }
