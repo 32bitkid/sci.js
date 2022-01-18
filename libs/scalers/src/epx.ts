@@ -37,6 +37,10 @@ export const epx9 = (
 ): number[] => {
   const [a, b, c, d, e, f, g, h, i] = s9;
 
+  // abc
+  // def
+  // ghi
+
   // IF D==B AND D!=H AND B!=F => 1=D
   p9[0] =
     src[d] === src[b] && !(src[d] === src[h]) && !(src[b] === src[f]) ? d : e;
