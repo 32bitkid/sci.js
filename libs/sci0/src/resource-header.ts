@@ -6,7 +6,7 @@ export interface ResourceHeader {
 }
 
 export const parseHeaderFrom = (bytes: Uint8Array): ResourceHeader => {
-  const view = new DataView(bytes.buffer);
+  const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
   return {
     id: view.getUint16(0, true),
     packedSize: view.getUint16(2, true),

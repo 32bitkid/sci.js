@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/sci0/dist/image-like';
+import { ImageLike } from '@4bitlabs/shared';
 
 import { epx9, s9 } from './epx';
 

@@ -1,4 +1,4 @@
-export { ResourceMap, mappingParser, parseAllMappings } from './mapping-parser';
+export { ResourceMap, parseAll as parseAllMappings } from './mapping';
 
 export {
   ResourceHeader,

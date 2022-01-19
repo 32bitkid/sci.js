@@ -1,4 +1,4 @@
-import { ImageLike } from './image-like';
+import { ImageLike } from '@4bitlabs/shared';
 
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);
 const TRANS = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0x00);
