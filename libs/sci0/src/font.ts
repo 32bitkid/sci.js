@@ -1,12 +1,8 @@
 import { ImageLike } from '@4bitlabs/shared';
+import { repeat } from './repeat';
 
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);
 const TRANS = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0x00);
-
-const repeat = <T>(n: number, fn: (i: number) => T): T[] =>
-  Array(n)
-    .fill(null)
-    .map((_, i) => fn(i));
 
 interface ParseFontOptions {
   colors?: [Uint8ClampedArray, Uint8ClampedArray];
