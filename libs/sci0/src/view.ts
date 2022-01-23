@@ -67,7 +67,7 @@ export const parseFrom = (source: Uint8Array): ViewGroup[] => {
         frameView.getUint16(0, true),
         frameView.getUint16(2, true),
       ];
-      const [x, y] = [frameView.getUint8(4), frameView.getUint8(5)];
+      const [dx, dy] = [frameView.getInt8(4), frameView.getInt8(5)];
       const keyColor = frameView.getUint8(6);
 
       const total = width * height;
@@ -96,8 +96,8 @@ export const parseFrom = (source: Uint8Array): ViewGroup[] => {
         height,
         keyColor,
         width,
-        dx: x > 127 ? x - 256 : x,
-        dy: y,
+        dx,
+        dy,
       };
     });
 
