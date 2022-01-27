@@ -23,8 +23,6 @@ const cLerp = (c0: RGBA, c1: RGBA, t: number): RGBA => [
   lerp(c0[3], c1[3], t),
 ];
 
-const redmean = (c1: RGBA, c2: RGBA) => [];
-
 const CGA: RGBA[] = [
   [0x00, 0x00, 0x00, 0xff],
   [0x00, 0x00, 0xaa, 0xff],

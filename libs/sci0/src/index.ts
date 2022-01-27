@@ -21,3 +21,4 @@ export { decompress } from './compression';
 export * as Cursor from './cursor';
 export * as Font from './font';
 export * as View from './view';
+export * as Pic from './pic';
