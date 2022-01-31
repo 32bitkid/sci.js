@@ -5,7 +5,7 @@ export enum DrawMode {
   Control = 1 << 2,
 }
 
-export type PatternCode = [size: number, isRect: boolean, isTextured: boolean];
+export type PatternCode = [size: number, isRect: boolean, isSpray: boolean];
 export type DrawCodes = [visual: number, priority: number, control: number];
 
 export interface PicState {

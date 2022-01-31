@@ -15,8 +15,16 @@ type CodeHandler = (
 ) => DrawCommand[] | typeof IS_DONE | void;
 
 const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
-  [ExtendedOpCode.UpdatePalette]() {
-    throw new Error(`Unimplemented handler: ExtendedOpCode.UpdatePalette`);
+  [ExtendedOpCode.UpdatePalette](br, state) {
+    while (br.peek32(8) < 0xf0) {
+      const code = br.read32(8);
+      const color = br.read32(8);
+
+      const pal = (code / 40) >>> 0;
+      const idx = code % 40;
+
+      state.palettes[pal][idx] = color;
+    }
   },
   [ExtendedOpCode.SetPalette](br, state) {
     const idx = br.read32(8);

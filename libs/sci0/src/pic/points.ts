@@ -31,11 +31,11 @@ export const getPoint16 = (
   ref: ReadonlyVec2,
 ): vec2 => {
   const y = br.read32(8);
-  const x = br.read32(8);
-
   const absY = y & 0b0111_1111;
-  const dx = x > 0b0111_1111 ? x - 256 : x;
   const dy = (y & 0b1000_0000) !== 0 ? -absY : absY;
+
+  const x = br.read32(8);
+  const dx = x > 0b0111_1111 ? x - 256 : x;
 
   return vec2.set(out, ref[0] + dx, ref[1] + dy);
 };
