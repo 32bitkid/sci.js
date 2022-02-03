@@ -6,6 +6,7 @@ import { repeat } from '../repeat';
 import { getPoint16, getPoint24, getPoint8 } from './points';
 import { DrawCommand } from './draw-command';
 import { DrawMode, PicState } from './pic-state';
+import { parseCel } from '../cel';
 
 export const IS_DONE = Symbol('done');
 
@@ -54,11 +55,20 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     // Not sure what this code means
     // NOOP
   },
-  [ExtendedOpCode.x07]() {
-    throw new Error(`Unimplemented extended handler: 0x07`);
+  [ExtendedOpCode.x07](br) {
+    const pos = getPoint24(br, vec2.create());
+    const size = br.read32(8) | (br.read32(8) << 8);
+
+    const buffer = new ArrayBuffer(size);
+
+    const view = new DataView(buffer);
+    repeat(size, (i) => view.setUint8(i, br.read32(8)));
+
+    const cel = parseCel(view);
+    console.log(pos, cel);
   },
-  [ExtendedOpCode.x08]() {
-    throw new Error(`Unimplemented extended handler: 0x08`);
+  [ExtendedOpCode.x08](br) {
+    repeat(14, () => br.read32(8));
   },
 };
 
