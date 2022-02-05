@@ -1,3 +1,8 @@
 export { render } from './render';
-export { createDitherizer } from './ditherizer';
+export {
+  createDitherizer,
+  classicDitherer,
+  mixDitherer,
+  softDitherer,
+} from './ditherizer';
 export { CLASSIC, MIX, SOFT } from './screen-palettes';

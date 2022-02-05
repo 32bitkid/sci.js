@@ -109,3 +109,13 @@ export const createBrush =
         plot([px, py], color);
       }
   };
+
+export const createMarker =
+  (plot: Plotter): Filler =>
+  (pos: vec2, color: number): void => {
+    const [x, y] = pos;
+    plot([x - 1, y], color);
+    plot([x, y - 1], color);
+    plot([x + 1, y], color);
+    plot([x, y + 1], color);
+  };

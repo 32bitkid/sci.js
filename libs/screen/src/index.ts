@@ -1,8 +1,9 @@
 export {
-  ImageLike,
+  DrawCodes,
   DrawCommand,
   DrawMode,
-  DrawCodes,
+  ImageFilter,
+  ImageLike,
   PatternCode,
 } from './common';
 
