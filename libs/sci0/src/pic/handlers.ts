@@ -1,11 +1,12 @@
 import { vec2 } from 'gl-matrix';
+import { DrawCommand, DrawMode } from '@4bitlabs/screen';
 import { BitReader } from '@4bitlabs/readers';
 
 import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes';
 import { repeat } from '../repeat';
 import { getPoint16, getPoint24, getPoint8 } from './points';
-import { DrawCommand } from './draw-command';
-import { DrawMode, PicState } from './pic-state';
+
+import { PicState } from './pic-state';
 import { parseCel } from '../cel';
 
 export const IS_DONE = Symbol('done');
@@ -14,63 +15,6 @@ type CodeHandler = (
   br: BitReader,
   state: PicState,
 ) => DrawCommand[] | typeof IS_DONE | void;
-
-const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
-  [ExtendedOpCode.UpdatePalette](br, state) {
-    while (br.peek32(8) < 0xf0) {
-      const code = br.read32(8);
-      const color = br.read32(8);
-
-      const pal = (code / 40) >>> 0;
-      const idx = code % 40;
-
-      state.palettes[pal][idx] = color;
-    }
-  },
-  [ExtendedOpCode.SetPalette](br, state) {
-    const idx = br.read32(8);
-    const palette = new Uint8Array(40);
-    repeat(40, (i) => (palette[i] = br.read32(8)));
-    state.palettes[idx] = palette;
-    return [['SET_PALETTE', idx, palette]];
-  },
-  [ExtendedOpCode.x02](br) {
-    // Looks like a palette, but i'm not sure what this chunk is for
-    br.skip(8);
-    br.skip(8 * 40);
-  },
-  [ExtendedOpCode.x03](br) {
-    // Not sure what byte this is for
-    br.skip(8);
-  },
-  [ExtendedOpCode.x04]() {
-    // Not sure what this code means
-    // NOOP
-  },
-  [ExtendedOpCode.x05](br) {
-    // Not sure what byte this is for
-    br.skip(8);
-  },
-  [ExtendedOpCode.x06]() {
-    // Not sure what this code means
-    // NOOP
-  },
-  [ExtendedOpCode.x07](br) {
-    const pos = getPoint24(br, vec2.create());
-    const size = br.read32(8) | (br.read32(8) << 8);
-
-    const buffer = new ArrayBuffer(size);
-
-    const view = new DataView(buffer);
-    repeat(size, (i) => view.setUint8(i, br.read32(8)));
-    const cel = parseCel(view);
-
-    console.log(pos, cel);
-  },
-  [ExtendedOpCode.x08](br) {
-    repeat(14, () => br.read32(8));
-  },
-};
 
 export const CodeHandlers: Record<OpCode, CodeHandler> = {
   [OpCode.SetVisual](br, state) {
@@ -222,4 +166,61 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
     return ExtendedHandlers[opx](br, state);
   },
   [OpCode.Done]: () => IS_DONE,
+};
+
+const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
+  [ExtendedOpCode.UpdatePalette](br, state) {
+    while (br.peek32(8) < 0xf0) {
+      const code = br.read32(8);
+      const color = br.read32(8);
+
+      const pal = (code / 40) >>> 0;
+      const idx = code % 40;
+
+      state.palettes[pal][idx] = color;
+    }
+  },
+  [ExtendedOpCode.SetPalette](br, state) {
+    const idx = br.read32(8);
+    const palette = new Uint8Array(40);
+    repeat(40, (i) => (palette[i] = br.read32(8)));
+    state.palettes[idx] = palette;
+    return [['SET_PALETTE', idx, palette]];
+  },
+  [ExtendedOpCode.x02](br) {
+    // Looks like a palette, but i'm not sure what this chunk is for
+    br.skip(8);
+    br.skip(8 * 40);
+  },
+  [ExtendedOpCode.x03](br) {
+    // Not sure what byte this is for
+    br.skip(8);
+  },
+  [ExtendedOpCode.x04]() {
+    // Not sure what this code means
+    // NOOP
+  },
+  [ExtendedOpCode.x05](br) {
+    // Not sure what byte this is for
+    br.skip(8);
+  },
+  [ExtendedOpCode.x06]() {
+    // Not sure what this code means
+    // NOOP
+  },
+  [ExtendedOpCode.x07](br) {
+    const pos = getPoint24(br, vec2.create());
+    const size = br.read32(8) | (br.read32(8) << 8);
+
+    const buffer = new ArrayBuffer(size);
+
+    const view = new DataView(buffer);
+    repeat(size, (i) => view.setUint8(i, br.read32(8)));
+    const cel = parseCel(view);
+
+    console.log(pos, cel);
+  },
+  [ExtendedOpCode.x08](br) {
+    repeat(14, () => br.read32(8));
+  },
 };

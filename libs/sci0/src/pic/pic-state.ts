@@ -1,12 +1,4 @@
-export enum DrawMode {
-  None = 0,
-  Visual = 1 << 0,
-  Priority = 1 << 1,
-  Control = 1 << 2,
-}
-
-export type PatternCode = [size: number, isRect: boolean, isSpray: boolean];
-export type DrawCodes = [visual: number, priority: number, control: number];
+import { DrawCodes, DrawMode, PatternCode } from '@4bitlabs/screen';
 
 export interface PicState {
   drawMode: DrawMode;

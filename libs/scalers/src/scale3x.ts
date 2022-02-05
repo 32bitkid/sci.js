@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/shared';
+import { ImageLike } from '@4bitlabs/screen';
 
 import { s9, epx9 } from './epx';
 

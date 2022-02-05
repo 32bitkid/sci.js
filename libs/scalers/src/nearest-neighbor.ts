@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/shared';
+import { ImageLike } from '@4bitlabs/screen';
 
 export const nearestNeighbor =
   (ratio: [number, number]) =>

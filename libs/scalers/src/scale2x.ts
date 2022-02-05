@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/shared';
+import { ImageLike } from '@4bitlabs/screen';
 
 export const scale2x = (input: ImageLike): ImageLike => {
   const [oWidth, oHeight] = [input.width << 1, input.height << 1];

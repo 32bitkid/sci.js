@@ -1,7 +1,8 @@
 import { BitReader } from '@4bitlabs/readers';
+import { DrawCommand } from '@4bitlabs/screen';
+
 import { CodeHandlers, IS_DONE } from './handlers';
 import { createPicState } from './pic-state';
-import { DrawCommand } from './draw-command';
 import { isOpCode } from './op-codes';
 
 export const parseFrom = (data: Uint8Array): DrawCommand[] => {

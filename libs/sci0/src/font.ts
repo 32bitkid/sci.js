@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/shared';
+import { ImageLike } from '@4bitlabs/screen';
 import { repeat } from './repeat';
 
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);

@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/shared';
+import { ImageLike } from '@4bitlabs/screen';
 
 export interface Cel extends ImageLike {
   ega: Uint8ClampedArray;

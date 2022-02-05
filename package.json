@@ -18,8 +18,8 @@
   },
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
-    "libs/shared",
     "libs/readers",
+    "libs/screen",
     "libs/scalers",
     "libs/codecs",
     "libs/sci0"

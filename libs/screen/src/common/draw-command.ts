@@ -1,5 +1,13 @@
 import { vec2 } from 'gl-matrix';
-import { DrawMode, DrawCodes, PatternCode } from './pic-state';
+
+export enum DrawMode {
+  Visual = 1 << 0,
+  Priority = 1 << 1,
+  Control = 1 << 2,
+}
+
+export type PatternCode = [size: number, isRect: boolean, isSpray: boolean];
+export type DrawCodes = [visual: number, priority: number, control: number];
 
 type SetPaletteCommand = [
   mode: 'SET_PALETTE',
