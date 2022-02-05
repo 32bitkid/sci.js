@@ -12,6 +12,7 @@ export const parseFrom = (data: Uint8Array): DrawCommand[] => {
 
   while (true) {
     const op = br.read32(8);
+
     if (!isOpCode(op))
       throw new Error(`Unrecognized opcode: 0x${op.toString(16)}`);
 

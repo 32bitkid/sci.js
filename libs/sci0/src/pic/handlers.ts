@@ -63,8 +63,8 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
 
     const view = new DataView(buffer);
     repeat(size, (i) => view.setUint8(i, br.read32(8)));
-
     const cel = parseCel(view);
+
     console.log(pos, cel);
   },
   [ExtendedOpCode.x08](br) {
@@ -138,86 +138,66 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
     const code = br.read32(8);
     state.patternCode = [
       code & 0b00111,
-      (code & 0b10000) !== 0,
+      (code & 0b010000) !== 0,
       (code & 0b100000) !== 0,
     ];
   },
   [OpCode.ShortBrushes](br, { drawMode, drawCodes, patternCode }) {
     const cmds: DrawCommand[] = [];
-    const pos = vec2.create();
+    const prev = vec2.create();
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? br.read32(8) >> 1 : 0;
-    getPoint24(br, pos);
+    getPoint24(br, prev);
     cmds.push([
       'BRUSH',
       drawMode,
       drawCodes,
       patternCode,
       texture,
-      vec2.clone(pos),
+      vec2.clone(prev),
     ]);
 
     while (br.peek32(8) < 0xf0) {
       texture = isTextured ? br.read32(8) >> 1 : 0;
-      getPoint8(br, pos, pos);
-      cmds.push([
-        'BRUSH',
-        drawMode,
-        drawCodes,
-        patternCode,
-        texture,
-        vec2.clone(pos),
-      ]);
+      const next = getPoint8(br, vec2.create(), prev);
+      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      vec2.copy(prev, next);
     }
     return cmds;
   },
   [OpCode.MediumBrushes](br, { drawMode, drawCodes, patternCode }) {
     const cmds: DrawCommand[] = [];
-    const pos = vec2.create();
+    const prev = vec2.create();
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? br.read32(8) >> 1 : 0;
-    getPoint24(br, pos);
+    getPoint24(br, prev);
     cmds.push([
       'BRUSH',
       drawMode,
       drawCodes,
       patternCode,
       texture,
-      vec2.clone(pos),
+      vec2.clone(prev),
     ]);
 
     while (br.peek32(8) < 0xf0) {
       texture = isTextured ? br.read32(8) >> 1 : 0;
-      getPoint16(br, pos, pos);
-      cmds.push([
-        'BRUSH',
-        drawMode,
-        drawCodes,
-        patternCode,
-        texture,
-        vec2.clone(pos),
-      ]);
+      const next = getPoint16(br, vec2.create(), prev);
+      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      vec2.copy(prev, next);
     }
     return cmds;
   },
   [OpCode.LongBrushes](br, { drawMode, drawCodes, patternCode }) {
     const cmds: DrawCommand[] = [];
-    const pos = vec2.create();
     const [, , isTextured] = patternCode;
 
     while (br.peek32(8) < 0xf0) {
       const texture = isTextured ? br.read32(8) >> 1 : 0;
-      getPoint24(br, pos);
-      cmds.push([
-        'BRUSH',
-        drawMode,
-        drawCodes,
-        patternCode,
-        texture,
-        vec2.clone(pos),
-      ]);
+      const pos = getPoint24(br, vec2.create());
+      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, pos]);
     }
     return cmds;
   },
