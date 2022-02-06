@@ -1,16 +1,17 @@
+import { vec2 } from 'gl-matrix';
+
 import {
   DrawCommand,
   DrawMode,
+  ImageFilter,
   ImageLike,
   IsFillable,
   Plotter,
   Screen,
 } from '../common';
 import { DEFAULT_PALETTE } from './default-palette';
-import { vec2 } from 'gl-matrix';
 import { createBrush, createFloodFill, createLine } from './sci0-screen-impl';
 import { classicDitherer } from './ditherizer';
-import { ImageFilter } from '../common/image-like';
 
 interface Buffer extends Screen {
   image: ImageLike;

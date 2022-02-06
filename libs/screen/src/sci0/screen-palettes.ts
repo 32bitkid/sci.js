@@ -44,6 +44,7 @@ const MIX: DitherPair[] = CLASSIC.map(([a, b]) => mixPair(a, b));
 const SOFT: DitherPair[] = CLASSIC.map(([a, b]) => {
   if (a === b) {
     const base = colorFromUint32(a);
+
     return [
       uint32FromColor(base.lighten(0.05)),
       uint32FromColor(base.darken(0.05)),
