@@ -1,8 +1,9 @@
+import { Cel } from '@4bitlabs/screen';
 import { repeat } from './repeat';
-import { Cel, parseCel } from './cel';
+import { parseCel } from './cel';
 
 export interface ViewGroup {
-  frames: Cel[];
+  frames: Cel<4>[];
   isMirrored: boolean;
 }
 
@@ -26,7 +27,7 @@ export const parseFrom = (source: Uint8Array): ViewGroup[] => {
     const frameCount = groupView.getUint16(0, true);
     const isMirrored = (mirrored & (1 << groupIdx)) !== 0;
 
-    const frames = repeat<Cel>(frameCount, (frameIdx) => {
+    const frames = repeat(frameCount, (frameIdx) => {
       const frameOffset = groupView.getUint16(frameIdx * 2 + 4, true);
       const frameView = new DataView(
         source.buffer,

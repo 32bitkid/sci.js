@@ -208,7 +208,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     // Not sure what this code means
     // NOOP
   },
-  [ExtendedOpCode.x07](br) {
+  [ExtendedOpCode.x07](br, state) {
     const pos = getPoint24(br, vec2.create());
     const size = br.read32(8) | (br.read32(8) << 8);
 
@@ -218,7 +218,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     repeat(size, (i) => view.setUint8(i, br.read32(8)));
     const cel = parseCel(view);
 
-    console.log(pos, cel);
+    return [['CEL', state.drawMode, pos, cel]];
   },
   [ExtendedOpCode.x08](br) {
     repeat(14, () => br.read32(8));

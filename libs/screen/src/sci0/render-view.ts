@@ -31,6 +31,7 @@ const createBuffer = (empty: number): Buffer => {
   const isFillable: IsFillable = (x, y) => pixels[x + y * 320] === empty;
 
   return {
+    plot,
     brush: createBrush(plot, [320, 190]),
     fill: createFloodFill(plot, isFillable, [320, 190]),
     line: createLine(plot),
@@ -55,7 +56,7 @@ interface RenderResult {
   control: ImageLike;
 }
 
-export const render = (
+export const renderView = (
   commands: DrawCommand[],
   options: RenderOptions = {},
 ): RenderResult => {
@@ -92,7 +93,7 @@ export const render = (
         const [x, y] = pos;
 
         visible.fill([x, y], color);
-        return;
+        break;
       }
       case 'PLINE': {
         const [, drawMode, drawCodes, ...points] = cmd;
@@ -105,7 +106,7 @@ export const render = (
 
         for (let p = 0; p < points.length - 1; p++)
           visible.line(points[p], points[p + 1], color);
-        return;
+        break;
       }
       case 'BRUSH': {
         const [, drawMode, drawCodes, patternCode, textureCode, pos] = cmd;
@@ -116,7 +117,22 @@ export const render = (
         if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
         visible.brush(pos, ...patternCode, textureCode, color);
-        return;
+        break;
+      }
+      case 'CEL': {
+        const [, drawMode, pos, cel] = cmd;
+        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
+
+        const data = new Uint8Array(cel.data);
+        for (let y = pos[1]; y < pos[1] + cel.height; y++)
+          for (let x = pos[0]; x < pos[0] + cel.width; x++) {
+            if (x >= 320 || y >= 190) continue;
+
+            const color = data[x + y * cel.width];
+            if (color === cel.keyColor) continue;
+            visible.plot([x, y], color | (color << 4));
+          }
+        break;
       }
       default:
         console.log('unhandled opcode', mode);

@@ -16,7 +16,8 @@ export type Brusher = (
 ) => void;
 
 export interface Screen {
+  brush: Brusher;
   fill: Filler;
   line: Liner;
-  brush: Brusher;
+  plot: Plotter;
 }
