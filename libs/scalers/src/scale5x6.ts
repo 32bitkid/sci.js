@@ -1,4 +1,4 @@
-import { ImageLike } from '@4bitlabs/screen';
+import { ImageLike, redMeanDiff } from '@4bitlabs/screen';
 
 import { epx9, s9 } from './epx';
 
@@ -49,16 +49,7 @@ const quant = (c: RGBA, allowed: RGBA[] | false): number => {
 
   if (allowed)
     allowed.forEach((it) => {
-      const aR = (c[0] + it[0]) / 2;
-      const dR = Math.abs(c[0] - it[0]);
-      const dG = Math.abs(c[1] - it[1]);
-      const dB = Math.abs(c[2] - it[2]);
-
-      const dist =
-        (2 + aR / 256) * dR ** 2 +
-        4 * dG ** 2 +
-        (2 + (255 - aR) / 256) * dB ** 2;
-
+      const dist = redMeanDiff(c, it);
       if (dist < minDist) {
         minDist = dist;
         match = it;

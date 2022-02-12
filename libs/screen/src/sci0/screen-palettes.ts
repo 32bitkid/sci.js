@@ -1,57 +1,56 @@
-import { Colord, colord, extend as colordExtend } from 'colord';
-import mixPlugin from 'colord/plugins/mix';
+import {
+  DGA_PALETTE,
+  EGA_PALETTE,
+  Mixers,
+  DitherPair,
+  DitherTransform,
+} from '../common';
 
-import { EGA_PALETTE as EGA } from '../common';
+const rawPairs =
+  (pal: Uint32Array = EGA_PALETTE) =>
+  (i: number): DitherPair =>
+    [pal[(i >>> 4) & 0b1111], pal[(i >>> 0) & 0b1111]];
 
-colordExtend([mixPlugin]);
-
-const colorFromUint32 = (c: number): Colord =>
-  colord({
-    r: (c >>> 0) & 0xff,
-    g: (c >>> 8) & 0xff,
-    b: (c >>> 16) & 0xff,
-    a: ((c >>> 24) & 0xff) / 255,
-  });
-
-const uint32FromColor = (c: Colord) =>
-  0xff000000 | (c.rgba.b << 16) | (c.rgba.g << 8) | (c.rgba.r << 0);
-
-const mixPair = (
-  a: number,
-  b: number,
-  bias: [number, number] = [0.5, 0.5],
-): [number, number] => {
-  const clrA = colorFromUint32(a);
-  const clrB = colorFromUint32(b);
-
-  const mixA = clrA.mix(clrB, bias[0]);
-  const mixB = clrA.mix(clrB, bias[1]);
-
-  const ma = uint32FromColor(mixA);
-  const mb = uint32FromColor(mixB);
-
-  return [ma, mb];
+const ENTRIES = Array(256).fill(0);
+export const generateSciDitherPairs = (
+  source: Uint32Array | ((entry: number) => DitherPair),
+  ...transforms: DitherTransform[]
+): DitherPair[] => {
+  const fn = typeof source === 'function' ? source : rawPairs(source);
+  return transforms.reduce(
+    (pairs, tx) => pairs.map(tx),
+    ENTRIES.map((_, i) => fn(i)),
+  );
 };
 
-type DitherPair = [number, number];
+const CLASSIC: DitherPair[] = generateSciDitherPairs(EGA_PALETTE);
+const MIX: DitherPair[] = generateSciDitherPairs(
+  EGA_PALETTE,
+  Mixers.mixBy(0.45),
+);
+const SOFT: DitherPair[] = generateSciDitherPairs(
+  Uint32Array.of(
+    DGA_PALETTE[0],
+    DGA_PALETTE[1],
+    DGA_PALETTE[2],
+    DGA_PALETTE[3],
 
-const CLASSIC: DitherPair[] = Array(256)
-  .fill(0)
-  .map((_, i) => [EGA[(i >>> 4) & 0b1111], EGA[(i >>> 0) & 0b1111]]);
+    EGA_PALETTE[4],
+    DGA_PALETTE[5],
+    DGA_PALETTE[6],
+    DGA_PALETTE[7],
 
-const MIX: DitherPair[] = CLASSIC.map(([a, b]) => mixPair(a, b));
+    DGA_PALETTE[8],
+    DGA_PALETTE[9],
+    DGA_PALETTE[10],
+    DGA_PALETTE[11],
 
-const SOFT: DitherPair[] = CLASSIC.map(([a, b]) => {
-  if (a === b) {
-    const base = colorFromUint32(a);
-
-    return [
-      uint32FromColor(base.lighten(0.01)),
-      uint32FromColor(base.darken(0.01)),
-    ];
-  }
-
-  return mixPair(a, b, [4 / 12, 8 / 12]);
-});
+    EGA_PALETTE[12],
+    DGA_PALETTE[13],
+    DGA_PALETTE[14],
+    DGA_PALETTE[15],
+  ),
+  Mixers.softMixer,
+);
 
 export { CLASSIC, MIX, SOFT };
