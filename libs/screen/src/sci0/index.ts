@@ -6,4 +6,4 @@ export {
   mixDitherer,
   softDitherer,
 } from './ditherizer';
-export { CLASSIC, MIX, SOFT } from './screen-palettes';
+export { generateSciDitherPairs, CLASSIC, MIX, SOFT } from './screen-palettes';

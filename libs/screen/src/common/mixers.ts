@@ -56,13 +56,13 @@ export const softMixer: DitherTransform = ([a, b]) => {
   const diff = Math.abs(clrA.brightness() - clrB.brightness());
 
   if (Math.sqrt(redMeanDiff(clrA.rgba, clrB.rgba)) >= 650)
-    return mixPair(clrA, clrB, 5.5 / 12);
+    return mixPair(clrA, clrB, 4 / 12);
 
-  if (diff >= 0.35) return mixPair(clrA, clrB, 5 / 12);
-  if (diff >= 0.15) return mixPair(clrA, clrB, 4 / 12);
+  if (diff >= 0.35) return mixPair(clrA, clrB, 3 / 12);
+  if (diff >= 0.15) return mixPair(clrA, clrB, 2.5 / 12);
 
-  if (diff >= 0.075) return mixPair(clrA, clrB, 3 / 12);
-  if (diff >= 0.02) return mixPair(clrA, clrB, 2 / 12);
+  if (diff >= 0.075) return mixPair(clrA, clrB, 2 / 12);
+  if (diff >= 0.02) return mixPair(clrA, clrB, 1 / 12);
 
   return [a, b];
 };
