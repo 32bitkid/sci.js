@@ -22,7 +22,8 @@
     "libs/screen",
     "libs/scalers",
     "libs/codecs",
-    "libs/sci0"
+    "libs/sci0",
+    "libs/pmachine"
   ],
   "devDependencies": {
     "@types/jest": "^27.4.0",
