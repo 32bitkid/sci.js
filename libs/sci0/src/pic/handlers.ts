@@ -169,23 +169,24 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
 };
 
 const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
-  [ExtendedOpCode.UpdatePalette](br, state) {
+  [ExtendedOpCode.UpdatePalette](br) {
+    const entries: [number, number, number][] = [];
     while (br.peek32(8) < 0xf0) {
+      const entry = br.read32(8);
+      const pal = (entry / 40) >>> 0;
+      const idx = entry % 40;
+
       const code = br.read32(8);
-      const color = br.read32(8);
-
-      const pal = (code / 40) >>> 0;
-      const idx = code % 40;
-
-      state.palettes[pal][idx] = color;
+      entries.push([pal, idx, code]);
     }
+
+    return [['UPDATE_PALETTE', entries]];
   },
-  [ExtendedOpCode.SetPalette](br, state) {
-    const idx = br.read32(8);
-    const palette = new Uint8Array(40);
-    repeat(40, (i) => (palette[i] = br.read32(8)));
-    state.palettes[idx] = palette;
-    return [['SET_PALETTE', idx, palette]];
+  [ExtendedOpCode.SetPalette](br) {
+    const pal = br.read32(8);
+    const colors = new Uint8Array(40);
+    repeat(40, (i) => (colors[i] = br.read32(8)));
+    return [['SET_PALETTE', pal, colors]];
   },
   [ExtendedOpCode.x02](br) {
     // Looks like a palette, but i'm not sure what this chunk is for

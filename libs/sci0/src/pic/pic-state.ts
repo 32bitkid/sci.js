@@ -4,8 +4,6 @@ export interface PicState {
   drawMode: DrawMode;
   drawCodes: DrawCodes;
   patternCode: PatternCode;
-
-  palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array];
 }
 
 const DEFAULT_PALETTE = [
@@ -19,10 +17,4 @@ export const createPicState = (data: Uint8Array): PicState => ({
   drawMode: DrawMode.Visual | DrawMode.Priority,
   drawCodes: [0, 0, 0],
   patternCode: [0, false, false],
-  palettes: [
-    Uint8Array.from(DEFAULT_PALETTE),
-    Uint8Array.from(DEFAULT_PALETTE),
-    Uint8Array.from(DEFAULT_PALETTE),
-    Uint8Array.from(DEFAULT_PALETTE),
-  ],
 });

@@ -1,4 +1,4 @@
-export { renderView } from './render-view';
+export { renderPic } from './render-pic';
 export { renderCel } from './render-cel';
 export {
   createDitherizer,

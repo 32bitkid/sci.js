@@ -46,7 +46,7 @@ const createBuffer = (empty: number): Buffer => {
 const DEFAULT_PIPELINE = [classicDitherer];
 
 interface RenderOptions {
-  forcePal?: 0 | 1 | 2 | 3;
+  forcePal?: 0 | 1 | 2 | 3 | undefined;
   pipeline?: ImageFilter[];
 }
 
@@ -56,7 +56,7 @@ interface RenderResult {
   control: ImageLike;
 }
 
-export const renderView = (
+export const renderPic = (
   commands: DrawCommand[],
   options: RenderOptions = {},
 ): RenderResult => {
@@ -80,6 +80,15 @@ export const renderView = (
       case 'SET_PALETTE': {
         const [, idx, palette] = cmd;
         palettes[idx] = palette;
+        return;
+      }
+      case 'UPDATE_PALETTE': {
+        const [, entries] = cmd;
+        entries.forEach(([pal, idx, color]) => {
+          const palette = Uint8Array.from(palettes[pal]);
+          palette[idx] = color;
+          palettes[pal] = palette;
+        });
         return;
       }
       case 'FILL': {

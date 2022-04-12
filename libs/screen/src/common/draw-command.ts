@@ -10,10 +10,11 @@ export enum DrawMode {
 export type PatternCode = [size: number, isRect: boolean, isSpray: boolean];
 export type DrawCodes = [visual: number, priority: number, control: number];
 
-type SetPaletteCommand = [
-  mode: 'SET_PALETTE',
-  idx: number,
-  palette: Uint8Array,
+type SetPaletteCommand = [mode: 'SET_PALETTE', pal: number, colors: Uint8Array];
+
+type UpdatePaletteCommand = [
+  mode: 'UPDATE_PALETTE',
+  entries: [pal: number, idx: number, color: number][],
 ];
 
 type BrushCommand = [
@@ -51,4 +52,5 @@ export type DrawCommand =
   | FillCommand
   | PolylineCommand
   | SetPaletteCommand
+  | UpdatePaletteCommand
   | EmbeddedCelCommand;
