@@ -23,7 +23,8 @@
     "libs/scalers",
     "libs/codecs",
     "libs/sci0",
-    "libs/pmachine"
+    "libs/pmachine",
+    "apps/scibud"
   ],
   "devDependencies": {
     "@types/jest": "^27.4.1",

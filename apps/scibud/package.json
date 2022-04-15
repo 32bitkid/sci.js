@@ -1,0 +1,30 @@
+{
+  "name": "@4bitlabs/scibud",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "scibud": "./dist/index.js"
+  },
+  "scripts": {
+    "cli": "$npm_package_bin_scibud",
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "test": "jest src/"
+  },
+  "author": "J. Holmes <32bitkid@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "cli-progress": "^3.10.0",
+    "commander": "^9.2.0",
+    "expand-tilde": "^2.0.2",
+    "pngjs": "^6.0.0",
+    "workerpool": "^6.2.1"
+  },
+  "devDependencies": {
+    "@types/cli-progress": "^3.9.2",
+    "@types/expand-tilde": "^2.0.0",
+    "@types/pngjs": "^6.0.1",
+    "@types/workerpool": "^6.1.0"
+  }
+}
