@@ -8,6 +8,9 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
+  "dependencies": {
+    "@4bitlabs/readers": "0.0.0"
+  },
   "author": "",
   "license": "ISC"
 }
