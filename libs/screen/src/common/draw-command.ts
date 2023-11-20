@@ -37,7 +37,7 @@ type PolylineCommand = [
   mode: 'PLINE',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  ...points: vec2[]
+  ...points: vec2[],
 ];
 
 type EmbeddedCelCommand = [

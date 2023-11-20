@@ -2,7 +2,6 @@
 
 `scibud` is a CLI utility to assist in inspecting and extracting assets form Sierra SCI0-engine adventure games.
 
-
 ## Usage
 
 [Work in progress]
@@ -24,20 +23,19 @@ Options:
   -h, --help               display help for command
 ```
 
-#### Rendering a Single Picture Resource 
-
+#### Rendering a Single Picture Resource
 
 ```
-$ scibud --root=/path/to/game pic render 15 
+$ scibud --root=/path/to/game pic render 15
 ```
 
 #### Rendering an animation of a Picture Resource
 
 ```
-$ scibud --root=/path/to/game pic render --all 15 
+$ scibud --root=/path/to/game pic render --all 15
 ```
 
-You can can then use `ffmpeg` or another tool to convert these frames into a video: 
+You can can then use `ffmpeg` or another tool to convert these frames into a video:
 
 ```sh
 $ ffmpeg -r 60 -f image2 -i pic.015.%04d.png -vcodec libx264 -crf 25  -pix_fmt yuv420p pic.015.mp4

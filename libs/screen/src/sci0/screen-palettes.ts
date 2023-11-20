@@ -8,8 +8,7 @@ import {
 
 const rawPairs =
   (pal: Uint32Array = EGA_PALETTE) =>
-  (i: number): DitherPair =>
-    [pal[(i >>> 4) & 0b1111], pal[(i >>> 0) & 0b1111]];
+  (i: number): DitherPair => [pal[(i >>> 4) & 0b1111], pal[(i >>> 0) & 0b1111]];
 
 const ENTRIES = Array(256).fill(0);
 export const generateSciDitherPairs = (
