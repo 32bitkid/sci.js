@@ -1,6 +1,6 @@
-type BitReaderMode = 'msb' | 'lsb';
+export type BitReaderMode = 'msb' | 'lsb';
 
-interface BitReaderOptions {
+export interface BitReaderOptions {
   mode?: BitReaderMode;
 }
 

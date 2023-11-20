@@ -13,7 +13,7 @@ const readerOf = (bytes: Uint8Array | number[], times = 1): Readable => {
   });
 };
 
-describe('BitReader', () => {
+describe('AsyncBitReader', () => {
   describe('peek', () => {
     describe('with a buffer with all zeroes', () => {
       it.each<[number, number]>(
