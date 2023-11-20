@@ -49,7 +49,7 @@ With a bit-reader, you can instead say:
 ```js
 const reader = new BitReader(source);
 reader.skip(6);   // skip the first 6 bits
-reader.read(12);  // take the next 12 bits
+const value = reader.read(12);  // take the next 12 bits
 ```
 
 
