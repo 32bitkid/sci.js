@@ -2,7 +2,8 @@
   "name": "@4bitlabs/sci.js",
   "version": "0.0.0",
   "description": "",
-  "main": " ",
+  "private": true,
+  "main": "",
   "scripts": {
     "format:fix": "prettier -w .",
     "test": "npm run test --workspaces"
