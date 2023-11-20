@@ -11,11 +11,13 @@
   },
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "@types/through2": "^2.0.41"
+  },
   "dependencies": {
     "@4bitlabs/codecs": "0.0.0",
     "@4bitlabs/readers": "0.0.0",
     "@4bitlabs/screen": "0.0.0",
-    "@types/through2": "^2.0.36",
     "gl-matrix": "^3.4.3",
     "through2": "^4.0.2"
   }

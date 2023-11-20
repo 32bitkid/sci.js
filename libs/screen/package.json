@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "colord": "^2.9.2",
+    "colord": "^2.9.3",
     "gl-matrix": "^3.4.3"
   }
 }
