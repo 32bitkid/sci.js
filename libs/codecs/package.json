@@ -9,7 +9,7 @@
     "test": "jest src/"
   },
   "dependencies": {
-    "@4bitlabs/readers": "0.0.0"
+    "@4bitlabs/readers": "^1.0.0"
   },
   "author": "",
   "license": "ISC"
