@@ -33,6 +33,8 @@ pics
   )
   .action(Actions.renderPic);
 
+pics.command('list').action(Actions.listPics);
+
 program
   .parseAsync()
   .catch((err) => console.error(err))

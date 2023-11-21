@@ -1,9 +1,18 @@
 {
   "name": "@4bitlabs/readers",
   "version": "1.0.0",
-  "description": "",
+  "description": "A collection of low-level bit-readers for byte-arrays",
+  "keywords": [
+    "bitreader",
+    "bits"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/readers#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:32bitkid/sci.js.git"
+  },
   "files": [
     "dist/**/*"
   ],

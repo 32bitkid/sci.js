@@ -3,6 +3,7 @@ import {
   getResourceType,
   ResourceMap,
   ResourceType,
+  ResourceTypes,
 } from '@4bitlabs/sci0';
 
 export const createMatcher =
@@ -11,4 +12,4 @@ export const createMatcher =
   ({ id }: ResourceMap) =>
     getResourceType(id) === resType && getResourceNumber(id) === resId;
 
-export const picMatcher = createMatcher(ResourceType.PIC);
+export const picMatcher = createMatcher(ResourceTypes.PIC_TYPE);

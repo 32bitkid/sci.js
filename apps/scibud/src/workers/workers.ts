@@ -1,12 +1,27 @@
 import { worker } from 'workerpool';
-import { ImageFilter, ImageLike, Sci0 } from '@4bitlabs/screen';
-import { scale5x6, nearestNeighbor, scale2x, scale3x } from '@4bitlabs/scalers';
+import { Screen } from '@4bitlabs/sci0';
+import {
+  scale2x,
+  scale3x,
+  scale5x6,
+  nearestNeighbor,
+} from '@4bitlabs/image-scalers';
 import { PNG } from 'pngjs';
 import { writeFile } from 'fs/promises';
+import { RAW_CGA, TRUE_CGA, DGA_PALETTE } from '@4bitlabs/color-utils';
+import { mixBy, softMixer } from '@4bitlabs/color-utils/dist/mixers';
+import { ImageLike } from '@4bitlabs/image-scalers/dist/image-like';
 
-const pipeline: ImageFilter[] = [
-  (img) => scale2x(scale3x(img)),
-  Sci0.createDitherizer(Sci0.SOFT, [3, 3]),
+const pipeline = [
+  nearestNeighbor([5, 3]),
+  Screen.createDitherizer(
+    Screen.generateSciDitherPairs(TRUE_CGA, mixBy(0.1)),
+    [5, 3],
+  ),
+  nearestNeighbor([1, 2]),
+
+  // Screen.createDitherizer(Screen.generateSciDitherPairs(RAW_CGA)),
+  // nearestNeighbor([5, 6]),
 ];
 
 const fileName = (base: string, i: number) =>
@@ -14,7 +29,7 @@ const fileName = (base: string, i: number) =>
 
 worker({
   renderPic: async (base: string, picData, idx: number, repeat: number) => {
-    const { visible } = Sci0.renderPic(picData, {
+    const { visible } = Screen.renderPic(picData, {
       forcePal: 0,
       pipeline,
     });

@@ -20,8 +20,8 @@
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
     "libs/readers",
-    "libs/screen",
-    "libs/scalers",
+    "libs/color-utils",
+    "libs/image-scalers",
     "libs/codecs",
     "libs/sci0",
     "libs/pmachine",

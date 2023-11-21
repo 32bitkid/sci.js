@@ -1,3 +1,4 @@
 import renderPic from './render-pic';
+import listPics from './list-pics';
 
-export { renderPic };
+export { renderPic, listPics };

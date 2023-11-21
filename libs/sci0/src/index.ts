@@ -1,24 +1,24 @@
-export { ResourceMap, parseAll as parseAllMappings } from './mapping';
+export type { ResourceHeader } from './models/resource-header';
+export type { ResourceMap } from './models/resource-map';
+export type { ResourceType } from './models/resource-type';
 
 export {
-  ResourceHeader,
-  getPayloadLength,
-  parseHeaderFrom,
-} from './resource-header';
-
-export {
-  ResourceType,
   getResourceNumber,
   getResourceType,
   getResourceIdStr,
   getResourceTypeStr,
   isResourceType,
   isResourceNumber,
-} from './resource-id';
+} from './models/resource-id';
 
-export { decompress } from './compression';
+export { ResourceTypes } from './models/resource-type';
 
-export * as Cursor from './cursor';
-export * as Font from './font';
-export * as View from './view';
-export * as Pic from './pic';
+export * as Screen from './screen';
+
+export { parseAll as parseAllMappings } from './parsers/mapping';
+export { getPayloadLength, parseHeaderFrom } from './parsers/resource-header';
+export { decompress } from './parsers/compression';
+export * as Cursor from './parsers/cursor';
+export * as Font from './parsers/font';
+export * as View from './parsers/view';
+export * as Pic from './parsers/pic';
