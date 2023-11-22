@@ -1,10 +1,10 @@
 import { createBuffer } from './buffer';
 import { ImageFilter, ImageDataLike } from '@4bitlabs/image';
+import { classicDitherer } from '@4bitlabs/palettes';
 
 import { DrawCommand, DrawMode } from '../models/draw-command';
 
 import { DEFAULT_PALETTE } from './default-palette';
-import { classicDitherer } from './ditherizer';
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;

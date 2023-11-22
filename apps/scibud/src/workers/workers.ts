@@ -1,5 +1,5 @@
 import { worker } from 'workerpool';
-import { Screen } from '@4bitlabs/sci0';
+import { renderPic } from '@4bitlabs/sci0';
 import {
   scale2x,
   scale3x,
@@ -9,10 +9,17 @@ import {
 } from '@4bitlabs/image';
 import { PNG } from 'pngjs';
 import { writeFile } from 'fs/promises';
-import { RAW_CGA, TRUE_CGA, DGA_PALETTE, Mixers } from '@4bitlabs/palettes';
+import {
+  RAW_CGA,
+  TRUE_CGA,
+  DGA_PALETTE,
+  Mixers,
+  createDitherizer,
+  generateSciDitherPairs,
+} from '@4bitlabs/palettes';
 
 const pipeline: FilterPipeline = [
-  Screen.createDitherizer(Screen.generateSciDitherPairs(RAW_CGA)),
+  createDitherizer(generateSciDitherPairs(RAW_CGA)),
   nearestNeighbor([5, 6]),
   // Screen.createDitherizer(
   //   Screen.generateSciDitherPairs(TRUE_CGA, Mixers.softMixer()),
@@ -25,7 +32,7 @@ const fileName = (base: string, i: number) =>
 
 worker({
   renderPic: async (base: string, picData, idx: number, repeat: number) => {
-    const { visible } = Screen.renderPic(picData, {
+    const { visible } = renderPic(picData, {
       forcePal: 0,
       pipeline,
     });

@@ -1,5 +1,4 @@
 import { ImageDataLike } from '@4bitlabs/image';
-import { CLASSIC, MIX, SOFT } from './screen-palettes';
 
 export type Ditherizer = (source: ImageDataLike) => ImageDataLike;
 
@@ -38,7 +37,3 @@ export const createDitherizer =
       height: source.height,
     };
   };
-
-export const classicDitherer: Ditherizer = createDitherizer(CLASSIC);
-export const mixDitherer: Ditherizer = createDitherizer(MIX);
-export const softDitherer: Ditherizer = createDitherizer(SOFT);

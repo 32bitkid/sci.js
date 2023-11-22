@@ -17,24 +17,3 @@ export const RAW_CGA = Uint32Array.of(
   0xff55ffff,
   0xffffffff,
 );
-
-// https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
-export const TRUE_CGA = Uint32Array.of(
-  0xff_000000,
-  0xff_c40000,
-  0xff_00c400,
-  0xff_c4c400,
-  0xff_0000c4,
-  0xff_c400c4,
-  0xff_007ec4,
-  0xff_c4c4c4,
-
-  0xff_4e4e4e,
-  0xff_dc4e4e,
-  0xff_4edc4e,
-  0xff_f3f34e,
-  0xff_4e4edc,
-  0xff_f34ef3,
-  0xff_4ef3f3,
-  0xff_ffffff,
-);

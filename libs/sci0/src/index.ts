@@ -13,7 +13,7 @@ export {
 
 export { ResourceTypes } from './models/resource-type';
 
-export * as Screen from './screen';
+export { renderPic, renderCel } from './screen';
 
 export { parseAll as parseAllMappings } from './parsers/mapping';
 export { getPayloadLength, parseHeaderFrom } from './parsers/resource-header';

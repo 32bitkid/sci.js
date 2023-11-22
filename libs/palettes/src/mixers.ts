@@ -1,8 +1,8 @@
 import { Colord, colord, extend as colordExtend } from 'colord';
 import mixPlugin from 'colord/plugins/mix';
-
-import { redMeanDiff } from './red-mean-diff';
 import { deltaE } from './delta-e';
+import { DitherPair } from './dither-pair';
+import { DitherTransform } from './dither-transform';
 
 colordExtend([mixPlugin]);
 
@@ -34,9 +34,6 @@ const mixPair = (
   return [ma, mb];
 };
 
-export type DitherPair = [number, number];
-export type DitherTransform = (pair: DitherPair) => DitherPair;
-
 export const mixBy =
   (bias: number): DitherTransform =>
   ([a, b]: DitherPair) =>
@@ -60,7 +57,7 @@ export const softMixer =
       ];
     }
 
-    if (dE <= 2) {
+    if (dE <= 10) {
       return [a, b];
     }
 

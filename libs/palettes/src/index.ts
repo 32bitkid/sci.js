@@ -1,11 +1,22 @@
-export { RAW_CGA, TRUE_CGA } from './cga-palette';
+export { RAW_CGA } from './cga-palette';
+export { TRUE_CGA } from './true-cga-palette';
 export { BW_PALETTE } from './bw-palette';
 export { DGA_PALETTE } from './dga-palette';
-
-export type { DitherPair, DitherTransform } from './mixers';
 
 export { redMeanDiff } from './red-mean-diff';
 export { deltaE } from './delta-e';
 
 import { mixBy, softMixer } from './mixers';
 export const Mixers = { mixBy, softMixer };
+
+export { generateSciDitherPairs } from './generate-sci-dither-pairs';
+
+export type { DitherPair } from './dither-pair';
+export type { DitherTransform } from './dither-transform';
+export type { Ditherizer } from './ditherizer';
+export { createDitherizer } from './ditherizer';
+export {
+  classicDitherer,
+  mixDitherer,
+  softDitherer,
+} from './predefined-dither-pairs';
