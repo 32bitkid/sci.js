@@ -1,6 +1,7 @@
-import { IsFillable, Plotter, Screen } from './screen';
-import { ImageDataLike } from '../models/image-like';
 import { vec2 } from 'gl-matrix';
+import { ImageDataLike } from '@4bitlabs/image';
+
+import { IsFillable, Plotter, Screen } from './screen';
 import { createBrush, createFloodFill, createLine } from './sci0-screen-impl';
 
 export interface Buffer extends Screen {

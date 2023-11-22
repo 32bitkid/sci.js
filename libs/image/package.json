@@ -1,5 +1,5 @@
 {
-  "name": "@4bitlabs/image-scalers",
+  "name": "@4bitlabs/image",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -9,8 +9,5 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@4bitlabs/color-utils": "0.0.0"
-  }
+  "license": "ISC"
 }

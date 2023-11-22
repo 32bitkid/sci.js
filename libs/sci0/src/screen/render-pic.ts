@@ -1,6 +1,6 @@
 import { createBuffer } from './buffer';
+import { ImageFilter, ImageDataLike } from '@4bitlabs/image';
 
-import { ImageFilter, ImageDataLike } from '../models/image-like';
 import { DrawCommand, DrawMode } from '../models/draw-command';
 
 import { DEFAULT_PALETTE } from './default-palette';

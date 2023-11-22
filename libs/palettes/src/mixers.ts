@@ -2,6 +2,7 @@ import { Colord, colord, extend as colordExtend } from 'colord';
 import mixPlugin from 'colord/plugins/mix';
 
 import { redMeanDiff } from './red-mean-diff';
+import { deltaE } from './delta-e';
 
 colordExtend([mixPlugin]);
 
@@ -25,7 +26,7 @@ const mixPair = (
   const clrB = typeof b === 'number' ? colorFromUint32(b) : b;
 
   const mixA = clrA.mix(clrB, bias);
-  const mixB = clrA.mix(clrB, 1 - bias);
+  const mixB = clrB.mix(clrA, bias);
 
   const ma = uint32FromColor(mixA);
   const mb = uint32FromColor(mixB);
@@ -41,28 +42,35 @@ export const mixBy =
   ([a, b]: DitherPair) =>
     a === b ? [a, b] : mixPair(a, b, bias);
 
-export const softMixer: DitherTransform = ([a, b]) => {
-  const clrA = colorFromUint32(a);
-  const clrB = colorFromUint32(b);
+export interface SoftMixerOptions {}
 
-  if (a === b) {
-    const mod = Math.min(0.1, Math.abs(clrA.brightness() - 0.5) * 2) * 0.125;
-    return [
-      uint32FromColor(clrA.lighten(mod)),
-      uint32FromColor(clrA.darken(mod)),
-    ];
-  }
+export const softMixer =
+  (options: SoftMixerOptions = {}): DitherTransform =>
+  ([a, b]) => {
+    const clrA = colorFromUint32(a);
+    const clrB = colorFromUint32(b);
 
-  const diff = Math.abs(clrA.brightness() - clrB.brightness());
+    const dE = deltaE(clrA.rgba, clrB.rgba);
 
-  if (Math.sqrt(redMeanDiff(clrA.rgba, clrB.rgba)) >= 650)
+    if (dE <= 1) {
+      const mod = Math.min(0.1, Math.abs(clrA.brightness() - 0.5) * 2) * 0.25;
+      return [
+        uint32FromColor(clrA.lighten(mod)),
+        uint32FromColor(clrB.darken(mod)),
+      ];
+    }
+
+    if (dE <= 2) {
+      return [a, b];
+    }
+
+    if (dE <= 20) {
+      return mixPair(clrA, clrB, 2 / 12);
+    }
+
+    if (dE <= 75) {
+      return mixPair(clrA, clrB, 3 / 12);
+    }
+
     return mixPair(clrA, clrB, 4 / 12);
-
-  if (diff >= 0.35) return mixPair(clrA, clrB, 3 / 12);
-  if (diff >= 0.15) return mixPair(clrA, clrB, 2.5 / 12);
-
-  if (diff >= 0.075) return mixPair(clrA, clrB, 2 / 12);
-  if (diff >= 0.02) return mixPair(clrA, clrB, 1 / 12);
-
-  return [a, b];
-};
+  };

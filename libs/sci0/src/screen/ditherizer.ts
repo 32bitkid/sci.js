@@ -1,4 +1,4 @@
-import { ImageDataLike } from '../models/image-like';
+import { ImageDataLike } from '@4bitlabs/image';
 import { CLASSIC, MIX, SOFT } from './screen-palettes';
 
 export type Ditherizer = (source: ImageDataLike) => ImageDataLike;
@@ -25,10 +25,7 @@ export const createDitherizer =
         const src = inputBuffer[idx];
         if ((src & 0xff000000) === 0) continue;
 
-        const [dx, dy] = [
-          Math.floor(x / ditherSize[0]),
-          Math.floor(y / ditherSize[1]),
-        ];
+        const [dx, dy] = [~~(x / ditherSize[0]), ~~(y / ditherSize[1])];
         const dither = (dx & 1) ^ (dy & 1);
 
         const [a, b] = pal[src & 0xff];

@@ -3,25 +3,21 @@ import { Screen } from '@4bitlabs/sci0';
 import {
   scale2x,
   scale3x,
-  scale5x6,
   nearestNeighbor,
-} from '@4bitlabs/image-scalers';
+  gaussBlur,
+  FilterPipeline,
+} from '@4bitlabs/image';
 import { PNG } from 'pngjs';
 import { writeFile } from 'fs/promises';
-import { RAW_CGA, TRUE_CGA, DGA_PALETTE } from '@4bitlabs/color-utils';
-import { mixBy, softMixer } from '@4bitlabs/color-utils/dist/mixers';
-import { ImageLike } from '@4bitlabs/image-scalers/dist/image-like';
+import { RAW_CGA, TRUE_CGA, DGA_PALETTE, Mixers } from '@4bitlabs/palettes';
 
-const pipeline = [
-  nearestNeighbor([5, 3]),
-  Screen.createDitherizer(
-    Screen.generateSciDitherPairs(TRUE_CGA, mixBy(0.1)),
-    [5, 3],
-  ),
-  nearestNeighbor([1, 2]),
-
-  // Screen.createDitherizer(Screen.generateSciDitherPairs(RAW_CGA)),
-  // nearestNeighbor([5, 6]),
+const pipeline: FilterPipeline = [
+  Screen.createDitherizer(Screen.generateSciDitherPairs(RAW_CGA)),
+  nearestNeighbor([5, 6]),
+  // Screen.createDitherizer(
+  //   Screen.generateSciDitherPairs(TRUE_CGA, Mixers.softMixer()),
+  //   [5, 6],
+  // ),
 ];
 
 const fileName = (base: string, i: number) =>

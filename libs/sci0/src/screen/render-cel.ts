@@ -1,7 +1,7 @@
-import { ImageDataLike } from '../models/image-like';
-import { Cel } from '../models/cel';
+import { RAW_CGA } from '@4bitlabs/palettes';
+import { ImageDataLike } from '@4bitlabs/image';
 
-import { RAW_CGA } from '@4bitlabs/color-utils';
+import { Cel } from '../models/cel';
 
 interface RenderCelOptions {
   palette?: Uint32Array;

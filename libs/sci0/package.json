@@ -17,7 +17,8 @@
   "dependencies": {
     "@4bitlabs/codecs": "0.0.0",
     "@4bitlabs/readers": "^1.0.0",
-    "@4bitlabs/color-utils": "0.0.0",
+    "@4bitlabs/palettes": "0.0.0",
+    "@4bitlabs/image": "0.0.0",
     "gl-matrix": "^3.4.3",
     "through2": "^4.0.2"
   }

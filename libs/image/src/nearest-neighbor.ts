@@ -1,11 +1,12 @@
-import { ImageLike } from './image-like';
+import { ImageDataLike } from './image-data-like';
 
 export const nearestNeighbor =
   (ratio: [number, number]) =>
-  (it: ImageLike): ImageLike => {
+  (it: ImageDataLike): ImageDataLike => {
+    const [sx, sy] = ratio;
     const { width: iWidth, height: iHeight, data: iData } = it;
-    const width = iWidth * ratio[0];
-    const height = iHeight * ratio[1];
+    const width = iWidth * sx;
+    const height = iHeight * sy;
 
     const data = new Uint8ClampedArray(width * height * 4);
 
@@ -21,9 +22,9 @@ export const nearestNeighbor =
     );
 
     for (let y = 0; y < height; y++) {
-      const iy = Math.floor(y / ratio[1]);
+      const iy = (y / sy) >>> 0;
       for (let x = 0; x < width; x++) {
-        const ix = Math.floor(x / ratio[0]);
+        const ix = (x / sx) >>> 0;
         outP[x + y * width] = inP[ix + iy * iWidth];
       }
     }

@@ -4,7 +4,7 @@ import {
   Mixers,
   DitherPair,
   DitherTransform,
-} from '@4bitlabs/color-utils';
+} from '@4bitlabs/palettes';
 
 const rawPairs =
   (pal: Uint32Array = RAW_CGA) =>
@@ -49,7 +49,7 @@ const SOFT: DitherPair[] = generateSciDitherPairs(
     DGA_PALETTE[14],
     DGA_PALETTE[15],
   ),
-  Mixers.softMixer,
+  Mixers.softMixer(),
 );
 
 export { CLASSIC, MIX, SOFT };

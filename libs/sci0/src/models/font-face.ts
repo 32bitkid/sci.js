@@ -1,8 +1,6 @@
-import { ImageDataLike } from './image-like';
-
-export type Glyph = ImageDataLike;
+import type { ImageDataLike } from '@4bitlabs/image';
 
 export interface FontFace {
-  characters: Glyph[];
+  characters: ImageDataLike[];
   lineHeight: number;
 }

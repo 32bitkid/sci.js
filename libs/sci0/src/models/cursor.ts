@@ -1,4 +1,4 @@
-import { ImageDataLike } from './image-like';
+import type { ImageDataLike } from '@4bitlabs/image';
 
 export interface Cursor extends ImageDataLike {
   readonly width: 16;

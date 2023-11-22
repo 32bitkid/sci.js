@@ -1,4 +1,4 @@
-import { ImageDataLike } from '../models/image-like';
+import { ImageDataLike } from '@4bitlabs/image';
 import { repeat } from '../utils/repeat';
 import { FontFace } from '../models/font-face';
 
@@ -44,7 +44,6 @@ export const parseFrom = (
     return {
       width,
       height,
-      bbp: 32,
       data,
     };
   });

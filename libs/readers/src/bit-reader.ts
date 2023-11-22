@@ -87,7 +87,7 @@ export class BitReader {
   private _fill(n: number): void {
     if (n <= this.bitsRemaining) return;
 
-    let total = Math.floor((32 - this.bitsRemaining) / 8);
+    let total = (32 - this.bitsRemaining) >>> 3;
 
     if (this.idx + total > this.view.byteLength) {
       total = this.view.byteLength - this.idx;
