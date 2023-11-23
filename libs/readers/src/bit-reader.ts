@@ -1,11 +1,19 @@
 export type BitReaderMode = 'msb' | 'lsb';
 
+interface Source {
+  readonly buffer: ArrayBufferLike;
+  readonly byteLength: number;
+  readonly byteOffset: number;
+}
+
+export type ReadonlyDataView = Omit<DataView, `set${string}`>;
+
 export interface BitReaderOptions {
   mode?: BitReaderMode;
 }
 
 export class BitReader {
-  private readonly view: DataView;
+  private readonly view: ReadonlyDataView;
 
   private idx: number;
   private bitBuffer: number;
@@ -17,13 +25,13 @@ export class BitReader {
 
   readonly mode: BitReaderMode;
 
-  constructor(bytes: Uint8Array, opts: BitReaderOptions = {}) {
+  constructor(bytes: Source, opts: BitReaderOptions = {}) {
     const { mode = 'msb' } = opts;
 
     const begin = bytes.byteOffset;
-    const end = begin + bytes.byteLength;
+    const length = bytes.byteLength;
 
-    this.view = new DataView(bytes.buffer.slice(begin, end));
+    this.view = new DataView(bytes.buffer, begin, length);
     this.idx = 0;
     this.bitBuffer = 0;
     this.bitsRemaining = 0;
