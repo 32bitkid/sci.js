@@ -2,6 +2,28 @@
 
 A collection of bit-readers for javascript and typescript.
 
+## Installation
+
+```sh
+# npm
+❯ npm install --save @4bitlabs/readers
+
+# yarn
+❯ yarn add @4bitlabs/readers
+```
+
+## Usage
+
+```js
+import { BitReader } from "@4bitlabs/readers";
+const reader = new BitReader(sourceData);
+
+// ...
+
+const firstTenBits = reader.read32(10);
+```
+
+
 ## What is a bit-reader?
 
 A bit-reader allows for bits level access to a sequence of bytes, allowing bit-level reads that easily cross byte-level
@@ -23,8 +45,8 @@ wanted to get the bits
 
 ```text
         From           To
-         |--------------|
-         v              v
+         |-------------|
+         v             v
 0b1111_0011_1100_1111_1010_1010
 ```
 
@@ -50,12 +72,11 @@ const value = reader.read(12); // take the next 12 bits
 
 This can be very useful when parsing densely-packed data-structures, especially when they use _variable-length_ encoding.
 
-## `BitReader`
+## `BitReader` API
 
 `BitReader` provides a bit-reader that sequentially reads bits from an `Uint8Array` source.
 
 ```js
-// All ones
 const source = Uint8Array.of(0b1110_0001);
 const r = new BitReader(source);
 
@@ -69,7 +90,6 @@ The default behavior to read **most-significant bits** first, however, you can s
 **least-significant** side:
 
 ```js
-// All ones
 const source = Uint8Array.of(0b1110_0001);
 const r = new BitReader(source, { mode: 'lsb' });
 
@@ -78,6 +98,50 @@ r.read32(1); // 0b0
 r.read32(3); // 0b110
 r.read32(1); // 0b1
 ```
+
+### Constructor
+
+```ts
+new BitReader(source: TypedArray, options?: BitReaderOptions)
+```
+
+Options:
+
+| Option         | Type             | Description                                                |
+|----------------|------------------|------------------------------------------------------------|
+| `bytes`        | `TypedArray`     | The source bytes for the bit-reader.                       |
+| `options.mode` | `"msb" \| "lsb"` | Bit ordering: Most-significant or Leas-significant _first_ |
+
+### Instance properties
+
+#### `r.peek32(n: number): number`
+
+Peek `n` bits in the bit-stream.
+
+#### `r.skip(n: number): BitReader`
+
+Skip `n` bits in the bit-stream.
+
+#### `r.read32(n: number): number`
+
+Read `n` bits from the bit-stream. Shorthand for:
+
+```ts
+const value = reader.peek32(n);
+reader.skip(n);
+```
+
+#### `r.seek(offset: number): BitReader`
+
+Seek to an arbitrary _byte_-position in the underlying `ArrayBuffer`, always from the _beginning_ of the byte-array.
+
+#### `r.isByteAligned(): boolean`
+
+Returns `true` if the bit-reader is _currently_ aligned to a byte
+
+#### `r.align(): BitReader`
+
+Re-aligns to the nearest _next_ byte-boundary in the bit-stream.
 
 ## `AsyncBitReader`
 
