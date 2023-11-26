@@ -1,4 +1,5 @@
 import { BitReader } from '@4bitlabs/readers';
+import { ReadonlyUint8Array } from './shared';
 
 type Node = [value: number, siblings: number];
 
@@ -16,7 +17,7 @@ const nextCode = (
   return next === 0 ? [br.read32(8), true] : nextCode(br, nodes, idx + next);
 };
 
-export const decode = (bytes: Uint8Array): Uint8Array => {
+export const decode = (bytes: ReadonlyUint8Array): Uint8Array => {
   const br = new BitReader(bytes);
   const nodeCount = br.read32(8);
   const terminal = br.read32(8);

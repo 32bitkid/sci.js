@@ -1,9 +1,9 @@
 import { BitReader } from '@4bitlabs/readers';
-import { Sequence, CodeMapping } from './shared';
+import { Sequence, CodeMapping, ReadonlyUint8Array } from './shared';
 import { concat } from './concat';
 
-export const EOF_MARKER = Object.freeze(Uint8Array.of());
-export const RESET_MARKER = Object.freeze(Uint8Array.of());
+export const EOF_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());
+export const RESET_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());
 
 interface CommonLzwDecodeOptions {
   order?: 'msb' | 'lsb';
@@ -13,7 +13,7 @@ interface LiteralLzwDecodeOptions {
   literalWidth: number;
 }
 
-type InitialDictionary = (number | number[] | Uint8Array)[];
+type InitialDictionary = (number | number[] | ReadonlyUint8Array)[];
 
 interface CustomLzwDecodeOptions {
   dictionary: InitialDictionary;
@@ -75,7 +75,7 @@ const init = (
 };
 
 export const decode = (
-  source: Uint8Array,
+  source: ReadonlyUint8Array,
   opts: LzwDecodeOptions,
 ): Uint8Array => {
   const outputs: Sequence[] = [];
