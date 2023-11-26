@@ -74,14 +74,11 @@ export class BitReader {
       return this._next(n);
     }
 
-    let bitsLeft = n - this.bitsRemaining;
-    const head = this.bitsRemaining > 0 ? this._next(this.bitsRemaining) : 0;
-    const tail = this._peek(bitsLeft);
-    return (head << bitsLeft) | tail;
+    return this._peek(n);
   }
 
   skip(n: number): BitReader {
-    if (n < 0) throw new Error('Out of range');
+    if (n < 0) throw new Error('out of range: n < 0');
 
     let bitsToSkip = n;
     if (bitsToSkip > this.bitsRemaining) {
@@ -104,7 +101,7 @@ export class BitReader {
   }
 
   private get bytesLeft() {
-    return this.view.byteLength - (this.view.byteOffset + this.idx);
+    return this.view.byteLength - this.idx;
   }
 
   /* Most-significant bit first */
@@ -141,17 +138,25 @@ export class BitReader {
     }
   }
 
-  private _msbPeek(n: number): number {
-    if (n > 32) throw new Error('unsupported');
+  private _msbPeekBuffer(n: number) {
     if (this.bytesLeft >= 4) {
       return this.view.getUint32(this.idx) >>> (32 - n);
     }
+
+    if (this.bytesLeft << 3 < n) throw new Error('unexpected eof');
 
     let value = 0;
     for (let i = 0; i < 4 && this.bytesLeft - i > 0; i++) {
       value |= this.view.getUint8(this.idx + i) << (32 - (i + 1) * 8);
     }
     return value >>> (32 - n);
+  }
+
+  private _msbPeek(n: number): number {
+    const head = this._next(this.bitsRemaining);
+    const bitsLeft = n - this.bitsRemaining;
+    const tail = this._msbPeekBuffer(bitsLeft);
+    return (head << bitsLeft) | tail;
   }
 
   /* Least-significant bit first */
@@ -183,20 +188,28 @@ export class BitReader {
     }
 
     if (n > this.bitsRemaining) {
-      throw new Error('out of bytes');
+      throw new Error(`unexpected eof`);
     }
   }
 
-  private _lsbPeek(n: number): number {
-    if (n > 32) throw new Error('unsupported');
+  private _lsbPeekBuffer(n: number): number {
     if (this.bytesLeft >= 4) {
       return this.view.getUint32(this.idx, true) & (~0 >>> (32 - n));
     }
 
+    if (this.bytesLeft << 3 < n) throw new Error('unexpected eof');
+
     let value = 0;
     for (let i = 0; i < 4 && this.bytesLeft - i > 0; i++) {
-      value |= this.view.getUint8(this.idx + i) << this.bitsRemaining;
+      value |=
+        this.view.getUint8(this.idx + i) << (this.bitsRemaining + (i << 3));
     }
     return value & (~0 >>> (32 - n));
+  }
+
+  private _lsbPeek(n: number): number {
+    const tail = this._next(this.bitsRemaining);
+    const head = this._lsbPeekBuffer(n - this.bitsRemaining);
+    return (head << this.bitsRemaining) | tail;
   }
 }

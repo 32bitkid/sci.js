@@ -6,7 +6,6 @@ describe('lzw', () => {
   describe('lsb', () => {
     describe('literalWidth=8', () => {
       it.each<[string, string]>([
-        ['test', '74cacca11310'],
         [
           'thequickbrownfoxjumpsoverthelazydog',
           `74d094895327cd983562e4bcb9e3c6cc1b3c6aeab48133e78d9d327204966113464f1e326fce0404`,

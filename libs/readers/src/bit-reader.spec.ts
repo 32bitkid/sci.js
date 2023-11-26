@@ -162,5 +162,24 @@ describe('ArrayBufferBitReader', () => {
       expect(r.read32(2)).toBe(0b11);
       expect(r.read32(2)).toBe(0b0000);
     });
+
+    it('should read across bytes 2', () => {
+      const data = Uint8Array.of(0b0000_0000, 0b0000_0001);
+      const r = new BitReader(data, { mode: 'lsb' });
+      expect(r.read32(9)).toBe(0b1_0000_0000);
+    });
+
+    it('should read across bytes 3', () => {
+      const data = Uint8Array.of(0b0000_0000, 0b0000_0001, 0x0, 0x0);
+      const r = new BitReader(data, { mode: 'lsb' });
+      expect(r.read32(9)).toBe(0b1_0000_0000);
+    });
+
+    it('should read across bytes 4', () => {
+      const data = Uint8Array.of(0x0, 0x0, 0x0, 0b0000_0000, 0b0000_0001);
+      const r = new BitReader(data, { mode: 'lsb' });
+      r.skip(24);
+      expect(r.read32(9)).toBe(0b1_0000_0000);
+    });
   });
 });
