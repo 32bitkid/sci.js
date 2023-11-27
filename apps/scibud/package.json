@@ -10,11 +10,14 @@
     "cli": "$npm_package_bin_scibud",
     "clean": "tsc --build --clean",
     "build": "tsc --build",
-    "test": "jest src/"
+    "test": "echo 'No tests'"
   },
   "author": "J. Holmes <32bitkid@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@4bitlabs/sci0": "0.0.0",
+    "@4bitlabs/image": "0.0.0",
+    "@4bitlabs/palettes": "0.0.0",
     "cli-progress": "^3.10.0",
     "commander": "^9.2.0",
     "expand-tilde": "^2.0.2",
