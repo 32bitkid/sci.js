@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@4bitlabs/image": "0.0.0",
     "colord": "^2.9.3"
   }
 }
