@@ -15,14 +15,13 @@ A collection of bit-readers for javascript and typescript.
 ## Usage
 
 ```js
-import { BitReader } from "@4bitlabs/readers";
+import { BitReader } from '@4bitlabs/readers';
 const reader = new BitReader(sourceData);
 
 // ...
 
 const firstTenBits = reader.read32(10);
 ```
-
 
 ## What is a bit-reader?
 
@@ -108,7 +107,7 @@ new BitReader(source: TypedArray, options?: BitReaderOptions)
 Options:
 
 | Option         | Type             | Description                                                |
-|----------------|------------------|------------------------------------------------------------|
+| -------------- | ---------------- | ---------------------------------------------------------- |
 | `bytes`        | `TypedArray`     | The source bytes for the bit-reader.                       |
 | `options.mode` | `"msb" \| "lsb"` | Bit ordering: Most-significant or Leas-significant _first_ |
 
