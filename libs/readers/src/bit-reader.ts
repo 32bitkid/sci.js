@@ -12,6 +12,11 @@ export interface BitReaderOptions {
   mode?: BitReaderMode;
 }
 
+function assertNRange(n: number) {
+  if (n > 32 || n < 0)
+    throw new Error(`out of range: ${n} must be between 0 and 32`);
+}
+
 export class BitReader {
   private readonly view: ReadonlyDataView;
 
@@ -62,23 +67,23 @@ export class BitReader {
   }
 
   read32(n: number): number {
-    if (n > 32) throw new Error(`out of range: ${n} > 32`);
-    const result = this.peek32(n);
+    assertNRange(n);
+    if (n === 0) return 0;
+    const result = this.bitsRemaining >= n ? this._next(n) : this._peek(n);
     this.skip(n);
     return result;
   }
 
   peek32(n: number): number {
-    if (n > 32) throw new Error(`out of range: ${n} > 32`);
-    if (this.bitsRemaining >= n) {
-      return this._next(n);
-    }
-
-    return this._peek(n);
+    assertNRange(n);
+    if (n === 0) return 0;
+    return this.bitsRemaining >= n ? this._next(n) : this._peek(n);
   }
 
   skip(n: number): BitReader {
     if (n < 0) throw new Error('out of range: n < 0');
+
+    if (n == 0) return this;
 
     let bitsToSkip = n;
     if (bitsToSkip > this.bitsRemaining) {
@@ -105,7 +110,6 @@ export class BitReader {
   }
 
   /* Most-significant bit first */
-
   private _msbNext = (n: number): number => this.remainder >>> (32 - n);
 
   private _msbTrash(n: number): void {
