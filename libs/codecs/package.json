@@ -11,6 +11,6 @@
   "dependencies": {
     "@4bitlabs/readers": "^2.0.0"
   },
-  "author": "",
+  "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"
 }

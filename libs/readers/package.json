@@ -21,6 +21,6 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
-  "author": "J. Holmes <32bitkid@gmail.com>",
+  "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"
 }

@@ -9,7 +9,7 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
-  "author": "",
+  "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "devDependencies": {
     "@types/through2": "^2.0.41"

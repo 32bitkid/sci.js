@@ -8,7 +8,7 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
-  "author": "",
+  "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "dependencies": {
     "@4bitlabs/image": "0.0.0",
