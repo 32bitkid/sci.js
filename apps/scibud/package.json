@@ -18,16 +18,15 @@
     "@4bitlabs/sci0": "0.0.0",
     "@4bitlabs/image": "0.0.0",
     "@4bitlabs/color": "0.0.0",
-    "cli-progress": "^3.10.0",
+    "cli-progress": "^3.12.0",
     "commander": "^9.2.0",
     "expand-tilde": "^2.0.2",
-    "pngjs": "^6.0.0",
-    "workerpool": "^6.2.1"
+    "pngjs": "^7.0.0",
+    "workerpool": "^9.1.0"
   },
   "devDependencies": {
-    "@types/cli-progress": "^3.9.2",
-    "@types/expand-tilde": "^2.0.0",
-    "@types/pngjs": "^6.0.1",
-    "@types/workerpool": "^6.1.0"
+    "@types/cli-progress": "^3.11.5",
+    "@types/expand-tilde": "^2.0.2",
+    "@types/pngjs": "^6.0.4"
   }
 }
