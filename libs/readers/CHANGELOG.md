@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Performance improvements to `BitReader`. Using single DWORD reads when possible.
+- Performance improvements to `MsbReader`. Using single DWORD reads when possible.
 - Loosen the `bytes` typescript type to be any _typed-array_ or `DataView`.
 
 ## 1.0.0
@@ -24,5 +24,5 @@ Initial release.
 
 ### Added
 
-- `BitReader` implementation.
+- `MsbReader` implementation.
 - `AsyncBitReader` implementation.

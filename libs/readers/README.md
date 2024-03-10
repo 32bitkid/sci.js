@@ -15,8 +15,8 @@ A collection of bit-readers for javascript and typescript.
 ## Usage
 
 ```js
-import { BitReader } from '@4bitlabs/readers';
-const reader = new BitReader(sourceData);
+import { MsbReader } from '@4bitlabs/readers';
+const reader = new MsbReader(sourceData);
 
 // ...
 
@@ -64,20 +64,20 @@ const value =
 With a bit-reader, you can instead say:
 
 ```js
-const reader = new BitReader(source);
+const reader = new MsbReader(source);
 reader.skip(6); // skip the first 6 bits
 const value = reader.read(12); // take the next 12 bits
 ```
 
 This can be very useful when parsing densely-packed data-structures, especially when they use _variable-length_ encoding.
 
-## `BitReader` API
+## `MsbReader` API
 
-`BitReader` provides a bit-reader that sequentially reads bits from an `Uint8Array` source.
+`MsbReader` provides a bit-reader that sequentially reads bits from an `Uint8Array` source.
 
 ```js
 const source = Uint8Array.of(0b1110_0001);
-const r = new BitReader(source);
+const r = new MsbReader(source);
 
 r.read32(3); // 0b111
 r.read32(1); // 0b0
@@ -90,7 +90,7 @@ The default behavior to read **most-significant bits** first, however, you can s
 
 ```js
 const source = Uint8Array.of(0b1110_0001);
-const r = new BitReader(source, { mode: 'lsb' });
+const r = new MsbReader(source, {mode: 'lsb'});
 
 r.read32(3); // 0b001
 r.read32(1); // 0b0
@@ -101,7 +101,7 @@ r.read32(1); // 0b1
 ### Constructor
 
 ```ts
-new BitReader(source: TypedArray, options?: BitReaderOptions)
+new MsbReader(source: TypedArray, options?: BitReaderOptions)
 ```
 
 Options:
@@ -117,7 +117,7 @@ Options:
 
 Peek `n` bits in the bit-stream.
 
-#### `r.skip(n: number): BitReader`
+#### `r.skip(n: number): MsbReader`
 
 Skip `n` bits in the bit-stream.
 
@@ -130,7 +130,7 @@ const value = reader.peek32(n);
 reader.skip(n);
 ```
 
-#### `r.seek(offset: number): BitReader`
+#### `r.seek(offset: number): MsbReader`
 
 Seek to an arbitrary _byte_-position in the underlying `ArrayBuffer`, always from the _beginning_ of the byte-array.
 
@@ -138,7 +138,7 @@ Seek to an arbitrary _byte_-position in the underlying `ArrayBuffer`, always fro
 
 Returns `true` if the bit-reader is _currently_ aligned to a byte
 
-#### `r.align(): BitReader`
+#### `r.align(): MsbReader`
 
 Re-aligns to the nearest _next_ byte-boundary in the bit-stream.
 
@@ -157,7 +157,7 @@ const reader = new AsyncBitReader(source);
 
 ## Limitations
 
-As of the _initial_ version, both `BitReader` and `AsyncBitReader` only support a maximum of **32-bit** reads at time.
+As of the _initial_ version, both `MsbReader` and `AsyncBitReader` only support a maximum of **32-bit** reads at time.
 However, those **32-bits** do not need to be _byte-aligned_ bits, and can occur anywhere in the bitstream. This limitation
 is due to the precision of the bitwise operators in javascript. In the future, this might be addressed to allow for
 53-bit reads, the maximum-safe integer size for double-precision numbers.

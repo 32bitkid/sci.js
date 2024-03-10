@@ -1,4 +1,4 @@
-import { BitReader } from '@4bitlabs/readers';
+import { createBitReader } from '@4bitlabs/readers';
 
 import { DrawCommand } from '../../models/draw-command';
 import { CodeHandlers, IS_DONE } from './handlers';
@@ -8,7 +8,7 @@ import { isOpCode } from './op-codes';
 export const parseFrom = (data: Uint8Array): DrawCommand[] => {
   const commands: DrawCommand[] = [];
 
-  const br = new BitReader(data);
+  const br = createBitReader(data, { mode: 'msb' });
   const state = createPicState(data);
 
   while (true) {
