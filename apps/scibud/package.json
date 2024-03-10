@@ -19,7 +19,7 @@
     "@4bitlabs/image": "0.0.0",
     "@4bitlabs/color": "0.0.0",
     "cli-progress": "^3.12.0",
-    "commander": "^9.2.0",
+    "commander": "^12.0.0",
     "expand-tilde": "^2.0.2",
     "pngjs": "^7.0.0",
     "workerpool": "^9.1.0"
