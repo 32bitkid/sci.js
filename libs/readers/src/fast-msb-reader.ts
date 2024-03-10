@@ -1,16 +1,9 @@
 import { BitReader } from './bit-reader';
-import { TypedArray } from './typed-array';
 import { ReadonlyDataView } from './readonly-data-view';
-import { FastLsbReader } from './fast-lsb-reader';
+import { TypedArray } from './typed-array';
+import { copyBuffer } from './utils/copy-buffer';
 
 const ALL_ONES = ~0 >>> 0;
-
-function copy(source: TypedArray | ArrayBuffer, dest: ArrayBuffer): void {
-  const destBytes = new Uint8Array(dest);
-  const sourceBytes =
-    source instanceof ArrayBuffer ? new Uint8Array(source) : source;
-  destBytes.set(sourceBytes);
-}
 
 export class FastMsbReader implements BitReader {
   private readonly view: ReadonlyDataView;
@@ -24,7 +17,7 @@ export class FastMsbReader implements BitReader {
   constructor(source: TypedArray | ArrayBuffer) {
     this.byteLength = source.byteLength;
     const buffer = new ArrayBuffer(this.byteLength + 5);
-    copy(source, buffer);
+    copyBuffer(source, buffer);
     this.view = new DataView(buffer);
   }
 

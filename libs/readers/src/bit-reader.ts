@@ -1,8 +1,8 @@
 export interface BitReader {
-  isByteAligned(): boolean;
   align(): BitReader;
-  seek(offset: number): BitReader;
-  read32(n: number): number;
+  isByteAligned(): boolean;
   peek32(n: number): number;
+  read32(n: number): number;
+  seek(offset: number): BitReader;
   skip(n: number): BitReader;
 }

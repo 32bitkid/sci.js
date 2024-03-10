@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.0.0
+
+### Changed
+ 
+- `BitReader` class has been replaced with an interface
+- `createBitReader()` method now handles using the proper implementation based on configuration flags 
+
+### Added
+- `fast` flag when creating a bit-reader. Uses an implementation that is slightly faster, at the cost of memory 
+  efficiency/duplication.
+  
+  ```ts
+  import { createBitReader } from "@4bitlabs/readers"
+  
+  const br = createBitReader(data, { fast: true });
+  ```
+
 ## 1.2.0
 
 ### Fixed
@@ -15,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Performance improvements to `MsbReader`. Using single DWORD reads when possible.
+- Performance improvements to `BitReader`. Using single DWORD reads when possible.
 - Loosen the `bytes` typescript type to be any _typed-array_ or `DataView`.
 
 ## 1.0.0
@@ -24,5 +41,5 @@ Initial release.
 
 ### Added
 
-- `MsbReader` implementation.
+- `BitReader` implementation.
 - `AsyncBitReader` implementation.
