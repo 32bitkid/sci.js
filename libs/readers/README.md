@@ -104,7 +104,7 @@ br.read32(1); // 0b1
 
 Peek `n` bits in the bit-stream.
 
-#### `r.skip(n: number): MsbReader`
+#### `r.skip(n: number): BitReader`
 
 Skip `n` bits in the bit-stream.
 
@@ -117,7 +117,7 @@ const value = reader.peek32(n);
 reader.skip(n);
 ```
 
-#### `r.seek(offset: number): MsbReader`
+#### `r.seek(offset: number): BitReader`
 
 Seek to an arbitrary _byte_-position in the underlying `ArrayBuffer`, always from the _beginning_ of the byte-array.
 
@@ -125,7 +125,7 @@ Seek to an arbitrary _byte_-position in the underlying `ArrayBuffer`, always fro
 
 Returns `true` if the bit-reader is _currently_ aligned to a byte
 
-#### `r.align(): MsbReader`
+#### `r.align(): BitReader`
 
 Re-aligns to the nearest _next_ byte-boundary in the bit-stream.
 
