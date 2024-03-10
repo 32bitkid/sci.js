@@ -1,5 +1,5 @@
 {
-  "name": "@4bitlabs/palettes",
+  "name": "@4bitlabs/color",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -11,7 +11,6 @@
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "dependencies": {
-    "@4bitlabs/image": "0.0.0",
     "colord": "^2.9.3"
   }
 }

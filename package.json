@@ -21,7 +21,7 @@
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
     "libs/readers",
-    "libs/palettes",
+    "libs/color",
     "libs/image",
     "libs/codecs",
     "libs/sci0",

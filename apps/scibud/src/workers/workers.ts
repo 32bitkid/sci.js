@@ -1,11 +1,12 @@
 import { worker } from 'workerpool';
 import { renderPic } from '@4bitlabs/sci0';
 import {
+  FilterPipeline,
+  createDitherizer,
+  gaussBlur,
+  nearestNeighbor,
   scale2x,
   scale3x,
-  nearestNeighbor,
-  gaussBlur,
-  FilterPipeline,
 } from '@4bitlabs/image';
 import { PNG } from 'pngjs';
 import { writeFile } from 'fs/promises';
@@ -14,9 +15,8 @@ import {
   TRUE_CGA,
   DGA_PALETTE,
   Mixers,
-  createDitherizer,
   generateSciDitherPairs,
-} from '@4bitlabs/palettes';
+} from '@4bitlabs/color';
 
 const pipeline: FilterPipeline = [
   createDitherizer(generateSciDitherPairs(RAW_CGA)),

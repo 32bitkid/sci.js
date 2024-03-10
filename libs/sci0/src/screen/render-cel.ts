@@ -1,4 +1,4 @@
-import { RAW_CGA } from '@4bitlabs/palettes';
+import { RAW_CGA } from '@4bitlabs/color';
 import { ImageDataLike } from '@4bitlabs/image';
 
 import { Cel } from '../models/cel';

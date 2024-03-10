@@ -1,4 +1,4 @@
-import { ImageDataLike } from '@4bitlabs/image';
+import { ImageDataLike } from './image-data-like';
 
 export type Ditherizer = (source: ImageDataLike) => ImageDataLike;
 
