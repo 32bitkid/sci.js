@@ -15,8 +15,8 @@ A collection of bit-readers for javascript and typescript.
 ## Usage
 
 ```js
-import { BitReader } from '@4bitlabs/readers';
-const reader = new BitReader(sourceData);
+import { createBitReader } from '@4bitlabs/readers';
+const reader = createBitReader(sourceData);
 
 // ...
 
@@ -64,7 +64,7 @@ const value =
 With a bit-reader, you can instead say:
 
 ```js
-const reader = new BitReader(source);
+const reader = createBitReader(source);
 reader.skip(6); // skip the first 6 bits
 const value = reader.read(12); // take the next 12 bits
 ```
@@ -73,16 +73,16 @@ This can be very useful when parsing densely-packed data-structures, especially 
 
 ## `BitReader` API
 
-`BitReader` provides a bit-reader that sequentially reads bits from an `Uint8Array` source.
+`BitReader` is the interface that provides a bit-reader that sequentially reads bits from an `Uint8Array` source.
 
 ```js
 const source = Uint8Array.of(0b1110_0001);
-const r = new BitReader(source);
+const br = createBitReader(source);
 
-r.read32(3); // 0b111
-r.read32(1); // 0b0
-r.read32(3); // 0b000
-r.read32(1); // 0b1
+br.read32(3); // 0b111
+br.read32(1); // 0b0
+br.read32(3); // 0b000
+br.read32(1); // 0b1
 ```
 
 The default behavior to read **most-significant bits** first, however, you can select reading from the
@@ -90,26 +90,13 @@ The default behavior to read **most-significant bits** first, however, you can s
 
 ```js
 const source = Uint8Array.of(0b1110_0001);
-const r = new BitReader(source, { mode: 'lsb' });
+const r = createBitReader(source, { mode: 'lsb' });
 
-r.read32(3); // 0b001
-r.read32(1); // 0b0
-r.read32(3); // 0b110
-r.read32(1); // 0b1
+br.read32(3); // 0b001
+br.read32(1); // 0b0
+br.read32(3); // 0b110
+br.read32(1); // 0b1
 ```
-
-### Constructor
-
-```ts
-new BitReader(source: TypedArray, options?: BitReaderOptions)
-```
-
-Options:
-
-| Option         | Type             | Description                                                |
-| -------------- | ---------------- | ---------------------------------------------------------- |
-| `bytes`        | `TypedArray`     | The source bytes for the bit-reader.                       |
-| `options.mode` | `"msb" \| "lsb"` | Bit ordering: Most-significant or Leas-significant _first_ |
 
 ### Instance properties
 
@@ -149,6 +136,7 @@ bytes from a variety of sources, from files and network sources. For instance:
 
 ```js
 import fs from 'node:fs';
+import { AsyncBitReader } from '@4bitlabs/readers';
 
 const source = fs.createReadStream(path, { encoding: 'utf-8' });
 const reader = new AsyncBitReader(source);
@@ -157,7 +145,7 @@ const reader = new AsyncBitReader(source);
 
 ## Limitations
 
-As of the _initial_ version, both `BitReader` and `AsyncBitReader` only support a maximum of **32-bit** reads at time.
+As of the _initial_ version, both `MsbReader` and `AsyncBitReader` only support a maximum of **32-bit** reads at time.
 However, those **32-bits** do not need to be _byte-aligned_ bits, and can occur anywhere in the bitstream. This limitation
 is due to the precision of the bitwise operators in javascript. In the future, this might be addressed to allow for
 53-bit reads, the maximum-safe integer size for double-precision numbers.

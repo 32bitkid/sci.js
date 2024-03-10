@@ -1,4 +1,4 @@
-import { BitReader } from '@4bitlabs/readers';
+import { createBitReader } from '@4bitlabs/readers';
 import { quat, vec2 } from 'gl-matrix';
 
 import { getPoint8, getPoint16, getPoint24 } from './points';
@@ -25,7 +25,7 @@ describe('point readers', () => {
       [[0b0000_1001], [150, 150], [150, 149]],
       [[0b1001_1001], [150, 150], [149, 149]],
     ])('with the value of %s from %s should be %s', (bits, ref, expected) => {
-      const br = new BitReader(Uint8Array.from(bits));
+      const br = createBitReader(Uint8Array.from(bits));
       const out = vec2.create();
       getPoint8(br, out, ref);
       expect(out).toEqual(vec2.copy(vec2.create(), expected));
@@ -114,7 +114,7 @@ describe('point readers', () => {
         [149, 149],
       ],
     ])('with the value of %s from %s should be %s', (bits, ref, expected) => {
-      const br = new BitReader(Uint8Array.from(bits));
+      const br = createBitReader(Uint8Array.from(bits));
       const out = vec2.create();
       getPoint16(br, out, ref);
       expect(out).toEqual(vec2.copy(vec2.create(), expected));
@@ -152,7 +152,7 @@ describe('point readers', () => {
         [300, 1],
       ],
     ])('with the value of %s should be %s', (bits, expected) => {
-      const br = new BitReader(Uint8Array.from(bits));
+      const br = createBitReader(Uint8Array.from(bits));
       const out = vec2.create();
       getPoint24(br, out);
       expect(out).toEqual(vec2.copy(vec2.create(), expected));

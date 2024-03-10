@@ -1,4 +1,4 @@
-import { BitReader } from '@4bitlabs/readers';
+import { createBitReader } from '@4bitlabs/readers';
 import { Sequence, CodeMapping, ReadonlyUint8Array } from './shared';
 import { concat } from './concat';
 
@@ -88,7 +88,7 @@ export const decode = (
   let nextCode = TOP;
   let previous: Sequence | null = null;
 
-  const r = new BitReader(source, { mode: order });
+  const r = createBitReader(source, { mode: order });
 
   while (true) {
     if (1 << codeWidth <= nextCode) {
