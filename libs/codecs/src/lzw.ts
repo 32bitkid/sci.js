@@ -76,12 +76,12 @@ const init = (
 
 export const decode = (
   source: ReadonlyUint8Array,
-  opts: LzwDecodeOptions,
+  options: LzwDecodeOptions = {},
 ): Uint8Array => {
   const outputs: Sequence[] = [];
-  const { order = 'lsb' } = opts;
 
-  const { DICTIONARY, TOP, CODE_WIDTH } = init(opts);
+  const { order = 'lsb' } = options;
+  const { DICTIONARY, TOP, CODE_WIDTH } = init(options);
 
   let seen = new Map(DICTIONARY);
   let codeWidth = CODE_WIDTH;
