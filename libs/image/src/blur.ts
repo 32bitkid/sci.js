@@ -64,7 +64,7 @@ function convoute(
 
 export function gaussBlur(pixels: ImageDataLike, sigma: number): void {
   const kernel = makeGaussKernel(sigma);
-  for (var ch = 0; ch < 3; ch++) {
+  for (let ch = 0; ch < 3; ch++) {
     convoute(pixels, kernel, kernel, ch);
   }
 }
@@ -73,7 +73,7 @@ export function hBlur(pixels: ImageDataLike, sigma: number): void {
   const kernel = makeGaussKernel(sigma);
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
-  for (var ch = 0; ch < 3; ch++) {
+  for (let ch = 0; ch < 3; ch++) {
     convoute(pixels, kernel, hKernel, ch);
   }
 }
