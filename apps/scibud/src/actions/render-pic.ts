@@ -14,7 +14,7 @@ import {
 
 import workers from '../workers';
 
-const REPEAT_LAST = 4 * 60;
+const REPEAT_LAST = 4 * 30;
 
 interface RenderPicOptions {
   readonly outdir: string;

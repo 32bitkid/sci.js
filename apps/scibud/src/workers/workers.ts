@@ -7,6 +7,7 @@ import {
   nearestNeighbor,
   scale2x,
   scale3x,
+  hBlur,
 } from '@4bitlabs/image';
 import { PNG } from 'pngjs';
 import { writeFile } from 'fs/promises';
@@ -16,15 +17,20 @@ import {
   DGA_PALETTE,
   Mixers,
   generateSciDitherPairs,
+  IBM5153Dimmer,
 } from '@4bitlabs/color';
 
 const pipeline: FilterPipeline = [
-  createDitherizer(generateSciDitherPairs(RAW_CGA)),
+  // createDitherizer(generateSciDitherPairs(RAW_CGA)),
   nearestNeighbor([5, 6]),
-  // Screen.createDitherizer(
-  //   Screen.generateSciDitherPairs(TRUE_CGA, Mixers.softMixer()),
-  //   [5, 6],
-  // ),
+  createDitherizer(
+    generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.6), Mixers.softMixer()),
+    [5, 4],
+  ),
+  (img) => {
+    hBlur(img, 2);
+    return img;
+  },
 ];
 
 const fileName = (base: string, i: number) =>
