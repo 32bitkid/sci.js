@@ -21,17 +21,18 @@ function makeGaussKernel(sigma: number) {
   return kernel;
 }
 
-function gauss_internal(
+function convoute(
   pixels: ImageDataLike,
-  kernel: Float32Array,
+  hKernel: Float32Array,
+  vKernel: Float32Array,
   ch: number,
 ) {
   const data = pixels.data;
   const w = pixels.width;
   const h = pixels.height;
   const buff = new Uint8Array(w * h);
-  const mk = Math.floor(kernel.length / 2);
-  const kl = kernel.length;
+  const mk = Math.floor(hKernel.length / 2);
+  const kl = hKernel.length;
 
   // First step process columns
   for (let j = 0, hw = 0; j < h; j++, hw += w) {
@@ -40,7 +41,7 @@ function gauss_internal(
       for (let k = 0; k < kl; k++) {
         let col = i + (k - mk);
         col = col < 0 ? 0 : col >= w ? w - 1 : col;
-        sum += data[(hw + col) * 4 + ch] * kernel[k];
+        sum += data[(hw + col) * 4 + ch] * hKernel[k];
       }
       buff[hw + i] = sum;
     }
@@ -53,7 +54,7 @@ function gauss_internal(
       for (let k = 0; k < kl; k++) {
         let row = j + (k - mk);
         row = row < 0 ? 0 : row >= h ? h - 1 : row;
-        sum += buff[row * w + i] * kernel[k];
+        sum += buff[row * w + i] * vKernel[k];
       }
       let off = (j * w + i) * 4;
       data[off + ch] = sum;
@@ -63,9 +64,16 @@ function gauss_internal(
 
 export function gaussBlur(pixels: ImageDataLike, sigma: number): void {
   const kernel = makeGaussKernel(sigma);
-
-  // Blur a cahnnel (RGB or Grayscale)
   for (var ch = 0; ch < 3; ch++) {
-    gauss_internal(pixels, kernel, ch);
+    convoute(pixels, kernel, kernel, ch);
+  }
+}
+
+export function hBlur(pixels: ImageDataLike, sigma: number): void {
+  const kernel = makeGaussKernel(sigma);
+  const hKernel = new Float32Array(kernel.length);
+  hKernel[kernel.length >> 1] = 1;
+  for (var ch = 0; ch < 3; ch++) {
+    convoute(pixels, kernel, hKernel, ch);
   }
 }
