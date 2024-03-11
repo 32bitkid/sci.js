@@ -1,2 +1,2 @@
-export { decode as decodeLzw, EOF_MARKER, RESET_MARKER } from './lzw';
-export { decode as decodeHuffman } from './huffman';
+export * as Lzw from './lzw';
+export * as Huffman from './huffman';

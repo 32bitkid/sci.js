@@ -1,4 +1,5 @@
-import { decodeLzw, decodeHuffman } from '@4bitlabs/codecs';
+import { decode as decodeLzw } from '@4bitlabs/codecs/lzw';
+import { decode as decodeHuffman } from '@4bitlabs/codecs/huffman';
 
 type SupportedAlgorithms = 0 | 1 | 2;
 const isSupported = (it: any): it is SupportedAlgorithms =>

@@ -3,6 +3,11 @@
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
+  "exports": {
+    ".": "./dist/index.js",
+    "./lzw": "./dist/lzw.js",
+    "./huffman": "./dist/huffman.js"
+  },
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
