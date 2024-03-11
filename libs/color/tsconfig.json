@@ -1,8 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2019",
-    "module": "commonjs",
     "incremental": true,
     "tsBuildInfoFile": "./dist/.tscache",
     "outDir": "./dist/"
