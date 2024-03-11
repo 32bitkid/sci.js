@@ -2,7 +2,7 @@
   "name": "@4bitlabs/scibud",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "bin": {
     "scibud": "./dist/index.js"
   },

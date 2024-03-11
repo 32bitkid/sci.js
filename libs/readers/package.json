@@ -6,15 +6,15 @@
     "bitreader",
     "bits"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/readers#readme",
   "repository": {
     "type": "git",
     "url": "git@github.com:32bitkid/sci.js.git"
   },
   "files": [
-    "dist/**/*"
+    "./dist/**/*"
   ],
   "scripts": {
     "clean": "tsc --build --clean",

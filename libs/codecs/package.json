@@ -2,7 +2,8 @@
   "name": "@4bitlabs/codecs",
   "version": "0.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./lzw": "./dist/lzw.js",
@@ -17,5 +18,8 @@
     "@4bitlabs/readers": "^2.0.0"
   },
   "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC"
+  "license": "ISC",
+  "files": [
+    "./dist/**/*"
+  ]
 }
