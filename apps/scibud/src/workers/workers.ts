@@ -19,6 +19,7 @@ import {
   generateSciDitherPairs,
   IBM5153Dimmer,
 } from '@4bitlabs/color';
+import { DrawCommand } from '@4bitlabs/sci0/dist/models/draw-command';
 
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),
@@ -37,7 +38,12 @@ const fileName = (base: string, i: number) =>
   base.replace(/%d/g, i.toString().padStart(4, '0'));
 
 worker({
-  renderPic: async (base: string, picData, idx: number, repeat: number) => {
+  renderPic: async (
+    base: string,
+    picData: DrawCommand[],
+    idx: number,
+    repeat: number,
+  ) => {
     const { visible } = renderPic(picData, {
       forcePal: 0,
       pipeline,

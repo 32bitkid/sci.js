@@ -8,7 +8,7 @@ import {
   parseAllMappings,
 } from '@4bitlabs/sci0';
 
-const listPics = async () => {
+const picList = async () => {
   const { root } = program.opts();
 
   const files = await readdir(root);
@@ -27,4 +27,4 @@ const listPics = async () => {
     .forEach((it) => console.log('%s', it));
 };
 
-export default listPics;
+export default picList;

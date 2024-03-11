@@ -31,9 +31,13 @@ pics
     cmdParseInt,
     240,
   )
-  .action(Actions.renderPic);
+  .action(Actions.picRender);
 
-pics.command('list').action(Actions.listPics);
+pics.command('list').action(Actions.picList);
+pics
+  .command('decode')
+  .argument('<id>', 'Picture resource number', cmdParseInt)
+  .action(Actions.picDecode);
 
 program
   .parseAsync()

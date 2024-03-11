@@ -1,4 +1,5 @@
-import renderPic from './render-pic';
-import listPics from './list-pics';
+import picRender from './pic-render';
+import picList from './pic-list';
+import picDecode from './pic-decode';
 
-export { renderPic, listPics };
+export { picRender, picList, picDecode };
