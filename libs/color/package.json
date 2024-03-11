@@ -1,9 +1,17 @@
 {
   "name": "@4bitlabs/color",
   "version": "0.0.0",
-  "description": "",
+  "description": "A collection color manipulation functions and predefined palettes for working with EGA/CGA images",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/color#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:32bitkid/sci.js.git"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
@@ -13,8 +21,5 @@
   "license": "ISC",
   "dependencies": {
     "colord": "^2.9.3"
-  },
-  "files": [
-    "./dist/**/*"
-  ]
+  }
 }
