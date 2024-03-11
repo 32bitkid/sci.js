@@ -1,14 +1,22 @@
 {
   "name": "@4bitlabs/codecs",
   "version": "0.0.0",
-  "description": "",
+  "description": "A collection of codecs for working with SCI-engine assets",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/codecs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:32bitkid/sci.js.git"
+  },
   "exports": {
     ".": "./dist/index.js",
     "./lzw": "./dist/lzw.js",
     "./huffman": "./dist/huffman.js"
   },
+  "files": [
+    "./dist/**/*"
+  ],
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
@@ -18,8 +26,5 @@
     "@4bitlabs/readers": "^2.0.0"
   },
   "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC",
-  "files": [
-    "./dist/**/*"
-  ]
+  "license": "ISC"
 }

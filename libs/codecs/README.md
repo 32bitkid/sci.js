@@ -1,6 +1,6 @@
 # `@4bitlabs/codecs`
 
-A collection of decoders (and eventually encoders) to for working with [Sierra On-line][sierra] SCI-engine assets.
+A collection of decoders (and eventually encoders) for working with [Sierra On-line][sierra] SCI-engine assets.
 
 ##  Supported Codecs
 
