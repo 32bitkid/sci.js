@@ -15,7 +15,7 @@
     "@types/through2": "^2.0.41"
   },
   "dependencies": {
-    "@4bitlabs/codecs": "0.0.0",
+    "@4bitlabs/codecs": "^1.0.0",
     "@4bitlabs/readers": "^2.0.0",
     "@4bitlabs/color": "^1.0.0",
     "@4bitlabs/image": "0.0.0",

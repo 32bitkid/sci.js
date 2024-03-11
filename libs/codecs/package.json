@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/codecs",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A collection of codecs for working with SCI-engine assets",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
