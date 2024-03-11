@@ -13,6 +13,5 @@ export { generateSciDitherPairs } from './generate-sci-dither-pairs';
 
 export type { DitherPair } from './dither-pair';
 export type { DitherTransform } from './dither-transform';
-export type { Ditherizer } from '@4bitlabs/image/dist/ditherizer';
 export * as BuiltinDitherPairs from './predefined-dither-pairs';
 export { IBM5153Dimmer } from './IBM-5153-dimmer';
