@@ -6,7 +6,7 @@ import { DitherTransform } from './dither-transform';
 
 colordExtend([mixPlugin]);
 
-const colorFromUint32 = (c: number): Colord =>
+export const abgrToColor = (c: number): Colord =>
   colord({
     r: (c >>> 0) & 0xff,
     g: (c >>> 8) & 0xff,
@@ -14,7 +14,7 @@ const colorFromUint32 = (c: number): Colord =>
     a: ((c >>> 24) & 0xff) / 255,
   });
 
-const uint32FromColor = (c: Colord) =>
+export const colorToAbgr = (c: Colord) =>
   0xff000000 | (c.rgba.b << 16) | (c.rgba.g << 8) | (c.rgba.r << 0);
 
 const mixPair = (
@@ -22,14 +22,14 @@ const mixPair = (
   b: number | Colord,
   bias: number = 0.5,
 ): [number, number] => {
-  const clrA = typeof a === 'number' ? colorFromUint32(a) : a;
-  const clrB = typeof b === 'number' ? colorFromUint32(b) : b;
+  const clrA = typeof a === 'number' ? abgrToColor(a) : a;
+  const clrB = typeof b === 'number' ? abgrToColor(b) : b;
 
   const mixA = clrA.mix(clrB, bias);
   const mixB = clrB.mix(clrA, bias);
 
-  const ma = uint32FromColor(mixA);
-  const mb = uint32FromColor(mixB);
+  const ma = colorToAbgr(mixA);
+  const mb = colorToAbgr(mixB);
 
   return [ma, mb];
 };
@@ -44,17 +44,14 @@ export interface SoftMixerOptions {}
 export const softMixer =
   (options: SoftMixerOptions = {}): DitherTransform =>
   ([a, b]) => {
-    const clrA = colorFromUint32(a);
-    const clrB = colorFromUint32(b);
+    const clrA = abgrToColor(a);
+    const clrB = abgrToColor(b);
 
     const dE = deltaE(clrA.rgba, clrB.rgba);
 
     if (dE <= 1) {
       const mod = Math.min(0.1, Math.abs(clrA.brightness() - 0.5) * 2) * 0.25;
-      return [
-        uint32FromColor(clrA.lighten(mod)),
-        uint32FromColor(clrB.darken(mod)),
-      ];
+      return [colorToAbgr(clrA.lighten(mod)), colorToAbgr(clrB.darken(mod))];
     }
 
     if (dE <= 10) {
