@@ -1,4 +1,4 @@
-import { s9 } from './epx';
+import { s9 } from './s9';
 
 describe('s9', () => {
   it('should handle the middle', () => {

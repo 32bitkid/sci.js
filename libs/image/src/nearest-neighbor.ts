@@ -29,5 +29,5 @@ export const nearestNeighbor =
       }
     }
 
-    return { data, width, height };
+    return { data, width, height, colorSpace: it.colorSpace };
   };

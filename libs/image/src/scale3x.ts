@@ -1,15 +1,17 @@
 import { ImageDataLike } from './image-data-like';
 
-import { s9, epx9 } from './epx';
+import { epx9 } from './epx';
+import { S9, s9 } from './s9';
 
 export const scale3x = (
   input: ImageDataLike,
-  output: ImageDataLike,
+  output?: ImageDataLike,
 ): ImageDataLike => {
   output = output ?? {
     data: new Uint8ClampedArray(input.width * 3 * (input.height * 3) * 4),
     width: input.width * 3,
     height: input.height * 3,
+    colorSpace: input.colorSpace,
   };
 
   const src = new Uint32Array(
@@ -26,8 +28,8 @@ export const scale3x = (
 
   const oStride = output.width;
 
-  const s = Array(9);
-  const p = Array(9);
+  const s: S9 = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  const p = new Uint32Array(9);
 
   for (let iy = 0; iy < input.height; iy += 1)
     for (let ix = 0; ix < input.width; ix += 1) {

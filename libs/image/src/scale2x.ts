@@ -9,6 +9,7 @@ export const scale2x = (
     data: new Uint8ClampedArray(oWidth * oHeight * 4),
     width: oWidth,
     height: oHeight,
+    colorSpace: input.colorSpace,
   };
 
   const src = new Uint32Array(
