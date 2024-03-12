@@ -13,6 +13,7 @@ import {
 } from '@4bitlabs/sci0';
 
 import workers from '../workers';
+import { renderPicWorker } from '../workers/render-pic-worker';
 
 const REPEAT_LAST = 4 * 30;
 
@@ -56,12 +57,7 @@ const picRender = async (pic: number, options: RenderPicOptions) => {
   const picData = Pic.parseFrom(data);
 
   if (!all) {
-    await workers.exec('renderPic', [
-      join(outdir, `${filename}.png`),
-      picData,
-      0,
-      0,
-    ]);
+    await renderPicWorker(join(outdir, `${filename}.png`), picData, 0, 0);
   } else {
     progress.start(picData.length, 0);
     const done = Array(picData.length)
