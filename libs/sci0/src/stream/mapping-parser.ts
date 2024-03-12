@@ -2,7 +2,7 @@ import through from 'through2';
 
 import { consume } from '../parsers/mapping';
 
-const bufferize = (chunk: any, encoding: BufferEncoding): Uint8Array => {
+const bufferize = (chunk: unknown, encoding: BufferEncoding): Uint8Array => {
   if (chunk instanceof Uint8Array) return chunk;
   if (typeof chunk === 'string') return new Buffer(chunk, encoding);
   throw new Error('unsupported chunk type');

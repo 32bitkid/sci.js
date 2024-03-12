@@ -1,5 +1,3 @@
-import { vec2 } from 'gl-matrix';
-
 export type Plotter = (x: number, y: number, color: number) => void;
 
 export type IsFillable = (x: number, y: number) => boolean;

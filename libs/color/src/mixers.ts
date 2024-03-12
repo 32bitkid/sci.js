@@ -39,10 +39,8 @@ export const mixBy =
   ([a, b]: DitherPair) =>
     a === b ? [a, b] : mixPair(a, b, bias);
 
-export interface SoftMixerOptions {}
-
 export const softMixer =
-  (options: SoftMixerOptions = {}): DitherTransform =>
+  (): DitherTransform =>
   ([a, b]) => {
     const clrA = abgrToColor(a);
     const clrB = abgrToColor(b);

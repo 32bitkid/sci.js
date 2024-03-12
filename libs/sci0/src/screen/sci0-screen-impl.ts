@@ -104,8 +104,8 @@ export const createBrush = (
 
     let top = Math.max(0, cy - size);
     let left = Math.max(0, cx - size);
-    let bottom = top + height;
-    let right = left + width;
+    const bottom = top + height;
+    const right = left + width;
     if (right >= stageWidth) left = stageWidth - width;
     if (bottom >= stageHeight) top = stageHeight - height;
 

@@ -26,8 +26,10 @@ export enum OpCode {
   Done = 0xff,
 }
 
-export const isOpCode = (it: any): it is OpCode =>
-  Object.values(OpCode).includes(it);
+const allOpCodes = Object.values(OpCode);
+
+export const isOpCode = (it: unknown): it is OpCode =>
+  typeof it === 'number' && Number.isInteger(it) && allOpCodes.includes(it);
 
 export enum ExtendedOpCode {
   UpdatePalette = 0x00,
@@ -41,5 +43,9 @@ export enum ExtendedOpCode {
   x08 = 0x08,
 }
 
-export const isExtendedOpCode = (it: any): it is ExtendedOpCode =>
-  Object.values(ExtendedOpCode).includes(it);
+const allExtendedOpCodes = Object.values(ExtendedOpCode);
+
+export const isExtendedOpCode = (it: unknown): it is ExtendedOpCode =>
+  typeof it === 'number' &&
+  Number.isInteger(it) &&
+  allExtendedOpCodes.includes(it);

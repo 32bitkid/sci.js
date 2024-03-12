@@ -1,5 +1,5 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { quat, vec2 } from 'gl-matrix';
+import { vec2 } from 'gl-matrix';
 
 import { getPoint8, getPoint16, getPoint24 } from './points';
 

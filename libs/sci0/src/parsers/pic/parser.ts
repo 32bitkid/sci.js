@@ -9,7 +9,7 @@ export const parseFrom = (data: Uint8Array): DrawCommand[] => {
   const commands: DrawCommand[] = [];
 
   const br = createBitReader(data, { mode: 'msb' });
-  const state = createPicState(data);
+  const state = createPicState();
 
   while (true) {
     const op = br.read32(8);

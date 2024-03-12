@@ -78,7 +78,7 @@ export class AsyncBitReader {
   private async _fill(n: number): Promise<void> {
     if (n <= this.bitsRemaining) return;
 
-    let total = (32 - this.bitsRemaining) >>> 3;
+    const total = (32 - this.bitsRemaining) >>> 3;
 
     for (let i = 0; i < total; i++) {
       const pos = 32 - 8 - this.bitsRemaining;
