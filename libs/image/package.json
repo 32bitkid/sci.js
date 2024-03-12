@@ -1,9 +1,17 @@
 {
   "name": "@4bitlabs/image",
   "version": "0.0.0",
-  "description": "",
+  "description": "A collection of scalers, image-filters and palette manipulation functions for rendering Sierra On-line SCI-engine assets.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/image#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:32bitkid/sci.js.git"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
   "scripts": {
     "clean": "tsc --build --clean",
     "build": "tsc --build",
