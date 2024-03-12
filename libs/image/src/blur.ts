@@ -21,6 +21,27 @@ function makeGaussKernel(sigma: number) {
   return kernel;
 }
 
+function makeCrtKernel(sigma: number) {
+  const GAUSSIAN_KERNEL = 6.0;
+  const dim = ~~Math.max(3.0, GAUSSIAN_KERNEL * sigma);
+  const sqrtSigmaPi2 = Math.sqrt(Math.PI * 2.0) * sigma;
+  const s2 = 2.0 * sigma * sigma;
+
+  let sum = 0.0;
+
+  const kernel = new Float32Array(dim - (~dim & 1)); // Make it odd number
+  const half = kernel.length >> 1;
+  for (let j = 0, i = -half; j < kernel.length; i++, j++) {
+    if (i <= 0) kernel[j] = Math.exp(-(i * i) / s2) / sqrtSigmaPi2;
+    sum += kernel[j];
+  }
+  // Normalize the gaussian kernel to prevent image darkening/brightening
+  for (let i = 0; i < dim; i++) {
+    kernel[i] /= sum;
+  }
+  return kernel;
+}
+
 function convoute(
   pixels: ImageDataLike,
   hKernel: Float32Array,
@@ -74,6 +95,15 @@ export function hBlur(pixels: ImageDataLike, sigma: number): void {
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
   for (let ch = 0; ch < 3; ch++) {
+    convoute(pixels, kernel, hKernel, ch);
+  }
+}
+
+export function crtBlur(pixels: ImageDataLike, sigma: number): void {
+  const kernel = makeCrtKernel(sigma);
+  const hKernel = new Float32Array(kernel.length);
+  hKernel[kernel.length >> 1] = 1;
+  for (let ch = 0; ch < 2; ch++) {
     convoute(pixels, kernel, hKernel, ch);
   }
 }
