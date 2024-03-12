@@ -1,27 +1,13 @@
 import { program } from 'commander';
-import { Presets, SingleBar } from 'cli-progress';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
 import { picMatcher } from '../helpers/resource-matchers';
 import {
-  decompress,
   getPayloadLength,
   parseAllMappings,
   parseHeaderFrom,
-  Pic,
 } from '@4bitlabs/sci0';
-
-import workers from '../workers';
-
-const REPEAT_LAST = 4 * 30;
-
-interface RenderPicOptions {
-  readonly outdir: string;
-  readonly filename: string;
-  readonly all: boolean;
-  readonly preRoll: number | false;
-}
 
 const picDecode = async (pic: number) => {
   const { root } = program.opts();

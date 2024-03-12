@@ -5,6 +5,7 @@
   "private": true,
   "main": "",
   "scripts": {
+    "lint": "eslint .",
     "format:fix": "prettier -w .",
     "build": "lerna run build",
     "test": "lerna run test"

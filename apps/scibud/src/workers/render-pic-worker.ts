@@ -1,4 +1,8 @@
+import { writeFile } from 'fs/promises';
+import { PNG } from 'pngjs';
 import { renderPic } from '@4bitlabs/sci0';
+
+/* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
 import {
   FilterPipeline,
   createDitherizer,
@@ -9,8 +13,7 @@ import {
   scale5x6,
   hBlur,
 } from '@4bitlabs/image';
-import { PNG } from 'pngjs';
-import { writeFile } from 'fs/promises';
+
 import {
   RAW_CGA,
   TRUE_CGA,
@@ -19,6 +22,9 @@ import {
   generateSciDitherPairs,
   IBM5153Dimmer,
 } from '@4bitlabs/color';
+/* eslint-enable */
+
+// FIXME
 import { DrawCommand } from '@4bitlabs/sci0/dist/models/draw-command';
 
 const pipeline: FilterPipeline = [
