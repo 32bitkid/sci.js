@@ -42,7 +42,7 @@ function makeCrtKernel(sigma: number) {
   return kernel;
 }
 
-function convoute(
+function convolute(
   pixels: ImageDataLike,
   hKernel: Float32Array,
   vKernel: Float32Array,
@@ -85,8 +85,8 @@ function convoute(
 
 export function gaussBlur(pixels: ImageDataLike, sigma: number): void {
   const kernel = makeGaussKernel(sigma);
-  for (let ch = 0; ch < 3; ch++) {
-    convoute(pixels, kernel, kernel, ch);
+  for (let ch = 0; ch < 2; ch++) {
+    convolute(pixels, kernel, kernel, ch);
   }
 }
 
@@ -94,8 +94,8 @@ export function hBlur(pixels: ImageDataLike, sigma: number): void {
   const kernel = makeGaussKernel(sigma);
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
-  for (let ch = 0; ch < 3; ch++) {
-    convoute(pixels, kernel, hKernel, ch);
+  for (let ch = 0; ch < 2; ch++) {
+    convolute(pixels, kernel, hKernel, ch);
   }
 }
 
@@ -104,6 +104,6 @@ export function crtBlur(pixels: ImageDataLike, sigma: number): void {
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
   for (let ch = 0; ch < 2; ch++) {
-    convoute(pixels, kernel, hKernel, ch);
+    convolute(pixels, kernel, hKernel, ch);
   }
 }
