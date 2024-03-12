@@ -13,7 +13,7 @@ export function IBM5153Dimmer(
   const target = new Uint32Array(source);
   const black = abgrToColor(source[0]);
 
-  const mix = lerp(0.65, 0, clamp(dimmer, 0, 0.5));
+  const mix = lerp(0.65, 0, clamp(dimmer, 0, 1));
 
   // Colors 1-7 are dimmed based on dimmer percentage
   for (let i = 1; i < 8; i++) {
