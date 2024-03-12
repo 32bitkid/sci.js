@@ -6,6 +6,7 @@ import {
   nearestNeighbor,
   scale2x,
   scale3x,
+  scale5x6,
   hBlur,
 } from '@4bitlabs/image';
 import { PNG } from 'pngjs';
@@ -22,6 +23,7 @@ import { DrawCommand } from '@4bitlabs/sci0/dist/models/draw-command';
 
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),
+  // scale5x6,
   nearestNeighbor([5, 6]),
   createDitherizer(
     generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.6), Mixers.softMixer()),
