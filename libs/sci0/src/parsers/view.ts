@@ -1,6 +1,6 @@
-import { repeat } from '../utils/repeat';
 import { parseCel } from './cel';
 import { View, ViewGroup } from '../models/view';
+import { repeat } from '../utils/repeat';
 
 export const parseFrom = (source: Uint8Array): View => {
   const view = new DataView(

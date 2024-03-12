@@ -1,9 +1,9 @@
-import { program } from 'commander';
-import { Presets, SingleBar } from 'cli-progress';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-import { picMatcher } from '../helpers/resource-matchers';
+import { Presets, SingleBar } from 'cli-progress';
+import { program } from 'commander';
+
 import {
   decompress,
   getPayloadLength,
@@ -11,7 +11,7 @@ import {
   parseHeaderFrom,
   Pic,
 } from '@4bitlabs/sci0';
-
+import { picMatcher } from '../helpers/resource-matchers';
 import workers from '../workers';
 import { renderPicWorker } from '../workers/render-pic-worker';
 

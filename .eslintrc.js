@@ -31,5 +31,20 @@ module.exports = {
   rules: {
     'no-constant-condition': ['error', { checkLoops: false }],
     'import/no-unresolved': 0,
+    'import/order': [
+      'error',
+      {
+        'newlines-between': 'always',
+        groups: ['builtin', 'external', ['parent', 'sibling'], 'index'],
+        pathGroups: [
+          {
+            pattern: '@4bitlabs/*',
+            group: 'parent',
+          },
+        ],
+        pathGroupsExcludedImportTypes: ['builtin'],
+        distinctGroup: true,
+      },
+    ],
   },
 };

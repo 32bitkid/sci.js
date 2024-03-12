@@ -1,6 +1,7 @@
-import { program } from 'commander';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
+
+import { program } from 'commander';
 
 import {
   getResourceNumber,

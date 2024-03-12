@@ -1,13 +1,11 @@
 import { BitReader } from '@4bitlabs/readers';
-
-import { DrawCommand, DrawMode } from '../../models/draw-command';
-import { repeat } from '../../utils/repeat';
 import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes';
-import { getPoint16, getPoint24, getPoint8 } from './points';
-
 import { PicState } from './pic-state';
-import { parseCel } from '../cel';
+import { getPoint16, getPoint24, getPoint8 } from './points';
+import { DrawCommand, DrawMode } from '../../models/draw-command';
 import { Vec2, vec2 } from '../../models/vec2';
+import { repeat } from '../../utils/repeat';
+import { parseCel } from '../cel';
 
 export const IS_DONE = Symbol('done');
 

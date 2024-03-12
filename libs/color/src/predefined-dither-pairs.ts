@@ -1,8 +1,8 @@
 import { RAW_CGA } from './cga-palette';
-import { mixBy, softMixer } from './mixers';
 import { DGA_PALETTE } from './dga-palette';
-import { generateSciDitherPairs } from './generate-sci-dither-pairs';
 import { DitherPair } from './dither-pair';
+import { generateSciDitherPairs } from './generate-sci-dither-pairs';
+import { mixBy, softMixer } from './mixers';
 
 export const CLASSIC: DitherPair[] = generateSciDitherPairs(RAW_CGA);
 

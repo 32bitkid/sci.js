@@ -1,6 +1,6 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { Sequence, CodeMapping, ReadonlyUint8Array } from './shared';
 import { concat } from './concat';
+import { Sequence, CodeMapping, ReadonlyUint8Array } from './shared';
 
 export const EOF_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());
 export const RESET_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());

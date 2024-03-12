@@ -1,6 +1,6 @@
-import { Plotter, Brusher, IsFillable, Filler } from './screen';
-import { NOISE, NOISE_OFFSETS } from './noise';
 import CIRCLES from './circles';
+import { NOISE, NOISE_OFFSETS } from './noise';
+import { Plotter, Brusher, IsFillable, Filler } from './screen';
 import { StaticVec2 } from '../models/vec2';
 
 export const createLine = (plot: Plotter) =>

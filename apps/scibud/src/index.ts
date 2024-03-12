@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-import { program, InvalidArgumentError } from 'commander';
 import { resolve } from 'path';
+
+import { program, InvalidArgumentError } from 'commander';
 import expandTilde from 'expand-tilde';
 
-import workers from './workers';
 import * as Actions from './actions';
+import workers from './workers';
 
 function cmdParseInt(value: string): number | false {
   if (/^\s*f(alse)?\s*$/i.test(value)) return false;

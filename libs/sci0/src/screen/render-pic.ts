@@ -1,10 +1,8 @@
-import { createBuffer } from './buffer';
-import { ImageFilter, ImageDataLike, createDitherizer } from '@4bitlabs/image';
 import { BuiltinDitherPairs } from '@4bitlabs/color';
-
-import { DrawCommand, DrawMode } from '../models/draw-command';
-
+import { ImageFilter, ImageDataLike, createDitherizer } from '@4bitlabs/image';
+import { createBuffer } from './buffer';
 import { DEFAULT_PALETTE } from './default-palette';
+import { DrawCommand, DrawMode } from '../models/draw-command';
 
 const classicDitherer = createDitherizer(BuiltinDitherPairs.CLASSIC);
 

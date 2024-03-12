@@ -1,7 +1,7 @@
-import { MsbReader } from './msb-reader';
+import { FastLsbReader } from './fast-lsb-reader';
 import { FastMsbReader } from './fast-msb-reader';
 import { LsbReader } from './lsb-reader';
-import { FastLsbReader } from './fast-lsb-reader';
+import { MsbReader } from './msb-reader';
 
 describe.each([
   ['MsbReader', MsbReader],

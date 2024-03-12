@@ -1,9 +1,19 @@
 import { writeFile } from 'fs/promises';
-import { PNG } from 'pngjs';
-import { renderPic } from '@4bitlabs/sci0';
 
-/* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
+import { PNG } from 'pngjs';
+
 import {
+  /* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
+  RAW_CGA,
+  TRUE_CGA,
+  DGA_PALETTE,
+  Mixers,
+  generateSciDitherPairs,
+  IBM5153Dimmer,
+  /* eslint-enable */
+} from '@4bitlabs/color';
+import {
+  /* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
   FilterPipeline,
   createDitherizer,
   gaussBlur,
@@ -12,20 +22,9 @@ import {
   scale3x,
   scale5x6,
   hBlur,
+  /* eslint-enable */
 } from '@4bitlabs/image';
-
-import {
-  RAW_CGA,
-  TRUE_CGA,
-  DGA_PALETTE,
-  Mixers,
-  generateSciDitherPairs,
-  IBM5153Dimmer,
-} from '@4bitlabs/color';
-/* eslint-enable */
-
-// FIXME
-import { DrawCommand } from '@4bitlabs/sci0/dist/models/draw-command';
+import { renderPic, DrawCommand } from '@4bitlabs/sci0';
 
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),

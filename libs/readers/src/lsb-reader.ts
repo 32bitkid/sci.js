@@ -1,6 +1,6 @@
 import { BitReader } from './bit-reader';
-import { TypedArray } from './typed-array';
 import { ReadonlyDataView } from './readonly-data-view';
+import { TypedArray } from './typed-array';
 
 const ALL_ONES = ~0 >>> 0;
 

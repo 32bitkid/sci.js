@@ -1,7 +1,6 @@
 import { ImageDataLike } from '@4bitlabs/image';
-
-import { IsFillable, Plotter, Screen } from './screen';
 import { createBrush, createFloodFill, createLine } from './sci0-screen-impl';
+import { IsFillable, Plotter, Screen } from './screen';
 
 export interface Buffer extends Screen {
   image: ImageDataLike;

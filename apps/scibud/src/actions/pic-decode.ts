@@ -1,13 +1,14 @@
-import { program } from 'commander';
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-import { picMatcher } from '../helpers/resource-matchers';
+import { program } from 'commander';
+
 import {
   getPayloadLength,
   parseAllMappings,
   parseHeaderFrom,
 } from '@4bitlabs/sci0';
+import { picMatcher } from '../helpers/resource-matchers';
 
 const picDecode = async (pic: number) => {
   const { root } = program.opts();

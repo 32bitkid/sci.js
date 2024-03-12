@@ -1,5 +1,5 @@
-import { PMachine } from './pmachine';
 import { execute } from './executor';
+import { PMachine } from './pmachine';
 
 describe('SCI0 PMachine', () => {
   it('should execute a simple program', () => {

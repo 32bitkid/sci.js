@@ -1,5 +1,6 @@
-import { AsyncBitReader } from './async-bit-reader';
 import { Readable } from 'stream';
+
+import { AsyncBitReader } from './async-bit-reader';
 
 const readerOf = (bytes: Uint8Array | number[], times = 1): Readable => {
   let count = 0;

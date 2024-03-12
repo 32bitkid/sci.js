@@ -1,6 +1,5 @@
-import { ImageDataLike } from './image-data-like';
-
 import { epx9 } from './epx';
+import { ImageDataLike } from './image-data-like';
 import { S9, s9 } from './s9';
 
 export const scale3x = (

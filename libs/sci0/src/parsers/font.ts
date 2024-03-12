@@ -1,6 +1,6 @@
 import { ImageDataLike } from '@4bitlabs/image';
-import { repeat } from '../utils/repeat';
 import { FontFace } from '../models/font-face';
+import { repeat } from '../utils/repeat';
 
 const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);
 const TRANS = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0x00);

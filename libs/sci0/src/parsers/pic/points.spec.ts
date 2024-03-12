@@ -1,5 +1,4 @@
 import { createBitReader } from '@4bitlabs/readers';
-
 import { getPoint8, getPoint16, getPoint24 } from './points';
 import { Vec2, vec2 } from '../../models/vec2';
 

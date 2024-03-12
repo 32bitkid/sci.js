@@ -1,5 +1,6 @@
 import { Colord, colord, extend as colordExtend } from 'colord';
 import mixPlugin from 'colord/plugins/mix';
+
 import { deltaE } from './delta-e';
 import { DitherPair } from './dither-pair';
 import { DitherTransform } from './dither-transform';
