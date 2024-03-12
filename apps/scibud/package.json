@@ -15,7 +15,7 @@
   "author": "J. Holmes <32bitkid@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "@4bitlabs/sci0": "0.0.0",
+    "@4bitlabs/sci0": "^1.0.0",
     "@4bitlabs/image": "^1.0.0",
     "@4bitlabs/color": "^1.0.0",
     "cli-progress": "^3.12.0",
