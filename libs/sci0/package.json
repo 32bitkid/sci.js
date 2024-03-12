@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@4bitlabs/codecs": "^1.0.0",
-    "@4bitlabs/readers": "^2.0.0",
     "@4bitlabs/color": "^1.0.0",
-    "@4bitlabs/image": "^1.0.0",
+    "@4bitlabs/image": "^1.0.1",
+    "@4bitlabs/readers": "^2.0.0",
     "gl-matrix": "^3.4.3",
     "through2": "^4.0.2"
   }
