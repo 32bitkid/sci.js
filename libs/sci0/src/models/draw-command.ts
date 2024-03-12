@@ -1,5 +1,5 @@
-import { vec2 } from 'gl-matrix';
 import { Cel } from './cel';
+import { StaticVec2 } from './vec2';
 
 export enum DrawMode {
   Visual = 1 << 0,
@@ -23,27 +23,27 @@ type BrushCommand = [
   drawCodes: DrawCodes,
   patternCode: PatternCode,
   textureCode: number,
-  pos: vec2,
+  pos: StaticVec2,
 ];
 
 type FillCommand = [
   mode: 'FILL',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  pos: vec2,
+  pos: StaticVec2,
 ];
 
 type PolylineCommand = [
   mode: 'PLINE',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  ...points: vec2[],
+  ...points: StaticVec2[],
 ];
 
 type EmbeddedCelCommand = [
   mode: 'CEL',
   drawMode: DrawMode,
-  pos: vec2,
+  pos: StaticVec2,
   cel: Cel,
 ];
 

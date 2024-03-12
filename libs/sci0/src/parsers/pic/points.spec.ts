@@ -1,11 +1,11 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { vec2 } from 'gl-matrix';
 
 import { getPoint8, getPoint16, getPoint24 } from './points';
+import { Vec2, vec2 } from '../../models/vec2';
 
 describe('point readers', () => {
   describe('getPoint8', () => {
-    it.each<[[number], vec2, vec2]>([
+    it.each<[[number], Vec2, Vec2]>([
       [[0b0000_0000], [0, 0], [0, 0]],
       [[0b0001_0000], [0, 0], [1, 0]],
       [[0b0000_0001], [0, 0], [0, 1]],
@@ -33,7 +33,7 @@ describe('point readers', () => {
   });
 
   describe('getPoint16', () => {
-    it.each<[[number, number], vec2, vec2]>([
+    it.each<[[number, number], Vec2, Vec2]>([
       [
         [0x00, 0x00],
         [0, 0],
@@ -122,7 +122,7 @@ describe('point readers', () => {
   });
 
   describe('getPoint16', () => {
-    it.each<[[number, number, number], vec2]>([
+    it.each<[[number, number, number], Vec2]>([
       [
         [0x00, 0x00, 0x00],
         [0, 0],

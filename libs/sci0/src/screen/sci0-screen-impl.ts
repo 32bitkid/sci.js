@@ -1,9 +1,7 @@
-import { vec2 } from 'gl-matrix';
-
 import { Plotter, Brusher, IsFillable, Filler } from './screen';
-
 import { NOISE, NOISE_OFFSETS } from './noise';
 import CIRCLES from './circles';
+import { StaticVec2 } from '../models/vec2';
 
 export const createLine = (plot: Plotter) =>
   function line(
@@ -61,7 +59,7 @@ export const createLine = (plot: Plotter) =>
 export const createFloodFill = (
   plot: Plotter,
   isLegal: IsFillable,
-  [width, height]: vec2,
+  [width, height]: StaticVec2,
 ): Filler => {
   const visited = new Set<number>();
   const stack: number[] = [];
@@ -95,7 +93,7 @@ export const createFloodFill = (
 
 export const createBrush = (
   plot: Plotter,
-  [stageWidth, stageHeight]: vec2,
+  [stageWidth, stageHeight]: StaticVec2,
 ): Brusher =>
   function brush(cx, cy, size, isRect, isSpray, textureCode, color): void {
     const baseWidth = isRect ? 2 : 1;

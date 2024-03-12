@@ -1,4 +1,3 @@
-import { vec2 } from 'gl-matrix';
 import { BitReader } from '@4bitlabs/readers';
 
 import { DrawCommand, DrawMode } from '../../models/draw-command';
@@ -8,6 +7,7 @@ import { getPoint16, getPoint24, getPoint8 } from './points';
 
 import { PicState } from './pic-state';
 import { parseCel } from '../cel';
+import { Vec2, vec2 } from '../../models/vec2';
 
 export const IS_DONE = Symbol('done');
 
@@ -48,7 +48,7 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
   },
 
   [OpCode.ShortLines](br, { drawMode, drawCodes }) {
-    const points: vec2[] = [];
+    const points: Vec2[] = [];
     const prev = getPoint24(br, vec2.create());
     points.push(vec2.clone(prev));
     while (br.peek32(8) < 0xf0) {
@@ -59,7 +59,7 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
     return [['PLINE', drawMode, drawCodes, ...points]];
   },
   [OpCode.MediumLines](br, { drawMode, drawCodes }) {
-    const points: vec2[] = [];
+    const points: Vec2[] = [];
     const prev = getPoint24(br, vec2.create());
     points.push(vec2.clone(prev));
     while (br.peek32(8) < 0xf0) {
@@ -70,7 +70,7 @@ export const CodeHandlers: Record<OpCode, CodeHandler> = {
     return [['PLINE', drawMode, drawCodes, ...points]];
   },
   [OpCode.LongLines](br, { drawMode, drawCodes }) {
-    const points: vec2[] = [];
+    const points: Vec2[] = [];
     points.push(getPoint24(br, vec2.create()));
     while (br.peek32(8) < 0xf0) {
       points.push(getPoint24(br, vec2.create()));
