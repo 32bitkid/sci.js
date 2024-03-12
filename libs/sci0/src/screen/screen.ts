@@ -1,13 +1,22 @@
 import { vec2 } from 'gl-matrix';
 
-export type Plotter = (pos: vec2, color: number) => void;
+export type Plotter = (x: number, y: number, color: number) => void;
 
 export type IsFillable = (x: number, y: number) => boolean;
 
-export type Filler = (pos: vec2, color: number) => void;
-export type Liner = (a: vec2, b: vec2, color: number) => void;
+export type Filler = (x: number, y: number, color: number) => void;
+
+export type Liner = (
+  x0: number,
+  y0: number,
+  x1: number,
+  y1: number,
+  color: number,
+) => void;
+
 export type Brusher = (
-  center: vec2,
+  cx: number,
+  cy: number,
   size: number,
   isRect: boolean,
   isSpray: boolean,

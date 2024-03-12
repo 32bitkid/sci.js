@@ -19,8 +19,7 @@ export const createBuffer = (empty: number, bitsPerPixel: 8 | 32): Buffer => {
 
   for (let i = 0; i < pixels.length; i++) pixels[i] = empty;
 
-  const plot: Plotter = (pos: vec2, color: number) => {
-    const [x, y] = pos;
+  const plot: Plotter = (x: number, y: number, color: number) => {
     pixels[320 * y + x] = 0xff000000 | color;
   };
 

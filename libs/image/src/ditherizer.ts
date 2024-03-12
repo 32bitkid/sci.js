@@ -2,9 +2,11 @@ import { ImageDataLike } from './image-data-like';
 
 export type Ditherizer = (source: ImageDataLike) => ImageDataLike;
 
-export const createDitherizer =
-  (pal: [number, number][], ditherSize: [number, number] = [1, 1]) =>
-  (source: ImageDataLike): ImageDataLike => {
+export const createDitherizer = (
+  pal: [number, number][],
+  ditherSize: [number, number] = [1, 1],
+) =>
+  function ditherizerFilter(source: ImageDataLike): ImageDataLike {
     const inputBuffer = new Uint32Array(
       source.data.buffer,
       source.data.byteOffset,
@@ -24,11 +26,11 @@ export const createDitherizer =
         const src = inputBuffer[idx];
         if ((src & 0xff000000) === 0) continue;
 
-        const [dx, dy] = [~~(x / ditherSize[0]), ~~(y / ditherSize[1])];
-        const dither = (dx & 1) ^ (dy & 1);
+        const dx = (x / ditherSize[0]) & 1;
+        const dy = (y / ditherSize[1]) & 1;
+        const dither = dx ^ dy;
 
-        const [a, b] = pal[src & 0xff];
-        ditheredBuffer[idx] = dither ? a : b;
+        ditheredBuffer[idx] = pal[src & 0xff][dither ? 0 : 1];
       }
     }
     return {

@@ -1,9 +1,9 @@
 import { ImageDataLike } from './image-data-like';
 
-export const nearestNeighbor =
-  (ratio: [number, number]) =>
-  (it: ImageDataLike): ImageDataLike => {
-    const [sx, sy] = ratio;
+export const nearestNeighbor = (ratio: [number, number]) => {
+  const [sx, sy] = ratio;
+
+  return function nearestNeighborScaler(it: ImageDataLike): ImageDataLike {
     const { width: iWidth, height: iHeight, data: iData } = it;
     const width = iWidth * sx;
     const height = iHeight * sy;
@@ -31,3 +31,4 @@ export const nearestNeighbor =
 
     return { data, width, height, colorSpace: it.colorSpace };
   };
+};

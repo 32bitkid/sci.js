@@ -36,7 +36,7 @@ export const renderPic = (
     Uint8Array.from(DEFAULT_PALETTE),
   ];
 
-  commands.forEach((cmd) => {
+  commands.forEach(function execStep(cmd) {
     const [mode] = cmd;
 
     switch (mode) {
@@ -63,8 +63,7 @@ export const renderPic = (
         if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
         const [x, y] = pos;
-
-        visible.fill([x, y], color);
+        visible.fill(x, y, color);
         break;
       }
       case 'PLINE': {
@@ -77,18 +76,24 @@ export const renderPic = (
         const color = palettes[forcePal ?? pal][idx];
 
         for (let p = 0; p < points.length - 1; p++)
-          visible.line(points[p], points[p + 1], color);
+          visible.line(
+            points[p][0],
+            points[p][1],
+            points[p + 1][0],
+            points[p + 1][1],
+            color,
+          );
         break;
       }
       case 'BRUSH': {
-        const [, drawMode, drawCodes, patternCode, textureCode, pos] = cmd;
+        const [, drawMode, drawCodes, patternCode, textureCode, [cx, cy]] = cmd;
         if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
 
         const pal = (drawCodes[0] / 40) >>> 0;
         const idx = drawCodes[0] % 40 >>> 0;
         if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
-        visible.brush(pos, ...patternCode, textureCode, color);
+        visible.brush(cx, cy, ...patternCode, textureCode, color);
         break;
       }
       case 'CEL': {
@@ -102,7 +107,7 @@ export const renderPic = (
 
             const color = data[x + y * cel.width];
             if (color === cel.keyColor) continue;
-            visible.plot([x, y], color | (color << 4));
+            visible.plot(x, y, color | (color << 4));
           }
         break;
       }
@@ -114,7 +119,9 @@ export const renderPic = (
   const { pipeline = [classicDitherer] } = options;
 
   return {
-    visible: pipeline.reduce((prev, op) => op(prev), visible.image),
+    visible: pipeline.reduce(function executeVisiblePipeline(prev, op) {
+      return op(prev);
+    }, visible.image),
     priority: priority.image,
     control: control.image,
   };
