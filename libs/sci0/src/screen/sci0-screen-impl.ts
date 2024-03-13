@@ -2,6 +2,7 @@ import CIRCLES from './circles';
 import { NOISE, NOISE_OFFSETS } from './noise';
 import { Plotter, Brusher, IsFillable, Filler } from './screen';
 import { StaticVec2 } from '../models/vec2';
+import { Queue } from './queue';
 
 export const createLine = (plot: Plotter) =>
   function line(
@@ -62,14 +63,14 @@ export const createFloodFill = (
   [width, height]: StaticVec2,
 ): Filler => {
   const visited = new Set<number>();
-  const stack: number[] = [];
+  const stack = new Queue(width * height, Uint32Array);
 
   return function floodFill(x: number, y: number, color: number): void {
     const startI = y * width + x;
     stack.push(startI);
 
-    while (stack.length > 0) {
-      const i = stack.shift()!;
+    while (!stack.isEmpty()) {
+      const i = stack.shift();
 
       if (visited.has(i)) continue;
       visited.add(i);
