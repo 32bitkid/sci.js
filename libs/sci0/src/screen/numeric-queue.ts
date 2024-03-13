@@ -22,7 +22,7 @@ type BufferType =
 
 const MAX_SAFE_DWORD = ~0 >>> 0;
 
-export class Queue {
+export class NumericQueue {
   private head = 0;
   private tail = 0;
   private size = 0;
