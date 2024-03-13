@@ -1,4 +1,5 @@
-import { ImageDataLike } from './image-data-like';
+import { ImageDataLike } from '../image-data-like';
+import { ImageFilter } from '../image-filter';
 
 function makeGaussKernel(sigma: number) {
   const GAUSSIAN_KERNEL = 6.0;
@@ -83,27 +84,38 @@ function convolute(
   }
 }
 
-export function gaussBlur(pixels: ImageDataLike, sigma: number): void {
+export function gaussBlur(sigma: number): ImageFilter {
   const kernel = makeGaussKernel(sigma);
-  for (let ch = 0; ch < 2; ch++) {
-    convolute(pixels, kernel, kernel, ch);
-  }
+  return function gaussBlur(pixels: ImageDataLike): ImageDataLike {
+    for (let ch = 0; ch < 2; ch++) {
+      convolute(pixels, kernel, kernel, ch);
+    }
+    return pixels;
+  };
 }
 
-export function hBlur(pixels: ImageDataLike, sigma: number): void {
+export function hBlur(sigma: number): ImageFilter {
   const kernel = makeGaussKernel(sigma);
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
-  for (let ch = 0; ch < 2; ch++) {
-    convolute(pixels, kernel, hKernel, ch);
-  }
+
+  return function hBlur(pixels: ImageDataLike): ImageDataLike {
+    for (let ch = 0; ch < 2; ch++) {
+      convolute(pixels, kernel, hKernel, ch);
+    }
+    return pixels;
+  };
 }
 
-export function crtBlur(pixels: ImageDataLike, sigma: number): void {
+export function crtBlur(sigma: number): ImageFilter {
   const kernel = makeCrtKernel(sigma);
   const hKernel = new Float32Array(kernel.length);
   hKernel[kernel.length >> 1] = 1;
-  for (let ch = 0; ch < 2; ch++) {
-    convolute(pixels, kernel, hKernel, ch);
-  }
+
+  return function crtBlur(pixels: ImageDataLike): ImageDataLike {
+    for (let ch = 0; ch < 2; ch++) {
+      convolute(pixels, kernel, hKernel, ch);
+    }
+    return pixels;
+  };
 }

@@ -13,13 +13,6 @@ export const createDitherizer = (
       source.data.byteLength / 4,
     );
 
-    const dithered = new Uint8ClampedArray(source.data.length);
-    const ditheredBuffer = new Uint32Array(
-      dithered.buffer,
-      dithered.byteOffset,
-      dithered.byteLength / 4,
-    );
-
     for (let y = 0; y < source.height; y++) {
       for (let x = 0; x < source.width; x++) {
         const idx = x + y * source.width;
@@ -30,12 +23,9 @@ export const createDitherizer = (
         const dy = (y / ditherSize[1]) & 1;
         const dither = dx ^ dy;
 
-        ditheredBuffer[idx] = pal[src & 0xff][dither ? 0 : 1];
+        inputBuffer[idx] = pal[src & 0xff][dither ? 0 : 1];
       }
     }
-    return {
-      data: dithered,
-      width: source.width,
-      height: source.height,
-    };
+
+    return source;
   };

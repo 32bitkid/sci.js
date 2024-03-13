@@ -1,4 +1,4 @@
-import { ImageDataLike } from './image-data-like';
+import { ImageDataLike } from '../image-data-like';
 
 export const nearestNeighbor = (ratio: [number, number]) => {
   const [sx, sy] = ratio;

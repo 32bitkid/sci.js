@@ -1,5 +1,5 @@
+import { ImageDataLike } from '../image-data-like';
 import { epx9sfx } from './epx';
-import { ImageDataLike } from './image-data-like';
 import { S13, s13 } from './s9';
 
 const s: S13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];

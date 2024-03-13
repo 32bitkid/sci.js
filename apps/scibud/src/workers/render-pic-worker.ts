@@ -13,31 +13,22 @@ import {
   /* eslint-enable */
 } from '@4bitlabs/color';
 import {
-  /* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
   FilterPipeline,
   createDitherizer,
-  gaussBlur,
-  nearestNeighbor,
-  scale2x,
-  scale3x,
-  scale5x6,
-  hBlur,
-  /* eslint-enable */
+  Scalers,
+  BlurFilters,
 } from '@4bitlabs/image';
 import { renderPic, DrawCommand } from '@4bitlabs/sci0';
 
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),
   // scale5x6,
-  nearestNeighbor([5, 6]),
+  Scalers.nearestNeighbor([5, 6]),
   createDitherizer(
-    generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.6), Mixers.softMixer()),
-    [5, 4],
+    generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.7), Mixers.softMixer()),
+    [5, 3],
   ),
-  (img) => {
-    hBlur(img, 2);
-    return img;
-  },
+  BlurFilters.boxBlur(2),
 ];
 
 const fileName = (base: string, i: number) =>

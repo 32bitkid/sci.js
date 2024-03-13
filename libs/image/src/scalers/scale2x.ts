@@ -1,4 +1,4 @@
-import { ImageDataLike } from './image-data-like';
+import { ImageDataLike } from '../image-data-like';
 
 export const scale2x = (
   input: ImageDataLike,
