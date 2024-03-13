@@ -12,13 +12,8 @@ import {
   IBM5153Dimmer,
   /* eslint-enable */
 } from '@4bitlabs/color';
-import {
-  FilterPipeline,
-  createDitherizer,
-  Scalers,
-  BlurFilters,
-} from '@4bitlabs/image';
-import { renderPic, DrawCommand } from '@4bitlabs/sci0';
+import { createDitherizer, Scalers, BlurFilters } from '@4bitlabs/image';
+import { renderPic, DrawCommand, FilterPipeline } from '@4bitlabs/sci0';
 
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),

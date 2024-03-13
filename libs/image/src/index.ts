@@ -1,6 +1,5 @@
 export type { ImageDataLike } from './image-data-like';
 export type { ImageFilter } from './image-filter';
-export type { FilterPipeline } from './filter-pipeline';
 export type { Ditherizer } from './ditherizer';
 
 export { createDitherizer } from './ditherizer';

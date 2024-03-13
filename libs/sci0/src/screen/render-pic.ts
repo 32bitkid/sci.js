@@ -1,14 +1,15 @@
 import { BuiltinDitherPairs } from '@4bitlabs/color';
-import { ImageFilter, ImageDataLike, createDitherizer } from '@4bitlabs/image';
+import { ImageDataLike, createDitherizer } from '@4bitlabs/image';
 import { createBuffer } from './buffer';
 import { DEFAULT_PALETTE } from './default-palette';
+import { FilterPipeline } from './filter-pipeline';
 import { DrawCommand, DrawMode } from '../models/draw-command';
 
 const classicDitherer = createDitherizer(BuiltinDitherPairs.CLASSIC);
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
-  pipeline?: ImageFilter[];
+  pipeline?: FilterPipeline;
 }
 
 interface RenderResult {
