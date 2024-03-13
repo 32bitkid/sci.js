@@ -1,5 +1,3 @@
-import { abgrToColor, colorToAbgr } from './mixers';
-
 const clamp = (val: number, min: number, max: number) =>
   Math.max(min, Math.min(val, max));
 
@@ -11,15 +9,16 @@ export function IBM5153Dimmer(
   dimmer: number,
 ): Uint32Array {
   const target = new Uint32Array(source);
-  const black = abgrToColor(source[0]);
-
-  const mix = lerp(0.65, 0, clamp(dimmer, 0, 1));
+  const mix = 1 - lerp(0.42, 0, clamp(dimmer, 0, 1));
 
   // Colors 1-7 are dimmed based on dimmer percentage
-  for (let i = 1; i < 8; i++) {
-    const clr = abgrToColor(source[i]);
-    const dimmed = clr.mix(black, mix);
-    target[i] = colorToAbgr(dimmed);
+  for (let i = 0; i < 8; i++) {
+    const c = source[i];
+    const r = ((c >>> 0) & 0xff) * mix;
+    const g = ((c >>> 8) & 0xff) * mix;
+    const b = ((c >>> 16) & 0xff) * mix;
+    const a = (c >>> 24) & 0xff;
+    target[i] = (a << 24) | (b << 16) | (g << 8) | (r << 0);
   }
 
   return target;
