@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/numeric-deque",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A numeric container backed by a TypedArray ring buffer, with both stack (FILO) and queue (FIFO) methods.",
   "keywords": [
     "queue",

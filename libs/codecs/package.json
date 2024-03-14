@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/codecs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A collection of codecs for working with SCI-engine assets",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,7 +24,7 @@
     "test": "jest src/"
   },
   "dependencies": {
-    "@4bitlabs/readers": "^2.0.1"
+    "@4bitlabs/readers": "^2.0.2"
   },
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"
