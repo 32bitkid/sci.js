@@ -36,6 +36,10 @@ pics
 
 pics.command('list').action(Actions.picList);
 pics
+  .command('info')
+  .argument('<id>', 'Picture resource number', cmdParseInt)
+  .action(Actions.picInfo);
+pics
   .command('decode')
   .argument('<id>', 'Picture resource number', cmdParseInt)
   .action(Actions.picDecode);
