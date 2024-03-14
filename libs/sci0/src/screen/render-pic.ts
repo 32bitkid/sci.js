@@ -59,7 +59,6 @@ export const renderPic = (
 
         const pal = (drawCodes[0] / 40) >>> 0;
         const idx = drawCodes[0] % 40 >>> 0;
-        if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
         const [x, y] = pos;
         visible.fill(x, y, color);
@@ -71,7 +70,6 @@ export const renderPic = (
 
         const pal = (drawCodes[0] / 40) >>> 0;
         const idx = drawCodes[0] % 40 >>> 0;
-        if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
 
         for (let p = 0; p < points.length - 1; p++)
@@ -90,7 +88,6 @@ export const renderPic = (
 
         const pal = (drawCodes[0] / 40) >>> 0;
         const idx = drawCodes[0] % 40 >>> 0;
-        if (pal !== 0) console.log(pal);
         const color = palettes[forcePal ?? pal][idx];
         visible.brush(cx, cy, ...patternCode, textureCode, color);
         break;
