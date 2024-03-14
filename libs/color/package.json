@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/color",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "A collection color manipulation functions and predefined palettes for working with EGA/CGA images",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
