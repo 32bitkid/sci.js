@@ -25,6 +25,7 @@
     "libs/color",
     "libs/image",
     "libs/codecs",
+    "libs/numeric-deque",
     "libs/sci0",
     "libs/pmachine",
     "apps/scibud"

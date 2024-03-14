@@ -1,0 +1,40 @@
+{
+  "name": "@4bitlabs/numeric-deque",
+  "version": "0.0.0",
+  "description": "A numeric container backed by a TypedArray ring buffer, with both stack (FILO) and queue (FIFO) methods.",
+  "keywords": [
+    "queue",
+    "TypedArray",
+    "Uint8Array",
+    "Uint8ClampedArray",
+    "Uint16Array",
+    "Uint32Array",
+    "Int8Array",
+    "Int16Array",
+    "Int32Array",
+    "Float32Array",
+    "Float64Array",
+    "filo",
+    "fifo"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/numeric-deque#readme",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:32bitkid/sci.js.git"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "build": "tsc --build",
+    "test": "jest src/"
+  },
+  "author": "J. Holmes <j@holmes.codes>",
+  "license": "ISC",
+  "dependencies": {
+    "colord": "^2.9.3"
+  }
+}
