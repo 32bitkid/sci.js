@@ -48,6 +48,7 @@ pics
 pics
   .command('decode')
   .argument('<id>', 'Picture resource number', cmdParseInt)
+  .option('-d, --decompress', 'decompress', false)
   .action(Actions.picDecode);
 
 program
