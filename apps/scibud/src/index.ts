@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { resolve } from 'path';
 
-import { program, InvalidArgumentError } from 'commander';
+import { program, InvalidArgumentError, Option } from 'commander';
 import expandTilde from 'expand-tilde';
 
 import * as Actions from './actions';
@@ -16,7 +16,13 @@ function cmdParseInt(value: string): number | false {
 
 const cmdPathParser = (value: string) => resolve(expandTilde(value));
 
-program.option('-r, --root <path>', '', cmdPathParser, '.');
+program
+  .option('-r, --root <path>', '', cmdPathParser, '.')
+  .addOption(
+    new Option('-e --engine <version>', 'sci engine version')
+      .default('sci0')
+      .choices(['sci0', 'sci01']),
+  );
 
 const pics = program.command('pic');
 

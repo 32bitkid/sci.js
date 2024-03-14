@@ -3,11 +3,7 @@ import { join } from 'path';
 
 import { program } from 'commander';
 
-import {
-  getPayloadLength,
-  parseAllMappings,
-  parseHeaderFrom,
-} from '@4bitlabs/sci0';
+import { parseAllMappings, parseHeaderFrom } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 
 const picDecode = async (pic: number) => {

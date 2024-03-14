@@ -32,7 +32,7 @@ const picRender = async (pic: number, options: RenderPicOptions) => {
     all,
   } = options;
 
-  const { root } = program.opts();
+  const { root, engine } = program.opts();
   const progress = new SingleBar(Presets.shades_grey);
 
   const files = await readdir(root);
@@ -53,7 +53,7 @@ const picRender = async (pic: number, options: RenderPicOptions) => {
   const end = start + getPayloadLength(header);
   const compressed = resFile.subarray(start, end);
 
-  const data = decompress('sci0', header.compression, compressed);
+  const data = decompress(engine, header.compression, compressed);
   const picData = Pic.parseFrom(data);
 
   if (!all) {
