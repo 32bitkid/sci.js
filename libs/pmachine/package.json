@@ -7,6 +7,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "clean": "tsc --build --clean",
+    "clean:wipe": "rimraf ./dist",
     "build": "tsc --build",
     "test": "jest src/"
   },
