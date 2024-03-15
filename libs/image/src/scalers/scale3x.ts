@@ -35,17 +35,22 @@ export const scale3x = (
       const oOffset = ix * 3 + iy * 3 * oStride;
 
       s9(input.width, input.height, ix, iy, s);
-      epx9(src, s, p);
+      // prettier-ignore
+      const [
+        A, B, C,
+        D, E, F,
+        G, H, I,
+      ] = epx9(src, s, p);
 
-      dst[oOffset] = src[p[0]];
-      dst[oOffset + 1] = src[p[1]];
-      dst[oOffset + 2] = src[p[2]];
-      dst[oOffset + oStride] = src[p[3]];
-      dst[oOffset + oStride + 1] = src[p[4]];
-      dst[oOffset + oStride + 2] = src[p[5]];
-      dst[oOffset + oStride * 2] = src[p[6]];
-      dst[oOffset + oStride * 2 + 1] = src[p[7]];
-      dst[oOffset + oStride * 2 + 2] = src[p[8]];
+      dst[oOffset] = A;
+      dst[oOffset + 1] = B;
+      dst[oOffset + 2] = C;
+      dst[oOffset + oStride] = D;
+      dst[oOffset + oStride + 1] = E;
+      dst[oOffset + oStride + 2] = F;
+      dst[oOffset + oStride * 2] = G;
+      dst[oOffset + oStride * 2 + 1] = H;
+      dst[oOffset + oStride * 2 + 2] = I;
     }
 
   return output;
