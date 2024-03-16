@@ -1,6 +1,6 @@
 import { writeFile } from 'fs/promises';
 
-import { PNG } from 'pngjs';
+import sharp from 'sharp';
 
 import {
   /* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
@@ -18,12 +18,13 @@ import { renderPic, DrawCommand, FilterPipeline } from '@4bitlabs/sci0';
 const pipeline: FilterPipeline = [
   // createDitherizer(generateSciDitherPairs(RAW_CGA)),
   // scale5x6,
-  Scalers.nearestNeighbor([5, 6]),
+  Scalers.nearestNeighbor([4, 4]),
   createDitherizer(
     generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.7), Mixers.softMixer()),
-    [5, 3],
+    [4, 4],
   ),
-  BlurFilters.boxBlur(2),
+  BlurFilters.gaussBlur(1.5),
+  Scalers.nearestNeighbor([0.5, 0.5]),
 ];
 
 const fileName = (base: string, i: number) =>
@@ -40,10 +41,20 @@ export async function renderPicWorker(
     pipeline,
   });
 
-  const img = new PNG({ width: visible.width, height: visible.height });
-  img.data.set(visible.data, 0);
-
-  const outPng = PNG.sync.write(img);
+  const outPng = await sharp(visible.data, {
+    raw: {
+      width: visible.width,
+      height: visible.height,
+      channels: 4,
+    },
+  })
+    // .resize({
+    //   width: dim,
+    //   height: dim,
+    //   position: 'entropy',
+    // })
+    .png()
+    .toBuffer();
 
   for (let i = 0; i < repeat + 1; i += 1) {
     await writeFile(fileName(base, idx + i), outPng);
