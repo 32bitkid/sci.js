@@ -87,7 +87,7 @@ function convolute(
 export function gaussBlur(sigma: number): ImageFilter {
   const kernel = makeGaussKernel(sigma);
   return function gaussBlur(pixels: ImageDataLike): ImageDataLike {
-    for (let ch = 0; ch < 2; ch++) {
+    for (let ch = 0; ch < 3; ch++) {
       convolute(pixels, kernel, kernel, ch);
     }
     return pixels;
@@ -100,7 +100,7 @@ export function hBlur(sigma: number): ImageFilter {
   hKernel[kernel.length >> 1] = 1;
 
   return function hBlur(pixels: ImageDataLike): ImageDataLike {
-    for (let ch = 0; ch < 2; ch++) {
+    for (let ch = 0; ch < 3; ch++) {
       convolute(pixels, kernel, hKernel, ch);
     }
     return pixels;
@@ -113,7 +113,7 @@ export function crtBlur(sigma: number): ImageFilter {
   hKernel[kernel.length >> 1] = 1;
 
   return function crtBlur(pixels: ImageDataLike): ImageDataLike {
-    for (let ch = 0; ch < 2; ch++) {
+    for (let ch = 0; ch < 3; ch++) {
       convolute(pixels, kernel, hKernel, ch);
     }
     return pixels;
