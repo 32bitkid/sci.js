@@ -29,7 +29,10 @@ const picDecode = async (pic: number) => {
   console.log(`Resource File: ${resPart} at ${offset.toLocaleString()}`);
   console.log(`Compression: ${header.compression}`);
   console.log(
-    `Size: ${header.actualSize.toLocaleString()} bytes (${header.actualSize.toLocaleString()} bytes compressed)`,
+    `Size: ${header.actualSize.toLocaleString()} bytes (${header.packedSize.toLocaleString()} bytes compressed)`,
+  );
+  console.log(
+    `Compression Ratio: ${((320 * 190) / header.packedSize).toFixed(2)}∶1`,
   );
 };
 
