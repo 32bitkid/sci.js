@@ -69,7 +69,7 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
 }
 
 export function hBoxBlur(size: number): ImageFilter {
-  const wSize = (size >>> 0) + (~size & 1);
+  const wSize = 2 + (size >>> 0) + (~size & 1);
 
   const rgbWindow = new NumericDeque(wSize * 4);
 
