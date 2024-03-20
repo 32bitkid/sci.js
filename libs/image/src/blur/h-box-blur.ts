@@ -44,7 +44,7 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
       bSum -= win.shift();
 
       // Get next pixel
-      let ix = x + halfKen;
+      let ix = x + halfKen + 1;
       if (ix > width) ix = width - 1 - (ix - width);
 
       const idx = offset + ix * 4;
@@ -69,7 +69,7 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
 }
 
 export function hBoxBlur(size: number): ImageFilter {
-  const wSize = size + (~size & 1);
+  const wSize = (size >>> 0) + (~size & 1);
 
   const rgbWindow = new NumericDeque(wSize * 4);
 
