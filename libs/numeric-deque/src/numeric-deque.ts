@@ -40,6 +40,10 @@ export class NumericDeque {
     this.buffer = new Buffer(this.capacity);
   }
 
+  get length() {
+    return this.size;
+  }
+
   isEmpty(): boolean {
     return this.size === 0;
   }
@@ -83,5 +87,11 @@ export class NumericDeque {
 
   peekTail(): number {
     return this.buffer[(this.tail - 1) & this.mask];
+  }
+
+  clear(): void {
+    this.head = 0;
+    this.tail = 0;
+    this.size = 0;
   }
 }
