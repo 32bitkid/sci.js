@@ -69,7 +69,7 @@ export function boxBlur(radius: number): ImageFilter {
       bSum = pixels[yw + 2] * rad1;
 
       for (i = 1; i <= radius; i++) {
-        p = yw + ((i > wm ? wm : i) << 2);
+        let p = yw + ((i > wm ? wm : i) << 2);
         rSum += pixels[p++];
         gSum += pixels[p++];
         bSum += pixels[p++];

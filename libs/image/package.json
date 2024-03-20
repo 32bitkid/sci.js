@@ -18,6 +18,9 @@
     "build": "tsc --build",
     "test": "jest src/"
   },
+  "dependencies": {
+    "@4bitlabs/numeric-deque": "^1.0.1"
+  },
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"
 }
