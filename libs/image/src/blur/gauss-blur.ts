@@ -1,7 +1,7 @@
 import { ImageDataLike } from '../image-data-like';
 import { ImageFilter } from '../image-filter';
 
-function makeGaussKernel(sigma: number) {
+export function makeGaussKernel(sigma: number) {
   const GAUSSIAN_KERNEL = 6.0;
   const dim = ~~Math.max(3.0, GAUSSIAN_KERNEL * sigma);
   const sqrtSigmaPi2 = Math.sqrt(Math.PI * 2.0) * sigma;
@@ -13,27 +13,6 @@ function makeGaussKernel(sigma: number) {
   const half = kernel.length >> 1;
   for (let j = 0, i = -half; j < kernel.length; i++, j++) {
     kernel[j] = Math.exp(-(i * i) / s2) / sqrtSigmaPi2;
-    sum += kernel[j];
-  }
-  // Normalize the gaussian kernel to prevent image darkening/brightening
-  for (let i = 0; i < dim; i++) {
-    kernel[i] /= sum;
-  }
-  return kernel;
-}
-
-function makeCrtKernel(sigma: number) {
-  const GAUSSIAN_KERNEL = 6.0;
-  const dim = ~~Math.max(3.0, GAUSSIAN_KERNEL * sigma);
-  const sqrtSigmaPi2 = Math.sqrt(Math.PI * 2.0) * sigma;
-  const s2 = 2.0 * sigma * sigma;
-
-  let sum = 0.0;
-
-  const kernel = new Float32Array(dim - (~dim & 1)); // Make it odd number
-  const half = kernel.length >> 1;
-  for (let j = 0, i = -half; j < kernel.length; i++, j++) {
-    if (i <= 0) kernel[j] = Math.exp(-(i * i) / s2) / sqrtSigmaPi2;
     sum += kernel[j];
   }
   // Normalize the gaussian kernel to prevent image darkening/brightening
@@ -89,32 +68,6 @@ export function gaussBlur(sigma: number): ImageFilter {
   return function gaussBlur(pixels: ImageDataLike): ImageDataLike {
     for (let ch = 0; ch < 3; ch++) {
       convolute(pixels, kernel, kernel, ch);
-    }
-    return pixels;
-  };
-}
-
-export function hBlur(sigma: number): ImageFilter {
-  const kernel = makeGaussKernel(sigma);
-  const hKernel = new Float32Array(kernel.length);
-  hKernel[kernel.length >> 1] = 1;
-
-  return function hBlur(pixels: ImageDataLike): ImageDataLike {
-    for (let ch = 0; ch < 3; ch++) {
-      convolute(pixels, kernel, hKernel, ch);
-    }
-    return pixels;
-  };
-}
-
-export function crtBlur(sigma: number): ImageFilter {
-  const kernel = makeCrtKernel(sigma);
-  const hKernel = new Float32Array(kernel.length);
-  hKernel[kernel.length >> 1] = 1;
-
-  return function crtBlur(pixels: ImageDataLike): ImageDataLike {
-    for (let ch = 0; ch < 3; ch++) {
-      convolute(pixels, kernel, hKernel, ch);
     }
     return pixels;
   };
