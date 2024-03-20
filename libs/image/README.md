@@ -46,12 +46,26 @@ import { scale5x6 } from '@4bitlabs/image';
 const output = scale5x6(source);
 ```
 
-## Filters
+## Blur Filters
 
-- `gaussBlur(image: ImageData, sigma: number): void` Applies a gaussian-blur to the image in-place.
-- `hBlur(image: ImageData, sigma: number): void` Applies a hortizontal-blur to the image in-place.
+| Method                                  | Description                                          |
+| --------------------------------------- | ---------------------------------------------------- |
+| `gaussBlur(sigma: number): ImageFilter` | Applies a gaussian blur to the image in-place        |
+| `hBlur(sigma: number): ImageFilter`     | Applies a gaussian blur, only on the horizontal axis |
+| `boxBlur(s: number): ImageFilter`       | Applies a _fast_ box-blur of radius `s`              |
+| `hBoxBlur(s: number): ImageFilter`      | Applies a _fast_ horizontal box-blur of radius `s`   |
 
-> Note: These are very naïve implementations, and should _not_ be used in any kind of _production_ environment.
+### Example:
+
+```ts
+import { BlurFilters } from '@4bitlabs/image';
+
+// Blur the image using a horizontal box, with a box of 3-pixels
+const filter = BlurFilters.hBoxBlur(3);
+const output = filter(source);
+```
+
+> Note: These are very naïve implementations, and should _**not**_ be used in any kind of _production_ environment.
 
 ## Ditherizer
 
