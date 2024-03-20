@@ -8,7 +8,6 @@
     "scibud": "./dist/index.js"
   },
   "scripts": {
-    "cli": "$npm_package_bin_scibud",
     "clean": "tsc --build --clean",
     "clean:wipe": "rimraf ./dist",
     "build": "tsc --build",
