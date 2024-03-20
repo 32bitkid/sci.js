@@ -20,7 +20,7 @@ function convolute(image: ImageDataLike, kernel: Float32Array) {
       for (let i = 0; i < kLen; i++) {
         let ix = x + (i - halfKen);
         if (ix < 0) ix = -ix;
-        if (ix >= width) ix = width - 1 - (x - width);
+        if (ix >= width) ix = width - 1 - (ix - width);
 
         const kv = kernel[i];
         rgb[0] += pixel[offset + 4 * ix] * kv;
