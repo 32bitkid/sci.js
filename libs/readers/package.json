@@ -11,7 +11,10 @@
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/readers#readme",
   "repository": {
     "type": "git",
-    "url": "git@github.com:32bitkid/sci.js.git"
+    "url": "https://github.com/32bitkid/sci.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
   },
   "files": [
     "./dist/**/*"
