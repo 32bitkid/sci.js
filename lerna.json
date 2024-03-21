@@ -4,4 +4,9 @@
   "changelog": true,
   "changelogPreset": "eslint",
   "ignoreChanges": ["**/*.md"],
+  "command": {
+    "version": {
+      "conventionalCommits": true
+    }
+  }
 }
