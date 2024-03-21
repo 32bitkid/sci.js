@@ -1,7 +1,6 @@
 {
-  "name": "@4bitlabs/sci0",
-  "version": "1.3.2",
-  "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
+  "name": "@4bitlabs/sci0-streams",
+  "description": "Streaming functions for @4bitlabs/sci0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0#readme",
@@ -21,12 +20,10 @@
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "devDependencies": {
+    "@types/through2": "^2.0.41"
   },
   "dependencies": {
-    "@4bitlabs/codecs": "^1.0.2",
-    "@4bitlabs/color": "^1.1.2",
-    "@4bitlabs/image": "^2.2.2",
-    "@4bitlabs/numeric-deque": "^1.1.0",
-    "@4bitlabs/readers": "^2.0.2"
+    "@4bitlabs/sci0": "^1.3.2",
+    "through2": "^4.0.2"
   }
 }

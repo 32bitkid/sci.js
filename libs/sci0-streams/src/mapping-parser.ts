@@ -1,6 +1,6 @@
 import through from 'through2';
 
-import { consume } from '../parsers/mapping';
+import { consumeNextMappingChunk as consume } from '@4bitlabs/sci0';
 
 const bufferize = (chunk: unknown, encoding: BufferEncoding): Uint8Array => {
   if (chunk instanceof Uint8Array) return chunk;

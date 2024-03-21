@@ -16,7 +16,10 @@ export { ResourceTypes } from './models/resource-type';
 
 export { renderPic, renderCel } from './screen';
 
-export { parseAll as parseAllMappings } from './parsers/mapping';
+export {
+  parseAll as parseAllMappings,
+  consume as consumeNextMappingChunk,
+} from './parsers/mapping';
 export { getPayloadLength, parseHeaderFrom } from './parsers/resource-header';
 export { decompress } from './parsers/compression';
 export * as Cursor from './parsers/cursor';
