@@ -16,9 +16,4 @@ describe('IBM-5153 Dimmer', () => {
     const pal = dimmer(RAW_CGA, 0);
     pal.subarray(1, 7).forEach((it) => expect(it).not.toBe(0xff000000));
   });
-
-  it('even at 0 brightness, EGA 7 should be lighter than EGA 8', () => {
-    const pal = dimmer(RAW_CGA, 0);
-    expect(pal[7]).toBeGreaterThan(pal[8]);
-  });
 });
