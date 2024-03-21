@@ -25,7 +25,7 @@ const picList = async () => {
 
   [...picSet.values()]
     .sort((a, b) => a - b)
-    .forEach((it) => console.log('%s', it));
+    .forEach((it) => console.log(it.toString(10)));
 };
 
 export default picList;
