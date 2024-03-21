@@ -1,5 +1,6 @@
 {
   "name": "@4bitlabs/sci0-streams",
+  "private": true,
   "description": "Streaming functions for @4bitlabs/sci0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

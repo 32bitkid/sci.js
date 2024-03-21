@@ -29,6 +29,7 @@
     "libs/codecs",
     "libs/numeric-deque",
     "libs/sci0",
+    "libs/sci0-streams",
     "libs/pmachine",
     "apps/scibud"
   ],
