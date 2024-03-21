@@ -36,6 +36,5 @@
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "dependencies": {
-    "colord": "^2.9.3"
   }
 }
