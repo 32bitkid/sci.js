@@ -1,23 +1,29 @@
 import { type Command } from 'commander';
 
 import * as Actions from '../actions';
-import { cmdParseInt } from './cmd-parse-int';
-import { cmdPathParser } from './cmd-path-parser';
+import { cmdIntParser } from './cmd-int-parser';
+import * as RenderOptions from './render-options';
 
-export function picRenderCommand(pics: Command): Command {
-  pics
+export function picRenderCommand(root: Command): Command {
+  root
     .command('render')
-    .argument('<id>', 'Picture resource number', cmdParseInt)
-    .option('-o, --outdir <path>', 'output folder', cmdPathParser, '.')
-    .option('-f, --filename <string>', 'output filename', undefined)
-    .option('--all', 'render all steps as individual frames', false)
+    .argument('<id>', 'picture resource number', cmdIntParser)
+    .addOption(RenderOptions.forcePalOption())
+    .addOption(RenderOptions.scalerOption('pre'))
+    .addOption(RenderOptions.ditherOption())
+    .addOption(RenderOptions.paletteOption())
+    .addOption(RenderOptions.contrastOption())
+    .addOption(RenderOptions.paletteMixerOption())
+    .addOption(RenderOptions.scalerOption('post'))
+    .addOption(RenderOptions.blurOption())
+    .addOption(RenderOptions.blurAmountOption())
+    .addOption(RenderOptions.formatOption())
     .option(
-      '--pre-roll <number>',
-      'pre-roll frames. renders the final frame this many times at the beginning of the sequence.',
-      cmdParseInt,
-      240,
+      '-o, --output <string>',
+      'output filename, "-" for STDOUT',
+      undefined,
     )
     .action(Actions.picRender);
 
-  return pics;
+  return root;
 }

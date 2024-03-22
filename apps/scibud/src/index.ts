@@ -1,9 +1,11 @@
 #!/usr/bin/env node
-import { program, Option, Command } from 'commander';
+import { Command, Option } from 'commander';
 
 import workers from './workers';
 import * as Commands from './commands';
 import { cmdPathParser } from './commands/cmd-path-parser';
+
+const program = new Command();
 
 program
   .option('-r, --root <path>', '', cmdPathParser, '.')

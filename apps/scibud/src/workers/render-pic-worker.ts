@@ -1,62 +1,32 @@
-import { writeFile } from 'fs/promises';
+import sharp, { type Sharp } from 'sharp';
 
-import sharp from 'sharp';
+import { createPipeline } from './create-pipeline';
+import { RenderOptions } from '../models/render-options';
+import { renderPic, type DrawCommand } from '@4bitlabs/sci0';
 
-import {
-  /* eslint-disable @typescript-eslint/no-unused-vars -- experimenting with different options */
-  RAW_CGA,
-  TRUE_CGA,
-  DGA_PALETTE,
-  Mixers,
-  generateSciDitherPairs,
-  IBM5153Dimmer,
-  /* eslint-enable */
-} from '@4bitlabs/color';
-import { createDitherizer, Scalers, BlurFilters } from '@4bitlabs/image';
-import { renderPic, DrawCommand, FilterPipeline } from '@4bitlabs/sci0';
-
-const pipeline: FilterPipeline = [
-  // createDitherizer(generateSciDitherPairs(RAW_CGA)),
-  // scale5x6,
-  Scalers.nearestNeighbor([4, 4]),
-  createDitherizer(
-    generateSciDitherPairs(IBM5153Dimmer(TRUE_CGA, 0.7), Mixers.softMixer()),
-    [4, 4],
-  ),
-  BlurFilters.gaussBlur(1.5),
-  Scalers.nearestNeighbor([0.5, 0.5]),
-];
-
-const fileName = (base: string, i: number) =>
-  base.replace(/%d/g, i.toString().padStart(4, '0'));
+const FORMAT_MAPPING = {
+  png: (source: Sharp) => source.png().toBuffer(),
+  jpeg: (source: Sharp) => source.jpeg().toBuffer(),
+  webp: (source: Sharp) => source.webp().toBuffer(),
+  raw: (source: Sharp) => source.raw().toBuffer(),
+};
 
 export async function renderPicWorker(
-  base: string,
+  outfile: string,
   picData: DrawCommand[],
-  idx: number,
-  repeat: number,
+  options: RenderOptions,
 ) {
   const { visible } = renderPic(picData, {
-    forcePal: 0,
-    pipeline,
+    forcePal: parseInt(options.forcePal, 10) as 0 | 1 | 2 | 3,
+    pipeline: createPipeline(options),
   });
 
-  const outPng = await sharp(visible.data, {
-    raw: {
-      width: visible.width,
-      height: visible.height,
-      channels: 4,
-    },
-  })
-    // .resize({
-    //   width: dim,
-    //   height: dim,
-    //   position: 'entropy',
-    // })
-    .png()
-    .toBuffer();
+  const { data, width, height } = visible;
+  const image = sharp(data, { raw: { width, height, channels: 4 } });
 
-  for (let i = 0; i < repeat + 1; i += 1) {
-    await writeFile(fileName(base, idx + i), outPng);
+  if (outfile === '-') {
+    process.stdout.write(await FORMAT_MAPPING[options.format](image));
+  } else {
+    await image.toFile(outfile);
   }
 }
