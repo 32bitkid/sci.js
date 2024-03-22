@@ -13,7 +13,4 @@ export {
 
 export { createDitherFilter } from './dither-filter';
 export { createPaletteFilter } from './palette-filter';
-export { renderPixelData } from './render-pixel-data';
-
-export * as Scalers from './scalers';
-export * as BlurFilters from './blur';
+export { type RenderPipeline, renderPixelData } from './render-pixel-data';

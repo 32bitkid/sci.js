@@ -1,5 +1,4 @@
-import { ImageFilter } from '../image-filter';
-import { ImageDataLike } from '../image-data-like';
+import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
 import { makeGaussKernel } from './gauss-blur';
 
 function convolute(image: ImageDataLike, kernel: Float32Array) {

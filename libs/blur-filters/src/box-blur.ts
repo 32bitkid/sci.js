@@ -1,5 +1,4 @@
-import { ImageDataLike } from '../image-data-like';
-import { ImageFilter } from '../image-filter';
+import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
 
 // Adapted from http://www.quasimondo.com/BoxBlurForCanvas
 const MUL = [

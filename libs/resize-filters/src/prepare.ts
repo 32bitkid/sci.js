@@ -1,9 +1,10 @@
-import { type ImageDataLike, createImageData } from '../image-data-like';
 import {
+  type ImageDataLike,
+  type IndexedPixelData,
+  createImageData,
   createIndexedPixelData,
-  IndexedPixelData,
   isIndexedPixelData,
-} from '../indexed-pixel-data';
+} from '@4bitlabs/image';
 
 export interface ScaleState<T extends ImageDataLike | IndexedPixelData> {
   source: T;

@@ -1,5 +1,4 @@
-import { type ImageDataLike } from '../image-data-like';
-import { type IndexedPixelData } from '../indexed-pixel-data';
+import { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
 import { type ImageResizer } from './image-resizer';
 import { prepareScale } from './prepare';
 

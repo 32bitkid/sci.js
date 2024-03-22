@@ -1,5 +1,4 @@
-import { ImageDataLike } from '../image-data-like';
-import { ImageFilter } from '../image-filter';
+import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
 
 export function makeGaussKernel(sigma: number) {
   const GAUSSIAN_KERNEL = 6.0;

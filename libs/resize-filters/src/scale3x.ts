@@ -1,8 +1,7 @@
-import { ImageDataLike } from '../image-data-like';
+import { type ImageDataLike, type IndexedPixelData } from '@4bitlabs/image';
 import { epx9 } from './epx';
 import { S9, s9 } from './s9';
 import { prepareScale } from './prepare';
-import { IndexedPixelData } from '../indexed-pixel-data';
 
 export const scale3x = <T extends ImageDataLike | IndexedPixelData>(
   input: T,

@@ -1,8 +1,9 @@
 import sharp, { type Sharp } from 'sharp';
 
-import { render } from './create-pipeline';
-import { RenderOptions } from '../models/render-options';
 import { renderPic, type DrawCommand } from '@4bitlabs/sci0';
+import { renderPixelData } from '@4bitlabs/image';
+import { createPicPipeline } from './create-pic-pipeline';
+import { RenderPicOptions } from '../models/render-pic-options';
 
 const FORMAT_MAPPING = {
   png: (source: Sharp) => source.png().toBuffer(),
@@ -14,13 +15,14 @@ const FORMAT_MAPPING = {
 export async function renderPicWorker(
   outfile: string,
   picData: DrawCommand[],
-  options: RenderOptions,
+  options: RenderPicOptions,
 ) {
   const { visible } = renderPic(picData, {
     forcePal: parseInt(options.forcePal, 10) as 0 | 1 | 2 | 3,
   });
 
-  const { data, width, height } = render(visible, options);
+  const pipeline = createPicPipeline(options);
+  const { data, width, height } = renderPixelData(visible, pipeline);
   const image = sharp(data, { raw: { width, height, channels: 4 } });
 
   if (outfile === '-') {

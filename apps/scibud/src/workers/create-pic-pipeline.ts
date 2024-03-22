@@ -1,4 +1,3 @@
-import { RenderOptions } from '../models/render-options';
 import {
   RAW_CGA,
   TRUE_CGA,
@@ -8,22 +7,24 @@ import {
   IBM5153Dimmer,
 } from '@4bitlabs/color';
 import {
+  type PixelFilter,
   createDitherFilter,
-  Scalers,
-  BlurFilters,
-  IndexedPixelData,
-  ImageDataLike,
+  ImageFilter,
+  RenderPipeline,
 } from '@4bitlabs/image';
+import * as ResizeFilters from '@4bitlabs/resize-filters';
+import * as BlurFilters from '@4bitlabs/blur-filters';
+import { RenderPicOptions } from '../models/render-pic-options';
 
 const SCALER_MAPPING = {
-  '2x2': Scalers.nearestNeighbor([2, 2]),
-  '3x3': Scalers.nearestNeighbor([3, 3]),
-  '4x4': Scalers.nearestNeighbor([4, 4]),
-  '5x5': Scalers.nearestNeighbor([5, 5]),
-  '5x6': Scalers.nearestNeighbor([5, 6]),
-  scale2x: Scalers.scale2x,
-  scale3x: Scalers.scale3x,
-  scale5x6: Scalers.scale5x6,
+  '2x2': ResizeFilters.nearestNeighbor([2, 2]),
+  '3x3': ResizeFilters.nearestNeighbor([3, 3]),
+  '4x4': ResizeFilters.nearestNeighbor([4, 4]),
+  '5x5': ResizeFilters.nearestNeighbor([5, 5]),
+  '5x6': ResizeFilters.nearestNeighbor([5, 6]),
+  scale2x: ResizeFilters.scale2x,
+  scale3x: ResizeFilters.scale3x,
+  scale5x6: ResizeFilters.scale5x6,
 };
 
 const BLUR_FILTER_MAPPING = {
@@ -33,15 +34,10 @@ const BLUR_FILTER_MAPPING = {
   gauss: BlurFilters.gaussBlur,
 };
 
-export function render(
-  source: IndexedPixelData,
-  options: RenderOptions,
-): ImageDataLike {
-  let input = source;
-
+export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
+  const pre: PixelFilter[] = [];
   if (options.preScaler !== 'none') {
-    const resize = SCALER_MAPPING[options.preScaler];
-    input = resize(input);
+    pre.push(SCALER_MAPPING[options.preScaler]);
   }
 
   const basePalette = {
@@ -66,18 +62,17 @@ export function render(
 
   const dither = createDitherFilter(pairs, options.dither);
 
-  let imgData = dither(input);
+  const post: ImageFilter[] = [];
 
   if (options.postScaler !== 'none') {
-    const resize = SCALER_MAPPING[options.postScaler];
-    imgData = resize(imgData);
+    post.push(SCALER_MAPPING[options.postScaler]);
   }
 
   if (options.blur !== 'none' && options.blurAmount) {
     const blurFilter = BLUR_FILTER_MAPPING[options.blur];
     const blur = blurFilter(options.blurAmount);
-    imgData = blur(imgData);
+    post.push(blur);
   }
 
-  return imgData;
+  return { pre, dither, post };
 }

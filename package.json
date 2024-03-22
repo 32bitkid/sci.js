@@ -23,14 +23,16 @@
   },
   "homepage": "https://github.com/32bitkid/sci.js#readme",
   "workspaces": [
-    "libs/readers",
+    "libs/blur-filters",
+    "libs/codecs",
     "libs/color",
     "libs/image",
-    "libs/codecs",
     "libs/numeric-deque",
+    "libs/pmachine",
+    "libs/readers",
+    "libs/resize-filters",
     "libs/sci0",
     "libs/sci0-streams",
-    "libs/pmachine",
     "apps/scibud"
   ],
   "devDependencies": {

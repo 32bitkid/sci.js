@@ -19,6 +19,8 @@
     "@4bitlabs/color": "^1.1.0",
     "@4bitlabs/image": "^2.1.0",
     "@4bitlabs/sci0": "^1.2.0",
+    "@4bitlabs/blur-filters": "^0.0.0",
+    "@4bitlabs/resize-filters": "^0.0.0",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",
     "commander": "^12.0.0",

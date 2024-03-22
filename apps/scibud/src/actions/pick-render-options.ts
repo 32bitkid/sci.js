@@ -1,8 +1,8 @@
-import { RenderOptions } from '../models/render-options';
+import { RenderPicOptions } from '../models/render-pic-options';
 
-export const pickRenderOptions = <T extends RenderOptions>(
+export const pickRenderOptions = <T extends RenderPicOptions>(
   options: T,
-): [Omit<T, keyof RenderOptions>, RenderOptions] => {
+): [Omit<T, keyof RenderPicOptions>, RenderPicOptions] => {
   const {
     blur,
     blurAmount,

@@ -1,5 +1,4 @@
-import { ImageDataLike } from '../image-data-like';
-import { IndexedPixelData } from '../indexed-pixel-data';
+import { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
 
 export interface ImageResizer {
   (source: ImageDataLike): ImageDataLike;

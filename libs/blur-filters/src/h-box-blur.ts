@@ -1,5 +1,4 @@
-import { ImageFilter } from '../image-filter';
-import { ImageDataLike } from '../image-data-like';
+import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
 import { NumericDeque } from '@4bitlabs/numeric-deque';
 
 function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
