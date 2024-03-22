@@ -8,7 +8,7 @@ import {
   IBM5153Dimmer,
 } from '@4bitlabs/color';
 import {
-  createDitherizer,
+  createDitherFilter,
   Scalers,
   BlurFilters,
   IndexedPixelData,
@@ -64,7 +64,7 @@ export function render(
     soft: generatePairs(palette, Mixers.softMixer()),
   }[options.paletteMixer];
 
-  const dither = createDitherizer(pairs, options.dither);
+  const dither = createDitherFilter(pairs, options.dither);
 
   let imgData = dither(input);
 

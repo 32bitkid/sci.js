@@ -8,10 +8,11 @@ export {
 export {
   type ImageFilter,
   type PixelFilter,
-  type PixelImageFilter,
+  type PaletteFilter,
 } from './image-filter';
 
-export { createDitherizer } from './ditherizer';
+export { createDitherFilter } from './dither-filter';
+export { createPaletteFilter } from './palette-filter';
 export { renderPixelData } from './render-pixel-data';
 
 export * as Scalers from './scalers';

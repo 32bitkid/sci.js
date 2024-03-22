@@ -1,13 +1,13 @@
 import { DitherPair } from '@4bitlabs/color';
 import { ImageDataLike, createImageData } from './image-data-like';
 import { IndexedPixelData } from './indexed-pixel-data';
-import { PixelImageFilter } from './image-filter';
+import { type PaletteFilter } from './image-filter';
 
-export const createDitherizer = (
+export const createDitherFilter = (
   pal: DitherPair[],
   ditherSize: [number, number] = [1, 1],
-): PixelImageFilter =>
-  function ditherizerFilter(
+): PaletteFilter =>
+  function ditherFilter(
     source: IndexedPixelData,
     dest: ImageDataLike = createImageData(source.width, source.height),
   ): ImageDataLike {
