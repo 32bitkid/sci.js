@@ -1,14 +1,14 @@
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-import { program } from 'commander';
+import { Command } from 'commander';
 import columnify from 'columnify';
 
 import { parseAllMappings, parseHeaderFrom } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 
-const picDecode = async (pic: number) => {
-  const { root } = program.opts();
+export async function picInfo(pic: number, _: unknown, cmd: Command) {
+  const { root } = cmd.optsWithGlobals();
 
   const files = await readdir(root);
 
@@ -56,6 +56,4 @@ const picDecode = async (pic: number) => {
       },
     }),
   );
-};
-
-export default picDecode;
+}

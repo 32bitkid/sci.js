@@ -31,6 +31,10 @@ module.exports = {
   rules: {
     'no-constant-condition': ['error', { checkLoops: false }],
     'import/no-unresolved': 0,
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { ignoreRestSiblings: true },
+    ],
     'import/order': [
       'error',
       {

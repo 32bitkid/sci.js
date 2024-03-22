@@ -1,9 +1,9 @@
 export type ScalerID =
   | 'none'
-  | '2x'
-  | '3x'
-  | '4x'
-  | '5x'
+  | '2x2'
+  | '3x3'
+  | '4x4'
+  | '5x5'
   | '5x6'
   | 'scale2x'
   | 'scale3x'

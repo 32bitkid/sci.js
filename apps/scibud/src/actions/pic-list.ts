@@ -9,7 +9,7 @@ import {
   parseAllMappings,
 } from '@4bitlabs/sci0';
 
-const picList = async () => {
+export async function picList() {
   const { root } = program.opts();
 
   const files = await readdir(root);
@@ -26,6 +26,4 @@ const picList = async () => {
   [...picSet.values()]
     .sort((a, b) => a - b)
     .forEach((it) => console.log(it.toString(10)));
-};
-
-export default picList;
+}

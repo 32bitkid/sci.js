@@ -1,31 +1,20 @@
-import { ImageDataLike } from '../image-data-like';
+import { type ImageDataLike } from '../image-data-like';
+import { IndexedPixelData } from '../indexed-pixel-data';
+import { prepareScale } from './prepare';
 
-export const scale2x = (
-  input: ImageDataLike,
-  output?: ImageDataLike,
-): ImageDataLike => {
-  const [oWidth, oHeight] = [input.width * 2, input.height * 2];
-  output = output ?? {
-    data: new Uint8ClampedArray(oWidth * oHeight * 4),
-    width: oWidth,
-    height: oHeight,
-    colorSpace: input.colorSpace,
-  };
+export const scale2x = <T extends ImageDataLike | IndexedPixelData>(
+  input: T,
+  output?: T,
+): T => {
+  const {
+    source,
+    dest,
+    sourceRGB: src,
+    destRGB: dst,
+  } = prepareScale(input, [2, 2], output);
 
-  const src = new Uint32Array(
-    input.data.buffer,
-    input.data.byteOffset,
-    input.data.byteLength >>> 2,
-  );
-
-  const dst = new Uint32Array(
-    output.data.buffer,
-    output.data.byteOffset,
-    output.data.byteLength >>> 2,
-  );
-
-  const iStride = input.width;
-  const oStride = output.width;
+  const iStride = source.width;
+  const oStride = dest.width;
 
   for (let iy = 0; iy < input.height; iy += 1)
     for (let ix = 0; ix < input.width; ix += 1) {
@@ -47,11 +36,12 @@ export const scale2x = (
           : [p, p, p, p];
 
       const oOffset = (ix << 1) + (iy << 1) * oStride;
+
       dst[oOffset] = src[p1];
       dst[oOffset + 1] = src[p2];
       dst[oOffset + oStride] = src[p3];
       dst[oOffset + 1 + oStride] = src[p4];
     }
 
-  return output;
+  return dest;
 };

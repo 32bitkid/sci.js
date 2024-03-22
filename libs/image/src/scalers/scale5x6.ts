@@ -1,33 +1,22 @@
 import { ImageDataLike } from '../image-data-like';
 import { epx9sfx } from './epx';
 import { S13, s13 } from './s9';
+import { prepareScale } from './prepare';
+import { IndexedPixelData } from '../indexed-pixel-data';
 
 const s: S13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-export const scale5x6 = (
-  input: ImageDataLike,
-  output?: ImageDataLike,
-): ImageDataLike => {
-  output = output ?? {
-    data: new Uint8ClampedArray(input.width * 5 * (input.height * 6) * 4),
-    width: input.width * 5,
-    height: input.height * 6,
-    colorSpace: input.colorSpace,
-  };
+export const scale5x6 = <T extends ImageDataLike | IndexedPixelData>(
+  input: T,
+  output?: T,
+): T => {
+  const {
+    dest,
+    sourceRGB: src,
+    destRGB: dst,
+  } = prepareScale(input, [5, 6], output);
 
-  const src = new Uint32Array(
-    input.data.buffer,
-    input.data.byteOffset,
-    input.data.byteLength >>> 2,
-  );
-
-  const dst = new Uint32Array(
-    output.data.buffer,
-    output.data.byteOffset,
-    output.data.byteLength >>> 2,
-  );
-
-  const oStride = output.width;
+  const oStride = dest.width;
 
   const p = new Uint32Array(9);
 
@@ -81,5 +70,5 @@ export const scale5x6 = (
       dst[oOffset + 4 + oStride * 5] = I;
     }
 
-  return output;
+  return dest;
 };

@@ -11,11 +11,11 @@ interface RenderPicOptions extends RenderOptions {
   readonly output: string;
 }
 
-const picRender = async (
+export async function picRender(
   pic: number,
   options: RenderPicOptions,
   cmd: Command,
-) => {
+) {
   const [
     { output = `pic.${pic.toString(10).padStart(3, '0')}.png` },
     renderOptions,
@@ -29,6 +29,4 @@ const picRender = async (
 
   // render single image
   await renderPicWorker(output, picData, renderOptions);
-};
-
-export default picRender;
+}

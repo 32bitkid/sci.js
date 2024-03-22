@@ -1,8 +1,6 @@
-export interface Cel {
-  data: ArrayBuffer;
-  keyColor: number;
+import { IndexedPixelData } from '@4bitlabs/image';
+
+export interface Cel extends IndexedPixelData {
   dx: number;
   dy: number;
-  width: number;
-  height: number;
 }

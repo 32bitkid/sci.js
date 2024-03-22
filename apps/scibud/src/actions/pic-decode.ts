@@ -8,7 +8,7 @@ interface PicDecodeOptions {
   decompress: boolean;
 }
 
-const picDecode = async (pic: number, options: PicDecodeOptions) => {
+export async function picDecode(pic: number, options: PicDecodeOptions) {
   const { root, engine } = program.opts();
   const [header, rawData] = await loadContentFromMap(root, picMatcher(pic));
   process.stdout.write(
@@ -16,6 +16,4 @@ const picDecode = async (pic: number, options: PicDecodeOptions) => {
       ? decompress(engine, header.compression, rawData)
       : rawData,
   );
-};
-
-export default picDecode;
+}

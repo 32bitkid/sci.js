@@ -1,31 +1,39 @@
-import { ImageDataLike } from './image-data-like';
-
-export type Ditherizer = (source: ImageDataLike) => ImageDataLike;
+import { DitherPair } from '@4bitlabs/color';
+import { ImageDataLike, createImageData } from './image-data-like';
+import { IndexedPixelData } from './indexed-pixel-data';
+import { PixelImageFilter } from './image-filter';
 
 export const createDitherizer = (
-  pal: [number, number][],
+  pal: DitherPair[],
   ditherSize: [number, number] = [1, 1],
-) =>
-  function ditherizerFilter(source: ImageDataLike): ImageDataLike {
-    const inputBuffer = new Uint32Array(
-      source.data.buffer,
-      source.data.byteOffset,
-      source.data.byteLength / 4,
+): PixelImageFilter =>
+  function ditherizerFilter(
+    source: IndexedPixelData,
+    dest: ImageDataLike = createImageData(source.width, source.height),
+  ): ImageDataLike {
+    const inData = source.pixels;
+    // const inAlpha = source.alpha;
+    const outData = new Uint32Array(
+      dest.data.buffer,
+      dest.data.byteOffset,
+      dest.data.byteLength >> 2,
     );
 
     for (let y = 0; y < source.height; y++) {
       for (let x = 0; x < source.width; x++) {
         const idx = x + y * source.width;
-        const src = inputBuffer[idx];
-        if ((src & 0xff000000) === 0) continue;
+        const src = inData[idx];
+
+        // TODO add alpha support
+        // if (inAlpha[idx] === 0) continue;
 
         const dx = (x / ditherSize[0]) & 1;
         const dy = (y / ditherSize[1]) & 1;
         const dither = dx ^ dy;
 
-        inputBuffer[idx] = pal[src & 0xff][dither ? 0 : 1];
+        outData[idx] = pal[src & 0xff][dither ? 0 : 1];
       }
     }
 
-    return source;
+    return dest;
   };

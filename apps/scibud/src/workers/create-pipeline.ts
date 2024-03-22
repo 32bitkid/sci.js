@@ -7,14 +7,19 @@ import {
   generateSciDitherPairs as generatePairs,
   IBM5153Dimmer,
 } from '@4bitlabs/color';
-import { createDitherizer, Scalers, BlurFilters } from '@4bitlabs/image';
-import { type FilterPipeline } from '@4bitlabs/sci0';
+import {
+  createDitherizer,
+  Scalers,
+  BlurFilters,
+  IndexedPixelData,
+  ImageDataLike,
+} from '@4bitlabs/image';
 
 const SCALER_MAPPING = {
-  '2x': Scalers.nearestNeighbor([2, 2]),
-  '3x': Scalers.nearestNeighbor([3, 3]),
-  '4x': Scalers.nearestNeighbor([4, 4]),
-  '5x': Scalers.nearestNeighbor([5, 5]),
+  '2x2': Scalers.nearestNeighbor([2, 2]),
+  '3x3': Scalers.nearestNeighbor([3, 3]),
+  '4x4': Scalers.nearestNeighbor([4, 4]),
+  '5x5': Scalers.nearestNeighbor([5, 5]),
   '5x6': Scalers.nearestNeighbor([5, 6]),
   scale2x: Scalers.scale2x,
   scale3x: Scalers.scale3x,
@@ -28,12 +33,15 @@ const BLUR_FILTER_MAPPING = {
   gauss: BlurFilters.gaussBlur,
 };
 
-export function createPipeline(options: RenderOptions): FilterPipeline {
-  const pipeline: FilterPipeline = [];
+export function render(
+  source: IndexedPixelData,
+  options: RenderOptions,
+): ImageDataLike {
+  let input = source;
 
   if (options.preScaler !== 'none') {
-    const preScaler = SCALER_MAPPING[options.preScaler];
-    pipeline.push(preScaler);
+    const resize = SCALER_MAPPING[options.preScaler];
+    input = resize(input);
   }
 
   const basePalette = {
@@ -56,17 +64,20 @@ export function createPipeline(options: RenderOptions): FilterPipeline {
     soft: generatePairs(palette, Mixers.softMixer()),
   }[options.paletteMixer];
 
-  pipeline.push(createDitherizer(pairs, options.dither));
+  const dither = createDitherizer(pairs, options.dither);
+
+  let imgData = dither(input);
 
   if (options.postScaler !== 'none') {
-    const postScaler = SCALER_MAPPING[options.postScaler];
-    pipeline.push(postScaler);
+    const resize = SCALER_MAPPING[options.postScaler];
+    imgData = resize(imgData);
   }
 
   if (options.blur !== 'none' && options.blurAmount) {
     const blurFilter = BLUR_FILTER_MAPPING[options.blur];
-    pipeline.push(blurFilter(options.blurAmount));
+    const blur = blurFilter(options.blurAmount);
+    imgData = blur(imgData);
   }
 
-  return pipeline;
+  return imgData;
 }

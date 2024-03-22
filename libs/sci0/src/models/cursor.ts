@@ -1,7 +1,6 @@
-import type { ImageDataLike } from '@4bitlabs/image';
+import { type IndexedPixelData } from '@4bitlabs/image';
 
-export interface Cursor extends ImageDataLike {
-  readonly width: 16;
-  readonly height: 16;
+export interface Cursor extends IndexedPixelData {
   readonly hotspot: readonly [number, number];
+  readonly keyColor: 0xff;
 }

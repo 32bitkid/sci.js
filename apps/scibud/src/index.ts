@@ -21,7 +21,10 @@ const pics = program.command('pic');
   Commands.picInfoCommand,
   Commands.picRenderCommand,
   Commands.picDecodeCommand,
-].reduce((cmd, fn) => fn(cmd), pics);
+].reduce((cmd, fn) => {
+  fn(cmd);
+  return cmd;
+}, pics);
 
 program
   .parseAsync()

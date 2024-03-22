@@ -1,25 +1,30 @@
-import { ImageDataLike } from '../image-data-like';
+import { type ImageDataLike } from '../image-data-like';
+import { type IndexedPixelData } from '../indexed-pixel-data';
+import { type ImageResizer } from './image-resizer';
+import { prepareScale } from './prepare';
 
-export const nearestNeighbor = (ratio: [number, number]) => {
-  const [sx, sy] = ratio;
+export function nearestNeighbor(ratio: [number, number]): ImageResizer {
+  function scale(input: ImageDataLike, output?: ImageDataLike): ImageDataLike;
+  function scale(
+    input: IndexedPixelData,
+    output?: IndexedPixelData,
+  ): IndexedPixelData;
+  function scale<T extends ImageDataLike | IndexedPixelData>(
+    input: T,
+    output?: T,
+  ): T {
+    const [sx, sy] = ratio;
 
-  return function nearestNeighborScaler(it: ImageDataLike): ImageDataLike {
-    const { width: iWidth, height: iHeight, data: iData } = it;
+    const {
+      source,
+      dest,
+      sourceRGB: inP,
+      destRGB: outP,
+    } = prepareScale(input, ratio, output);
+    const { width: iWidth, height: iHeight } = source;
+
     const width = iWidth * sx;
     const height = iHeight * sy;
-
-    const data = new Uint8ClampedArray(width * height * 4);
-
-    const inP = new Uint32Array(
-      iData.buffer,
-      iData.byteOffset,
-      iData.byteLength / 4,
-    );
-    const outP = new Uint32Array(
-      data.buffer,
-      data.byteOffset,
-      data.byteLength / 4,
-    );
 
     for (let y = 0; y < height; y++) {
       const iy = (y / sy) >>> 0;
@@ -29,6 +34,8 @@ export const nearestNeighbor = (ratio: [number, number]) => {
       }
     }
 
-    return { data, width, height, colorSpace: it.colorSpace };
-  };
-};
+    return dest;
+  }
+
+  return scale;
+}

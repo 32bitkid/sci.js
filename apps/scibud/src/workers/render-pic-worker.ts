@@ -1,6 +1,6 @@
 import sharp, { type Sharp } from 'sharp';
 
-import { createPipeline } from './create-pipeline';
+import { render } from './create-pipeline';
 import { RenderOptions } from '../models/render-options';
 import { renderPic, type DrawCommand } from '@4bitlabs/sci0';
 
@@ -18,10 +18,9 @@ export async function renderPicWorker(
 ) {
   const { visible } = renderPic(picData, {
     forcePal: parseInt(options.forcePal, 10) as 0 | 1 | 2 | 3,
-    pipeline: createPipeline(options),
   });
 
-  const { data, width, height } = visible;
+  const { data, width, height } = render(visible, options);
   const image = sharp(data, { raw: { width, height, channels: 4 } });
 
   if (outfile === '-') {
