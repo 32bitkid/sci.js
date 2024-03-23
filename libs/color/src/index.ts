@@ -26,7 +26,7 @@ export { Palettes };
 
 export const Mixers = { mixBy, softMixer };
 
-export const Pairs = {
+export const Dithers = {
   CGA: CGA_PAIRS,
   CGA_MIX: CGA_MIX_PAIRS,
   CGA_FLAT: CGA_FLAT_PAIRS,
@@ -67,3 +67,8 @@ export const BuiltinDitherPairs = {
  * @deprecated use IBM5153Contrast instead
  */
 export const IBM5153Dimmer = IBM5153Contrast;
+
+/**
+ * @deprecated use Dithers instead
+ */
+export const Pairs = Dithers;

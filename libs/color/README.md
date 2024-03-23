@@ -2,7 +2,9 @@
 
 A collection color manipulation functions and predefined palettes for working with EGA/CGA images.
 
-## Predefined Palettes
+## Palettes
+
+### Predefined Palettes
 
 | Palette                      |                                                                                                 |
 | ---------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -11,29 +13,31 @@ A collection color manipulation functions and predefined palettes for working wi
 | `Palette.DGA_PALETTE`        | Adigun A. Polack's [AAP-DGA16](https://lospec.com/palette-list/aap-dga16)                       |
 | `Palette.COLLY_SOFT_PALETTE` | collyflower05's [SOFT CGA PALETTE](https://lospec.com/palette-list/soft-cga)                    |
 
-## Using your own Palette
+### Using your own Palette
 
 ```ts
 const customPalette = Uint32Array.of(
   //AA-BB-GG-RR
   0xff_1f_1f_1f, // color 0
+  /*        ...           */
   /* snip 14 more entries */
+  /*        ...           */
   0xff_e0_e0_e0, // color 15
 );
 ```
 
 ## Predefined Dither Pairs
 
-| Mix                   | Palette  | Mix                            |
-| --------------------- | -------- | ------------------------------ |
-| `Pairs.CGA`           | CGA      | _none_                         |
-| `Pairs.CGA_MIX`       | CGA      | 25% mix                        |
-| `Pairs.CGA_FLAT`      | CGA      | 50% mix (SCUMMVM de-dithering) |
-| `Pairs.CGA_SOFT`      | CGA      | Dynamic mix                    |
-| `Pairs.TRUE_CGA`      | TRUE-CGA | _none_                         |
-| `Pairs.TRUE_CGA_MIX`  | TRUE-CGA | 25% mix                        |
-| `Pairs.TRUE_CGA_FLAT` | TRUE-CGA | 50% mix (SCUMMVM de-dithering) |
-| `Pairs.TRUE_CGA_SOFT` | TRUE-CGA | Dynamic mix                    |
+| Mix                     | Palette  | Mix                            |
+| ----------------------- | -------- | ------------------------------ |
+| `Dithers.CGA`           | CGA      | _none_                         |
+| `Dithers.CGA_MIX`       | CGA      | 25% mix                        |
+| `Dithers.CGA_FLAT`      | CGA      | 50% mix (SCUMMVM de-dithering) |
+| `Dithers.CGA_SOFT`      | CGA      | Dynamic mix                    |
+| `Dithers.TRUE_CGA`      | TRUE-CGA | _none_                         |
+| `Dithers.TRUE_CGA_MIX`  | TRUE-CGA | 25% mix                        |
+| `Dithers.TRUE_CGA_FLAT` | TRUE-CGA | 50% mix (SCUMMVM de-dithering) |
+| `Dithers.TRUE_CGA_SOFT` | TRUE-CGA | Dynamic mix                    |
 
 ## Generating your own Dither Pairs
 
@@ -54,4 +58,6 @@ const palette = IBM5153Contrast(Palettes.CGA_PALETTE, 0.5);
 
 ## Simulating Grayscale
 
+```ts
 const grays = toGrayscale(Palettes.CGA_PALETTE);
+```
