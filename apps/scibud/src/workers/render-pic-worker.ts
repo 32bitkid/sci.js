@@ -17,9 +17,7 @@ export async function renderPicWorker(
   picData: DrawCommand[],
   options: RenderPicOptions,
 ) {
-  const { visible } = renderPic(picData, {
-    forcePal: parseInt(options.forcePal, 10) as 0 | 1 | 2 | 3,
-  });
+  const { visible } = renderPic(picData, { forcePal: options.forcePal });
 
   const pipeline = createPicPipeline(options);
   const { data, width, height } = renderPixelData(visible, pipeline);

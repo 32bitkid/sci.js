@@ -2,11 +2,7 @@ import { Option } from 'commander';
 
 import { cmdDimensionsParser } from './cmd-dimensions-parser';
 import { cmdFloatParser } from './cmd-float-parser';
-
-export const forcePalOption = () =>
-  new Option(`-F, --force-pal <value>`, 'Force ')
-    .choices(['0', '1', '2', '3'])
-    .default('0');
+import { cmdIntParser } from './cmd-int-parser';
 
 export const ditherOption = () =>
   new Option('-d, --dither <dither>', 'dither sizing.')
@@ -29,7 +25,7 @@ export const scalerOption = (type: 'pre' | 'post'): Option =>
       'scale3x',
       'scale5x6',
     ])
-    .default(type === 'pre' ? 'none' : '5x6');
+    .default(type === 'pre' ? 'none' : 'none');
 
 export const paletteOption = (): Option =>
   new Option(`-p, --palette <pal>`, 'the base palette')
@@ -58,6 +54,11 @@ export const blurAmountOption = (): Option =>
   new Option(`-a, --blur-amount <amount>`, 'amount of pixels to blur')
     .argParser(cmdFloatParser([0.0, 100.0]))
     .default(1.0);
+
+export const forcePalOption = () =>
+  new Option(`-F, --force-pal <value>`, 'Force ')
+    .choices(['0', '1', '2', '3'])
+    .argParser(cmdIntParser);
 
 export const formatOption = (): Option =>
   new Option(

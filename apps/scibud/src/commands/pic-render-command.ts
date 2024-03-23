@@ -8,7 +8,6 @@ export function picRenderCommand(root: Command): Command {
   root
     .command('render')
     .argument('<id>', 'picture resource number', cmdIntParser)
-    .addOption(RenderOptions.forcePalOption())
     .addOption(RenderOptions.scalerOption('pre'))
     .addOption(RenderOptions.ditherOption())
     .addOption(RenderOptions.paletteOption())
@@ -17,6 +16,7 @@ export function picRenderCommand(root: Command): Command {
     .addOption(RenderOptions.scalerOption('post'))
     .addOption(RenderOptions.blurOption())
     .addOption(RenderOptions.blurAmountOption())
+    .addOption(RenderOptions.forcePalOption())
     .addOption(RenderOptions.formatOption())
     .option(
       '-o, --output <string>',
