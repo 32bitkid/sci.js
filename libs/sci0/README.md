@@ -1,6 +1,6 @@
 # `@4bitlabs/sci0`
 
-Library for parsing and rendering assets from [Sierra On-line's][sierra] SCI-engine.
+Library for parsing and rendering assets from [Sierra On-line's][sierra] [SCI-engine][sci0].
 
 ## Parse `RESOURCE.MAP` file
 
@@ -60,10 +60,14 @@ Example:
 
 ```ts
 import { renderPic } from '@4bitlabs/sci0';
-import { createDitherizer } from '@4bitlabs/image';
+import { RAW_CGA, generateSciDitherPairs, CGA_PAIRS } from '@4bitlabs/color';
+import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
 
 const picData = Pic.parseFrom(data);
 const { visible, priority, control } = renderPic(picData);
+const image = renderPixelData(visible, {
+  dither: createDitherFilter(CGA_PAIRS),
+});
 ```
 
 ## Supported Resource Types
@@ -82,3 +86,4 @@ const { visible, priority, control } = renderPic(picData);
 | `9` | Patch  |  ❌  |       |
 
 [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
