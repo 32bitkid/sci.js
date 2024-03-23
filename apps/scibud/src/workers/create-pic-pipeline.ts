@@ -1,4 +1,3 @@
-import { RenderOptions } from '../models/render-options';
 import {
   RAW_CGA,
   TRUE_CGA,
@@ -7,18 +6,25 @@ import {
   generateSciDitherPairs as generatePairs,
   IBM5153Dimmer,
 } from '@4bitlabs/color';
-import { createDitherizer, Scalers, BlurFilters } from '@4bitlabs/image';
-import { type FilterPipeline } from '@4bitlabs/sci0';
+import {
+  type PixelFilter,
+  createDitherFilter,
+  ImageFilter,
+  RenderPipeline,
+} from '@4bitlabs/image';
+import * as ResizeFilters from '@4bitlabs/resize-filters';
+import * as BlurFilters from '@4bitlabs/blur-filters';
+import { RenderPicOptions } from '../models/render-pic-options';
 
 const SCALER_MAPPING = {
-  '2x': Scalers.nearestNeighbor([2, 2]),
-  '3x': Scalers.nearestNeighbor([3, 3]),
-  '4x': Scalers.nearestNeighbor([4, 4]),
-  '5x': Scalers.nearestNeighbor([5, 5]),
-  '5x6': Scalers.nearestNeighbor([5, 6]),
-  scale2x: Scalers.scale2x,
-  scale3x: Scalers.scale3x,
-  scale5x6: Scalers.scale5x6,
+  '2x2': ResizeFilters.nearestNeighbor([2, 2]),
+  '3x3': ResizeFilters.nearestNeighbor([3, 3]),
+  '4x4': ResizeFilters.nearestNeighbor([4, 4]),
+  '5x5': ResizeFilters.nearestNeighbor([5, 5]),
+  '5x6': ResizeFilters.nearestNeighbor([5, 6]),
+  scale2x: ResizeFilters.scale2x,
+  scale3x: ResizeFilters.scale3x,
+  scale5x6: ResizeFilters.scale5x6,
 };
 
 const BLUR_FILTER_MAPPING = {
@@ -28,12 +34,10 @@ const BLUR_FILTER_MAPPING = {
   gauss: BlurFilters.gaussBlur,
 };
 
-export function createPipeline(options: RenderOptions): FilterPipeline {
-  const pipeline: FilterPipeline = [];
-
+export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
+  const pre: PixelFilter[] = [];
   if (options.preScaler !== 'none') {
-    const preScaler = SCALER_MAPPING[options.preScaler];
-    pipeline.push(preScaler);
+    pre.push(SCALER_MAPPING[options.preScaler]);
   }
 
   const basePalette = {
@@ -56,17 +60,19 @@ export function createPipeline(options: RenderOptions): FilterPipeline {
     soft: generatePairs(palette, Mixers.softMixer()),
   }[options.paletteMixer];
 
-  pipeline.push(createDitherizer(pairs, options.dither));
+  const dither = createDitherFilter(pairs, options.dither);
+
+  const post: ImageFilter[] = [];
 
   if (options.postScaler !== 'none') {
-    const postScaler = SCALER_MAPPING[options.postScaler];
-    pipeline.push(postScaler);
+    post.push(SCALER_MAPPING[options.postScaler]);
   }
 
   if (options.blur !== 'none' && options.blurAmount) {
     const blurFilter = BLUR_FILTER_MAPPING[options.blur];
-    pipeline.push(blurFilter(options.blurAmount));
+    const blur = blurFilter(options.blurAmount);
+    post.push(blur);
   }
 
-  return pipeline;
+  return { pre, dither, post };
 }

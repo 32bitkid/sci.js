@@ -1,8 +1,16 @@
-export type { ImageDataLike } from './image-data-like';
-export type { ImageFilter } from './image-filter';
-export type { Ditherizer } from './ditherizer';
+export { type ImageDataLike, createImageData } from './image-data-like';
+export {
+  type IndexedPixelData,
+  createIndexedPixelData,
+  isIndexedPixelData,
+} from './indexed-pixel-data';
 
-export { createDitherizer } from './ditherizer';
+export {
+  type ImageFilter,
+  type PixelFilter,
+  type PaletteFilter,
+} from './image-filter';
 
-export * as Scalers from './scalers';
-export * as BlurFilters from './blur';
+export { createDitherFilter } from './dither-filter';
+export { createPaletteFilter } from './palette-filter';
+export { type RenderPipeline, renderPixelData } from './render-pixel-data';

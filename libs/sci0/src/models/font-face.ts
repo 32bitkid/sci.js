@@ -1,6 +1,6 @@
-import type { ImageDataLike } from '@4bitlabs/image';
+import { type IndexedPixelData } from '@4bitlabs/image';
 
 export interface FontFace {
-  characters: ImageDataLike[];
+  characters: IndexedPixelData[];
   lineHeight: number;
 }

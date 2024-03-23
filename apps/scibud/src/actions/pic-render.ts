@@ -4,18 +4,18 @@ import { decompress, Pic } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 import { renderPicWorker } from '../workers/render-pic-worker';
 import { loadContentFromMap } from './load-content-from-map';
-import { RenderOptions } from '../models/render-options';
+import { RenderPicOptions } from '../models/render-pic-options';
 import { pickRenderOptions } from './pick-render-options';
 
-interface RenderPicOptions extends RenderOptions {
+interface PicRenderActionOptions extends RenderPicOptions {
   readonly output: string;
 }
 
-const picRender = async (
+export async function picRender(
   pic: number,
-  options: RenderPicOptions,
+  options: PicRenderActionOptions,
   cmd: Command,
-) => {
+) {
   const [
     { output = `pic.${pic.toString(10).padStart(3, '0')}.png` },
     renderOptions,
@@ -29,6 +29,4 @@ const picRender = async (
 
   // render single image
   await renderPicWorker(output, picData, renderOptions);
-};
-
-export default picRender;
+}

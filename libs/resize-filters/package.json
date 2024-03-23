@@ -1,10 +1,11 @@
 {
-  "name": "@4bitlabs/image",
-  "version": "2.2.4",
-  "description": "A collection of scalers, image-filters and palette manipulation functions for rendering Sierra On-line SCI-engine assets.",
+  "name": "@4bitlabs/resize-filters",
+  "version": "0.0.0",
+  "description": "A collection of pixel resize filters for rendering Sierra On-line SCI-engine assets.",
+  "keywords": ["scale2x", "scale3x", "epx", "nearest-neighbor"],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/image#readme",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/resize-filters#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/32bitkid/sci.js.git"
@@ -22,7 +23,7 @@
     "test": "jest src/"
   },
   "dependencies": {
-    "@4bitlabs/color": "^1.1.3"
+    "@4bitlabs/image": "^2.2.4"
   },
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"

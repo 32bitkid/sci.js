@@ -1,3 +1,4 @@
+import { createIndexedPixelData } from '@4bitlabs/image';
 import { Cel } from '../models/cel';
 
 export const parseCel = (frameView: DataView): Cel => {
@@ -9,9 +10,7 @@ export const parseCel = (frameView: DataView): Cel => {
   const keyColor = frameView.getUint8(6);
 
   const total = width * height;
-  const pixels = new ArrayBuffer(total);
-
-  const bytes = new Uint8ClampedArray(pixels, 0, total);
+  const img = createIndexedPixelData(width, height);
 
   let idx = 0;
   for (let i = 0; i < total; ) {
@@ -19,16 +18,14 @@ export const parseCel = (frameView: DataView): Cel => {
     idx += 1;
     const [color, repeat] = [data & 0xf, data >>> 4];
     for (let r = 0; r < repeat; r++) {
-      bytes[i] = color;
+      img.pixels[i] = color;
       i += 1;
     }
   }
 
   return {
-    data: pixels,
-    height,
+    ...img,
     keyColor,
-    width,
     dx,
     dy,
   };

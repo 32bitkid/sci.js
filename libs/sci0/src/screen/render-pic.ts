@@ -1,21 +1,21 @@
-import { BuiltinDitherPairs } from '@4bitlabs/color';
-import { ImageDataLike, createDitherizer } from '@4bitlabs/image';
-import { createBuffer } from './buffer';
+import { type IndexedPixelData } from '@4bitlabs/image';
+import { createScreenBuffer, ScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
-import { FilterPipeline } from './filter-pipeline';
 import { DrawCommand, DrawMode } from '../models/draw-command';
-
-const classicDitherer = createDitherizer(BuiltinDitherPairs.CLASSIC);
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
-  pipeline?: FilterPipeline;
 }
 
 interface RenderResult {
-  visible: ImageDataLike;
-  priority: ImageDataLike;
-  control: ImageDataLike;
+  visible: IndexedPixelData;
+  priority: IndexedPixelData;
+  control: IndexedPixelData;
+}
+
+function extractPixelData(buffer: ScreenBuffer): IndexedPixelData {
+  const { brush, fill, line, plot, ...pixelData } = buffer;
+  return pixelData;
 }
 
 export const renderPic = (
@@ -24,9 +24,9 @@ export const renderPic = (
 ): RenderResult => {
   const { forcePal } = options;
 
-  const visible = createBuffer(0xff0000ff, 32);
-  const priority = createBuffer(0x00, 8);
-  const control = createBuffer(0x00, 8);
+  const visible = createScreenBuffer(0xff);
+  const priority = createScreenBuffer(0x00);
+  const control = createScreenBuffer(0x00);
 
   const palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array] = [
     Uint8Array.from(DEFAULT_PALETTE),
@@ -96,7 +96,7 @@ export const renderPic = (
         const [, drawMode, pos, cel] = cmd;
         if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
 
-        const data = new Uint8Array(cel.data);
+        const data = cel.pixels;
         for (let y = pos[1]; y < pos[1] + cel.height; y++)
           for (let x = pos[0]; x < pos[0] + cel.width; x++) {
             if (x >= 320 || y >= 190) continue;
@@ -108,17 +108,13 @@ export const renderPic = (
         break;
       }
       default:
-        console.log('unhandled opcode', mode);
+        console.log(`unhandled opcode: ${mode}`);
     }
   });
 
-  const { pipeline = [classicDitherer] } = options;
-
   return {
-    visible: pipeline.reduce(function executeVisiblePipeline(prev, op) {
-      return op(prev);
-    }, visible.image),
-    priority: priority.image,
-    control: control.image,
+    visible: extractPixelData(visible),
+    priority: extractPixelData(priority),
+    control: extractPixelData(control),
   };
 };

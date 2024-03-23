@@ -1,16 +1,12 @@
+import { createIndexedPixelData } from '@4bitlabs/image';
 import { Cursor } from '../models/cursor';
 
-const BLACK = Uint8ClampedArray.of(0x00, 0x00, 0x00, 0xff);
-const WHITE = Uint8ClampedArray.of(0xff, 0xff, 0xff, 0xff);
-const GRAY = Uint8ClampedArray.of(0xaa, 0xaa, 0xaa, 0xff);
-const TRANS = Uint8ClampedArray.of(0x7f, 0x7f, 0x7f, 0x00);
+const BLACK = 0x00;
+const WHITE = 0x0f;
+const GRAY = 0x07;
+const TRANS = 0xff;
 
-type CursorMapping = [
-  Uint8ClampedArray,
-  Uint8ClampedArray,
-  Uint8ClampedArray,
-  Uint8ClampedArray,
-];
+type CursorMapping = [number, number, number, number];
 
 export const DEFAULT_MAPPING: CursorMapping = [BLACK, WHITE, TRANS, GRAY];
 export const LB_MAPPING: CursorMapping = [BLACK, WHITE, TRANS, WHITE];
@@ -34,7 +30,7 @@ export const parseFrom = (
   // Parse data;
   const hotspot = [view.getUint16(0, true), view.getUint16(2, true)] as const;
 
-  const data = new Uint8ClampedArray(16 * 16 * 4);
+  const img = createIndexedPixelData(16, 16);
   const stride = 16 * 4;
   for (let y = 0; y < 16; y++) {
     for (let x = 0; x < 16; x++) {
@@ -46,14 +42,13 @@ export const parseFrom = (
       const a = (tx >> (15 - x)) & 1;
       const b = (clr >> (15 - x)) & 1;
       const value = (a << 1) | b;
-      data.set(mapping[value], x * 4 + y * stride);
+      img.pixels[x * 4 + y * stride] = mapping[value];
     }
   }
 
   return {
-    width: 16,
-    height: 16,
-    data,
+    ...img,
+    keyColor: 0xff,
     hotspot,
   };
 };

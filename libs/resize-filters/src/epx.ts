@@ -1,10 +1,10 @@
 import { S9, S13 } from './s9';
 
-export const epx9 = (
-  src: Uint32Array,
+export const epx9 = <T extends Uint32Array | Uint8ClampedArray>(
+  src: T,
   s9: S9,
-  p9: Uint32Array = new Uint32Array(9),
-): Uint32Array => {
+  p9: T,
+): T => {
   // prettier-ignore
   const [
     A, B, C,
@@ -41,11 +41,11 @@ export const epx9 = (
   return p9;
 };
 
-export const epx9sfx = (
-  src: Uint32Array,
+export const epx9sfx = <T extends Uint32Array | Uint8ClampedArray>(
+  src: T,
   s13: S13,
-  p9: Uint32Array = new Uint32Array(9),
-): Uint32Array => {
+  p9: T,
+): T => {
   // prettier-ignore
   const [
           J,
