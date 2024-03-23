@@ -19,7 +19,7 @@ export const createPaletteFilter = (
     const size = source.width * source.height;
 
     const output = new Uint32Array(
-      dest.data,
+      dest.data.buffer,
       dest.data.byteOffset,
       dest.data.byteLength / 4,
     );
