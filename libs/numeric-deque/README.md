@@ -1,6 +1,6 @@
 # `@4bitlabs/numeric-deque`
 
-A numeric-container backed by a TypedArray ring-buffer, with both stack (FILO) and queue (FIFO) methods, a.k.a. _a [deque](https://en.wikipedia.org/wiki/Double-ended_queue)_.
+A numeric-container backed by a TypedArray ring-buffer. Implements both stack (FILO) and queue (FIFO) methods, a.k.a. _a [deque](https://en.wikipedia.org/wiki/Double-ended_queue)_.
 
 ## Basic Usage
 
