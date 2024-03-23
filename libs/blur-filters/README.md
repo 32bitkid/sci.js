@@ -1,6 +1,6 @@
 # `@4bitlabs/blur-filters`
 
-A collection of blur-filters for rendering Sierra On-line SCI-engine assets.
+A collection of blur-filters for rendering [Sierra On-line][sierra] [SCI-engine][sci0] assets.
 
 ## Filters
 
@@ -22,3 +22,6 @@ const output = filter(source);
 ```
 
 > Note: These are very naïve implementations, and should _**not**_ be used in any kind of _production_ environment.
+
+[sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
