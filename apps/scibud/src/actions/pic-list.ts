@@ -1,7 +1,7 @@
 import { readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
-import { program } from 'commander';
+import { type Command } from 'commander';
 
 import {
   getResourceNumber,
@@ -9,8 +9,8 @@ import {
   parseAllMappings,
 } from '@4bitlabs/sci0';
 
-export async function picList() {
-  const { root } = program.opts();
+export async function picList(_: unknown, cmd: Command) {
+  const { root } = cmd.optsWithGlobals();
 
   const files = await readdir(root);
 
