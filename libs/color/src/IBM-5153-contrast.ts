@@ -4,7 +4,7 @@ const clamp = (val: number, min: number, max: number) =>
 const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t;
 
 // https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
-export function IBM5153Dimmer(
+export function IBM5153Contrast(
   source: Uint32Array,
   dimmer: number,
 ): Uint32Array {

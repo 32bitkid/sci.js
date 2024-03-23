@@ -12,6 +12,10 @@
   "bugs": {
     "url": "https://github.com/32bitkid/sci.js/issues"
   },
+  "exports": {
+    ".": "./dist/index.js",
+    "./palettes": "./dist/palettes/index.js"
+  },
   "files": [
     "./dist/**/*"
   ],

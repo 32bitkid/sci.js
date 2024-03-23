@@ -1,10 +1,8 @@
 import {
-  RAW_CGA,
-  TRUE_CGA,
-  DGA_PALETTE,
+  Palettes,
   Mixers,
   generateSciDitherPairs as generatePairs,
-  IBM5153Dimmer,
+  IBM5153Contrast,
 } from '@4bitlabs/color';
 import {
   type PixelFilter,
@@ -41,14 +39,14 @@ export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
   }
 
   const basePalette = {
-    cga: RAW_CGA,
-    'true-cga': TRUE_CGA,
-    dga: DGA_PALETTE,
+    cga: Palettes.CGA_PALETTE,
+    'true-cga': Palettes.TRUE_CGA_PALETTE,
+    dga: Palettes.DGA_PALETTE,
   }[options.palette];
 
   const palette =
     options.contrast && options.contrast <= 1.0
-      ? IBM5153Dimmer(basePalette, options.contrast)
+      ? IBM5153Contrast(basePalette, options.contrast)
       : basePalette;
 
   const pairs = {

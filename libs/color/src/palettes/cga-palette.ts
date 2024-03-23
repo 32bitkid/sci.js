@@ -1,4 +1,4 @@
-export const RAW_CGA = Uint32Array.of(
+export const CGA_PALETTE = Uint32Array.of(
   0xff000000,
   0xffaa0000,
   0xff00aa00,

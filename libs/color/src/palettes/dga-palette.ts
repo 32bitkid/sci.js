@@ -1,3 +1,4 @@
+// https://lospec.com/palette-list/aap-dga16
 export const DGA_PALETTE = Uint32Array.of(
   0xff010101,
   0xff751b03,

@@ -1,9 +1,8 @@
-import { RAW_CGA } from './cga-palette';
 import { DitherPair } from './dither-pair';
 import { DitherTransform } from './dither-transform';
 
 const rawPairs =
-  (pal: Uint32Array = RAW_CGA) =>
+  (pal: Uint32Array) =>
   (i: number): DitherPair => [pal[(i >>> 4) & 0b1111], pal[(i >>> 0) & 0b1111]];
 
 const ENTRIES = Array(256).fill(0);
