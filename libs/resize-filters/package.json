@@ -1,8 +1,13 @@
 {
   "name": "@4bitlabs/resize-filters",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A collection of pixel resize filters for rendering Sierra On-line SCI-engine assets.",
-  "keywords": ["scale2x", "scale3x", "epx", "nearest-neighbor"],
+  "keywords": [
+    "scale2x",
+    "scale3x",
+    "epx",
+    "nearest-neighbor"
+  ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/resize-filters#readme",
@@ -23,7 +28,7 @@
     "test": "jest src/"
   },
   "dependencies": {
-    "@4bitlabs/image": "^2.2.4"
+    "@4bitlabs/image": "^3.0.0"
   },
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"
