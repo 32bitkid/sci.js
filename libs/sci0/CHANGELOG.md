@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.0...@4bitlabs/sci0@2.0.1) (2024-03-23)
+
+### Update
+
+- @4bitlabs/sci0 readme updated ([fe66b69](https://github.com/32bitkid/sci.js/commit/fe66b69651c2a7335c8995aab0d8d385a38df3c0))
+
 ## 2.0.0 (2024-03-23)
 
 - Breaking: refactor image and render methods (#18) ([75ba7ed](https://github.com/32bitkid/sci.js/commit/75ba7ed)), closes [#18](https://github.com/32bitkid/sci.js/issues/18)
