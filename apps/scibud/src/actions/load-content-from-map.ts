@@ -1,3 +1,6 @@
+import { readdir, readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+
 import {
   getPayloadLength,
   parseAllMappings,
@@ -5,8 +8,6 @@ import {
   ResourceHeader,
   ResourceMap,
 } from '@4bitlabs/sci0';
-import { readdir, readFile } from 'fs/promises';
-import { join } from 'path';
 
 export async function loadContentFromMap(
   root: string,

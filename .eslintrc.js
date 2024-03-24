@@ -44,10 +44,11 @@ module.exports = {
           {
             pattern: '@4bitlabs/*',
             group: 'parent',
+            position: 'before',
           },
         ],
+        distinctGroup: false,
         pathGroupsExcludedImportTypes: ['builtin'],
-        distinctGroup: true,
       },
     ],
   },
