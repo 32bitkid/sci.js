@@ -1,21 +1,16 @@
-import { readdir, readFile } from 'fs/promises';
-import { join } from 'path';
-
 import { Command } from 'commander';
 import columnify from 'columnify';
 
 import { parseAllMappings, parseHeaderFrom } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
+import { readFile } from '../helpers/read-file';
 
 export async function picInfo(pic: number, _: unknown, cmd: Command) {
   const { root } = cmd.optsWithGlobals();
 
-  const files = await readdir(root);
-
   console.log(`Searching for pic #${pic}…`);
 
-  const mapFile = files.find((fn) => /^resource.map$/i.test(fn))!;
-  const [mapping] = parseAllMappings(await readFile(join(root, mapFile)));
+  const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
 
   const found = mapping.find(picMatcher(pic));
   if (!found) {
@@ -30,11 +25,7 @@ export async function picInfo(pic: number, _: unknown, cmd: Command) {
     `Located in "RESOURCE.${resPart}" at offset ${offset.toLocaleString()}`,
   );
 
-  const resFn = files.find((fn) =>
-    new RegExp(`^resource.${resPart}$`, 'i').test(fn),
-  )!;
-
-  const resFile = await readFile(join(root, resFn));
+  const resFile = await readFile(root, resPart);
 
   const headerContent = resFile.subarray(offset, offset + 8);
   const header = parseHeaderFrom(headerContent);

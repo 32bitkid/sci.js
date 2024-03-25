@@ -11,22 +11,22 @@ interface PicRenderActionOptions extends RenderPicOptions {
   readonly output: string;
 }
 
-export async function picRender(
-  pic: number,
+export async function picRenderAction(
+  id: number,
   options: PicRenderActionOptions,
   cmd: Command,
 ) {
   const [
-    { output = `pic.${pic.toString(10).padStart(3, '0')}.png` },
+    { output = `pic.${id.toString(10).padStart(3, '0')}.png` },
     renderOptions,
   ] = pickRenderOptions(options);
 
   const { root, engine } = cmd.optsWithGlobals();
 
-  const [header, compressed] = await loadContentFromMap(root, picMatcher(pic));
-  const data = decompress(engine, header.compression, compressed);
-  const picData = Pic.parseFrom(data);
+  const [header, compressed] = await loadContentFromMap(root, picMatcher(id));
+  const picData = decompress(engine, header.compression, compressed);
+  const pic = Pic.parseFrom(picData);
 
   // render single image
-  await renderPicWorker(output, picData, renderOptions);
+  await renderPicWorker(output, pic, renderOptions);
 }

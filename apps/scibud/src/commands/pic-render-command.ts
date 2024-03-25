@@ -7,6 +7,7 @@ import * as RenderOptions from './render-options';
 export function picRenderCommand(root: Command): Command {
   root
     .command('render')
+    .description('render pic resource as image')
     .argument('<id>', 'picture resource number', cmdIntParser)
     .addOption(RenderOptions.scalerOption('pre'))
     .addOption(RenderOptions.ditherOption())
@@ -23,7 +24,7 @@ export function picRenderCommand(root: Command): Command {
       'output filename, "-" for STDOUT',
       undefined,
     )
-    .action(Actions.picRender);
+    .action(Actions.picRenderAction);
 
   return root;
 }

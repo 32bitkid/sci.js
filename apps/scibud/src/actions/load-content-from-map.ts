@@ -1,6 +1,3 @@
-import { readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-
 import {
   getPayloadLength,
   parseAllMappings,
@@ -8,22 +5,20 @@ import {
   ResourceHeader,
   ResourceMap,
 } from '@4bitlabs/sci0';
+import { readFile } from '../helpers/read-file';
+
+export type ResourceMapPredicate = ({ id }: ResourceMap) => boolean;
 
 export async function loadContentFromMap(
   root: string,
-  matcher: (res: ResourceMap) => boolean,
+  matcher: ResourceMapPredicate,
 ): Promise<[ResourceHeader, Uint8Array]> {
-  const files = await readdir(root);
-
-  const mapFile = files.find((fn) => /^resource.map$/i.test(fn))!;
-  const [mapping] = parseAllMappings(await readFile(join(root, mapFile)));
+  const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
   const { offset, file } = mapping.find(matcher)!;
 
-  const resFn = files.find((fn) =>
-    new RegExp(`^resource.${file.toString().padStart(3, '0')}$`, 'i').test(fn),
-  )!;
+  const resFilename = `RESOURCE.${file.toString().padStart(3, '0')}`;
 
-  const resFile = await readFile(join(root, resFn));
+  const resFile = await readFile(root, resFilename);
 
   const headerContent = resFile.subarray(offset, offset + 8);
   const header = parseHeaderFrom(headerContent);

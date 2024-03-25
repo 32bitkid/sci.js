@@ -1,6 +1,5 @@
-import { picDecode } from './pic-decode';
-import { picList } from './pic-list';
-import { picRender } from './pic-render';
-import { picInfo } from './pic-info';
-
-export { picRender, picList, picDecode, picInfo };
+export { createDecodeActionWithMatcher } from './create-decode-action-with-matcher';
+export { listActionFor } from './list-action';
+export { picRenderAction } from './pic-render-action';
+export { picInfo } from './pic-info';
+export { viewRenderAction } from './view-render-action';
