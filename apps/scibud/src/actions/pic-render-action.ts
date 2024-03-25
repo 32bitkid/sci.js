@@ -1,6 +1,6 @@
 import { type Command } from 'commander';
 
-import { decompress, Pic } from '@4bitlabs/sci0';
+import { decompress, parsePic } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 import { renderPicWorker } from '../workers/render-pic-worker';
 import { loadContentFromMap } from './load-content-from-map';
@@ -25,7 +25,7 @@ export async function picRenderAction(
 
   const [header, compressed] = await loadContentFromMap(root, picMatcher(id));
   const picData = decompress(engine, header.compression, compressed);
-  const pic = Pic.parseFrom(picData);
+  const pic = parsePic(picData);
 
   // render single image
   await renderPicWorker(output, pic, renderOptions);

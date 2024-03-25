@@ -1,5 +1,5 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
-import { Cursor } from '../models/cursor';
+import { type Cursor } from '../models/cursor';
 
 const BLACK = 0x00;
 const WHITE = 0x0f;
@@ -8,10 +8,9 @@ const TRANS = 0xff;
 
 type CursorMapping = [number, number, number, number];
 
-export const DEFAULT_MAPPING: CursorMapping = [BLACK, WHITE, TRANS, GRAY];
-export const LB_MAPPING: CursorMapping = [BLACK, WHITE, TRANS, WHITE];
+const DEFAULT_MAPPING: CursorMapping = [BLACK, WHITE, TRANS, GRAY];
 
-interface ParseCursorOptions {
+export interface ParseCursorOptions {
   mapping?: CursorMapping;
 }
 

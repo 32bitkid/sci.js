@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import sharp, { OverlayOptions } from 'sharp';
 
-import { decompress, View } from '@4bitlabs/sci0';
+import { decompress, parseView } from '@4bitlabs/sci0';
 import { createPaletteFilter, renderPixelData } from '@4bitlabs/image';
 import * as ResizeFilters from '@4bitlabs/resize-filters';
 import * as BlurFilters from '@4bitlabs/blur-filters';
@@ -29,7 +29,7 @@ export async function viewRenderAction(
 
   const [header, compressed] = await loadContentFromMap(root, viewMatcher(id));
   const viewData = decompress(engine, header.compression, compressed);
-  const view = View.parseFrom(viewData);
+  const view = parseView(viewData);
 
   const pipeline = {
     dither: createPaletteFilter(
@@ -42,9 +42,10 @@ export async function viewRenderAction(
     ],
   };
 
-  const allFrames = view[loop].frames.map((frame) =>
-    renderPixelData(frame, pipeline),
-  );
+  const allFrames = view[loop].frames.map((frame) => {
+    console.log(frame.dx, frame.dy);
+    return renderPixelData(frame, pipeline);
+  });
 
   const [width, height] = allFrames.reduce(
     ([w0, h0], { width: w1, height: h1 }) => [Math.max(w0, w1), h0 + h1],

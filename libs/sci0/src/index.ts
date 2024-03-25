@@ -21,7 +21,29 @@ export {
 } from './parsers/mapping';
 export { getPayloadLength, parseHeaderFrom } from './parsers/resource-header';
 export { decompress } from './parsers/compression';
-export * as Cursor from './parsers/cursor';
-export * as Font from './parsers/font';
-export * as View from './parsers/view';
-export * as Pic from './parsers/pic';
+import { parseFrom as parseCursor } from './parsers/cursor';
+import { parseFrom as parseFont } from './parsers/font';
+import { parseFrom as parseView } from './parsers/view';
+import { parseFrom as parsePic } from './parsers/pic';
+
+export { parseCursor, parseFont, parseView, parsePic };
+
+/** @deprecated use parseCursor() instead */
+export const Cursor = {
+  parseFrom: parseCursor,
+};
+
+/** @deprecated use parseFont() instead */
+export const Font = {
+  parseFrom: parseFont,
+};
+
+/** @deprecated use parseView() instead */
+export const View = {
+  parseFrom: parseView,
+};
+
+/** @deprecated use parsePic() instead */
+export const Pic = {
+  parseFrom: parsePic,
+};
