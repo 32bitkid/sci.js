@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.1...@4bitlabs/sci0@2.0.2) (2024-03-25)
+
+### Changed
+
+- deprecate top-level Pic, View, Cursor, Font objects in sci0 ([82b2b0d](https://github.com/32bitkid/sci.js/commit/82b2b0dfe4e53dfa8ef13139a4f137401cdef90a))
+- ViewGroup is now Loop; closer alignment with Sci0 engine ([33d62d9](https://github.com/32bitkid/sci.js/commit/33d62d936f051141c00dca7cf0f848a918ad1d25))
+
 ## [2.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.0...@4bitlabs/sci0@2.0.1) (2024-03-23)
 
 ### Update

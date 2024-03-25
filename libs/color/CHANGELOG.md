@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@1.2.0...@4bitlabs/color@1.2.1) (2024-03-25)
+
+### Update
+
+- clarify README files ([995d516](https://github.com/32bitkid/sci.js/commit/995d5161d2a84f1db9890e03c6c2a79d17dd4b1f))
+
 # [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@1.1.3...@4bitlabs/color@1.2.0) (2024-03-23)
 
 ### New
