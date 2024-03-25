@@ -1,8 +1,8 @@
 import { Cel } from './cel';
 
-export interface ViewGroup {
+export interface Loop {
   frames: Cel[];
   isMirrored: boolean;
 }
 
-export type View = ViewGroup[];
+export type View = Loop[];
