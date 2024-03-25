@@ -6,6 +6,7 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
+    'plugin:deprecation/recommended',
     'plugin:@typescript-eslint/recommended',
     'prettier',
     'plugin:import/recommended',
@@ -25,6 +26,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    project: './tsconfig.base.json',
   },
   plugins: ['@typescript-eslint', 'import'],
   ignorePatterns: ['temp.js', '**/coverage/**/*', '**/dist/**/*'],
