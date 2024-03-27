@@ -13,7 +13,7 @@ export {
 } from './models/resource-id';
 export { ResourceTypes } from './models/resource-type';
 
-export { renderPic } from './screen';
+export { renderPic, loopRenderFilter } from './screen';
 
 export {
   parseAll as parseAllMappings,
