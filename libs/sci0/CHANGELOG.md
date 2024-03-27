@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.2...@4bitlabs/sci0@2.1.0) (2024-03-27)
+
+### Changed
+
+- Loop calculates bounds on parse ([5f48037](https://github.com/32bitkid/sci.js/commit/5f480376ecf0f4460f6e60645f04e948d0a3c62d))
+
+### New
+
+- add loopRenderFilter() for processing loop cels into stable images ([0252bca](https://github.com/32bitkid/sci.js/commit/0252bcad27ff43d0450b18d5db4b2d6009bf472f))
+
 ## [2.0.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.1...@4bitlabs/sci0@2.0.2) (2024-03-25)
 
 ### Changed

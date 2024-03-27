@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.0.3...@4bitlabs/image@3.1.0) (2024-03-27)
+
+### Changed
+
+- Loop calculates bounds on parse ([5f48037](https://github.com/32bitkid/sci.js/commit/5f480376ecf0f4460f6e60645f04e948d0a3c62d))
+
+### New
+
+- add padFilter() for adding padding during render pipeline ([28d00f9](https://github.com/32bitkid/sci.js/commit/28d00f93d4fe3daca561baa6aac0d426497f3b7d))
+
 ## [3.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.0.2...@4bitlabs/image@3.0.3) (2024-03-25)
 
 ### Update
