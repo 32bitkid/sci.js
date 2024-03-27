@@ -20,9 +20,15 @@ export function createIndexedPixelData(
   width >>>= 0;
   height >>>= 0;
 
+  const pixels = new Uint8ClampedArray(width * height);
+
+  if (options.keyColor) {
+    for (let i = 0; i < pixels.length; i++) pixels[i] = options.keyColor;
+  }
+
   return {
     [INDEXED]: INDEXED,
-    pixels: new Uint8ClampedArray(width * height),
+    pixels,
     width,
     height,
     ...options,

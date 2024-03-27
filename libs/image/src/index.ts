@@ -6,6 +6,7 @@ export {
 } from './indexed-pixel-data';
 
 export {
+  type GenericFilter,
   type ImageFilter,
   type PixelFilter,
   type PaletteFilter,

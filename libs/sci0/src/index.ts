@@ -28,6 +28,9 @@ import { parseFrom as parsePic } from './parsers/pic';
 
 export { parseCursor, parseFont, parseView, parsePic };
 
+export { type Loop } from './models/view';
+export { type Cel } from './models/cel';
+
 /** @deprecated use parseCursor() instead */
 export const Cursor = {
   parseFrom: parseCursor,

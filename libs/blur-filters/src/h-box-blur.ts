@@ -10,10 +10,13 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
 
   const pixels = image.data;
 
+  let rSum, gSum, bSum;
+
   for (let offset = 0; offset < total; offset += stride) {
-    let rSum = 0;
-    let gSum = 0;
-    let bSum = 0;
+    rSum = 0;
+    gSum = 0;
+    bSum = 0;
+    win.clear();
 
     for (let i = 0; i < kLen; i++) {
       let ix = i - halfKen;
@@ -57,12 +60,10 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
       gSum += nG;
       bSum += nB;
 
-      if (x + kLen < width) {
-        // Push it onto the window
-        win.push(nR);
-        win.push(nG);
-        win.push(nB);
-      }
+      // Push it onto the window
+      win.push(nR);
+      win.push(nG);
+      win.push(nB);
     }
   }
 }
