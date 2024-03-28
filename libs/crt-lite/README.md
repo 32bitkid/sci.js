@@ -1,12 +1,12 @@
 # `@4bitlabs/crt-lite`
 
-A tiny, simple CRT-like `webgl2`-based canvas renderer for ImageData
+A tiny, simple CRT-like `webgl2`-based canvas renderer for `ImageData`.
 
-| Before                             | After                             |
-| ---------------------------------- | --------------------------------- |
-| ![asdf](./docs/images/before.webp) | ![asdf](./docs/images/after.webp) |
+| Before                       | After                      |
+| ---------------------------- | -------------------------- |
+| ![Before processing][before] | ![After processing][after] |
 
-## Example
+## Getting Started
 
 ```ts
 import { createCrtRenderer } from '@4bitlabs/crt-lite';
@@ -27,17 +27,17 @@ update(imgData);
 
 ## Render Parameters
 
-There are several tunable options when calling the update function that can be used to adjust the style of monitor.
+There are several tunable options when invoking the update function that can be used to adjust the monitor style.
 
-| Setting     | Type      | Description                                            |
-| ----------- | --------- | ------------------------------------------------------ |
-| `Fx`        | `number`  | Horizontal monitor curve/barrel distortion.            |
-| `Fy`        | `number`  | Vertical monitor curve/barrel distortion.              |
-| `S`         | `number`  | Monitor zoom.                                          |
-| `hBlur`     | `number`  | Fast <small>GPU</small> horizontal box-blur in pixels. |
-| `grain`     | `number`  | Monitor grain. `0.0` = none/off, `1.0` = max.          |
-| `vignette`  | `number`  | CRT Vignetting. `0.0` = none/off, `1.0` = max.         |
-| `scanLines` | `boolean` | CGA/EGA monitor scan-line simulation.                  |
+| Setting     | Type      | Description                                                                                                                                     |
+| ----------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Fx`        | `number`  | Horizontal monitor curve/barrel distortion.                                                                                                     |
+| `Fy`        | `number`  | Vertical monitor curve/barrel distortion.                                                                                                       |
+| `S`         | `number`  | Monitor zoom.                                                                                                                                   |
+| `hBlur`     | `number`  | Fast <small>GPU</small> horizontal box-blur in pixels.                                                                                          |
+| `grain`     | `number`  | Monitor grain. `0.0` = none/off, `1.0` = max.                                                                                                   |
+| `vignette`  | `number`  | CRT Vignetting. `0.0` = none/off, `1.0` = max.                                                                                                  |
+| `scanLines` | `boolean` | <small><abbr title="Color Graphics Adapter">CGA</abbr>/<abbr title="Enhanced Graphics Adapter">EGA</abbr></small> monitor scan-line simulation. |
 
 ```ts
 import { createCrtRenderer, type CrtUpdateOptions } from '@4bitlabs/crt-lite';
@@ -56,6 +56,8 @@ const crtOptions: CrtUpdateOptions = {
 
 update(imgData, crtOptions);
 ```
+
+## Setting Render Defaults
 
 You can also set up a set of render defaults as the _base_ for every render.
 
@@ -80,3 +82,6 @@ update(imgData);
 // Override and disable the grain for just this render.
 update(imgData, { grain: 0.0 });
 ```
+
+[before]: https://private-user-images.githubusercontent.com/73438/317601319-a58e922d-4ca0-4bd0-8c68-7ac128f3ba36.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTE2MDI4ODEsIm5iZiI6MTcxMTYwMjU4MSwicGF0aCI6Ii83MzQzOC8zMTc2MDEzMTktYTU4ZTkyMmQtNGNhMC00YmQwLThjNjgtN2FjMTI4ZjNiYTM2LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAzMjglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMzI4VDA1MDk0MVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWEyOGUzNzE2MGVlZTM0ZjZlYTMxYjgwZTk3ZjY4MTFmYTBhMDhmNTFhMjMxZDI0OGVlNTExNjU3YzIwY2M5ZTUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.NxQdSJwqf9rV7wIhnaUyGWfrr1Lne38tYhM_oePddgo
+[after]: https://private-user-images.githubusercontent.com/73438/317601513-93639527-c89b-4e57-acef-43f0bf895ed3.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTE2MDI4ODEsIm5iZiI6MTcxMTYwMjU4MSwicGF0aCI6Ii83MzQzOC8zMTc2MDE1MTMtOTM2Mzk1MjctYzg5Yi00ZTU3LWFjZWYtNDNmMGJmODk1ZWQzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAzMjglMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMzI4VDA1MDk0MVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWVhNDc2ZDM1ZGVlOTdiOWM2Yjk3MzNiYzU0ZmQyZmFjMzRjMGNhN2UyYWMwOTUwODIzYmJhMzE2OGNmODU1ZTgmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.HDbYWonUmgmgybzB3smD6ctGjOZYmcB7gDW6aZsWlCw

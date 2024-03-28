@@ -1,13 +1,17 @@
 {
   "name": "@4bitlabs/crt-lite",
   "version": "1.0.0",
-  "description": "A tiny, simple CRT-like `webgl2`-based canvas renderer for ImageData",
+  "description": "A tiny, simple CRT-like webgl2-based canvas renderer for ImageData",
   "keywords": [
     "crt",
     "canvas",
     "webgl",
     "webgl2",
     "retro",
+    "ImageData",
+    "ega",
+    "cga",
+    "vga",
     "shader"
   ],
   "main": "./dist/index.js",
