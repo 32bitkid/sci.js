@@ -2,9 +2,9 @@
 
 A tiny, simple CRT-like `webgl2`-based canvas renderer for `ImageData`.
 
-| Before                       | After                      |
-| ---------------------------- | -------------------------- |
-| ![Before processing][before] | ![After processing][after] |
+| Before                                          | After                                        |
+| ----------------------------------------------- | -------------------------------------------- |
+| [![Before processing][before]][before_fullsize] | [![After processing][after]][after_fullsize] |
 
 ## Getting Started
 
@@ -83,5 +83,7 @@ update(imgData);
 update(imgData, { grain: 0.0 });
 ```
 
-[before]: https://j.holmes.codes/images/4bitlabs__crt-lite/before.webp
-[after]: https://j.holmes.codes/images/4bitlabs__crt-lite/after.webp
+[before]: https://j.holmes.codes/images/4bitlabs__crt-lite/before.preview.jpg
+[after]: https://j.holmes.codes/images/4bitlabs__crt-lite/after.preview.jpg
+[before_fullsize]: https://j.holmes.codes/images/4bitlabs__crt-lite/before.fullsize.webp
+[after_fullsize]: https://j.holmes.codes/images/4bitlabs__crt-lite/after.fullsize.webp
