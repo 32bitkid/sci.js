@@ -1,0 +1,28 @@
+{
+  "name": "@4bitlabs/crt-lite",
+  "version": "0.0.0",
+  "description": "A tiny, simple CRT-like `webgl2`-based canvas renderer for ImageData",
+  "keywords": ["crt", "canvas", "webgl", "webgl2", "retro", "shader"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/crt-lite#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/32bitkid/sci.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues?q=is%3Aopen+is%3Aissue+label%3A%404bitlabs%2Fcrt-lite"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "clean:wipe": "rimraf ./dist",
+    "build": "tsc --build"
+  },
+  "author": "J. Holmes <j@holmes.codes>",
+  "license": "ISC",
+  "dependencies": {
+  }
+}
