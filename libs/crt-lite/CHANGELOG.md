@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.0...@4bitlabs/crt-lite@1.0.1) (2024-03-28)
+
+### Updated
+
+- tweaked readme and package tags ([be18a13](https://github.com/32bitkid/sci.js/commit/be18a1333431d05d8b96184be6f0fca1b4532a6d))
+
 # 1.0.0 (2024-03-28)
 
 ### New
