@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.2...@4bitlabs/crt-lite@1.0.3) (2024-03-28)
+
+### Updated
+
+- Replacing images in README with jpgs, and links to webps ([5e0edbd](https://github.com/32bitkid/sci.js/commit/5e0edbddffc38fb0ffc8b385632428515bd78d2f))
+
 ## [1.0.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.1...@4bitlabs/crt-lite@1.0.2) (2024-03-28)
 
 ### Chore
