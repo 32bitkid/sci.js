@@ -3,6 +3,8 @@ import { type ImageResizer } from './image-resizer';
 import { prepareScale } from './prepare';
 
 export function nearestNeighbor(ratio: [number, number]): ImageResizer {
+  const [sx, sy] = [ratio[0] >>> 0, ratio[1] >>> 0];
+
   function scale(input: ImageDataLike, output?: ImageDataLike): ImageDataLike;
   function scale(
     input: IndexedPixelData,
@@ -12,8 +14,6 @@ export function nearestNeighbor(ratio: [number, number]): ImageResizer {
     input: T,
     output?: T,
   ): T {
-    const [sx, sy] = ratio;
-
     const {
       source,
       dest,
@@ -23,13 +23,20 @@ export function nearestNeighbor(ratio: [number, number]): ImageResizer {
     const { width: iWidth, height: iHeight } = source;
 
     const width = iWidth * sx;
-    const height = iHeight * sy;
 
-    for (let y = 0; y < height; y++) {
-      const iy = (y / sy) >>> 0;
+    for (let y = 0; y < iHeight; y++) {
+      const oIdx = y * sy * width;
+      const row = outP.subarray(oIdx, oIdx + width);
+
+      // fill the next row
       for (let x = 0; x < width; x++) {
         const ix = (x / sx) >>> 0;
-        outP[x + y * width] = inP[ix + iy * iWidth];
+        row[x] = inP[ix + y * iWidth];
+      }
+
+      // copy row n - 1 times
+      for (let i = 1; i < sy; i++) {
+        outP.set(row, oIdx + i * width);
       }
     }
 
