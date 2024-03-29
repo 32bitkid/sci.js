@@ -1,8 +1,4 @@
-import {
-  type PixelFilter,
-  type ImageFilter,
-  type GenericFilter,
-} from './image-filter';
+import { type GenericFilter } from './image-filter';
 import {
   type IndexedPixelData,
   createIndexedPixelData,
@@ -15,9 +11,9 @@ export type PadDouble = [vertical: number, horizontal: number];
 export type PadTriple = [top: number, h: number, bottom: number];
 export type PadQuad = [
   top: number,
-  left: number,
-  bottom: number,
   right: number,
+  bottom: number,
+  left: number,
 ];
 
 export type Padding = PadSingle | PadDouble | PadTriple | PadQuad;
@@ -33,46 +29,50 @@ const getPadding4 = (pad: Padding): PadQuad => {
 
 const indexedPad = (
   source: IndexedPixelData,
-  [nt, nl, nb, nr]: PadQuad,
+  [padT, padR, padB, padL]: PadQuad,
 ): IndexedPixelData => {
   const dest = createIndexedPixelData(
-    nl + source.width + nr,
-    nt + source.height + nb,
+    padL + source.width + padR,
+    padT + source.height + padB,
     { keyColor: source.keyColor },
   );
 
-  for (let y = 0; y < source.height; y++)
-    // TODO copy an entire row at time
-    for (let x = 0; x < source.width; x++) {
-      dest.pixels[(y + nt) * dest.width + x + nl] =
-        source.pixels[y * source.width + x];
-    }
+  for (let y = 0; y < source.height; y++) {
+    const srcIdx = y * source.width;
+    const dstIdx = (y + padT) * dest.width + padL;
+    const row = source.pixels.subarray(srcIdx, srcIdx + source.width);
+    dest.pixels.set(row, dstIdx);
+  }
   return dest;
 };
 
 const imagePad = (
   source: ImageDataLike,
-  [nt, nl, nb, nr]: PadQuad,
+  [padT, padR, padB, padL]: PadQuad,
 ): ImageDataLike => {
-  const dest = createImageData(nl + source.width + nr, nt + source.height + nb);
+  const dest = createImageData(
+    padL + source.width + padR,
+    padT + source.height + padB,
+  );
 
   const sourcePixels = new Uint32Array(
-    source.data,
+    source.data.buffer,
     source.data.byteOffset,
     source.data.byteLength / 4,
   );
   const destPixels = new Uint32Array(
-    dest.data,
+    dest.data.buffer,
     dest.data.byteOffset,
     dest.data.byteLength / 4,
   );
 
-  for (let y = 0; y < source.height; y++)
-    // TODO copy an entire row at time
-    for (let x = 0; x < source.width; x++) {
-      destPixels[(y + nt) * dest.width + x + nl] =
-        sourcePixels[y * source.width + x];
-    }
+  for (let y = 0; y < source.height; y++) {
+    const srcIdx = y * source.width;
+    const dstIdx = (y + padT) * dest.width + padL;
+    const row = sourcePixels.subarray(srcIdx, srcIdx + source.width);
+    destPixels.set(row, dstIdx);
+  }
+
   return dest;
 };
 
