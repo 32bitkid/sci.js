@@ -19,11 +19,18 @@ export function prepareScale<T extends ImageDataLike | IndexedPixelData>(
   [sx, sy]: [number, number],
   dest?: T,
 ): ScaleState<T> {
-  dest =
-    dest ??
-    ((isIndexedPixelData(source)
-      ? createIndexedPixelData(source.width * sx, source.height * sy)
-      : createImageData(source.width * sx, source.height * sy)) as T);
+  const dWidth = source.width * sx,
+    dHeight = source.height * sy;
+
+  if (!dest) {
+    dest = (
+      isIndexedPixelData(source)
+        ? createIndexedPixelData(dWidth, dHeight, {
+            keyColor: source.keyColor,
+          })
+        : createImageData(dWidth, dHeight)
+    ) as T;
+  }
 
   const sourceRGB = isIndexedPixelData(source)
     ? source.pixels

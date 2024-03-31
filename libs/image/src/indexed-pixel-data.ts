@@ -33,10 +33,10 @@ export function createIndexedPixelData(
 
   return {
     [INDEXED]: INDEXED,
+    keyColor,
     pixels,
     width,
     height,
-    ...options,
   };
 }
 
