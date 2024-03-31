@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.3...@4bitlabs/resize-filters@1.0.4) (2024-03-31)
+
+### Fixed
+
+- resize-filters forward source keyColor for indexed pixel data ([794bf79](https://github.com/32bitkid/sci.js/commit/794bf79e98dc0644bf41c5be1ceb65b15ab6ff92))
+
+### Updated
+
+- performance optimization for nearest-neighbor resizer ([26d1139](https://github.com/32bitkid/sci.js/commit/26d113932adc03f0f8c6c77b3744095c05c81f8b))
+
 ## [1.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.2...@4bitlabs/resize-filters@1.0.3) (2024-03-27)
 
 **Note:** Version bump only for package @4bitlabs/resize-filters

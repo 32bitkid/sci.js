@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.1.0...@4bitlabs/sci0@2.1.1) (2024-03-31)
+
+### Fixed
+
+- better error message when compression method is not supported. ([5e1c7f3](https://github.com/32bitkid/sci.js/commit/5e1c7f39c06d1ff250fde377e1cd82deabbb51a5))
+
 # [2.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.0.2...@4bitlabs/sci0@2.1.0) (2024-03-27)
 
 ### Changed
