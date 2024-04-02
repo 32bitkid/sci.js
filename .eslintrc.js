@@ -29,7 +29,12 @@ module.exports = {
     project: './tsconfig.base.json',
   },
   plugins: ['@typescript-eslint', 'import'],
-  ignorePatterns: ['temp.js', '**/coverage/**/*', '**/dist/**/*'],
+  ignorePatterns: [
+    'temp.js',
+    '**/coverage/**/*',
+    '**/dist/**/*',
+    '.eslintrc.js',
+  ],
   rules: {
     'no-constant-condition': ['error', { checkLoops: false }],
     'import/no-unresolved': 0,

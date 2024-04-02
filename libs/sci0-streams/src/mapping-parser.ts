@@ -4,7 +4,7 @@ import { consumeNextMappingChunk as consume } from '@4bitlabs/sci0';
 
 const bufferize = (chunk: unknown, encoding: BufferEncoding): Uint8Array => {
   if (chunk instanceof Uint8Array) return chunk;
-  if (typeof chunk === 'string') return new Buffer(chunk, encoding);
+  if (typeof chunk === 'string') return Buffer.from(chunk, encoding);
   throw new Error('unsupported chunk type');
 };
 
