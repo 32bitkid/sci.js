@@ -26,17 +26,16 @@ export function nearestNeighbor(ratio: [number, number]): ImageResizer {
 
     for (let y = 0; y < iHeight; y++) {
       const oIdx = y * sy * width;
-      const row = outP.subarray(oIdx, oIdx + width);
 
       // fill the next row
       for (let x = 0; x < width; x++) {
         const ix = (x / sx) >>> 0;
-        row[x] = inP[ix + y * iWidth];
+        outP[oIdx + x] = inP[ix + y * iWidth];
       }
 
       // copy row n - 1 times
       for (let i = 1; i < sy; i++) {
-        outP.set(row, oIdx + i * width);
+        outP.copyWithin(oIdx + i * width, oIdx, oIdx + width);
       }
     }
 
