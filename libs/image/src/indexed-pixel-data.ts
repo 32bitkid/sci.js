@@ -27,8 +27,11 @@ export function createIndexedPixelData(
   const { keyColor } = options;
   if (keyColor && keyColor >= 0 && keyColor < 256) {
     const fill = FILL_CHUNK.subarray(keyColor * 320);
-    for (let i = 0; i < pixels.length; i += MAX_FILL)
-      pixels.set(fill.subarray(0, Math.min(MAX_FILL, pixels.length - i)), i);
+    for (let i = 0; i < pixels.length; i += MAX_FILL) {
+      const blockLen = Math.min(MAX_FILL, pixels.length - i);
+      const block = fill.subarray(0, blockLen);
+      pixels.set(block, i);
+    }
   }
 
   return {
