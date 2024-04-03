@@ -23,9 +23,7 @@ export function createIndexedPixelData(
   const pixels = new Uint8ClampedArray(width * height);
 
   const { keyColor } = options;
-  if (keyColor && keyColor >= 0 && keyColor < 256) {
-    pixels.fill(keyColor);
-  }
+  if (keyColor !== undefined) pixels.fill(keyColor);
 
   return {
     [INDEXED]: INDEXED,

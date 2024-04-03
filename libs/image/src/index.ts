@@ -15,4 +15,6 @@ export {
 export { createDitherFilter } from './dither-filter';
 export { createPaletteFilter } from './palette-filter';
 export { type RenderPipeline, renderPixelData } from './render-pixel-data';
+export { padPixelsFilter } from './pad-pixels-filter';
+export { padImageFilter } from './pad-image-filter';
 export { padFilter } from './pad-filter';
