@@ -29,7 +29,7 @@ export const scalerOption = (type: 'pre' | 'post'): Option =>
 
 export const paletteOption = (): Option =>
   new Option(`-p, --palette <pal>`, 'the base palette')
-    .choices(['cga', 'true-cga', 'dga'])
+    .choices(['cga', 'true-cga', 'dga', 'depth'])
     .default('cga');
 
 export const paletteMixerOption = (): Option =>

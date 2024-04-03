@@ -4,22 +4,27 @@ import { decompress, parsePic } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 import { renderPicWorker } from '../workers/render-pic-worker';
 import { loadContentFromMap } from './load-content-from-map';
-import { RenderPicOptions } from '../models/render-pic-options';
+import {
+  RenderPicOptions,
+  RenderPipelineOptions,
+} from '../models/render-pic-options';
 import { pickRenderOptions } from './pick-render-options';
 
-interface PicRenderActionOptions extends RenderPicOptions {
+interface PicRenderActionOptions {
   readonly output: string;
 }
 
 export async function picRenderAction(
   id: number,
-  options: PicRenderActionOptions,
+  options: PicRenderActionOptions & RenderPicOptions & RenderPipelineOptions,
   cmd: Command,
 ) {
-  const [
-    { output = `pic.${id.toString(10).padStart(3, '0')}.png` },
-    renderOptions,
-  ] = pickRenderOptions(options);
+  const [picOptions, renderOptions] = pickRenderOptions(options);
+  const {
+    format,
+    forcePal,
+    output = `pic.${id.toString(10).padStart(3, '0')}.${format}`,
+  } = picOptions;
 
   const { root, engine } = cmd.optsWithGlobals();
 
@@ -28,5 +33,12 @@ export async function picRenderAction(
   const pic = parsePic(picData);
 
   // render single image
-  await renderPicWorker(output, pic, renderOptions);
+  await renderPicWorker(
+    output,
+    pic,
+    picOptions.layer,
+    forcePal,
+    format,
+    renderOptions,
+  );
 }

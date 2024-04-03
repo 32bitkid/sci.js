@@ -1,19 +1,17 @@
-import { RenderPicOptions } from '../models/render-pic-options';
+import { RenderPipelineOptions } from '../models/render-pic-options';
 
-export const pickRenderOptions = <T extends RenderPicOptions>(
+export const pickRenderOptions = <T extends RenderPipelineOptions>(
   options: T,
-): [Omit<T, keyof RenderPicOptions>, RenderPicOptions] => {
+): [Omit<T, keyof RenderPipelineOptions>, RenderPipelineOptions] => {
   const {
     blur,
     blurAmount,
     contrast,
     dither,
-    forcePal,
     palette,
     paletteMixer,
     postScaler,
     preScaler,
-    format,
     ...rest
   } = options;
 
@@ -24,12 +22,10 @@ export const pickRenderOptions = <T extends RenderPicOptions>(
       blurAmount,
       contrast,
       dither,
-      forcePal,
       palette,
       paletteMixer,
       postScaler,
       preScaler,
-      format,
     },
   ];
 };

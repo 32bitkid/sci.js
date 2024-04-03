@@ -1,4 +1,4 @@
-import { type Command } from 'commander';
+import { type Command, Option } from 'commander';
 
 import * as Actions from '../actions';
 import { cmdIntParser } from './cmd-int-parser';
@@ -9,6 +9,11 @@ export function picRenderCommand(root: Command): Command {
     .command('render')
     .description('render pic resource as image')
     .argument('<id>', 'picture resource number', cmdIntParser)
+    .addOption(
+      new Option('-l, --layer <layer>')
+        .choices(['visual', 'priority', 'control'])
+        .default('visual'),
+    )
     .addOption(RenderOptions.scalerOption('pre'))
     .addOption(RenderOptions.ditherOption())
     .addOption(RenderOptions.paletteOption())

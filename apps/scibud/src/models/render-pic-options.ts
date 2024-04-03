@@ -9,12 +9,11 @@ export type ScalerID =
   | 'scale3x'
   | 'scale5x6';
 
-export type PaletteID = 'cga' | 'true-cga' | 'dga';
+export type PaletteID = 'cga' | 'true-cga' | 'dga' | 'depth';
 export type MixerID = 'none' | '10%' | '15%' | '25%' | '50%' | 'soft';
 export type BlurID = 'none' | 'box' | 'hbox' | 'hblur' | 'gauss';
 
-export interface RenderPicOptions {
-  readonly forcePal: undefined | 0 | 1 | 2 | 3;
+export interface RenderPipelineOptions {
   readonly preScaler: ScalerID;
   readonly dither: [number, number];
   readonly palette: PaletteID;
@@ -23,5 +22,10 @@ export interface RenderPicOptions {
   readonly postScaler: ScalerID;
   readonly blur: BlurID;
   readonly blurAmount: number | false;
-  readonly format: 'jpeg' | 'png' | 'webp' | 'raw';
+}
+
+export interface RenderPicOptions {
+  readonly forcePal: undefined | 0 | 1 | 2 | 3;
+  readonly layer: 'visible' | 'control' | 'priority';
+  readonly format: 'jpg' | 'png' | 'webp' | 'raw';
 }

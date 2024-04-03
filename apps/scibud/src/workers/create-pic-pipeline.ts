@@ -9,10 +9,11 @@ import {
   createDitherFilter,
   ImageFilter,
   RenderPipeline,
+  createPaletteFilter,
 } from '@4bitlabs/image';
 import * as ResizeFilters from '@4bitlabs/resize-filters';
 import * as BlurFilters from '@4bitlabs/blur-filters';
-import { RenderPicOptions } from '../models/render-pic-options';
+import { RenderPipelineOptions } from '../models/render-pic-options';
 
 const SCALER_MAPPING = {
   '2x2': ResizeFilters.nearestNeighbor([2, 2]),
@@ -32,7 +33,10 @@ const BLUR_FILTER_MAPPING = {
   gauss: BlurFilters.gaussBlur,
 };
 
-export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
+export function createPicPipeline(
+  layer: 'visible' | 'control' | 'priority',
+  options: RenderPipelineOptions,
+): RenderPipeline {
   const pre: PixelFilter[] = [];
   if (options.preScaler !== 'none') {
     pre.push(SCALER_MAPPING[options.preScaler]);
@@ -42,6 +46,25 @@ export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
     cga: Palettes.CGA_PALETTE,
     'true-cga': Palettes.TRUE_CGA_PALETTE,
     dga: Palettes.DGA_PALETTE,
+    depth: Uint32Array.of(
+      0xff000000,
+      0xff111111,
+      0xff222222,
+      0xff333333,
+      0xff444444,
+      0xff555555,
+      0xff666666,
+      0xff777777,
+
+      0xff888888,
+      0xff999999,
+      0xffaaaaaa,
+      0xffbbbbbb,
+      0xffcccccc,
+      0xffdddddd,
+      0xffeeeeee,
+      0xffffffff,
+    ),
   }[options.palette];
 
   const palette =
@@ -58,7 +81,10 @@ export function createPicPipeline(options: RenderPicOptions): RenderPipeline {
     soft: generatePairs(palette, Mixers.softMixer()),
   }[options.paletteMixer];
 
-  const dither = createDitherFilter(pairs, options.dither);
+  const dither =
+    layer === 'visible'
+      ? createDitherFilter(pairs, options.dither)
+      : createPaletteFilter(palette);
 
   const post: ImageFilter[] = [];
 
