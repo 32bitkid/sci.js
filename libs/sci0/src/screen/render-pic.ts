@@ -1,7 +1,7 @@
 import { type IndexedPixelData } from '@4bitlabs/image';
 import { createScreenBuffer, ScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
-import { DrawCommand, DrawMode } from '../models/draw-command';
+import { DrawCodes, DrawCommand, DrawMode } from '../models/draw-command';
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
@@ -35,14 +35,27 @@ export const renderPic = (
     Uint8Array.from(DEFAULT_PALETTE),
   ];
 
-  commands.forEach(function execStep(cmd) {
+  const which: [ScreenBuffer, (drawCodes: DrawCodes) => number][] = [
+    [
+      visible,
+      (drawCodes: DrawCodes) => {
+        const pal = (drawCodes[0] / 40) >>> 0;
+        const idx = drawCodes[0] % 40 >>> 0;
+        return palettes[forcePal ?? pal][idx];
+      },
+    ],
+    [priority, (drawCodes: DrawCodes) => drawCodes[1]],
+    [control, (drawCodes: DrawCodes) => drawCodes[2]],
+  ];
+
+  for (const cmd of commands) {
     const [mode] = cmd;
 
     switch (mode) {
       case 'SET_PALETTE': {
         const [, idx, palette] = cmd;
         palettes[idx] = palette;
-        return;
+        break;
       }
       case 'UPDATE_PALETTE': {
         const [, entries] = cmd;
@@ -51,50 +64,49 @@ export const renderPic = (
           palette[idx] = color;
           palettes[pal] = palette;
         });
-        return;
+        break;
       }
       case 'FILL': {
         const [, drawMode, drawCodes, pos] = cmd;
-        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
+        for (let mode = 0; mode < 3; mode++) {
+          if ((drawMode & (1 << mode)) === 0) continue;
 
-        const pal = (drawCodes[0] / 40) >>> 0;
-        const idx = drawCodes[0] % 40 >>> 0;
-        const color = palettes[forcePal ?? pal][idx];
-        const [x, y] = pos;
-        visible.fill(x, y, color);
+          const [x, y] = pos;
+          const [layer, color] = which[mode];
+          layer.fill(x, y, color(drawCodes));
+        }
         break;
       }
       case 'PLINE': {
         const [, drawMode, drawCodes, ...points] = cmd;
-        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
 
-        const pal = (drawCodes[0] / 40) >>> 0;
-        const idx = drawCodes[0] % 40 >>> 0;
-        const color = palettes[forcePal ?? pal][idx];
-
-        for (let p = 0; p < points.length - 1; p++)
-          visible.line(
-            points[p][0],
-            points[p][1],
-            points[p + 1][0],
-            points[p + 1][1],
-            color,
-          );
+        for (let mode = 0; mode < 3; mode++) {
+          if ((drawMode & (1 << mode)) === 0) continue;
+          const [layer, color] = which[mode];
+          for (let p = 0; p < points.length - 1; p++)
+            layer.line(
+              points[p][0],
+              points[p][1],
+              points[p + 1][0],
+              points[p + 1][1],
+              color(drawCodes),
+            );
+        }
         break;
       }
       case 'BRUSH': {
         const [, drawMode, drawCodes, patternCode, textureCode, [cx, cy]] = cmd;
-        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
 
-        const pal = (drawCodes[0] / 40) >>> 0;
-        const idx = drawCodes[0] % 40 >>> 0;
-        const color = palettes[forcePal ?? pal][idx];
-        visible.brush(cx, cy, ...patternCode, textureCode, color);
+        for (let mode = 0; mode < 3; mode++) {
+          if ((drawMode & (1 << mode)) === 0) continue;
+          const [layer, color] = which[mode];
+          layer.brush(cx, cy, ...patternCode, textureCode, color(drawCodes));
+        }
         break;
       }
       case 'CEL': {
         const [, drawMode, pos, cel] = cmd;
-        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) return;
+        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) continue;
 
         const data = cel.pixels;
         for (let y = pos[1]; y < pos[1] + cel.height; y++)
@@ -110,7 +122,7 @@ export const renderPic = (
       default:
         console.log(`unhandled opcode: ${mode}`);
     }
-  });
+  }
 
   return {
     visible: extractPixelData(visible),
