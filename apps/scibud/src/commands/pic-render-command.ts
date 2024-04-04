@@ -11,8 +11,8 @@ export function picRenderCommand(root: Command): Command {
     .argument('<id>', 'picture resource number', cmdIntParser)
     .addOption(
       new Option('-l, --layer <layer>')
-        .choices(['visual', 'priority', 'control'])
-        .default('visual'),
+        .choices(['visible', 'priority', 'control'])
+        .default('visible'),
     )
     .addOption(RenderOptions.scalerOption('pre'))
     .addOption(RenderOptions.ditherOption())

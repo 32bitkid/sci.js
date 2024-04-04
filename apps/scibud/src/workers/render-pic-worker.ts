@@ -20,10 +20,9 @@ export async function renderPicWorker(
   format: 'png' | 'jpg' | 'webp' | 'raw',
   options: RenderPipelineOptions,
 ) {
-  const pixelData = renderPic(picData, { forcePal: forcePal })[layer];
-
+  const layers = renderPic(picData, { forcePal: forcePal });
   const pipeline = createPicPipeline(layer, options);
-  const { data, width, height } = renderPixelData(pixelData, pipeline);
+  const { data, width, height } = renderPixelData(layers[layer], pipeline);
   const image = sharp(data, { raw: { width, height, channels: 4 } });
 
   if (outfile === '-') {
