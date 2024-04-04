@@ -24,9 +24,6 @@ export const createDitherFilter = (
         const idx = x + y * source.width;
         const src = inData[idx];
 
-        // TODO add alpha support
-        // if (inAlpha[idx] === 0) continue;
-
         const dx = (x / ditherSize[0]) & 1;
         const dy = (y / ditherSize[1]) & 1;
         const dither = dx ^ dy;
