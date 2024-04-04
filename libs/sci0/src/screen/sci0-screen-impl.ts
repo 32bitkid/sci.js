@@ -1,31 +1,33 @@
 import { NumericDeque } from '@4bitlabs/numeric-deque';
 import CIRCLES from './circles';
 import { NOISE, NOISE_OFFSETS } from './noise';
-import { Plotter, Brusher, IsFillable, Filler } from './screen';
+import { Plotter, Brusher, IsFillable, Filler, Liner } from './screen';
 import { StaticVec2 } from '../models/vec2';
+import { DrawCodes, DrawMode } from '../models/draw-command';
 
-export const createLine = (plot: Plotter) =>
+export const createLine = (plot: Plotter): Liner =>
   function line(
     x0: number,
     y0: number,
     x1: number,
     y1: number,
-    clr: number,
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
   ): void {
     if (x0 === x1) {
       for (let y = Math.min(y0, y1); y <= Math.max(y0, y1); y++)
-        plot(x0, y, clr);
+        plot(x0, y, drawMode, drawCodes);
       return;
     }
 
     if (y0 === y1) {
       for (let x = Math.min(x0, x1); x <= Math.max(x0, x1); x++)
-        plot(x, y0, clr);
+        plot(x, y0, drawMode, drawCodes);
       return;
     }
 
-    plot(x0, y0, clr);
-    plot(x1, y1, clr);
+    plot(x0, y0, drawMode, drawCodes);
+    plot(x1, y1, drawMode, drawCodes);
 
     const dx = x1 - x0;
     const dy = y1 - y0;
@@ -38,7 +40,7 @@ export const createLine = (plot: Plotter) =>
 
     if (adx > ady) {
       for (let x = x0, y = y0; sx < 0 ? x >= x1 : x <= x1; x += sx) {
-        plot(x, y, clr);
+        plot(x, y, drawMode, drawCodes);
         eps += ady;
         if (eps << 1 >= adx) {
           y += sy;
@@ -47,7 +49,7 @@ export const createLine = (plot: Plotter) =>
       }
     } else {
       for (let x = x0, y = y0; sy < 0 ? y >= y1 : y <= y1; y += sy) {
-        plot(x, y, clr);
+        plot(x, y, drawMode, drawCodes);
         eps += adx;
         if (eps << 1 >= ady) {
           x += sx;
@@ -65,7 +67,12 @@ export const createFloodFill = (
   const visited = new Set<number>();
   const stack = new NumericDeque(width * height, Uint32Array);
 
-  return function floodFill(x: number, y: number, color: number): void {
+  return function floodFill(
+    x: number,
+    y: number,
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
+  ): void {
     const startI = y * width + x;
     stack.push(startI);
 
@@ -78,9 +85,9 @@ export const createFloodFill = (
       const x = i % width;
       const y = (i / width) >>> 0;
 
-      if (!isLegal(x, y)) continue;
+      if (!isLegal(x, y, drawMode)) continue;
 
-      plot(x, y, color);
+      plot(x, y, drawMode, drawCodes);
 
       if (y - 1 >= 0 && !visited.has(i - width)) stack.push(i - width);
       if (y + 1 < height && !visited.has(i + width)) stack.push(i + width);
@@ -96,7 +103,16 @@ export const createBrush = (
   plot: Plotter,
   [stageWidth, stageHeight]: StaticVec2,
 ): Brusher =>
-  function brush(cx, cy, size, isRect, isSpray, textureCode, color): void {
+  function brush(
+    cx,
+    cy,
+    size,
+    isRect,
+    isSpray,
+    textureCode,
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
+  ): void {
     const baseWidth = isRect ? 2 : 1;
     const width = baseWidth + size * 2;
     const height = 1 + size * 2;
@@ -119,14 +135,19 @@ export const createBrush = (
           if (((row >>> shift) & 0b1) === 0) continue;
         }
         if (isSpray && !NOISE[noiseIdx++ & 0xff]) continue;
-        plot(px, py, color);
+        plot(px, py, drawMode, drawCodes);
       }
   };
 
 export const createMarker = (plot: Plotter): Filler =>
-  function marker(x: number, y: number, color: number): void {
-    plot(x - 1, y, color);
-    plot(x, y - 1, color);
-    plot(x + 1, y, color);
-    plot(x, y + 1, color);
+  function marker(
+    x: number,
+    y: number,
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
+  ): void {
+    plot(x - 1, y, drawMode, drawCodes);
+    plot(x, y - 1, drawMode, drawCodes);
+    plot(x + 1, y, drawMode, drawCodes);
+    plot(x, y + 1, drawMode, drawCodes);
   };
