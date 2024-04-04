@@ -6,5 +6,4 @@ export type PaletteFilter = (source: IndexedPixelData) => ImageDataLike;
 export type ImageFilter = (source: ImageDataLike) => ImageDataLike;
 export type GenericFilter = <T extends ImageDataLike | IndexedPixelData>(
   input: T,
-  output?: T,
 ) => T;
