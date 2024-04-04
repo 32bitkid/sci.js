@@ -1,10 +1,10 @@
-import { type GenericFilter, ImageFilter } from './image-filter';
+import { type GenericFilter } from './image-filter';
 import {
   type IndexedPixelData,
   isIndexedPixelData,
 } from './indexed-pixel-data';
-import { createImageData, ImageDataLike } from './image-data-like';
-import { type Padding, type PadQuad, toPadding4 } from './padding';
+import { ImageDataLike } from './image-data-like';
+import { type Padding, toPadding4 } from './padding';
 import { padIndexedPixelDataFilter } from './pad-pixels-filter';
 import { padImageDataFilter } from './pad-image-filter';
 
