@@ -31,7 +31,9 @@ export const parseFrom = (source: Uint8Array): View => {
       return parseCel(frameView);
     });
 
-    const bounds = frames.reduce<[number, number, number, number]>(
+    const [left, top, right, bottom] = frames.reduce<
+      [number, number, number, number]
+    >(
       ([x0, y0, x1, y1], { width, height, dx, dy }) => {
         const left = -(width >>> 1);
         return [
@@ -47,7 +49,14 @@ export const parseFrom = (source: Uint8Array): View => {
     return {
       frames,
       isMirrored,
-      bounds,
+      bounds: {
+        left,
+        top,
+        right,
+        bottom,
+        width: right - left,
+        height: bottom - top,
+      },
     };
   });
 };

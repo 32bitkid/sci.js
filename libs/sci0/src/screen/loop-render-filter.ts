@@ -4,8 +4,7 @@ import { type Cel } from '../models/cel';
 
 export const loopRenderFilter = (loop: Loop) => {
   const { isMirrored, bounds } = loop;
-  const [left, top, right, bottom] = bounds;
-  const [loopWidth, loopHeight] = [right - left, bottom - top];
+  const { left, top, right, width: loopWidth, height: loopHeight } = bounds;
 
   return (source: IndexedPixelData | Cel): IndexedPixelData => {
     if (!('dx' in source)) {

@@ -14,10 +14,11 @@ export const padIndexedPixelDataFilter = (
   [padT, padR, padB, padL]: PadQuad,
   options: PadPixelsFilterOptions = {},
 ): IndexedPixelData => {
+  const keyColor = options.keyColor ?? source.keyColor;
   const dest = createIndexedPixelData(
     padL + source.width + padR,
     padT + source.height + padB,
-    { keyColor: options.keyColor ?? source.keyColor },
+    { keyColor },
   );
 
   for (let y = 0; y < source.height; y++) {
@@ -30,8 +31,11 @@ export const padIndexedPixelDataFilter = (
   return dest;
 };
 
-export const padPixelsFilter = (n: Padding): PixelFilter => {
+export const padPixelsFilter = (
+  n: Padding,
+  options?: PadPixelsFilterOptions,
+): PixelFilter => {
   const pad = toPadding4(n);
   return (source: IndexedPixelData): IndexedPixelData =>
-    padIndexedPixelDataFilter(source, pad);
+    padIndexedPixelDataFilter(source, pad, options);
 };
