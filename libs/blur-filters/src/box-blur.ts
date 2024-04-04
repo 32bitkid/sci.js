@@ -39,7 +39,7 @@ const SHG = [
 
 export function boxBlur(radius: number): ImageFilter {
   radius = radius >>> 0;
-  return function boxBlur(source: ImageDataLike): ImageDataLike {
+  return function boxBlurFilter(source: ImageDataLike): ImageDataLike {
     const { width, height } = source;
 
     const pixels = source.data;
@@ -68,7 +68,7 @@ export function boxBlur(radius: number): ImageFilter {
       bSum = pixels[yw + 2] * rad1;
 
       for (i = 1; i <= radius; i++) {
-        let p = yw + ((i > wm ? wm : i) << 2);
+        p = yw + ((i > wm ? wm : i) << 2);
         rSum += pixels[p++];
         gSum += pixels[p++];
         bSum += pixels[p++];

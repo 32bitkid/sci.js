@@ -68,12 +68,12 @@ export const createFloodFill = (
   const stack = new NumericDeque(width * height, Uint32Array);
 
   return function floodFill(
-    x: number,
-    y: number,
+    sx: number,
+    sy: number,
     drawMode: DrawMode,
     drawCodes: DrawCodes,
   ): void {
-    const startI = y * width + x;
+    const startI = sy * width + sx;
     stack.push(startI);
 
     while (!stack.isEmpty()) {

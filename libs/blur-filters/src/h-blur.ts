@@ -36,7 +36,7 @@ function convolute(image: ImageDataLike, kernel: Float32Array) {
 export function hBlur(sigma: number): ImageFilter {
   const kernel = makeGaussKernel(sigma);
 
-  return function hBlur(pixels: ImageDataLike): ImageDataLike {
+  return function hBlurFilter(pixels: ImageDataLike): ImageDataLike {
     if (sigma <= 0) return pixels;
     convolute(pixels, kernel);
     return pixels;

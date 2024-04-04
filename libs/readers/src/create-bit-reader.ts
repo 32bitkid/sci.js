@@ -14,6 +14,6 @@ export function createBitReader(
   options: BitReaderOptions = {},
 ): BitReader {
   const { fast = false, mode = 'msb' } = options;
-  const BitReader = (fast ? fastReaders : safeReaders)[mode];
-  return new BitReader(source);
+  const BitReaderImpl = (fast ? fastReaders : safeReaders)[mode];
+  return new BitReaderImpl(source);
 }

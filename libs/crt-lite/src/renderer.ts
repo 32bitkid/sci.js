@@ -20,10 +20,12 @@ export interface CrtRenderer {
 
 export function createCrtRenderer(
   canvasEl: HTMLCanvasElement,
-  options: CreateCrtRenderOptions = {},
+  {
+    contextOptions,
+    maxHBlur,
+    renderDefaults: defaults,
+  }: CreateCrtRenderOptions = {},
 ): CrtRenderer {
-  const { contextOptions, maxHBlur, renderDefaults: defaults } = options;
-
   const gl = canvasEl.getContext('webgl2', {
     desynchronized: true,
     ...contextOptions,

@@ -64,7 +64,7 @@ function convolute(
 
 export function gaussBlur(sigma: number): ImageFilter {
   const kernel = makeGaussKernel(sigma);
-  return function gaussBlur(pixels: ImageDataLike): ImageDataLike {
+  return function gaussBlurFilter(pixels: ImageDataLike): ImageDataLike {
     for (let ch = 0; ch < 3; ch++) {
       convolute(pixels, kernel, kernel, ch);
     }
