@@ -1,3 +1,5 @@
+import { createWriteStream } from 'node:fs';
+
 import { Command } from 'commander';
 import GifEncoder from 'gif-encoder';
 import sharp, { type Sharp } from 'sharp';
@@ -85,44 +87,49 @@ export async function viewRenderAction(
 
   if (animated) {
     const gif = new GifEncoder(allFrames[0].width, allFrames[0].height);
-    gif.pipe(process.stdout);
+
+    const stream =
+      output !== '-'
+        ? createWriteStream(output, { flags: 'w' })
+        : process.stdout;
+
+    gif.pipe(stream);
     gif.writeHeader();
     gif.setFrameRate(7.5);
     gif.setTransparent(backgroundColor);
     allFrames.forEach((it) => gif.addFrame(it.data));
     gif.finish();
-    return;
-  }
-
-  const [totalWidth, totalHeight] = allFrames.reduce(
-    ([prevW, prevH], imgData) => [
-      Math.max(prevW, imgData.width),
-      prevH + imgData.height,
-    ],
-    [0, 0],
-  );
-
-  const [compositeImage] = allFrames.reduce(
-    ([sheet, offset], current) => {
-      const { data, width, height } = current;
-      const size = width * height * 4;
-      sheet.data.set(data, offset);
-      return [sheet, offset + size];
-    },
-    [createImageData(totalWidth, totalHeight), 0],
-  );
-
-  const image = sharp(compositeImage.data, {
-    raw: {
-      width: compositeImage.width,
-      height: compositeImage.height,
-      channels: 4,
-    },
-  });
-
-  if (output === '-') {
-    process.stdout.write(await FORMAT_MAPPING[format](image));
   } else {
-    image.toFile(output);
+    const [totalWidth, totalHeight] = allFrames.reduce(
+      ([prevW, prevH], imgData) => [
+        Math.max(prevW, imgData.width),
+        prevH + imgData.height,
+      ],
+      [0, 0],
+    );
+
+    const [compositeImage] = allFrames.reduce(
+      ([sheet, offset], current) => {
+        const { data, width, height } = current;
+        const size = width * height * 4;
+        sheet.data.set(data, offset);
+        return [sheet, offset + size];
+      },
+      [createImageData(totalWidth, totalHeight), 0],
+    );
+
+    const image = sharp(compositeImage.data, {
+      raw: {
+        width: compositeImage.width,
+        height: compositeImage.height,
+        channels: 4,
+      },
+    });
+
+    if (output === '-') {
+      process.stdout.write(await FORMAT_MAPPING[format](image));
+    } else {
+      image.toFile(output);
+    }
   }
 }
