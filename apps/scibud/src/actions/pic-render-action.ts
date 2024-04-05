@@ -9,6 +9,7 @@ import {
   RenderPipelineOptions,
 } from '../models/render-pic-options';
 import { pickRenderOptions } from './pick-render-options';
+import { getRootOptions } from './get-root-options';
 
 interface PicRenderActionOptions {
   readonly output: string;
@@ -19,14 +20,13 @@ export async function picRenderAction(
   options: PicRenderActionOptions & RenderPicOptions & RenderPipelineOptions,
   cmd: Command,
 ) {
+  const { root, engine } = getRootOptions(cmd);
   const [picOptions, renderOptions] = pickRenderOptions(options);
   const {
     format,
     forcePal,
     output = `pic.${id.toString(10).padStart(3, '0')}.${format}`,
   } = picOptions;
-
-  const { root, engine } = cmd.optsWithGlobals();
 
   const [header, compressed] = await loadContentFromMap(root, picMatcher(id));
   const picData = decompress(engine, header.compression, compressed);

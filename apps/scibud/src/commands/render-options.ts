@@ -9,10 +9,12 @@ export const ditherOption = () =>
     .argParser(cmdDimensionsParser)
     .default([1, 1], '"1x1"');
 
-export const scalerOption = (type: 'pre' | 'post'): Option =>
+export const scalerOption = (type?: 'pre' | 'post'): Option =>
   new Option(
-    `-${type === 'post' ? 's' : 'S'}, --${type}-scaler <scaler>`,
-    `${type}-dither pixel scaler`,
+    type
+      ? `-${type === 'post' ? 's' : 'S'}, --${type}-scaler <scaler>`
+      : '-s --scaler <scaler>',
+    type ? `${type}-dither pixel scaler` : 'pixel scaler',
   )
     .choices([
       'none',
@@ -27,9 +29,9 @@ export const scalerOption = (type: 'pre' | 'post'): Option =>
     ])
     .default(type === 'pre' ? 'none' : 'none');
 
-export const paletteOption = (): Option =>
+export const paletteOption = (extraChoices: 'depth'[] = []): Option =>
   new Option(`-p, --palette <pal>`, 'the base palette')
-    .choices(['cga', 'true-cga', 'dga', 'depth'])
+    .choices(['cga', 'true-cga', 'dga', ...extraChoices])
     .default('cga');
 
 export const paletteMixerOption = (): Option =>
@@ -65,5 +67,5 @@ export const formatOption = (): Option =>
     '-f, --format <format>',
     'image format. used when writing to STDOUT',
   )
-    .choices(['png', 'jpeg', 'webp', 'raw'])
+    .choices(['png', 'jpg', 'webp', 'raw'])
     .default('png');

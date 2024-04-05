@@ -2,7 +2,7 @@ import { createIndexedPixelData, IndexedPixelData } from '@4bitlabs/image';
 import { type Loop } from '../models/view';
 import { type Cel } from '../models/cel';
 
-export const loopRenderFilter = (loop: Loop) => {
+export const loopPaddingFilter = (loop: Loop) => {
   const { isMirrored, bounds } = loop;
   const { left, top, right, width: loopWidth, height: loopHeight } = bounds;
 

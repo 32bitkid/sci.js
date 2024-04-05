@@ -1,2 +1,2 @@
 export { renderPic } from './render-pic';
-export { loopRenderFilter } from './loop-render-filter';
+export { loopPaddingFilter } from './loop-padding-filter';

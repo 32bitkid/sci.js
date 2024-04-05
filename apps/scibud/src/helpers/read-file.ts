@@ -16,8 +16,6 @@ export async function readFile(
     if (foundFile === undefined) throw new Error('not found');
     return fsReadFile(join(folder, foundFile));
   } catch (_) {
-    const msg = `${join(resolve(folder), filename)} not found!`;
-    console.error(msg);
-    process.exit(1);
+    throw new Error(`${join(resolve(folder), filename)} not found!`);
   }
 }

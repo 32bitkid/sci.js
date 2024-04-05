@@ -3,9 +3,9 @@ import { PaletteFilter, ImageFilter, PixelFilter } from './image-filter';
 import { ImageDataLike } from './image-data-like';
 
 export interface RenderPipeline {
-  pre?: PixelFilter[];
+  pre?: (PixelFilter | false | undefined)[];
   dither: PaletteFilter;
-  post?: ImageFilter[];
+  post?: (ImageFilter | false | undefined)[];
 }
 
 export function renderPixelData(
@@ -13,7 +13,7 @@ export function renderPixelData(
   pipeline: RenderPipeline,
 ): ImageDataLike {
   const { pre = [], dither, post = [] } = pipeline;
-  const img1 = pre.reduce((it, filter) => filter(it), source);
+  const img1 = pre.reduce((it, filter) => (filter ? filter(it) : it), source);
   const img2 = dither(img1);
-  return post.reduce((it, filter) => filter(it), img2);
+  return post.reduce((it, filter) => (filter ? filter(it) : it), img2);
 }

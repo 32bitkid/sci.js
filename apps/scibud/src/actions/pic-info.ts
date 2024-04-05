@@ -4,9 +4,10 @@ import columnify from 'columnify';
 import { parseAllMappings, parseHeaderFrom } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
 import { readFile } from '../helpers/read-file';
+import { getRootOptions } from './get-root-options';
 
 export async function picInfo(pic: number, _: unknown, cmd: Command) {
-  const { root } = cmd.optsWithGlobals();
+  const { root } = getRootOptions(cmd);
 
   console.log(`Searching for pic #${pic}…`);
 
@@ -14,8 +15,7 @@ export async function picInfo(pic: number, _: unknown, cmd: Command) {
 
   const found = mapping.find(picMatcher(pic));
   if (!found) {
-    console.error(`Pic #${pic} not found!`);
-    process.exit(1);
+    throw new Error(`pic #${pic} not found!`);
   }
   const { offset, file } = found!;
 

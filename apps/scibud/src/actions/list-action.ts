@@ -2,10 +2,11 @@ import { type Command } from 'commander';
 
 import { getResourceNumber, parseAllMappings } from '@4bitlabs/sci0';
 import { readFile } from '../helpers/read-file';
+import { getRootOptions } from './get-root-options';
 
 export const listActionFor = (matchFn: (id: number) => boolean) =>
   async function listAction(_: unknown, cmd: Command) {
-    const { root } = cmd.optsWithGlobals();
+    const { root } = getRootOptions(cmd);
 
     const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
 

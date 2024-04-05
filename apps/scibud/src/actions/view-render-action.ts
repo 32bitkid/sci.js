@@ -1,83 +1,128 @@
 import { Command } from 'commander';
-import sharp, { OverlayOptions } from 'sharp';
+import GifEncoder from 'gif-encoder';
+import sharp, { type Sharp } from 'sharp';
 
-import { decompress, parseView } from '@4bitlabs/sci0';
-import { createPaletteFilter, renderPixelData } from '@4bitlabs/image';
-import * as ResizeFilters from '@4bitlabs/resize-filters';
-import * as BlurFilters from '@4bitlabs/blur-filters';
-import { Palettes, IBM5153Contrast } from '@4bitlabs/color';
+import { decompress, loopPaddingFilter, parseView } from '@4bitlabs/sci0';
+import {
+  createImageData,
+  createPaletteFilter,
+  padPixelsFilter,
+  renderPixelData,
+} from '@4bitlabs/image';
 import { loadContentFromMap } from './load-content-from-map';
 import { viewMatcher } from '../helpers/resource-matchers';
+import { getRootOptions } from './get-root-options';
+import {
+  generatePalette,
+  getScalerFromOptions,
+} from '../workers/create-pic-pipeline';
+import { ScalerID } from '../models/render-pic-options';
 
-export const concat = (parts: Uint8ClampedArray[]): Uint8ClampedArray => {
-  const len = parts.reduce((sum, it) => sum + it.length, 0);
-  const result = new Uint8ClampedArray(len);
-  parts.reduce((sum, it) => {
-    result.set(it, sum);
-    return sum + it.length;
-  }, 0);
-  return result;
+type Padding =
+  | [number]
+  | [number, number]
+  | [number, number, number]
+  | [number, number, number, number];
+
+const hasPadding = (it: Padding | undefined): it is Padding => {
+  return !(it?.every((v) => v === 0) ?? true);
+};
+
+interface ViewRenderActionOptions {
+  padding: Padding | undefined;
+  animated: boolean;
+  palette: 'cga' | 'true-cga' | 'dga';
+  contrast: number;
+  scaler: ScalerID;
+  output: string;
+  format: 'jpg' | 'png' | 'webp' | 'raw';
+}
+
+const FORMAT_MAPPING = {
+  png: (source: Sharp) => source.png().toBuffer(),
+  jpg: (source: Sharp) => source.jpeg().toBuffer(),
+  webp: (source: Sharp) => source.webp().toBuffer(),
+  raw: (source: Sharp) => source.raw().toBuffer(),
 };
 
 export async function viewRenderAction(
   id: number,
-  loop: number,
-  _: unknown,
+  loopId: number,
+  options: ViewRenderActionOptions,
   cmd: Command,
 ) {
-  const { root, engine } = cmd.optsWithGlobals();
+  const {
+    format,
+    animated,
+    output = `pic.${id.toString(10).padStart(3, '0')}.${format}`,
+  } = options;
+  const { root, engine } = getRootOptions(cmd);
 
   const [header, compressed] = await loadContentFromMap(root, viewMatcher(id));
   const viewData = decompress(engine, header.compression, compressed);
   const view = parseView(viewData);
 
+  const loop = view[loopId];
+
+  if (!loop)
+    cmd.error(`Error: loop ${loopId} is not valid`, { code: 'INVALID_LOOP' });
+
+  const backgroundColor = animated ? 0xffff00ff : 0x00000000;
+
+  const palette = generatePalette(options);
   const pipeline = {
-    dither: createPaletteFilter(
-      IBM5153Contrast(Palettes.TRUE_CGA_PALETTE, 0.75),
-    ),
-    post: [
-      ResizeFilters.scale5x6,
-      // ResizeFilters.nearestNeighbor([5, 6]),
-      BlurFilters.hBoxBlur(4),
+    pre: [
+      loopPaddingFilter(loop),
+      hasPadding(options.padding) && padPixelsFilter(options.padding),
     ],
+    dither: createPaletteFilter(palette, { backgroundColor }),
+    post: [getScalerFromOptions(options.scaler)],
   };
 
-  const allFrames = view[loop].frames.map((frame) => {
-    console.log(frame.dx, frame.dy);
-    return renderPixelData(frame, pipeline);
-  });
+  const allFrames = loop.frames.map((frame) =>
+    renderPixelData(frame, pipeline),
+  );
 
-  const [width, height] = allFrames.reduce(
-    ([w0, h0], { width: w1, height: h1 }) => [Math.max(w0, w1), h0 + h1],
+  if (animated) {
+    const gif = new GifEncoder(allFrames[0].width, allFrames[0].height);
+    gif.pipe(process.stdout);
+    gif.writeHeader();
+    gif.setFrameRate(7.5);
+    gif.setTransparent(backgroundColor);
+    allFrames.forEach((it) => gif.addFrame(it.data));
+    gif.finish();
+    return;
+  }
+
+  const [totalWidth, totalHeight] = allFrames.reduce(
+    ([prevW, prevH], imgData) => [
+      Math.max(prevW, imgData.width),
+      prevH + imgData.height,
+    ],
     [0, 0],
   );
 
-  const rendered = await Promise.all(
-    allFrames.map(async ({ data, width, height }) => {
-      const buffer = await sharp(data, { raw: { width, height, channels: 4 } })
-        .png()
-        .toBuffer();
-      return { buffer, width, height };
-    }),
-  );
-  const [, layers] = rendered.reduce<[number, OverlayOptions[]]>(
-    ([y, stack], frame) => {
-      const { buffer, height } = frame;
-      return [y + height, [...stack, { input: buffer, top: y, left: 0 }]];
+  const [compositeImage] = allFrames.reduce(
+    ([sheet, offset], current) => {
+      const { data, width, height } = current;
+      const size = width * height * 4;
+      sheet.data.set(data, offset);
+      return [sheet, offset + size];
     },
-    [0, []],
+    [createImageData(totalWidth, totalHeight), 0],
   );
 
-  const image = sharp({
-    create: {
-      width,
-      height: height,
+  const image = sharp(compositeImage.data, {
+    raw: {
+      width: compositeImage.width,
+      height: compositeImage.height,
       channels: 4,
-      background: { r: 128, g: 0, b: 0, alpha: 0.25 },
     },
   });
 
-  image.composite(layers);
-
-  process.stdout.write(await image.gif().toBuffer());
+  if (output === '-') {
+    process.stdout.write(await FORMAT_MAPPING[format](image));
+  } else {
+    image.toFile(output);
+  }
 }
