@@ -33,6 +33,7 @@ applySubCommands(
   program.command('view').description('"view" resource commands'),
   Commands.listCommandForType(ResourceTypes.VIEW_TYPE),
   Commands.extractCommandForType(ResourceTypes.VIEW_TYPE),
+  Commands.viewInfoCommand,
   Commands.viewRenderCommand,
 );
 

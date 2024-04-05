@@ -46,18 +46,19 @@ function parsePadding(
 export const viewRenderCommand = (cmd: Command) =>
   cmd
     .command('render')
-    .argument('<id>', 'id to render', cmdIntParser)
+    .argument('<num>', 'id to render', cmdIntParser)
     .argument('<loop>', 'loop to render', cmdIntParser)
     .addOption(paletteOption())
     .addOption(contrastOption())
     .addOption(scalerOption())
     .addOption(
-      new Option('--animated', 'render as sprite sheet').default(false),
+      new Option('--animated', 'render loop as animated gif').default(false),
     )
     .addOption(
-      new Option('--padding <padding>', 'sprite padding').argParser(
-        parsePadding,
-      ),
+      new Option(
+        '--padding <padding>',
+        'add extra padding around sprite (in pixels)',
+      ).argParser(parsePadding),
     )
     .option(
       '-o, --output <string>',

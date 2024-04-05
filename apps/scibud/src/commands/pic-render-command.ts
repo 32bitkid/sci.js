@@ -8,7 +8,7 @@ export function picRenderCommand(root: Command): Command {
   root
     .command('render')
     .description('render pic resource as image')
-    .argument('<id>', 'picture resource number', cmdIntParser)
+    .argument('<num>', 'picture resource number', cmdIntParser)
     .addOption(
       new Option('-l, --layer <layer>')
         .choices(['visible', 'priority', 'control'])

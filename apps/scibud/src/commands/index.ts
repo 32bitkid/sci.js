@@ -5,3 +5,4 @@ export { picRenderCommand } from './pic-render-command';
 export { picInfoCommand } from './pic-info-command';
 
 export { viewRenderCommand } from './view-render-command';
+export { viewInfoCommand } from './view-info-command';
