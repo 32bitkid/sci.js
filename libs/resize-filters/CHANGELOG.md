@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.4...@4bitlabs/resize-filters@1.0.5) (2024-04-05)
+
+### Chore
+
+- rely on lerna/nx for build asset better caching ([ae1ae1e](https://github.com/32bitkid/sci.js/commit/ae1ae1eb4ead8e89a4d53ea0bcfcbc8e107b1488))
+
+### Updated
+
+- use copyWithin() instead of subarray()/set() to duplicate line ([c34f7a7](https://github.com/32bitkid/sci.js/commit/c34f7a7167bcf87bd5c41c8069829af9b8a82837))
+
 ## [1.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.3...@4bitlabs/resize-filters@1.0.4) (2024-03-31)
 
 ### Fixed

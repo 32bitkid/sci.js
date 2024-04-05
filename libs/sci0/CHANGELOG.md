@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.1.1...@4bitlabs/sci0@2.2.0) (2024-04-05)
+
+### Changed
+
+- bounds is now record, rather than unkeyed tuple ([3859ffc](https://github.com/32bitkid/sci.js/commit/3859ffcda5c9b42ba4c8dfc0a9891205c03146e8))
+
+### Chore
+
+- enable no-shadow rule ([2ea836a](https://github.com/32bitkid/sci.js/commit/2ea836add49b0a30810a2241d400ca38e0b0b1ed))
+- reformatting code ([2942981](https://github.com/32bitkid/sci.js/commit/29429811ee671073c78b54bd27873c4b9db4a781))
+- rely on lerna/nx for build asset better caching ([ae1ae1e](https://github.com/32bitkid/sci.js/commit/ae1ae1eb4ead8e89a4d53ea0bcfcbc8e107b1488))
+
+### Fixed
+
+- Rendering control and priority layers now works as intended ([cdfaead](https://github.com/32bitkid/sci.js/commit/cdfaead13f4ca2835454ff8dc2a5e218d06e244a))
+- resolve some rendering issues rendering control/priority layers. ([6825fb0](https://github.com/32bitkid/sci.js/commit/6825fb0020a2e5dc0314642d35f6b91a09ea41d1))
+
+### New
+
+- added view render command to scibud ([3f114fc](https://github.com/32bitkid/sci.js/commit/3f114fcaf66f524ef41ff0149ee9cb9a820f2508))
+
 ## [2.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.1.0...@4bitlabs/sci0@2.1.1) (2024-03-31)
 
 ### Fixed

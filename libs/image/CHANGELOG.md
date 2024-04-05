@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.1.1...@4bitlabs/image@3.2.0) (2024-04-05)
+
+### Changed
+
+- bounds is now record, rather than unkeyed tuple ([3859ffc](https://github.com/32bitkid/sci.js/commit/3859ffcda5c9b42ba4c8dfc0a9891205c03146e8))
+
+### Chore
+
+- clean up GenericFilter arguments ([8cf6448](https://github.com/32bitkid/sci.js/commit/8cf6448c67b2a2fb50117644fc13b0b2ff528ab8))
+- cleaning up some unused imports ([ba23240](https://github.com/32bitkid/sci.js/commit/ba232401c61ff76189af5b9e35ca72593d008877))
+- rely on lerna/nx for build asset better caching ([ae1ae1e](https://github.com/32bitkid/sci.js/commit/ae1ae1eb4ead8e89a4d53ea0bcfcbc8e107b1488))
+- remove outdated TODO ([1eed762](https://github.com/32bitkid/sci.js/commit/1eed762a31460c7aabec4563c24144aa5c9eac19))
+
+### New
+
+- added view render command to scibud ([3f114fc](https://github.com/32bitkid/sci.js/commit/3f114fcaf66f524ef41ff0149ee9cb9a820f2508))
+- adding explicit padImageFilter and padPixelFilter ([f1d15f5](https://github.com/32bitkid/sci.js/commit/f1d15f5e71cb5dc0dbaccbd5577008354a0ba353))
+
+### Updated
+
+- fill() can be used instead of pixel copy with subarray()/set() ([1dd077f](https://github.com/32bitkid/sci.js/commit/1dd077f392b87c47cdf83c8a3afe3e2a9d085d3a))
+- make createIndexedPixelData keyColor initialization clearer ([640743c](https://github.com/32bitkid/sci.js/commit/640743c42c7a76e8d7a4f6d48ecc7e586e74da11))
+
 ## [3.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.1.0...@4bitlabs/image@3.1.1) (2024-03-31)
 
 ### Fixed

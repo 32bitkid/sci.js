@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/readers@2.0.3...@4bitlabs/readers@2.0.4) (2024-04-05)
+
+### Chore
+
+- enable no-shadow rule ([2ea836a](https://github.com/32bitkid/sci.js/commit/2ea836add49b0a30810a2241d400ca38e0b0b1ed))
+- rely on lerna/nx for build asset better caching ([ae1ae1e](https://github.com/32bitkid/sci.js/commit/ae1ae1eb4ead8e89a4d53ea0bcfcbc8e107b1488))
+
 ## <small>2.0.3 (2024-03-22)</small>
 
 - Chore: small tweak to reader CHANGELOG ([5ba6796](https://github.com/32bitkid/sci.js/commit/5ba6796))

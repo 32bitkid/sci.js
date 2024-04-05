@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.3...@4bitlabs/crt-lite@1.0.4) (2024-04-05)
+
+### Chore
+
+- enable no-shadow rule ([2ea836a](https://github.com/32bitkid/sci.js/commit/2ea836add49b0a30810a2241d400ca38e0b0b1ed))
+- reformatting code ([2942981](https://github.com/32bitkid/sci.js/commit/29429811ee671073c78b54bd27873c4b9db4a781))
+
 ## [1.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.2...@4bitlabs/crt-lite@1.0.3) (2024-03-28)
 
 ### Updated
