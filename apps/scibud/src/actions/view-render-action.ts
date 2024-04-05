@@ -88,6 +88,9 @@ export async function viewRenderAction(
   if (animated) {
     const gif = new GifEncoder(allFrames[0].width, allFrames[0].height);
 
+    if (output !== '-' && !output.endsWith('.gif'))
+      cmd.error('only .gif files are supported for animated output');
+
     const stream =
       output !== '-'
         ? createWriteStream(output, { flags: 'w' })
