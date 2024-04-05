@@ -1,9 +1,9 @@
 {
   "name": "@4bitlabs/scibud",
   "version": "0.0.0",
-  "description": "",
+  "description": "Nodejs-based tool for decoding and rendering Sierra On-line SCI0 Adventure game resources",
+  "keywords": ["sci0", "sierra on-line", "sci01"],
   "main": "./dist/index.js",
-  "private": true,
   "bin": {
     "scibud": "./dist/index.js"
   },
@@ -13,6 +13,9 @@
     "build": "tsc --build",
     "test": "echo 'No tests'"
   },
+  "files": [
+    "./dist/**/*"
+  ],
   "author": "J. Holmes <32bitkid@gmail.com>",
   "license": "ISC",
   "dependencies": {
