@@ -48,13 +48,11 @@ export const createScreenBuffer = (
   const isFillable: IsFillable = (x, y, drawMode) => {
     const idx = x + y * bufferWidth;
 
-    /* TODO this also might not be 100% accurate.
-     * When the visual layer is enabled, it might explicitly be looking for any white (0xf) pixel, rather than
-     * an explicit [0xf,0xf] tuple.
-     */
     const isVisible = (drawMode & DrawMode.Visual) === DrawMode.Visual;
     if (isVisible) {
-      return visible.pixels[idx] === 0xff;
+      const dither = (x & 1) ^ (y & 1);
+      const val = visible.pixels[idx];
+      return 0xf === (dither ? val & 0xf : val >>> 4);
     }
 
     /* TODO not sure if this is correct… but it looks *okay*-ish.
