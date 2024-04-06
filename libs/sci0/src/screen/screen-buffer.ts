@@ -14,6 +14,7 @@ export const createScreenBuffer = (
   const visible = createIndexedPixelData(bufferWidth, bufferHeight);
   const priority = createIndexedPixelData(bufferWidth, bufferHeight);
   const control = createIndexedPixelData(bufferWidth, bufferHeight);
+  const alpha = createIndexedPixelData(bufferWidth, bufferHeight);
 
   visible.pixels.fill(0xff);
   priority.pixels.fill(0x00);
@@ -32,6 +33,7 @@ export const createScreenBuffer = (
       const palette = palettes[pal];
       const palIndex = drawCodes[0] % 40 >>> 0;
       visible.pixels[idx] = palette[palIndex];
+      alpha.pixels[idx] = 255;
     }
 
     if ((drawMode & DrawMode.Priority) === DrawMode.Priority) {
@@ -69,7 +71,7 @@ export const createScreenBuffer = (
   };
 
   return [
-    { visible, priority, control },
+    { visible, priority, control, alpha },
     {
       setPixel,
       brush: createBrush(plot, [bufferWidth, bufferHeight]),

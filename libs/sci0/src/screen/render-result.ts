@@ -4,4 +4,5 @@ export interface RenderResult {
   visible: IndexedPixelData;
   priority: IndexedPixelData;
   control: IndexedPixelData;
+  alpha: IndexedPixelData;
 }

@@ -12,7 +12,6 @@ export const createDitherFilter = (
     dest: ImageDataLike = createImageData(source.width, source.height),
   ): ImageDataLike {
     const inData = source.pixels;
-    // const inAlpha = source.alpha;
     const outData = new Uint32Array(
       dest.data.buffer,
       dest.data.byteOffset,
