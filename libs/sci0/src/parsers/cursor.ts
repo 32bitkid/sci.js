@@ -30,7 +30,7 @@ export const parseFrom = (
   const hotspot = [view.getUint16(0, true), view.getUint16(2, true)] as const;
 
   const img = createIndexedPixelData(16, 16);
-  const stride = 16 * 4;
+  const stride = 16;
   for (let y = 0; y < 16; y++) {
     for (let x = 0; x < 16; x++) {
       const idx = 4 + y * 2;
@@ -41,7 +41,7 @@ export const parseFrom = (
       const a = (tx >> (15 - x)) & 1;
       const b = (clr >> (15 - x)) & 1;
       const value = (a << 1) | b;
-      img.pixels[x * 4 + y * stride] = mapping[value];
+      img.pixels[x + y * stride] = mapping[value];
     }
   }
 
