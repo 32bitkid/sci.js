@@ -1,6 +1,27 @@
-# `@4bitlabs/sci0`
+# @4bitlabs/sci0 [![License][license]][npm] [![NPM Version][version]][npm] ![Size][size] [![NPM Downloads][dl]][npm]
 
-Library for parsing and rendering assets from [Sierra On-line's][sierra] [SCI-engine][sci0].
+[npm]: https://www.npmjs.com/package/@4bitlabs/sci0
+[version]: https://img.shields.io/npm/v/%404bitlabs%2Fsci0
+[license]: https://img.shields.io/npm/l/%404bitlabs%2Fsci0
+[dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fsci0
+[size]: https://img.shields.io/bundlephobia/min/%404bitlabs/sci0
+
+Library for parsing and rendering assets from [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0].
+
+## Supported SCI0 resource types
+
+| Type   | Extract | Parse/Render | Write |
+| ------ | :-----: | :----------: | :---: |
+| View   |   ✅    |      ✅      |  ❌   |
+| Pic    |   ✅    |      ✅      |  ❌   |
+| Script |   ✅    |      ❌      |  ❌   |
+| Text   |   ✅    |      ✅      |  ❌   |
+| Sound  |   ✅    |      ❌      |  ❌   |
+| Memory |   ✅    |      ❌      |  ❌   |
+| Vocab  |   ✅    |      ❌      |  ❌   |
+| Font   |   ✅    |      ✅      |  ❌   |
+| Cursor |   ✅    |      ✅      |  ❌   |
+| Patch  |   ✅    |      ❌      |  ❌   |
 
 ## Parse `RESOURCE.MAP` file
 
@@ -69,21 +90,6 @@ const image = renderPixelData(visible, {
   dither: createDitherFilter(CGA_PAIRS),
 });
 ```
-
-## Supported Resource Types
-
-| ID  | Type   | Read | Write |
-| :-: | ------ | :--: | :---: |
-| `0` | View   |  ✅  |       |
-| `1` | Pic    |  ✅  |       |
-| `2` | Script |  ❌  |       |
-| `3` | Text   |  ✅  |       |
-| `4` | Sound  |  ❌  |       |
-| `5` | Memory |  ❌  |       |
-| `6` | Vocab  |  ❌  |       |
-| `7` | Font   |  ✅  |       |
-| `8` | Cursor |  ✅  |       |
-| `9` | Patch  |  ❌  |       |
 
 [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
 [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter

@@ -1,4 +1,10 @@
-# `@4bitlabs/codecs`
+# @4bitlabs/codecs [![License][license]][npm] [![NPM Version][version]][npm] ![Size][size] [![NPM Downloads][dl]][npm]
+
+[npm]: https://www.npmjs.com/package/@4bitlabs/codecs
+[version]: https://img.shields.io/npm/v/%404bitlabs%2Fcodecs
+[license]: https://img.shields.io/npm/l/%404bitlabs%2Fcodecs
+[dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fcodecs
+[size]: https://img.shields.io/bundlephobia/min/%404bitlabs/codecs
 
 A collection of decoders (and eventually encoders) for working with [Sierra On-line][sierra] [SCI-engine][sci0] assets.
 

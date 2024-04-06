@@ -1,31 +1,51 @@
-# `scibud`: Your Handy <abbr title="Sierra Creative Interpreter">`SCI`</abbr> Buddy
+# scibud [![License][license]][npm] [![NPM Version][version]][npm] <!-- [![NPM Downloads][dl]][npm] -->
+
+[npm]: https://www.npmjs.com/package/@4bitlabs/scibud
+[version]: https://img.shields.io/npm/v/%404bitlabs%2Fscibud
+[license]: https://img.shields.io/npm/l/%404bitlabs%2Fscibud
+[dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fscibud
 
 `scibud` is a CLI utility to assist in inspecting and extracting assets form Sierra `SCI0` and `SCI01`-engine adventure games.
 
-## Usage
+## Command-line usage
 
-[Work in progress]
+The easiest way to use `scibud` is to use `npx`:
 
-## Working with `Pic` Resources
-
-### Finding `Pic` Resources
-
+```sh
+$ npx @4bitlabs/scibud
 ```
+
+`scibud` will attempt to locate `RESOURCE.*` files in your current working directory, if available. You can also use
+`--root` option to local resources from another directory.
+
+```sh
+# list pics, using the current directory
+$ npx @4bitlabs/scibud pic list
+
+# list pics, using RESOURCE.* files in ~/path/to/game directory
 $ npx @4bitlabs/scibud --root=~/path/to/game pic list
 ```
 
-### Getting Details About `Pic` Resources
+## Working with `PIC` resources
+
+### Finding `PIC` resources
+
+```sh
+$ npx @4bitlabs/scibud pic list
+```
+
+### Getting details about `PIC` resources
+
+```sh
+$ npx @4bitlabs/scibud pic info 1
+```
+
+### Rendering `PIC` resources
 
 ```
-$ npx @4bitlabs/scibud --root=~/path/to/game pic info <num>
-```
+Usage: scibud pic render [options] <num>
 
-### Rendering `PIC` Resources
-
-```
-Usage: scibud pic render [options] <id>
-
-render pic resource as image
+Render pic resource as image
 
 Arguments:
   id                          picture resource number
@@ -48,25 +68,32 @@ Options:
 
 For example:
 
-```
-$ npx @4bitlabs/scibud --root=/path/to/game pic render 15
-```
+```sh
+# render PIC #1 to the default filename 'pic.001.png'
+$ npx @4bitlabs/scibud pic render 1
 
-## Working with `VIEW` Resources
+# render PIC #1 as 'background.webp'
+$ npx @4bitlabs/scibud pic render 1 -o background.webp
 
-### Finding `VIEW` Resources
-
-```
-$ npx @4bitlabs/scibud --root=~/path/to/game view list
-```
-
-### Getting Details About `VIEW` Resources
-
-```
-$ npx @4bitlabs/scibud --root=~/path/to/game view info <num>
+# render PIC #1 to STDOUT
+$ npx @4bitlabs/scibud pic render 1 -o - | imgcat
 ```
 
-### Rendering `VIEW` Resources
+## Working with `VIEW` resources
+
+### Finding `VIEW` resources
+
+```sh
+$ npx @4bitlabs/scibud view list
+```
+
+### Getting details about `VIEW` resources
+
+```sh
+$ npx @4bitlabs/scibud view info 0
+```
+
+### Rendering `VIEW` resources
 
 ```
 Usage: scibud view render [options] <num> <loop>
@@ -86,6 +113,13 @@ Options:
   -h, --help              display help for command
 ```
 
-```
-$ npx @4bitlabs/scibud --root=~/path/to/game view render 0 0
+```sh
+# render VIEW #0, LOOP #0 to the default filename 'view.000-0.png'
+$ npx @4bitlabs/scibud view render 0 0
+
+# render VIEW #0, LOOP #1 as 'sprite-sheet.webp'
+$ npx @4bitlabs/scibud view render 0 1 -o sprite-sheet.webp
+
+# render VIEW #0, LOOP #2 to STDOUT
+$ npx @4bitlabs/scibud view render 0 2 -o - | imgcat
 ```

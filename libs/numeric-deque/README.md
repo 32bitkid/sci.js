@@ -1,4 +1,10 @@
-# `@4bitlabs/numeric-deque`
+# @4bitlabs/numeric-deque [![License][license]][npm] [![NPM Version][version]][npm] ![Size][size] [![NPM Downloads][dl]][npm]
+
+[npm]: https://www.npmjs.com/package/@4bitlabs/numeric-deque
+[version]: https://img.shields.io/npm/v/%404bitlabs%2Fnumeric-deque
+[license]: https://img.shields.io/npm/l/%404bitlabs%2Fnumeric-deque
+[dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fnumeric-deque
+[size]: https://img.shields.io/bundlephobia/min/%404bitlabs/numeric-deque
 
 A numeric-container backed by a TypedArray ring-buffer. Implements both stack (FILO) and queue (FIFO) methods, a.k.a. _a [deque](https://en.wikipedia.org/wiki/Double-ended_queue)_.
 

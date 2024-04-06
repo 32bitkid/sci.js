@@ -1,4 +1,10 @@
-# `@4bitlabs/image`
+# @4bitlabs/image [![License][license]][npm] [![NPM Version][version]][npm] ![Size][size] [![NPM Downloads][dl]][npm]
+
+[npm]: https://www.npmjs.com/package/@4bitlabs/image
+[version]: https://img.shields.io/npm/v/%404bitlabs%2Fimage
+[license]: https://img.shields.io/npm/l/%404bitlabs%2Fimage
+[dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fimage
+[size]: https://img.shields.io/bundlephobia/min/%404bitlabs/image
 
 A collection of image primitives and manipulation functions for rendering [Sierra On-line][sierra] SCI-engine assets.
 
