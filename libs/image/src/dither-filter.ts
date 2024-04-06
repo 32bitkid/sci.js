@@ -28,7 +28,7 @@ export const createDitherFilter = (
         const dy = (y / ditherSize[1]) & 1;
         const dither = dx ^ dy;
 
-        outData[idx] = pal[src & 0xff][dither ? 0 : 1];
+        outData[idx] = pal[src][dither ? 0 : 1];
       }
     }
 
