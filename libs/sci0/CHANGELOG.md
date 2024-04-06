@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.2.0...@4bitlabs/sci0@2.3.0) (2024-04-06)
+
+### Chore
+
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+
+### Fixed
+
+- handle fills on visual layers with white dithers. ([f1892e0](https://github.com/32bitkid/sci.js/commit/f1892e053a0c235af7e7f4a53639e29f0094807b))
+
+### Internal
+
+- Moved 4-bit color packing into setPixel ([8522afd](https://github.com/32bitkid/sci.js/commit/8522afdca9c3fd18331f103e65ddd85388d96f2c))
+
+### New
+
+- added alpha channel to PIC RenderResult. ([eb93ee9](https://github.com/32bitkid/sci.js/commit/eb93ee96438fb9a50423278cbc0a3ae2c9427b76))
+
 # [2.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.1.1...@4bitlabs/sci0@2.2.0) (2024-04-05)
 
 ### Changed

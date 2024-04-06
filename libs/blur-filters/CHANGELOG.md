@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/blur-filters@1.0.5...@4bitlabs/blur-filters@1.0.6) (2024-04-06)
+
+### Chore
+
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+
 ## [1.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/blur-filters@1.0.4...@4bitlabs/blur-filters@1.0.5) (2024-04-05)
 
 ### Chore

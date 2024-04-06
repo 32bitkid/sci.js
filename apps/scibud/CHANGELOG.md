@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.0.0...@4bitlabs/scibud@1.0.1) (2024-04-06)
+
+### Chore
+
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+
+### Fixed
+
+- adding loop part to default outfile name ([f868089](https://github.com/32bitkid/sci.js/commit/f8680890c345d9cd43bc2f14948070b9b40388dd))
+
 # 1.0.0 (2024-04-05)
 
 ### Added

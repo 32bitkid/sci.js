@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.2.0...@4bitlabs/image@3.3.0) (2024-04-06)
+
+### Chore
+
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+
+### Internal
+
+- src is always 8-bit, no need to mask ([60adb22](https://github.com/32bitkid/sci.js/commit/60adb2234f2b127c5d8a184a616de012aa006348))
+
+### New
+
+- added alpha channel to PIC RenderResult. ([eb93ee9](https://github.com/32bitkid/sci.js/commit/eb93ee96438fb9a50423278cbc0a3ae2c9427b76))
+
 # [3.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.1.1...@4bitlabs/image@3.2.0) (2024-04-05)
 
 ### Changed
