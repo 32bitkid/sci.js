@@ -56,7 +56,7 @@ export async function viewRenderAction(
   const {
     format,
     animated,
-    output = `pic.${id.toString(10).padStart(3, '0')}.${format}`,
+    output = `view.${id.toString(10).padStart(3, '0')}-${loopId.toString(10)}.${format}`,
   } = options;
   const { root, engine } = getRootOptions(cmd);
 
