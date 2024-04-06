@@ -75,7 +75,7 @@ export const renderPic = (
 
             const color = data[x + y * cel.width];
             if (color === cel.keyColor) continue;
-            screen.setPixel(x, y, color | (color << 4));
+            screen.setPixel(x, y, color);
           }
         break;
       }

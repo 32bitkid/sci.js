@@ -21,7 +21,7 @@ export const createScreenBuffer = (
 
   const setPixel: RawPlotter = (x: number, y: number, color: number) => {
     const idx = bufferWidth * y + x;
-    visible.pixels[idx] = color;
+    visible.pixels[idx] = (color & 0b1111) | (color << 4);
   };
 
   const plot: Plotter = (x: number, y: number, drawMode, drawCodes) => {
