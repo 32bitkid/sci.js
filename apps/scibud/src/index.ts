@@ -71,12 +71,14 @@ applySubCommands(
   program.command('font').description('"font" resource commands'),
   Commands.listCommandForType(ResourceTypes.FONT_TYPE),
   Commands.extractCommandForType(ResourceTypes.FONT_TYPE),
+  Commands.showFontCommand,
 );
 
 applySubCommands(
   program.command('cursor').description('"cursor" resource commands'),
   Commands.listCommandForType(ResourceTypes.CURSOR_TYPE),
   Commands.extractCommandForType(ResourceTypes.CURSOR_TYPE),
+  Commands.showCursorCommand,
 );
 
 applySubCommands(
