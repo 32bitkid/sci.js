@@ -36,7 +36,7 @@ export const paletteOption = (extraChoices: 'depth'[] = []): Option =>
 
 export const paletteMixerOption = (): Option =>
   new Option(`-m, --palette-mixer <pal>`, 'palette mixing function')
-    .choices(['none', '10%', '15%', '25%', 'soft'])
+    .choices(['none', '10%', '15%', '25%', '50%', 'soft'])
     .default('none');
 
 export const contrastOption = (): Option =>

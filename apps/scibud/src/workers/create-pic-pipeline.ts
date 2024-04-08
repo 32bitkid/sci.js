@@ -89,7 +89,7 @@ export function generatePalette(
     depth: DEPTH_PALETTE,
   }[options.palette];
 
-  return options.contrast && options.contrast <= 1.0
+  return options.contrast !== false && options.contrast <= 1.0
     ? IBM5153Contrast(basePalette, options.contrast)
     : basePalette;
 }
