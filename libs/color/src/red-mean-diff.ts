@@ -1,8 +1,8 @@
-import { RGBA, asTuple } from './rgba';
+import { sRGBColor } from './color-spaces/types';
 
-export const redMeanDiff = (c1: RGBA, c2: RGBA) => {
-  const [c1R, c1G, c1B] = asTuple(c1);
-  const [c2R, c2G, c2B] = asTuple(c2);
+export const redMeanDiff = (c1: sRGBColor, c2: sRGBColor) => {
+  const [, c1R, c1G, c1B] = c1;
+  const [, c2R, c2G, c2B] = c2;
 
   const aR = (c1R + c2R) / 2;
   const dR = Math.abs(c1R - c2R);

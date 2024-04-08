@@ -1,7 +1,7 @@
-const clamp = (val: number, min: number, max: number) =>
-  Math.max(min, Math.min(val, max));
-
-const lerp = (a: number, b: number, t: number) => a * (1 - t) + b * t;
+import { uint32_to_Lab, Lab_to_uint32 } from './color-spaces/conversions';
+import * as Lab from './color-spaces/lab';
+import { lerp } from './utils/lerp';
+import { clamp } from './utils/clamp';
 
 // https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
 export function IBM5153Contrast(
@@ -9,16 +9,13 @@ export function IBM5153Contrast(
   dimmer: number,
 ): Uint32Array {
   const target = new Uint32Array(source);
-  const mix = 1 - lerp(0.5, 0, clamp(dimmer, 0, 1));
+  const mix = lerp(0.5, 0, clamp(dimmer, 0, 1));
 
   // Colors 1-7 are dimmed based on dimmer percentage
   for (let i = 0; i < 8; i++) {
-    const c = source[i];
-    const r = ((c >>> 0) & 0xff) * mix;
-    const g = ((c >>> 8) & 0xff) * mix;
-    const b = ((c >>> 16) & 0xff) * mix;
-    const a = (c >>> 24) & 0xff;
-    target[i] = (a << 24) | (b << 16) | (g << 8) | (r << 0);
+    const color = uint32_to_Lab(source[i]);
+    const dimmed = Lab.darken(color, mix);
+    source[i] = Lab_to_uint32(dimmed);
   }
 
   return target;
