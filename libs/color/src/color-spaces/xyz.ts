@@ -1,6 +1,12 @@
-import { type XYZColor, type sRGBColor, type LabColor } from './types';
+import {
+  type XYZColor,
+  type sRGBColor,
+  type LabColor,
+  type okLabColor,
+} from './types';
 import { D65 } from './d65-reference-values';
 import { clamp } from '../utils/clamp';
+import { lerp } from '../utils/lerp';
 
 // prettier-ignore
 const matrix = Float64Array.of(
@@ -49,3 +55,57 @@ export function toLab(xyz: XYZColor, out: LabColor = ['CIE-L*a*b*', 0, 0, 0]) {
 
   return out;
 }
+
+// prettier-ignore
+const OKLAB_M1 = Float64Array.of(
+  0.8190224432164319,   0.3619062562801221, -0.12887378261216414,
+  0.0329836671980271,   0.9292868468965546,  0.03614466816999844,
+  0.048177199566046255, 0.26423952494422764, 0.6335478258136937,
+);
+
+// prettier-ignore
+const OKLAB_M2 = Float64Array.of(
+  0.2104542553,   0.7936177850,  -0.0040720468,
+  1.9779984951,  -2.4285922050,   0.4505937099,
+  0.0259040371,   0.7827717662,  -0.8086757660,
+)
+
+// see https://bottosson.github.io/posts/oklab/
+export function toOkLab(
+  xyz: XYZColor,
+  out: okLabColor = ['okLab', 0, 0, 0],
+): okLabColor {
+  const [x, y, z, alpha] = [xyz[1] / 100, xyz[2] / 100, xyz[3] / 100, xyz[4]];
+
+  const l = x * OKLAB_M1[0] + y * OKLAB_M1[1] + z * OKLAB_M1[2];
+  const m = x * OKLAB_M1[3] + y * OKLAB_M1[4] + z * OKLAB_M1[5];
+  const s = x * OKLAB_M1[6] + y * OKLAB_M1[7] + z * OKLAB_M1[8];
+
+  const l$ = Math.cbrt(l);
+  const m$ = Math.cbrt(m);
+  const s$ = Math.cbrt(s);
+
+  out[1] = l$ * OKLAB_M2[0] + m$ * OKLAB_M2[1] + s$ * OKLAB_M2[2];
+  out[2] = l$ * OKLAB_M2[3] + m$ * OKLAB_M2[4] + s$ * OKLAB_M2[5];
+  out[3] = l$ * OKLAB_M2[6] + m$ * OKLAB_M2[7] + s$ * OKLAB_M2[8];
+  out[4] = alpha;
+
+  return out;
+}
+
+export const mix = (c1: XYZColor, c2: XYZColor, bias: number): XYZColor => {
+  const [, c1x, c1y, c1z, c1alpha] = c1;
+  const [, c2x, c2y, c2z, c2alpha] = c2;
+
+  const alpha = !(c1alpha === undefined && c2alpha === undefined)
+    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
+    : ([] as const);
+
+  return [
+    'CIE-XYZ',
+    lerp(c1x, c2x, bias),
+    lerp(c1y, c2y, bias),
+    lerp(c1z, c2z, bias),
+    ...alpha,
+  ];
+};

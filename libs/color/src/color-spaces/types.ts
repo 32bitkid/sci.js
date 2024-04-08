@@ -1,4 +1,4 @@
-import { sRGB, Lab, XYZ } from './color-space';
+import { sRGB, Lab, XYZ, okLab } from './color-space';
 
 export type sRGBColor = [
   typeof sRGB,
@@ -18,6 +18,14 @@ export type XYZColor = [
 
 export type LabColor = [
   typeof Lab,
+  L: number,
+  a: number,
+  b: number,
+  a?: number,
+];
+
+export type okLabColor = [
+  typeof okLab,
   L: number,
   a: number,
   b: number,

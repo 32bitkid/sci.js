@@ -1,4 +1,5 @@
 import { type XYZColor, type sRGBColor } from './types';
+import { lerp } from '../utils/lerp';
 
 // prettier-ignore
 const matrix = Float64Array.of(
@@ -73,3 +74,20 @@ export function fromUint32(c: number): sRGBColor {
     ((c >>> 24) & 0xff) / 255,
   ];
 }
+
+export const mix = (c1: sRGBColor, c2: sRGBColor, bias: number): sRGBColor => {
+  const [, c1r, c1g, c1b, c1alpha] = c1;
+  const [, c2r, c2g, c2b, c2alpha] = c2;
+
+  const alpha = !(c1alpha === undefined && c2alpha === undefined)
+    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
+    : ([] as const);
+
+  return [
+    'sRGB',
+    lerp(c1r, c2r, bias),
+    lerp(c1g, c2g, bias),
+    lerp(c1b, c2b, bias),
+    ...alpha,
+  ];
+};
