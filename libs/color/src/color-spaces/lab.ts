@@ -43,13 +43,18 @@ export const darken = (
 ];
 
 export const mix = (c1: LabColor, c2: LabColor, bias: number): LabColor => {
-  const [, c1L, c1a, c1b] = c1;
-  const [, c2L, c2a, c2b] = c2;
+  const [, c1L, c1a, c1b, c1alpha] = c1;
+  const [, c2L, c2a, c2b, c2alpha] = c2;
+
+  const alpha = !(c1alpha === undefined && c2alpha === undefined)
+    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
+    : ([] as const);
 
   return [
     'CIE-L*a*b*',
     lerp(c1L, c2L, bias),
     lerp(c1a, c2a, bias),
     lerp(c1b, c2b, bias),
+    ...alpha,
   ];
 };
