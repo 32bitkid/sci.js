@@ -1,8 +1,9 @@
-import type { okLabColor, XYZColor } from './types';
-import { toXYZ } from './oklab';
+import { type okLabTuple } from './oklab-tuple';
+import { type XYZTuple } from './xyz-tuple';
+import { toXYZ } from './oklab-fns';
 
 describe('toXYZ()', () => {
-  it.each<[okLabColor, XYZColor]>([
+  it.each<[okLabTuple, XYZTuple]>([
     [
       ['okLab', 1.0, 0.0, 0.0],
       ['CIE-XYZ', 95.0, 100.0, 108.9],
@@ -21,7 +22,6 @@ describe('toXYZ()', () => {
     ],
   ])('should convert %s', (okLab, expected) => {
     const actual = toXYZ(okLab);
-    console.error(actual);
     expect(actual[0]).toBe('CIE-XYZ');
     expect(actual[1]).toBeCloseTo(expected[1], 0);
     expect(actual[2]).toBeCloseTo(expected[2], 0);

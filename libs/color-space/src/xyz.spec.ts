@@ -1,8 +1,9 @@
-import { toOkLab } from './xyz';
-import type { okLabColor, XYZColor } from './types';
+import { toOkLab } from './xyz-fns';
+import { type XYZTuple } from './xyz-tuple';
+import { type okLabTuple } from './oklab-tuple';
 
 describe('toOkLab()', () => {
-  it.each<[XYZColor, okLabColor]>([
+  it.each<[XYZTuple, okLabTuple]>([
     [
       ['CIE-XYZ', 95.0, 100.0, 108.9],
       ['okLab', 1.0, 0.0, 0.0],

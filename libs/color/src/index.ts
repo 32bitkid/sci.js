@@ -12,9 +12,6 @@ import {
 } from './predefined-dither-pairs';
 import { IBM5153Contrast } from './IBM-5153-contrast';
 
-export { redMeanDiff } from './red-mean-diff';
-export { deltaE } from './delta-e';
-
 export { generateSciDitherPairs } from './generate-sci-dither-pairs';
 
 export type { DitherPair } from './dither-pair';

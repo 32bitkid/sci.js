@@ -1,8 +1,22 @@
-import { type XYZColor, type LabColor } from './types';
+import { type XYZTuple } from './xyz-tuple';
+import { type LabTuple } from './lab-tuple';
 import { D65 } from './d65-reference-values';
-import { lerp } from '../utils/lerp';
+import { lerp } from './utils/lerp';
+import { alphaPart } from './utils/alpha-part';
+import { formatFloat } from './utils/format-float';
+import { deltaE } from './delta-e';
 
-export function toXYZ(lab: LabColor, out: XYZColor = ['CIE-XYZ', 0, 0, 0]) {
+export const create = (
+  L: number,
+  a: number,
+  b: number,
+  alpha?: number,
+): LabTuple => ['CIE-L*a*b*', L, a, b, alpha];
+
+export const toString = ([, L, a, b, alpha]: LabTuple) =>
+  `lab(${formatFloat(L)} ${formatFloat(a)} ${formatFloat(b)}${alphaPart(alpha)})`;
+
+export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
   const [, l, a, b, alpha] = lab;
   let y = (l + 16) / 116;
   let x = a / 500 + y;
@@ -21,9 +35,9 @@ export function toXYZ(lab: LabColor, out: XYZColor = ['CIE-XYZ', 0, 0, 0]) {
 }
 
 export const lighten = (
-  [, L, a, b, alpha]: LabColor,
+  [, L, a, b, alpha]: LabTuple,
   amount: number,
-): LabColor => [
+): LabTuple => [
   'CIE-L*a*b*',
   lerp(L, 100, amount),
   lerp(a, 0, amount),
@@ -32,9 +46,9 @@ export const lighten = (
 ];
 
 export const darken = (
-  [, L, a, b, alpha]: LabColor,
+  [, L, a, b, alpha]: LabTuple,
   amount: number,
-): LabColor => [
+): LabTuple => [
   'CIE-L*a*b*',
   lerp(L, 0, amount),
   lerp(a, 0, amount),
@@ -42,7 +56,7 @@ export const darken = (
   alpha,
 ];
 
-export const mix = (c1: LabColor, c2: LabColor, bias: number): LabColor => {
+export const mix = (c1: LabTuple, c2: LabTuple, bias: number): LabTuple => {
   const [, c1L, c1a, c1b, c1alpha] = c1;
   const [, c2L, c2a, c2b, c2alpha] = c2;
 
@@ -58,3 +72,5 @@ export const mix = (c1: LabColor, c2: LabColor, bias: number): LabColor => {
     ...alpha,
   ];
 };
+
+export { deltaE };

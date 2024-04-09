@@ -1,12 +1,22 @@
-import {
-  type XYZColor,
-  type sRGBColor,
-  type LabColor,
-  type okLabColor,
-} from './types';
+import { type XYZTuple } from './xyz-tuple';
+import { type sRGBTuple } from './srgb-tuple';
+import { type LabTuple } from './lab-tuple';
+import { type okLabTuple } from './oklab-tuple';
 import { D65 } from './d65-reference-values';
-import { clamp } from '../utils/clamp';
-import { lerp } from '../utils/lerp';
+import { clamp } from './utils/clamp';
+import { lerp } from './utils/lerp';
+import { alphaPart } from './utils/alpha-part';
+import { formatFloat } from './utils/format-float';
+
+export const create = (
+  x: number,
+  y: number,
+  z: number,
+  a?: number,
+): XYZTuple => ['CIE-XYZ', x, y, z, a];
+
+export const toString = ([, x, y, z, alpha]: XYZTuple) =>
+  `color(xyz ${formatFloat(x / 100)} ${formatFloat(y / 100)} ${formatFloat(z / 100)}${alphaPart(alpha)})`;
 
 // prettier-ignore
 const matrix = Float64Array.of(
@@ -19,9 +29,9 @@ const gamma = (c: number) =>
   c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
 
 export function toSRGB(
-  xyz: XYZColor,
-  out: sRGBColor = ['sRGB', 0, 0, 0],
-): sRGBColor {
+  xyz: XYZTuple,
+  out: sRGBTuple = ['sRGB', 0, 0, 0],
+): sRGBTuple {
   const [, x, y, z, alpha] = xyz;
   const [X, Y, Z] = [x / 100, y / 100, z / 100];
 
@@ -39,7 +49,7 @@ export function toSRGB(
 
 const EPSILON = 0.008856; // 216 / 24389
 
-export function toLab(xyz: XYZColor, out: LabColor = ['CIE-L*a*b*', 0, 0, 0]) {
+export function toLab(xyz: XYZTuple, out: LabTuple = ['CIE-L*a*b*', 0, 0, 0]) {
   const [, x, y, z, alpha] = xyz;
 
   const [x1, y1, z1] = [x, y, z].map((v, i) => {
@@ -72,9 +82,9 @@ const OKLAB_M2 = Float64Array.of(
 
 // see https://bottosson.github.io/posts/oklab/
 export function toOkLab(
-  xyz: XYZColor,
-  out: okLabColor = ['okLab', 0, 0, 0],
-): okLabColor {
+  xyz: XYZTuple,
+  out: okLabTuple = ['okLab', 0, 0, 0],
+): okLabTuple {
   const [x, y, z, alpha] = [xyz[1] / 100, xyz[2] / 100, xyz[3] / 100, xyz[4]];
 
   const l = x * OKLAB_M1[0] + y * OKLAB_M1[1] + z * OKLAB_M1[2];
@@ -93,7 +103,7 @@ export function toOkLab(
   return out;
 }
 
-export const mix = (c1: XYZColor, c2: XYZColor, bias: number): XYZColor => {
+export const mix = (c1: XYZTuple, c2: XYZTuple, bias: number): XYZTuple => {
   const [, c1x, c1y, c1z, c1alpha] = c1;
   const [, c2x, c2y, c2z, c2alpha] = c2;
 

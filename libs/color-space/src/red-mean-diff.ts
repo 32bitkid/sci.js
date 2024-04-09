@@ -1,6 +1,6 @@
-import { sRGBColor } from './color-spaces/types';
+import { sRGBTuple } from './srgb-tuple';
 
-export const redMeanDiff = (c1: sRGBColor, c2: sRGBColor) => {
+export const redMeanDiff = (c1: sRGBTuple, c2: sRGBTuple) => {
   const [, c1R, c1G, c1B] = c1;
   const [, c2R, c2G, c2B] = c2;
 

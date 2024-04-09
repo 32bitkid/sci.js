@@ -25,6 +25,7 @@
   "workspaces": [
     "libs/blur-filters",
     "libs/codecs",
+    "libs/color-space",
     "libs/color",
     "libs/image",
     "libs/numeric-deque",

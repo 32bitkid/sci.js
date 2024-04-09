@@ -1,6 +1,6 @@
-import { LabColor } from './color-spaces/types';
+import { LabTuple } from './lab-tuple';
 
-export function deltaE(labA: LabColor, labB: LabColor) {
+export function deltaE(labA: LabTuple, labB: LabTuple) {
   const deltaL = labA[1] - labB[1];
   const deltaA = labA[2] - labB[2];
   const deltaB = labA[3] - labB[3];

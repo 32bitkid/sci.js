@@ -1,3 +1,4 @@
+import { sRGB, Lab, okLab, XYZ } from '@4bitlabs/color-space';
 import {
   Lab_to_uint32,
   XYZ_to_uint32,
@@ -5,12 +6,7 @@ import {
   uint32_to_Lab,
   uint32_to_XYZ,
   uint32_to_okLab,
-} from './color-spaces/conversions';
-import * as sRGB from './color-spaces/srgb';
-import * as LAB from './color-spaces/lab';
-import * as okLab from './color-spaces/oklab';
-import * as XYZ from './color-spaces/xyz';
-import { deltaE } from './delta-e';
+} from './utils/conversions';
 import { DitherPair } from './dither-pair';
 import { DitherTransform } from './dither-transform';
 
@@ -30,7 +26,7 @@ const createMixer =
 const colorMixers = {
   okLab: createMixer(uint32_to_okLab, okLab.mix, okLab_to_uint32),
   'CIE-XYZ': createMixer(uint32_to_XYZ, XYZ.mix, XYZ_to_uint32),
-  'CIE-L*a*b*': createMixer(uint32_to_Lab, LAB.mix, Lab_to_uint32),
+  'CIE-L*a*b*': createMixer(uint32_to_Lab, Lab.mix, Lab_to_uint32),
   sRGB: createMixer(sRGB.fromUint32, sRGB.mix, sRGB.toUint32),
 } as const;
 
@@ -58,12 +54,12 @@ export const softMixer = (options: MixOptions = {}): DitherTransform => {
     const labA = uint32_to_Lab(a);
     const labB = uint32_to_Lab(b);
 
-    const dE = deltaE(labA, labB);
+    const dE = Lab.deltaE(labA, labB);
 
     if (dE <= 1) {
       return [
-        Lab_to_uint32(LAB.lighten(labA, 0.05)),
-        Lab_to_uint32(LAB.darken(labB, 0.05)),
+        Lab_to_uint32(Lab.lighten(labA, 0.05)),
+        Lab_to_uint32(Lab.darken(labB, 0.05)),
       ];
     }
 

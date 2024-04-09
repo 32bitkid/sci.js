@@ -1,5 +1,5 @@
-import { uint32_to_Lab, Lab_to_uint32 } from './color-spaces/conversions';
-import * as Lab from './color-spaces/lab';
+import { Lab } from '@4bitlabs/color-space';
+import { uint32_to_Lab, Lab_to_uint32 } from './utils/conversions';
 import { lerp } from './utils/lerp';
 import { clamp } from './utils/clamp';
 

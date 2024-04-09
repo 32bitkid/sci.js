@@ -1,9 +1,10 @@
-import * as sRGB from './srgb';
-import { sRGBColor, XYZColor } from './types';
+import * as sRGB from './srgb-fns';
+import { type sRGBTuple } from './srgb-tuple';
+import { type XYZTuple } from './xyz-tuple';
 
 describe('sRGB color-space', () => {
   describe('toXYZ', () => {
-    it.each<[sRGBColor, XYZColor]>([
+    it.each<[sRGBTuple, XYZTuple]>([
       [
         ['sRGB', 0x95, 0x6a, 0x62],
         ['CIE-XYZ', 19.7536, 17.58, 13.91],
@@ -63,4 +64,16 @@ describe('sRGB color-space', () => {
       expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
     });
   });
+});
+
+it('should doi something ', () => {
+  // Parse from hex code
+  const color1: sRGBTuple = sRGB.fromHex('#ff6347');
+
+  // Parse from a uint32 in AABBGGRR byte order.
+  const color2: sRGBTuple = sRGB.fromUint32(0xffed9564);
+
+  // Mix color 1 and color 2 at 50% in sRGB color-space.
+  const color3: sRGBTuple = sRGB.mix(color1, color2, 0.5);
+  console.error(sRGB.toHex(color3));
 });

@@ -1,0 +1,34 @@
+{
+  "name": "@4bitlabs/color-space",
+  "version": "0.0.0",
+  "description": "Utility functions for parsing, converting and mixing colors in sRGB, CIE-XYZ, CIE-L*a*b*, and okLab color spaces",
+  "keywords": ["color", "colorspace", "srgb", "cie-xyz", "cie-lab", "oklab"],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/color-space#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/32bitkid/sci.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./srgb": "./dist/srgb.js",
+    "./xyz": "./dist/xyz.js",
+    "./lab": "./dist/lab.js",
+    "./oklab": "./dist/oklab.js"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "clean:wipe": "rimraf ./dist",
+    "build": "tsc --build",
+    "test": "jest src/"
+  },
+  "author": "J. Holmes <j@holmes.codes>",
+  "license": "ISC"
+}

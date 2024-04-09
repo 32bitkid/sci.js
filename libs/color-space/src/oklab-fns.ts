@@ -1,6 +1,19 @@
 // prettier-ignore
-import type { okLabColor, XYZColor } from "./types";
-import { lerp } from '../utils/lerp';
+import  { type okLabTuple } from "./oklab-tuple";
+import { type XYZTuple } from './xyz-tuple';
+import { lerp } from './utils/lerp';
+import { alphaPart } from './utils/alpha-part';
+import { formatFloat } from './utils/format-float';
+
+export const create = (
+  L: number,
+  a: number,
+  b: number,
+  alpha?: number,
+): okLabTuple => ['okLab', L, a, b, alpha];
+
+export const toString = ([, L, a, b, alpha]: okLabTuple) =>
+  `oklab(${formatFloat(L)} ${formatFloat(a)} ${formatFloat(b)}${alphaPart(alpha)})`;
 
 // prettier-ignore
 const OKLAB_M1i = Float64Array.of(
@@ -18,9 +31,9 @@ const OKLAB_M2i = Float64Array.of(
 
 // see https://bottosson.github.io/posts/oklab/
 export function toXYZ(
-  oklab: okLabColor,
-  out: XYZColor = ['CIE-XYZ', 0, 0, 0],
-): XYZColor {
+  oklab: okLabTuple,
+  out: XYZTuple = ['CIE-XYZ', 0, 0, 0],
+): XYZTuple {
   const [, L, a, b, alpha] = oklab;
 
   const l$ = L * OKLAB_M2i[0] + a * OKLAB_M2i[1] + b * OKLAB_M2i[2];
@@ -44,9 +57,9 @@ export function toXYZ(
 }
 
 export const lighten = (
-  [, L, a, b, alpha]: okLabColor,
+  [, L, a, b, alpha]: okLabTuple,
   amount: number,
-): okLabColor => [
+): okLabTuple => [
   'okLab',
   lerp(L, 1.0, amount),
   lerp(a, 0, amount),
@@ -55,9 +68,9 @@ export const lighten = (
 ];
 
 export const darken = (
-  [, L, a, b, alpha]: okLabColor,
+  [, L, a, b, alpha]: okLabTuple,
   amount: number,
-): okLabColor => [
+): okLabTuple => [
   'okLab',
   lerp(L, 0, amount),
   lerp(a, 0, amount),
@@ -66,10 +79,10 @@ export const darken = (
 ];
 
 export const mix = (
-  c1: okLabColor,
-  c2: okLabColor,
+  c1: okLabTuple,
+  c2: okLabTuple,
   bias: number,
-): okLabColor => {
+): okLabTuple => {
   const [, c1L, c1a, c1b, c1alpha] = c1;
   const [, c2L, c2a, c2b, c2alpha] = c2;
 
