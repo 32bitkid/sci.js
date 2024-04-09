@@ -1,22 +1,11 @@
-import { type XYZTuple } from './xyz-tuple';
-import { type sRGBTuple } from './srgb-tuple';
-import { type LabTuple } from './lab-tuple';
-import { type okLabTuple } from './oklab-tuple';
+import { type XYZTuple, create as createXYZ } from './xyz-tuple';
+import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
+import { type LabTuple, create as createLab } from './lab-tuple';
+import { type okLabTuple, create as createOkLab } from './oklab-tuple';
 import { D65 } from './d65-reference-values';
 import { clamp } from './utils/clamp';
 import { lerp } from './utils/lerp';
-import { alphaPart } from './utils/alpha-part';
-import { formatFloat } from './utils/format-float';
-
-export const create = (
-  x: number,
-  y: number,
-  z: number,
-  a?: number,
-): XYZTuple => ['CIE-XYZ', x, y, z, a];
-
-export const toString = ([, x, y, z, alpha]: XYZTuple) =>
-  `color(xyz ${formatFloat(x / 100)} ${formatFloat(y / 100)} ${formatFloat(z / 100)}${alphaPart(alpha)})`;
+import { assign } from './utils/assign-values';
 
 // prettier-ignore
 const matrix = Float64Array.of(
@@ -26,11 +15,11 @@ const matrix = Float64Array.of(
 );
 
 const gamma = (c: number) =>
-  c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+  c > 0.0031308 ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c;
 
 export function toSRGB(
   xyz: XYZTuple,
-  out: sRGBTuple = ['sRGB', 0, 0, 0],
+  out: sRGBTuple = createSRGB(),
 ): sRGBTuple {
   const [, x, y, z, alpha] = xyz;
   const [X, Y, Z] = [x / 100, y / 100, z / 100];
@@ -39,17 +28,18 @@ export function toSRGB(
   const gLinear = X * matrix[3] + Y * matrix[4] + Z * matrix[5];
   const bLinear = X * matrix[6] + Y * matrix[7] + Z * matrix[8];
 
-  out[1] = clamp(Math.round(255 * gamma(rLinear)), 0, 255);
-  out[2] = clamp(Math.round(255 * gamma(gLinear)), 0, 255);
-  out[3] = clamp(Math.round(255 * gamma(bLinear)), 0, 255);
-  out[4] = alpha;
-
-  return out;
+  return assign(
+    out,
+    clamp(Math.round(255 * gamma(rLinear)), 0, 255),
+    clamp(Math.round(255 * gamma(gLinear)), 0, 255),
+    clamp(Math.round(255 * gamma(bLinear)), 0, 255),
+    alpha,
+  );
 }
 
 const EPSILON = 0.008856; // 216 / 24389
 
-export function toLab(xyz: XYZTuple, out: LabTuple = ['CIE-L*a*b*', 0, 0, 0]) {
+export function toLab(xyz: XYZTuple, out: LabTuple = createLab()) {
   const [, x, y, z, alpha] = xyz;
 
   const [x1, y1, z1] = [x, y, z].map((v, i) => {
@@ -83,7 +73,7 @@ const OKLAB_M2 = Float64Array.of(
 // see https://bottosson.github.io/posts/oklab/
 export function toOkLab(
   xyz: XYZTuple,
-  out: okLabTuple = ['okLab', 0, 0, 0],
+  out: okLabTuple = createOkLab(),
 ): okLabTuple {
   const [x, y, z, alpha] = [xyz[1] / 100, xyz[2] / 100, xyz[3] / 100, xyz[4]];
 
@@ -103,19 +93,24 @@ export function toOkLab(
   return out;
 }
 
-export const mix = (c1: XYZTuple, c2: XYZTuple, bias: number): XYZTuple => {
+export const mix = (
+  c1: XYZTuple,
+  c2: XYZTuple,
+  bias: number,
+  out: XYZTuple = createXYZ(),
+): XYZTuple => {
   const [, c1x, c1y, c1z, c1alpha] = c1;
   const [, c2x, c2y, c2z, c2alpha] = c2;
 
   const alpha = !(c1alpha === undefined && c2alpha === undefined)
-    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
-    : ([] as const);
+    ? lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)
+    : undefined;
 
-  return [
-    'CIE-XYZ',
+  return assign(
+    out,
     lerp(c1x, c2x, bias),
     lerp(c1y, c2y, bias),
     lerp(c1z, c2z, bias),
-    ...alpha,
-  ];
+    alpha,
+  );
 };

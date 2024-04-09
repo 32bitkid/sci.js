@@ -1,18 +1,26 @@
-import { type sRGBTuple } from './srgb-tuple';
-import { type XYZTuple } from './xyz-tuple';
+import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
+import { type XYZTuple, create as createXYZ } from './xyz-tuple';
+import {
+  type linearRGBTuple,
+  create as createLinearRGB,
+} from './linear-rgb-tuple';
 import { lerp } from './utils/lerp';
-import { alphaPart } from './utils/alpha-part';
-import { redMeanDiff } from './red-mean-diff';
+import { assign } from './utils/assign-values';
+export { redMeanDiff } from './srgb-red-mean-diff';
 
-export const create = (
-  r: number,
-  g: number,
-  b: number,
-  a?: number,
-): sRGBTuple => ['sRGB', r, g, b, a];
+const inverseGamma = (c: number) =>
+  c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 
-export const toString = ([, r, g, b, alpha]: sRGBTuple) =>
-  `rgb(${r.toFixed(0)} ${g.toFixed(0)} ${b.toFixed(0)}${alphaPart(alpha)})`;
+export function toLinearRGB(
+  rgb: sRGBTuple,
+  out: linearRGBTuple = createLinearRGB(),
+) {
+  const [, R, G, B, alpha] = rgb;
+  const rL = inverseGamma(R / 255);
+  const gL = inverseGamma(G / 255);
+  const bL = inverseGamma(B / 255);
+  return assign(out, rL, gL, bL, alpha);
+}
 
 // prettier-ignore
 const matrix = Float64Array.of(
@@ -21,13 +29,7 @@ const matrix = Float64Array.of(
   0.0193339, 0.1191920, 0.9503041,
 );
 
-const inverseGamma = (c: number) =>
-  c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-
-export function toXYZ(
-  rgb: sRGBTuple,
-  out: XYZTuple = ['CIE-XYZ', 0, 0, 0],
-): XYZTuple {
+export function toXYZ(rgb: sRGBTuple, out: XYZTuple = createXYZ()): XYZTuple {
   const [, R, G, B, alpha] = rgb;
   const rL = inverseGamma(R / 255) * 100;
   const gL = inverseGamma(G / 255) * 100;
@@ -88,21 +90,22 @@ export function fromUint32(c: number): sRGBTuple {
   ];
 }
 
-export const mix = (c1: sRGBTuple, c2: sRGBTuple, bias: number): sRGBTuple => {
+export const mix = (
+  c1: sRGBTuple,
+  c2: sRGBTuple,
+  bias: number,
+  out: sRGBTuple = createSRGB(),
+): sRGBTuple => {
   const [, c1r, c1g, c1b, c1alpha] = c1;
   const [, c2r, c2g, c2b, c2alpha] = c2;
 
+  const r = lerp(c1r, c2r, bias);
+  const g = lerp(c1g, c2g, bias);
+  const b = lerp(c1b, c2b, bias);
+
   const alpha = !(c1alpha === undefined && c2alpha === undefined)
-    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
-    : ([] as const);
+    ? lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)
+    : undefined;
 
-  return [
-    'sRGB',
-    lerp(c1r, c2r, bias),
-    lerp(c1g, c2g, bias),
-    lerp(c1b, c2b, bias),
-    ...alpha,
-  ];
+  return assign(out, r, g, b, alpha);
 };
-
-export { redMeanDiff };

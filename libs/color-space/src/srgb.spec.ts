@@ -1,6 +1,7 @@
 import * as sRGB from './srgb-fns';
 import { type sRGBTuple } from './srgb-tuple';
 import { type XYZTuple } from './xyz-tuple';
+import { linearRGBTuple } from './linear-rgb-tuple';
 
 describe('sRGB color-space', () => {
   describe('toXYZ', () => {
@@ -15,6 +16,26 @@ describe('sRGB color-space', () => {
       expect(actual[1]).toBeCloseTo(expected[1]);
       expect(actual[2]).toBeCloseTo(expected[2]);
       expect(actual[3]).toBeCloseTo(expected[3]);
+    });
+  });
+
+  describe('toLinearRGB()', () => {
+    it.each<[sRGBTuple, linearRGBTuple]>([
+      [
+        ['sRGB', 122, 65, 180],
+        ['linear-RGB', 0.19462, 0.05286, 0.45641],
+      ],
+      [
+        ['sRGB', 37, 75, 80, 0.5],
+        ['linear-RGB', 0.0185, 0.07036, 0.08022, 0.5],
+      ],
+    ])('should convert %s to sRGB', (color, expected) => {
+      const [space, r, g, b, a] = sRGB.toLinearRGB(color);
+      expect(space).toBe(expected[0]);
+      expect(r).toBeCloseTo(expected[1]);
+      expect(g).toBeCloseTo(expected[2]);
+      expect(b).toBeCloseTo(expected[3]);
+      expect(a).toBe(expected[4]);
     });
   });
 

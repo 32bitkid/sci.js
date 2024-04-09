@@ -1,7 +1,17 @@
-import { type LabTuple } from './lab-tuple';
+import { type LabTuple, toString } from './lab-tuple';
 import * as LAB from './lab-fns';
 
 describe('L*a*b* colorspace', () => {
+  describe('toString()', () => {
+    it.each<[LabTuple, string]>([
+      [['CIE-L*a*b*', 50, 0, 0], 'lab(50 0 0)'],
+      [['CIE-L*a*b*', 50, 0, 0, 1.0], 'lab(50 0 0 / 1)'],
+      [['CIE-L*a*b*', 50, 0.1234567, 0], 'lab(50 0.123 0)'],
+    ])('should serialize', (color, expected) => {
+      expect(toString(color)).toBe(expected);
+    });
+  });
+
   describe('lighten()', () => {
     it('should make a color lighter', () => {
       const gray: LabTuple = ['CIE-L*a*b*', 50, 0, 0, 1.0];

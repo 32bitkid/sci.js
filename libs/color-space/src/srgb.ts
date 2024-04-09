@@ -1,7 +1,6 @@
-export { type sRGBTuple } from './srgb-tuple';
+export { type sRGBTuple, create, toString } from './srgb-tuple';
 export {
-  create,
-  toString,
+  toLinearRGB,
   toXYZ,
   toUint32,
   toHex,

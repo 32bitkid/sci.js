@@ -1,19 +1,8 @@
 // prettier-ignore
-import  { type okLabTuple } from "./oklab-tuple";
-import { type XYZTuple } from './xyz-tuple';
+import  { type okLabTuple, create as createOkLab } from "./oklab-tuple";
+import { type XYZTuple, create as createXYZ } from './xyz-tuple';
 import { lerp } from './utils/lerp';
-import { alphaPart } from './utils/alpha-part';
-import { formatFloat } from './utils/format-float';
-
-export const create = (
-  L: number,
-  a: number,
-  b: number,
-  alpha?: number,
-): okLabTuple => ['okLab', L, a, b, alpha];
-
-export const toString = ([, L, a, b, alpha]: okLabTuple) =>
-  `oklab(${formatFloat(L)} ${formatFloat(a)} ${formatFloat(b)}${alphaPart(alpha)})`;
+import { assign } from './utils/assign-values';
 
 // prettier-ignore
 const OKLAB_M1i = Float64Array.of(
@@ -32,7 +21,7 @@ const OKLAB_M2i = Float64Array.of(
 // see https://bottosson.github.io/posts/oklab/
 export function toXYZ(
   oklab: okLabTuple,
-  out: XYZTuple = ['CIE-XYZ', 0, 0, 0],
+  out: XYZTuple = createXYZ(),
 ): XYZTuple {
   const [, L, a, b, alpha] = oklab;
 
@@ -59,42 +48,44 @@ export function toXYZ(
 export const lighten = (
   [, L, a, b, alpha]: okLabTuple,
   amount: number,
-): okLabTuple => [
-  'okLab',
-  lerp(L, 1.0, amount),
-  lerp(a, 0, amount),
-  lerp(b, 0, amount),
-  alpha,
-];
+  out: okLabTuple = createOkLab(),
+): okLabTuple =>
+  assign(
+    out,
+    lerp(L, 1.0, amount),
+    lerp(a, 0, amount),
+    lerp(b, 0, amount),
+    alpha,
+  );
 
 export const darken = (
   [, L, a, b, alpha]: okLabTuple,
   amount: number,
-): okLabTuple => [
-  'okLab',
-  lerp(L, 0, amount),
-  lerp(a, 0, amount),
-  lerp(b, 0, amount),
-  alpha,
-];
+  out: okLabTuple = createOkLab(),
+): okLabTuple =>
+  assign(
+    out,
+    lerp(L, 0, amount),
+    lerp(a, 0, amount),
+    lerp(b, 0, amount),
+    alpha,
+  );
 
 export const mix = (
   c1: okLabTuple,
   c2: okLabTuple,
   bias: number,
+  out: okLabTuple = createOkLab(),
 ): okLabTuple => {
   const [, c1L, c1a, c1b, c1alpha] = c1;
   const [, c2L, c2a, c2b, c2alpha] = c2;
 
+  const L = lerp(c1L, c2L, bias);
+  const a = lerp(c1a, c2a, bias);
+  const b = lerp(c1b, c2b, bias);
   const alpha = !(c1alpha === undefined && c2alpha === undefined)
-    ? ([lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)] as const)
-    : ([] as const);
+    ? lerp(c1alpha ?? 1.0, c2alpha ?? 1.0, bias)
+    : undefined;
 
-  return [
-    'okLab',
-    lerp(c1L, c2L, bias),
-    lerp(c1a, c2a, bias),
-    lerp(c1b, c2b, bias),
-    ...alpha,
-  ];
+  return assign(out, L, a, b, alpha);
 };
