@@ -65,15 +65,3 @@ describe('sRGB color-space', () => {
     });
   });
 });
-
-it('should doi something ', () => {
-  // Parse from hex code
-  const color1: sRGBTuple = sRGB.fromHex('#ff6347');
-
-  // Parse from a uint32 in AABBGGRR byte order.
-  const color2: sRGBTuple = sRGB.fromUint32(0xffed9564);
-
-  // Mix color 1 and color 2 at 50% in sRGB color-space.
-  const color3: sRGBTuple = sRGB.mix(color1, color2, 0.5);
-  console.error(sRGB.toHex(color3));
-});
