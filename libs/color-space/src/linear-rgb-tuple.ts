@@ -19,7 +19,7 @@ export const create = (
   a !== undefined ? ['linear-RGB', r, g, b, a] : ['linear-RGB', r, g, b];
 
 export const toString = ([, r, g, b, alpha]: linearRGBTuple) =>
-  `rgb(${fmt(r)} ${fmt(g)} ${fmt(b)}${fmtA(alpha)})`;
+  `color(srgb-linear ${fmt(r)} ${fmt(g)} ${fmt(b)}${fmtA(alpha)})`;
 
 export const isLinearRGBTuple = createColorPredicate<linearRGBTuple>(
   'isLinearRGBTuple',

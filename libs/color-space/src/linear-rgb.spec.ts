@@ -1,8 +1,22 @@
 import { sRGBTuple } from './srgb-tuple';
-import { linearRGBTuple } from './linear-rgb-tuple';
+import { linearRGBTuple, create, toString } from './linear-rgb-tuple';
 import { toSRGB } from './linear-rgb-fns';
 
 describe('linear RGB color-space', () => {
+  describe('toString()', () => {
+    it('should handle a basic color', () => {
+      const color = create(0.301, 0.144, 0.122);
+      expect(toString(color)).toBe('color(srgb-linear 0.301 0.144 0.122)');
+    });
+
+    it('should handle alpha', () => {
+      const color = create(0.301, 0.144, 0.122, 0.5);
+      expect(toString(color)).toBe(
+        'color(srgb-linear 0.301 0.144 0.122 / 0.5)',
+      );
+    });
+  });
+
   describe('toSRGB()', () => {
     it.each<[linearRGBTuple, sRGBTuple]>([
       [

@@ -1,10 +1,22 @@
 import * as sRGB from './srgb-fns';
-import { type sRGBTuple } from './srgb-tuple';
+import { type sRGBTuple, isSRGBTuple, create, toString } from './srgb-tuple';
 import { type XYZTuple } from './xyz-tuple';
 import { linearRGBTuple } from './linear-rgb-tuple';
 
 describe('sRGB color-space', () => {
-  describe('toXYZ', () => {
+  describe('toString()', () => {
+    it('should handle a basic color', () => {
+      const color = create(0x95, 0x6a, 0x62);
+      expect(toString(color)).toBe('rgb(149 106 98)');
+    });
+
+    it('should handle alpha', () => {
+      const color = create(0x95, 0x6a, 0x62, 0.5);
+      expect(toString(color)).toBe('rgb(149 106 98 / 0.5)');
+    });
+  });
+
+  describe('toXYZ()', () => {
     it.each<[sRGBTuple, XYZTuple]>([
       [
         ['sRGB', 0x95, 0x6a, 0x62],
