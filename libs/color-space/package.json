@@ -25,7 +25,8 @@
     "./srgb": "./dist/srgb.js",
     "./xyz": "./dist/xyz.js",
     "./lab": "./dist/lab.js",
-    "./oklab": "./dist/oklab.js"
+    "./oklab": "./dist/oklab.js",
+    "./linear-rgb": "./dist/linear-rgb.js"
   },
   "files": [
     "./dist/**/*"
