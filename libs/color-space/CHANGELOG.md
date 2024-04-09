@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.1.0...@4bitlabs/color-space@1.2.0) (2024-04-09)
+
+### Changed
+
+- default identifier for CIELAB colors is now "CIELAB" ([46f258e](https://github.com/32bitkid/sci.js/commit/46f258e8fd326dfd17559223519a01f964e3d1d3))
+
+### Chore
+
+- added unit test coverage for isSRGBTuple() ([7a93813](https://github.com/32bitkid/sci.js/commit/7a938139687f83efeefcee1037207a97c05a94d1))
+- readme improvements ([804a4c6](https://github.com/32bitkid/sci.js/commit/804a4c6b701342f594e78b5e492f390b1bd058ff))
+
+### Fixed
+
+- mixed up toString() implementation for sRGB and linear-RGB ([3757131](https://github.com/32bitkid/sci.js/commit/37571319658eb1f112a173a7c82d827b3e1fc4a3))
+- re-exported missing mix function ([0e2b54b](https://github.com/32bitkid/sci.js/commit/0e2b54b4a3f025de9fdaf1420f5ba76f112e45a6))
+
+### New
+
+- make linear-rgb available as named export ([5de06f5](https://github.com/32bitkid/sci.js/commit/5de06f550e7a2017449ccb5b39b10e79c93ed42a))
+- type predicates to verify/check for supported color tuples ([9315eb8](https://github.com/32bitkid/sci.js/commit/9315eb8a4b7f2ae2120d1da470a42af7fcc17bf3))
+
 # [1.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.0.0...@4bitlabs/color-space@1.1.0) (2024-04-09)
 
 ### Chore
