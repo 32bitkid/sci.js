@@ -1,4 +1,4 @@
-export { type sRGBTuple, create, toString } from './srgb-tuple';
+export { type sRGBTuple, create, toString, isSRGBTuple } from './srgb-tuple';
 export {
   toLinearRGB,
   toXYZ,

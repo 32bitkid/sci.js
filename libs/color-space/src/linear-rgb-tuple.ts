@@ -1,5 +1,6 @@
 import { alphaPart as fmtA } from './utils/alpha-fns';
 import { formatFloat as fmt } from './utils/format-float';
+import { createColorPredicate } from './utils/create-color-predicate';
 
 export type linearRGBTuple = [
   'linear-RGB',
@@ -19,3 +20,11 @@ export const create = (
 
 export const toString = ([, r, g, b, alpha]: linearRGBTuple) =>
   `rgb(${fmt(r)} ${fmt(g)} ${fmt(b)}${fmtA(alpha)})`;
+
+export const isLinearRGBTuple = createColorPredicate<linearRGBTuple>(
+  'isLinearRGBTuple',
+  ['linear-RGB'],
+  [0.0, 1.0],
+  [0.0, 1.0],
+  [0.0, 1.0],
+);

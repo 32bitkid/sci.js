@@ -1,5 +1,6 @@
 import { alphaPart as fmtAlpha } from './utils/alpha-fns';
 import { formatFloat as fmt } from './utils/format-float';
+import { createColorPredicate } from './utils/create-color-predicate';
 
 export type sRGBTuple = ['sRGB', r: number, g: number, b: number, a?: number];
 
@@ -12,3 +13,11 @@ export const create = (
 
 export const toString = ([, r, g, b, alpha]: sRGBTuple) =>
   `color(srgb-linear ${fmt(r)} ${fmt(g)} ${fmt(b)}${fmtAlpha(alpha)})`;
+
+export const isSRGBTuple = createColorPredicate<sRGBTuple>(
+  'isSRGBTuple',
+  ['sRGB'],
+  [0, 255],
+  [0, 255],
+  [0, 255],
+);
