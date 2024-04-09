@@ -9,7 +9,6 @@ import {
   padPixelsFilter,
   renderPixelData,
 } from '@4bitlabs/image';
-import * as Resize from '@4bitlabs/resize-filters';
 import { getRootOptions } from './get-root-options';
 import { loadContentFromMap } from './load-content-from-map';
 import { fontMatcher } from '../helpers/resource-matchers';
@@ -30,10 +29,6 @@ export const showFontAction = async (
     renderPixelData(ch, {
       pre: [padPixelsFilter([0, 0, 1, 0])],
       dither: createPaletteFilter(CGA_PALETTE),
-      post: [
-        // Resize.scale5x6,
-        // Resize.nearestNeighbor([5, 6]),
-      ],
     }),
   );
 
