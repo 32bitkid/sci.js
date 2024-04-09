@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.8](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.7...@4bitlabs/resize-filters@1.0.8) (2024-04-09)
+
+**Note:** Version bump only for package @4bitlabs/resize-filters
+
 ## [1.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.5...@4bitlabs/resize-filters@1.0.6) (2024-04-06)
 
 ### Chore

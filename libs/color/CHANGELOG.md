@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.0.0...@4bitlabs/color@2.0.1) (2024-04-09)
+
+### Fixed
+
+- Added dependency to @4bitlabs/color-space ([1c6678b](https://github.com/32bitkid/sci.js/commit/1c6678b5f19212de52007c6c56b8557d2f083554))
+
 ## [1.2.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@1.2.1...@4bitlabs/color@1.2.2) (2024-04-05)
 
 ### Chore

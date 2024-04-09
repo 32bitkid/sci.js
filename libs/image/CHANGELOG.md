@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.1...@4bitlabs/image@3.3.2) (2024-04-09)
+
+**Note:** Version bump only for package @4bitlabs/image
+
 # [3.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.2.0...@4bitlabs/image@3.3.0) (2024-04-06)
 
 ### Chore
