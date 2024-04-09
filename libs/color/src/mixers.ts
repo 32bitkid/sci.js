@@ -26,12 +26,12 @@ const createMixer =
 const colorMixers = {
   okLab: createMixer(uint32_to_okLab, okLab.mix, okLab_to_uint32),
   'CIE-XYZ': createMixer(uint32_to_XYZ, XYZ.mix, XYZ_to_uint32),
-  'CIE-L*a*b*': createMixer(uint32_to_Lab, Lab.mix, Lab_to_uint32),
+  CIELAB: createMixer(uint32_to_Lab, Lab.mix, Lab_to_uint32),
   sRGB: createMixer(sRGB.fromUint32, sRGB.mix, sRGB.toUint32),
 } as const;
 
 export interface MixOptions {
-  mixMode?: 'okLab' | 'CIE-XYZ' | 'CIE-L*a*b*' | 'sRGB';
+  mixMode?: 'okLab' | 'CIE-XYZ' | 'CIELAB' | 'sRGB';
 }
 
 const defaultMixMode = 'CIE-XYZ';

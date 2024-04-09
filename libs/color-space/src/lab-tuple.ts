@@ -16,9 +16,7 @@ export const create = (
   b: number = 0,
   alpha?: number,
 ): LabTuple =>
-  alpha !== undefined
-    ? ['CIE-L*a*b*', L, a, b, alpha]
-    : ['CIE-L*a*b*', L, a, b];
+  alpha !== undefined ? ['CIELAB', L, a, b, alpha] : ['CIELAB', L, a, b];
 
 export const toString = ([, L, a, b, alpha]: LabTuple) =>
   `lab(${fmt(L)} ${fmt(a)} ${fmt(b)}${fmtA(alpha)})`;
