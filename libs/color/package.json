@@ -26,5 +26,8 @@
     "test": "jest src/"
   },
   "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@4bitlabs/color-space": "^1.0.0"
+  }
 }
