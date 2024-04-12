@@ -2,16 +2,26 @@ import { type XYZTuple, create as createXYZ } from './xyz-tuple';
 import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
 import { type LabTuple, create as createLab } from './lab-tuple';
 import { type okLabTuple, create as createOkLab } from './oklab-tuple';
-import { D65 } from './d65-reference-values';
+import { D65 } from './reference-white';
 import { clamp } from './utils/clamp';
 import { lerp } from './utils/lerp';
 import { assign } from './utils/assign-values';
 
 // prettier-ignore
 const matrix = Float64Array.of(
-   3.2404542, -1.5371385, -0.4985314,
-  -0.9692660,  1.8760108,  0.0415560,
-   0.0556434, -0.2040259,  1.0572252,
+  // Lindbloom
+  //  3.2404542, -1.5371385, -0.4985314,
+  // -0.9692660,  1.8760108,  0.0415560,
+  //  0.0556434, -0.2040259,  1.0572252,
+
+  // IEC 61966-2-1:1999
+  //  3.24096994,  -1.53738318,  -0.49861076,
+  // -0.96924364,   1.87596750,   0.04155506,
+  //  0.05563008,  -0.20397696,   1.05697151,
+
+   3.2409699419045226,  -1.537383177570094,   -0.4986107602930034,
+  -0.9692436362808796,   1.8759675015077202,   0.04155505740717559,
+   0.05563007969699366, -0.20397695888897652,  1.0569715142428786
 );
 
 const gamma = (c: number) =>
@@ -37,23 +47,26 @@ export function toSRGB(
   );
 }
 
-const EPSILON = 0.008856; // 216 / 24389
+const ϵ = 216 / 24389;
+const κ = 24389 / 27;
 
 export function toLab(xyz: XYZTuple, out: LabTuple = createLab()) {
   const [, x, y, z, alpha] = xyz;
 
-  const [x1, y1, z1] = [x, y, z].map((v, i) => {
-    v = v / D65[i];
-    v = v > EPSILON ? v ** (1 / 3) : v * 7.787 + 16 / 116;
-    return v;
-  });
+  const [refX, refY, refZ] = D65;
+  const xr = x / refX;
+  const yr = y / refY;
+  const zr = z / refZ;
 
-  out[1] = 116 * y1 - 16;
-  out[2] = 500 * (x1 - y1);
-  out[3] = 200 * (y1 - z1);
-  out[4] = alpha;
+  const fx = xr > ϵ ? Math.cbrt(xr) : (κ * xr + 16) / 116;
+  const fy = yr > ϵ ? Math.cbrt(yr) : (κ * yr + 16) / 116;
+  const fz = zr > ϵ ? Math.cbrt(zr) : (κ * zr + 16) / 116;
 
-  return out;
+  const L = 116 * fy - 16;
+  const a = 500 * (fx - fy);
+  const b = 200 * (fy - fz);
+
+  return assign(out, L, a, b, alpha);
 }
 
 // prettier-ignore
@@ -85,12 +98,11 @@ export function toOkLab(
   const m$ = Math.cbrt(m);
   const s$ = Math.cbrt(s);
 
-  out[1] = l$ * OKLAB_M2[0] + m$ * OKLAB_M2[1] + s$ * OKLAB_M2[2];
-  out[2] = l$ * OKLAB_M2[3] + m$ * OKLAB_M2[4] + s$ * OKLAB_M2[5];
-  out[3] = l$ * OKLAB_M2[6] + m$ * OKLAB_M2[7] + s$ * OKLAB_M2[8];
-  out[4] = alpha;
+  const L = l$ * OKLAB_M2[0] + m$ * OKLAB_M2[1] + s$ * OKLAB_M2[2];
+  const a = l$ * OKLAB_M2[3] + m$ * OKLAB_M2[4] + s$ * OKLAB_M2[5];
+  const b = l$ * OKLAB_M2[6] + m$ * OKLAB_M2[7] + s$ * OKLAB_M2[8];
 
-  return out;
+  return assign(out, L, a, b, alpha);
 }
 
 export const mix = (

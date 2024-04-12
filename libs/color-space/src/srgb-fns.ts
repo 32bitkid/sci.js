@@ -24,23 +24,32 @@ export function toLinearRGB(
 
 // prettier-ignore
 const matrix = Float64Array.of(
-  0.4124564, 0.3575761, 0.1804375,
-  0.2126729, 0.7151522, 0.0721750,
-  0.0193339, 0.1191920, 0.9503041,
+  // Lindbloom
+  // 0.4124564, 0.3575761, 0.1804375,
+  // 0.2126729, 0.7151522, 0.0721750,
+  // 0.0193339, 0.1191920, 0.9503041,
+
+  // IEC 61966-2-1:1999
+  // 0.41239080,  0.35758434,   0.18048079,
+  // 0.21263901,  0.71516868,   0.07219232,
+  // 0.01933082,  0.11919478,   0.95053215,
+
+  0.41239079926595934, 0.357584339383878,   0.1804807884018343,
+  0.21263900587151027, 0.715168678767756,   0.07219231536073371,
+  0.01933081871559182, 0.11919477979462598, 0.9505321522496607,
 );
 
 export function toXYZ(rgb: sRGBTuple, out: XYZTuple = createXYZ()): XYZTuple {
   const [, R, G, B, alpha] = rgb;
-  const rL = inverseGamma(R / 255) * 100;
-  const gL = inverseGamma(G / 255) * 100;
-  const bL = inverseGamma(B / 255) * 100;
+  const rL = inverseGamma(R / 255);
+  const gL = inverseGamma(G / 255);
+  const bL = inverseGamma(B / 255);
 
-  out[1] = rL * matrix[0] + gL * matrix[1] + bL * matrix[2];
-  out[2] = rL * matrix[3] + gL * matrix[4] + bL * matrix[5];
-  out[3] = rL * matrix[6] + gL * matrix[7] + bL * matrix[8];
-  out[4] = alpha;
+  const x = rL * matrix[0] + gL * matrix[1] + bL * matrix[2];
+  const y = rL * matrix[3] + gL * matrix[4] + bL * matrix[5];
+  const z = rL * matrix[6] + gL * matrix[7] + bL * matrix[8];
 
-  return out;
+  return assign(out, x * 100, y * 100, z * 100, alpha);
 }
 
 export function toUint32(rgb: sRGBTuple): number {

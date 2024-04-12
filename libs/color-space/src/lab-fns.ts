@@ -1,23 +1,30 @@
 import { type XYZTuple } from './xyz-tuple';
 import { type LabTuple, create as createLab } from './lab-tuple';
-import { D65 } from './d65-reference-values';
+import { D65 } from './reference-white';
 import { lerp } from './utils/lerp';
 import { assign } from './utils/assign-values';
 export { deltaE } from './lab-delta-e';
 
+const ϵ = 216 / 24389; // 6^3/29^3
+const κ = 24389 / 27; // 29^3/3^3
+
 export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
-  const [, l, a, b, alpha] = lab;
-  let y = (l + 16) / 116;
-  let x = a / 500 + y;
-  let z = y - b / 200;
+  const [, L, a, b, alpha] = lab;
+  const fy = (L + 16) / 116;
+  const fx = a / 500 + fy;
+  const fz = fy - b / 200;
 
-  x = x ** 3 > 0.008856 ? x ** 3 : (x - 16 / 116) / 7.787;
-  y = y ** 3 > 0.008856 ? y ** 3 : (y - 16 / 116) / 7.787;
-  z = z ** 3 > 0.008856 ? z ** 3 : (z - 16 / 116) / 7.787;
+  const fx3 = fx ** 3;
+  const fz3 = fz ** 3;
 
-  x *= D65[0];
-  y *= D65[1];
-  z *= D65[2];
+  const xr = fx3 > ϵ ? fx3 : (116 * fx - 16) / κ;
+  const yr = L > κ * ϵ ? fy ** 3 : L / κ;
+  const zr = fz3 > ϵ ? fz3 : (116 * fz - 16) / κ;
+
+  const [refX, refY, refZ] = D65;
+  const x = xr * refX;
+  const y = yr * refY;
+  const z = zr * refZ;
 
   return assign(out, x, y, z, alpha);
 }

@@ -27,14 +27,22 @@ describe('sRGB color-space', () => {
     it.each<[sRGBTuple, XYZTuple]>([
       [
         ['sRGB', 0x95, 0x6a, 0x62],
-        ['CIE-XYZ', 19.7536, 17.58, 13.91],
+        ['CIE-XYZ', 19.754, 17.581, 13.906],
       ],
-    ])('should do something', (rgb, expected) => {
+      [
+        ['sRGB', 0xdc, 0x4e, 0x4e],
+        ['CIE-XYZ', 33.618, 21.219, 9.532],
+      ],
+      [
+        ['sRGB', 0xff, 0x63, 0x47],
+        ['CIE-XYZ', 46.841, 30.641, 9.40643],
+      ],
+    ])('should convert %s', (rgb, expected) => {
       const actual = toXYZ(rgb);
       expect(actual[0]).toBe(expected[0]);
-      expect(actual[1]).toBeCloseTo(expected[1]);
-      expect(actual[2]).toBeCloseTo(expected[2]);
-      expect(actual[3]).toBeCloseTo(expected[3]);
+      expect(actual[1]).toBeCloseTo(expected[1], 2);
+      expect(actual[2]).toBeCloseTo(expected[2], 2);
+      expect(actual[3]).toBeCloseTo(expected[3], 2);
     });
   });
 

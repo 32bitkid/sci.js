@@ -37,12 +37,7 @@ export function toXYZ(
   const y = l * OKLAB_M1i[3] + m * OKLAB_M1i[4] + s * OKLAB_M1i[5];
   const z = l * OKLAB_M1i[6] + m * OKLAB_M1i[7] + s * OKLAB_M1i[8];
 
-  out[1] = x * 100;
-  out[2] = y * 100;
-  out[3] = z * 100;
-  out[4] = alpha;
-
-  return out;
+  return assign(out, x * 100, y * 100, z * 100, alpha);
 }
 
 export const lighten = (

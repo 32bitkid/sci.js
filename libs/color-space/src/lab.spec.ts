@@ -1,5 +1,6 @@
 import { type LabTuple, toString } from './lab-tuple';
 import * as LAB from './lab-fns';
+import { XYZTuple } from './xyz-tuple';
 
 describe('L*a*b* colorspace', () => {
   describe('toString()', () => {
@@ -9,6 +10,32 @@ describe('L*a*b* colorspace', () => {
       [['CIELAB', 50, 0.1234567, 0], 'lab(50 0.123 0)'],
     ])('should serialize', (color, expected) => {
       expect(toString(color)).toBe(expected);
+    });
+  });
+
+  describe('toXYZ()', () => {
+    it.each<[LabTuple, XYZTuple]>([
+      [
+        ['CIELAB', 0, 0, 0],
+        ['CIE-XYZ', 0, 0, 0],
+      ],
+      [
+        ['CIELAB', 53.186147049899986, 55.37222125570895, 30.48480460763634],
+        ['CIE-XYZ', 33.6138111725463, 21.216975215758012, 9.533249571284117],
+      ],
+      [
+        ['CIELAB', 48.98350211637147, 16.068783498963956, 11.330338665713313],
+        ['CIE-XYZ', 19.7536522709638, 17.580667923785445, 13.90586203841256],
+      ],
+      [
+        ['CIELAB', 100, 0, 0],
+        ['CIE-XYZ', 95.046, 100, 108.91],
+      ],
+    ])('should convert %s', (color, expected) => {
+      const actual = LAB.toXYZ(color);
+      expect(actual[1]).toBeCloseTo(expected[1], 4);
+      expect(actual[2]).toBeCloseTo(expected[2], 4);
+      expect(actual[3]).toBeCloseTo(expected[3], 4);
     });
   });
 
