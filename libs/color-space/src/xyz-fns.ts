@@ -2,7 +2,7 @@ import { type XYZTuple, create as createXYZ } from './xyz-tuple';
 import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
 import { type LabTuple, create as createLab } from './lab-tuple';
 import { type okLabTuple, create as createOkLab } from './oklab-tuple';
-import { D65 } from './reference-white';
+import { D50 } from './reference-white';
 import { clamp } from './utils/clamp';
 import { lerp } from './utils/lerp';
 import { assign } from './utils/assign-values';
@@ -47,16 +47,27 @@ export function toSRGB(
   );
 }
 
+// prettier-ignore
+const BRADFORD_Ma = Float64Array.of(
+   1.0478112,  0.0228866, -0.0501270,
+   0.0295424,  0.9904844, -0.0170491,
+  -0.0092345,  0.0150436,  0.7521316,
+)
+
 const ϵ = 216 / 24389;
 const κ = 24389 / 27;
 
 export function toLab(xyz: XYZTuple, out: LabTuple = createLab()) {
   const [, x, y, z, alpha] = xyz;
 
-  const [refX, refY, refZ] = D65;
-  const xr = x / refX;
-  const yr = y / refY;
-  const zr = z / refZ;
+  const xD50 = x * BRADFORD_Ma[0] + y * BRADFORD_Ma[1] + z * BRADFORD_Ma[2];
+  const yD50 = x * BRADFORD_Ma[3] + y * BRADFORD_Ma[4] + z * BRADFORD_Ma[5];
+  const zD50 = x * BRADFORD_Ma[6] + y * BRADFORD_Ma[7] + z * BRADFORD_Ma[8];
+
+  const [refX, refY, refZ] = D50;
+  const xr = xD50 / refX;
+  const yr = yD50 / refY;
+  const zr = zD50 / refZ;
 
   const fx = xr > ϵ ? Math.cbrt(xr) : (κ * xr + 16) / 116;
   const fy = yr > ϵ ? Math.cbrt(yr) : (κ * yr + 16) / 116;
@@ -78,9 +89,9 @@ const OKLAB_M1 = Float64Array.of(
 
 // prettier-ignore
 const OKLAB_M2 = Float64Array.of(
-  0.2104542553,   0.7936177850,  -0.0040720468,
-  1.9779984951,  -2.4285922050,   0.4505937099,
-  0.0259040371,   0.7827717662,  -0.8086757660,
+   0.2104542553,  0.7936177850, -0.0040720468,
+   1.9779984951, -2.4285922050,  0.4505937099,
+   0.0259040371,  0.7827717662, -0.8086757660,
 )
 
 // see https://bottosson.github.io/posts/oklab/

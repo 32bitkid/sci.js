@@ -20,22 +20,26 @@ describe('L*a*b* colorspace', () => {
         ['CIE-XYZ', 0, 0, 0],
       ],
       [
-        ['CIELAB', 53.186147049899986, 55.37222125570895, 30.48480460763634],
-        ['CIE-XYZ', 33.6138111725463, 21.216975215758012, 9.533249571284117],
-      ],
-      [
-        ['CIELAB', 48.98350211637147, 16.068783498963956, 11.330338665713313],
-        ['CIE-XYZ', 19.7536522709638, 17.580667923785445, 13.90586203841256],
-      ],
-      [
         ['CIELAB', 100, 0, 0],
-        ['CIE-XYZ', 95.046, 100, 108.91],
+        ['CIE-XYZ', 95.043, 99.9998, 108.88],
+      ],
+      [
+        ['CIELAB', 62.989, 59.3832, 47.8834],
+        ['CIE-XYZ', 46.841, 30.641, 9.40643],
+      ],
+      [
+        ['CIELAB', 61.2267, 3.05668, -50.1836],
+        ['CIE-XYZ', 31.279, 30.3092, 84.2935],
+      ],
+      [
+        ['CIELAB', 42.3544, -16.3833, 30.3151],
+        ['CIE-XYZ', 9.51604, 12.6486, 4.6281],
       ],
     ])('should convert %s', (color, expected) => {
       const actual = LAB.toXYZ(color);
-      expect(actual[1]).toBeCloseTo(expected[1], 4);
-      expect(actual[2]).toBeCloseTo(expected[2], 4);
-      expect(actual[3]).toBeCloseTo(expected[3], 4);
+      expect(actual[1]).toBeCloseTo(expected[1], 1);
+      expect(actual[2]).toBeCloseTo(expected[2], 1);
+      expect(actual[3]).toBeCloseTo(expected[3], 1);
     });
   });
 

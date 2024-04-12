@@ -1,12 +1,19 @@
 import { type XYZTuple } from './xyz-tuple';
 import { type LabTuple, create as createLab } from './lab-tuple';
-import { D65 } from './reference-white';
+import { D50 } from './reference-white';
 import { lerp } from './utils/lerp';
 import { assign } from './utils/assign-values';
 export { deltaE } from './lab-delta-e';
 
 const ϵ = 216 / 24389; // 6^3/29^3
 const κ = 24389 / 27; // 29^3/3^3
+
+// prettier-ignore
+const BRADFORD_Mb = Float64Array.of(
+   0.9555766, -0.0230393,  0.0631636,
+  -0.0282895,  1.0099416,  0.0210077,
+   0.0122982, -0.0204830,  1.3299098,
+)
 
 export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
   const [, L, a, b, alpha] = lab;
@@ -21,10 +28,17 @@ export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
   const yr = L > κ * ϵ ? fy ** 3 : L / κ;
   const zr = fz3 > ϵ ? fz3 : (116 * fz - 16) / κ;
 
-  const [refX, refY, refZ] = D65;
-  const x = xr * refX;
-  const y = yr * refY;
-  const z = zr * refZ;
+  const [refX, refY, refZ] = D50;
+  const xD50 = xr * refX;
+  const yD50 = yr * refY;
+  const zD50 = zr * refZ;
+
+  const x =
+    xD50 * BRADFORD_Mb[0] + yD50 * BRADFORD_Mb[1] + zD50 * BRADFORD_Mb[2];
+  const y =
+    xD50 * BRADFORD_Mb[3] + yD50 * BRADFORD_Mb[4] + zD50 * BRADFORD_Mb[5];
+  const z =
+    xD50 * BRADFORD_Mb[6] + yD50 * BRADFORD_Mb[7] + zD50 * BRADFORD_Mb[8];
 
   return assign(out, x, y, z, alpha);
 }
