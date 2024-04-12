@@ -2,10 +2,12 @@ import {
   type LabTuple,
   type XYZTuple,
   type okLabTuple,
+  type linearRGBTuple,
   Lab,
   XYZ,
   okLab,
   sRGB,
+  linearRGB,
 } from '@4bitlabs/color-space';
 
 export const uint32_to_XYZ = (c: number): XYZTuple =>
@@ -25,3 +27,9 @@ export const uint32_to_okLab = (c: number): okLabTuple =>
 
 export const okLab_to_uint32 = (c: okLabTuple): number =>
   XYZ_to_uint32(okLab.toXYZ(c));
+
+export const uint32_to_linearRGB = (c: number): linearRGBTuple =>
+  sRGB.toLinearRGB(sRGB.fromUint32(c));
+
+export const linearRGB_to_uint32 = (c: linearRGBTuple): number =>
+  sRGB.toUint32(linearRGB.toSRGB(c));
