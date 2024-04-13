@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.3...@4bitlabs/scibud@1.1.4) (2024-04-13)
+
+### Changed
+
+- Set the default palette mixing mode to CIE-XYZ color-space ([b4c1f51](https://github.com/32bitkid/sci.js/commit/b4c1f51a89932751c2765b33d846f2f5d92dd7f8))
+
 ## [1.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.2...@4bitlabs/scibud@1.1.3) (2024-04-09)
 
 **Note:** Version bump only for package @4bitlabs/scibud

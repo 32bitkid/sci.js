@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.2.0...@4bitlabs/color-space@1.2.1) (2024-04-13)
+
+### Fixed
+
+- adjusting D65 white-point ([db2f2d0](https://github.com/32bitkid/sci.js/commit/db2f2d0e08d5e5dd33b60eb9d813ec91eb5ba078))
+- lab color-space conversions are now done from xyz-D50 (not D65) ([a411fc1](https://github.com/32bitkid/sci.js/commit/a411fc16866b84af0459c1ce73375e9a441390cb))
+
 # [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.1.0...@4bitlabs/color-space@1.2.0) (2024-04-09)
 
 ### Changed

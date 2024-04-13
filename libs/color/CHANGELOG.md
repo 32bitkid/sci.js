@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.0.3...@4bitlabs/color@2.1.0) (2024-04-13)
+
+### New
+
+- "linear-rgb" color mixing option for mixBy()/softMixer() ([8300d1c](https://github.com/32bitkid/sci.js/commit/8300d1cb3734786a71ebb5f6a07a91e1b94e387e))
+
 ## [2.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.0.2...@4bitlabs/color@2.0.3) (2024-04-09)
 
 ### Changed
