@@ -94,13 +94,19 @@ export function generatePalette(
     : basePalette;
 }
 
+const mixMode = 'CIE-XYZ';
+
 const DITHER_STYLE = {
   none: (pal: Uint32Array) => generatePairs(pal),
-  '10%': (pal: Uint32Array) => generatePairs(pal, Mixers.mixBy(0.1)),
-  '15%': (pal: Uint32Array) => generatePairs(pal, Mixers.mixBy(0.15)),
-  '25%': (pal: Uint32Array) => generatePairs(pal, Mixers.mixBy(0.25)),
-  '50%': (pal: Uint32Array) => generatePairs(pal, Mixers.mixBy(0.5)),
-  soft: (pal: Uint32Array) => generatePairs(pal, Mixers.softMixer()),
+  '10%': (pal: Uint32Array) =>
+    generatePairs(pal, Mixers.mixBy(0.1, { mixMode })),
+  '15%': (pal: Uint32Array) =>
+    generatePairs(pal, Mixers.mixBy(0.15, { mixMode })),
+  '25%': (pal: Uint32Array) =>
+    generatePairs(pal, Mixers.mixBy(0.25, { mixMode })),
+  '50%': (pal: Uint32Array) =>
+    generatePairs(pal, Mixers.mixBy(0.5, { mixMode })),
+  soft: (pal: Uint32Array) => generatePairs(pal, Mixers.softMixer({ mixMode })),
 };
 
 export function createPicPipeline(
