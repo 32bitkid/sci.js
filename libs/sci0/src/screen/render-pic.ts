@@ -28,15 +28,13 @@ export const renderPic = (
     switch (mode) {
       case 'SET_PALETTE': {
         const [, idx, palette] = cmd;
-        palettes[idx] = palette;
+        palettes[idx].set(palette);
         break;
       }
       case 'UPDATE_PALETTE': {
         const [, entries] = cmd;
         entries.forEach(([pal, idx, color]) => {
-          const palette = Uint8Array.from(palettes[pal]);
-          palette[idx] = color;
-          palettes[pal] = palette;
+          palettes[pal][idx] = color;
         });
         break;
       }
