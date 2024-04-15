@@ -64,23 +64,26 @@ export const createFloodFill = (
   isLegal: IsFillable,
   [width, height]: StaticVec2,
 ): Filler => {
-  const visited = new Set<number>();
+  const visited = new Uint8ClampedArray(width * height);
   const stack = new NumericDeque(width * height, Uint32Array);
 
   return function floodFill(
-    sx: number,
-    sy: number,
+    ix: number,
+    iy: number,
     drawMode: DrawMode,
     drawCodes: DrawCodes,
   ): void {
-    const startI = sy * width + sx;
-    stack.push(startI);
+    visited.fill(0);
+    stack.clear();
+
+    const start = iy * width + ix;
+    stack.push(start);
 
     while (!stack.isEmpty()) {
       const i = stack.shift();
 
-      if (visited.has(i)) continue;
-      visited.add(i);
+      if (visited[i]) continue;
+      visited[i] = 255;
 
       const x = i % width;
       const y = (i / width) >>> 0;
@@ -89,13 +92,38 @@ export const createFloodFill = (
 
       plot(x, y, drawMode, drawCodes);
 
-      if (y - 1 >= 0 && !visited.has(i - width)) stack.push(i - width);
-      if (y + 1 < height && !visited.has(i + width)) stack.push(i + width);
-      if (x - 1 >= 0 && !visited.has(i - 1)) stack.push(i - 1);
-      if (x + 1 < width && !visited.has(i + 1)) stack.push(i + 1);
-    }
+      if (y - 1 >= 0) {
+        if (!visited[i - width]) {
+          if (isLegal(x, y - 1, drawMode)) {
+            stack.push(i - width);
+          }
+        }
+      }
 
-    visited.clear();
+      if (y + 1 < height) {
+        if (!visited[i + width]) {
+          if (isLegal(x, y + 1, drawMode)) {
+            stack.push(i + width);
+          }
+        }
+      }
+
+      if (x - 1 >= 0) {
+        if (!visited[i - 1]) {
+          if (isLegal(x - 1, y, drawMode)) {
+            stack.push(i - 1);
+          }
+        }
+      }
+
+      if (x + 1 < width) {
+        if (!visited[i + 1]) {
+          if (isLegal(x + 1, y, drawMode)) {
+            stack.push(i + 1);
+          }
+        }
+      }
+    }
   };
 };
 
