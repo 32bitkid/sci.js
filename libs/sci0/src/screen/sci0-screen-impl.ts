@@ -79,7 +79,7 @@ export const createFloodFill = (
     const start = iy * width + ix;
     stack.push(start);
 
-    while (!stack.isEmpty()) {
+    do {
       const i = stack.shift();
 
       if (visited[i]) continue;
@@ -90,68 +90,48 @@ export const createFloodFill = (
 
       plot(x, y, drawMode, drawCodes);
 
-      if (y - 1 >= 0) {
-        if (!visited[i - width]) {
-          if (isLegal(x, y - 1, drawMode)) {
-            stack.push(i - width);
-          }
-        }
-      }
+      const initialAbove =
+        y - 1 >= 0 && !visited[i - width] && isLegal(x, y - 1, drawMode);
+      const initialBelow =
+        y + 1 < height && !visited[i + width] && isLegal(x, y + 1, drawMode);
 
-      if (y + 1 < height) {
-        if (!visited[i + width]) {
-          if (isLegal(x, y + 1, drawMode)) {
-            stack.push(i + width);
-          }
-        }
-      }
+      if (initialAbove) stack.push(i - width);
+      if (initialBelow) stack.push(i + width);
 
-      // scan right
-      for (let sx = x + 1; sx < width && isLegal(sx, y, drawMode); sx++) {
-        const idx = i + (sx - x);
-        visited[idx] = 0xff;
-        plot(sx, y, drawMode, drawCodes);
+      // scan right and left
+      for (let dir = 1; dir >= -1; dir -= 2) {
+        let visitedAbove = initialAbove;
+        let visitedBelow = initialBelow;
 
-        if (y - 1 >= 0) {
-          if (!visited[idx - width]) {
+        for (
+          let sx = x + dir;
+          (dir > 0 ? sx < width : sx >= 0) && isLegal(sx, y, drawMode);
+          sx += dir
+        ) {
+          const idx = i + (sx - x);
+          visited[idx] = 0xff;
+          plot(sx, y, drawMode, drawCodes);
+
+          if (y - 1 >= 0 && !visited[idx - width]) {
             if (isLegal(sx, y - 1, drawMode)) {
-              stack.push(idx - width);
+              if (!visitedAbove) stack.push(idx - width);
+              visitedAbove = true;
+            } else {
+              visitedAbove = false;
             }
           }
-        }
 
-        if (y + 1 < height) {
-          if (!visited[idx + width]) {
+          if (y + 1 < height && !visited[idx + width]) {
             if (isLegal(sx, y + 1, drawMode)) {
-              stack.push(idx + width);
+              if (!visitedBelow) stack.push(idx + width);
+              visitedBelow = true;
+            } else {
+              visitedBelow = false;
             }
           }
         }
       }
-
-      // scan right
-      for (let sx = x - 1; sx >= 0 && isLegal(sx, y, drawMode); sx--) {
-        const idx = i + (sx - x);
-        visited[idx] = 0xff;
-        plot(sx, y, drawMode, drawCodes);
-
-        if (y - 1 >= 0) {
-          if (!visited[idx - width]) {
-            if (isLegal(sx, y - 1, drawMode)) {
-              stack.push(idx - width);
-            }
-          }
-        }
-
-        if (y + 1 < height) {
-          if (!visited[idx + width]) {
-            if (isLegal(sx, y + 1, drawMode)) {
-              stack.push(idx + width);
-            }
-          }
-        }
-      }
-    }
+    } while (!stack.isEmpty());
   };
 };
 
