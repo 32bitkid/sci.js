@@ -1,8 +1,8 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
-import { createBrush, createFloodFill, createLine } from './sci0-screen-impl';
 import { IsFillable, type Plotter, RawPlotter, type Screen } from './screen';
 import { DrawMode } from '../models/draw-command';
 import { type RenderResult } from './render-result';
+import { createLine, createFloodFill, createBrush } from './tools';
 
 const bufferWidth = 320;
 const bufferHeight = 190;
