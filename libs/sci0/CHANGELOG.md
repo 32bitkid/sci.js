@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.4.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.4.4...@4bitlabs/sci0@2.4.5) (2024-04-16)
+
+### Chore
+
+- Added a more complex flood-fill test to verify behavior ([83d7ea6](https://github.com/32bitkid/sci.js/commit/83d7ea678fe4859ef3773e8cdaf88ae0e648e605))
+- Refactor screen tools and testing. ([140ec2e](https://github.com/32bitkid/sci.js/commit/140ec2e68a0cbc8485e3aeae8a629f140866d65a))
+
+### Fixed
+
+- Flood-fill tweaks and tests ([390b009](https://github.com/32bitkid/sci.js/commit/390b0091012ab3301e97fae293cc3e6047419b82))
+- Resolved palette updates ([582e526](https://github.com/32bitkid/sci.js/commit/582e52686d7e645ccb89a66fef60e619bf61fc3a))
+
+### Perf
+
+- More performance improvements to flood-fill algorithm ([4c06126](https://github.com/32bitkid/sci.js/commit/4c06126ac7c7218ac4c54163e018d16191817c8d))
+- Slight improvement of flood-fill algorithm ([ea34102](https://github.com/32bitkid/sci.js/commit/ea3410251becb6efa381892613214ffcbaa67b0d))
+
 ## [2.4.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.4.3...@4bitlabs/sci0@2.4.4) (2024-04-13)
 
 **Note:** Version bump only for package @4bitlabs/sci0

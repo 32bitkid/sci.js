@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.4...@4bitlabs/scibud@1.1.5) (2024-04-16)
+
+### Chore
+
+- Add LICENSE.txt for scibud ([9b045b4](https://github.com/32bitkid/sci.js/commit/9b045b45614553747e7b1562a55420215582071d))
+
 ## [1.1.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.3...@4bitlabs/scibud@1.1.4) (2024-04-13)
 
 ### Changed
