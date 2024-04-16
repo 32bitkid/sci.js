@@ -1,4 +1,4 @@
-export const toGrayscale = (palette: Uint32Array): Uint32Array => {
+export const toGrayscale = (palette: Readonly<Uint32Array>): Uint32Array => {
   const grayscale = new Uint32Array(16);
   for (let i = 0; i < 16; i++) {
     const entry = palette[i];

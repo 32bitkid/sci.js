@@ -50,14 +50,15 @@ export const mixBy = (
   const { mixMode = defaultMixMode } = options;
   const mixPair = colorMixers[mixMode];
 
-  return ([a, b]: DitherPair) => (a === b ? [a, b] : mixPair(a, b, bias));
+  return ([a, b]: Readonly<DitherPair>) =>
+    a === b ? [a, b] : mixPair(a, b, bias);
 };
 
 export const softMixer = (options: MixOptions = {}): DitherTransform => {
   const { mixMode = defaultMixMode } = options;
   const mixPair = colorMixers[mixMode];
 
-  return ([a, b]) => {
+  return ([a, b]: Readonly<DitherPair>) => {
     const labA = uint32_to_Lab(a);
     const labB = uint32_to_Lab(b);
 

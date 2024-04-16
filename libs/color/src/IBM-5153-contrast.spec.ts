@@ -4,12 +4,21 @@ import { CGA_PALETTE } from './palettes';
 describe('IBM-5153 Dimmer', () => {
   it('should not change colors at 100%', () => {
     const pal = contrast(CGA_PALETTE, 1);
-    expect(pal).toEqual(CGA_PALETTE);
+    expect(pal).not.toBe(CGA_PALETTE);
+    expect(pal).toStrictEqual(CGA_PALETTE);
   });
 
   it('should not adjust the top 8 colors', () => {
     const pal = contrast(CGA_PALETTE, 0.5);
-    expect(pal.subarray(8)).toEqual(CGA_PALETTE.subarray(8));
+    expect(pal).not.toBe(CGA_PALETTE);
+    expect(pal.subarray(8)).toStrictEqual(CGA_PALETTE.subarray(8));
+  });
+
+  it('should be darker', () => {
+    const pal = contrast(CGA_PALETTE, 0.5);
+    pal
+      .subarray(1, 7)
+      .forEach((it, idx) => expect(it).toBeLessThan(CGA_PALETTE[idx + 1]));
   });
 
   it('should not adjust all the way to black', () => {

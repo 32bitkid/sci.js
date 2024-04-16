@@ -8,7 +8,7 @@ const rawPairs =
 const ENTRIES = Array(256).fill(0);
 
 export const generateSciDitherPairs = (
-  source: Uint32Array | ((entry: number) => DitherPair),
+  source: Readonly<Uint32Array> | ((entry: number) => DitherPair),
   ...transforms: DitherTransform[]
 ): DitherPair[] => {
   const fn = typeof source === 'function' ? source : rawPairs(source);
