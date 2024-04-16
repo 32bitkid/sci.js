@@ -32,6 +32,7 @@ export const createFloodFill = (
       const x = i % width;
       const y = (i / width) >>> 0;
 
+      if (!isLegal(x, y, drawMode)) continue;
       plot(x, y, drawMode, drawCodes);
 
       const initialAbove =
