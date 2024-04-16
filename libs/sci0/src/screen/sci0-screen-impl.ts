@@ -83,12 +83,10 @@ export const createFloodFill = (
       const i = stack.shift();
 
       if (visited[i]) continue;
-      visited[i] = 255;
+      visited[i] = 0xff;
 
       const x = i % width;
       const y = (i / width) >>> 0;
-
-      if (!isLegal(x, y, drawMode)) continue;
 
       plot(x, y, drawMode, drawCodes);
 
@@ -108,18 +106,48 @@ export const createFloodFill = (
         }
       }
 
-      if (x - 1 >= 0) {
-        if (!visited[i - 1]) {
-          if (isLegal(x - 1, y, drawMode)) {
-            stack.push(i - 1);
+      // scan right
+      for (let sx = x + 1; sx < width && isLegal(sx, y, drawMode); sx++) {
+        const idx = i + (sx - x);
+        visited[idx] = 0xff;
+        plot(sx, y, drawMode, drawCodes);
+
+        if (y - 1 >= 0) {
+          if (!visited[idx - width]) {
+            if (isLegal(sx, y - 1, drawMode)) {
+              stack.push(idx - width);
+            }
+          }
+        }
+
+        if (y + 1 < height) {
+          if (!visited[idx + width]) {
+            if (isLegal(sx, y + 1, drawMode)) {
+              stack.push(idx + width);
+            }
           }
         }
       }
 
-      if (x + 1 < width) {
-        if (!visited[i + 1]) {
-          if (isLegal(x + 1, y, drawMode)) {
-            stack.push(i + 1);
+      // scan right
+      for (let sx = x - 1; sx >= 0 && isLegal(sx, y, drawMode); sx--) {
+        const idx = i + (sx - x);
+        visited[idx] = 0xff;
+        plot(sx, y, drawMode, drawCodes);
+
+        if (y - 1 >= 0) {
+          if (!visited[idx - width]) {
+            if (isLegal(sx, y - 1, drawMode)) {
+              stack.push(idx - width);
+            }
+          }
+        }
+
+        if (y + 1 < height) {
+          if (!visited[idx + width]) {
+            if (isLegal(sx, y + 1, drawMode)) {
+              stack.push(idx + width);
+            }
           }
         }
       }
