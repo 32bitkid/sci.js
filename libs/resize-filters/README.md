@@ -1,10 +1,9 @@
-# @4bitlabs/resize-filters [![License][license]][npm] [![NPM Version][version]][npm] ![Size][size] [![NPM Downloads][dl]][npm]
+# @4bitlabs/resize-filters [![License][license]][npm] [![NPM Version][version]][npm] [![NPM Downloads][dl]][npm]
 
 [npm]: https://www.npmjs.com/package/@4bitlabs/resize-filters
 [version]: https://img.shields.io/npm/v/%404bitlabs%2Fresize-filters
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fresize-filters
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fresize-filters
-[size]: https://img.shields.io/bundlephobia/min/%404bitlabs/resize-filters
 
 A collection of pixel resize filters for rendering [Sierra On-line][sierra] [SCI-engine][sci0] assets.
 
