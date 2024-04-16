@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.5...@4bitlabs/image@3.3.6) (2024-04-16)
+
+### Chore
+
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+
 ## [3.3.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.4...@4bitlabs/image@3.3.5) (2024-04-13)
 
 **Note:** Version bump only for package @4bitlabs/image

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.12](https://github.com/32bitkid/sci.js/compare/@4bitlabs/blur-filters@1.0.11...@4bitlabs/blur-filters@1.0.12) (2024-04-16)
+
+### Chore
+
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+
 ## [1.0.11](https://github.com/32bitkid/sci.js/compare/@4bitlabs/blur-filters@1.0.10...@4bitlabs/blur-filters@1.0.11) (2024-04-13)
 
 **Note:** Version bump only for package @4bitlabs/blur-filters

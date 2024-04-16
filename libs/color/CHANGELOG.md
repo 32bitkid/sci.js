@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.0...@4bitlabs/color@2.1.1) (2024-04-16)
+
+### Chore
+
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+
+### Fixed
+
+- Don't mutate source palette. ([d423735](https://github.com/32bitkid/sci.js/commit/d423735e0d223fc7e1b1fedf04972d3e1fb61d06))
+
 # [2.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.0.3...@4bitlabs/color@2.1.0) (2024-04-13)
 
 ### New
