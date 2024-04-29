@@ -27,6 +27,7 @@ applySubCommands(
   Commands.extractCommandForType(ResourceTypes.PIC_TYPE),
   Commands.picInfoCommand,
   Commands.picRenderCommand,
+  Commands.picVideoCommand,
 );
 
 applySubCommands(

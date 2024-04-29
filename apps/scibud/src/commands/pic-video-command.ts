@@ -9,10 +9,9 @@ const layerOption = () =>
     .choices(['visible', 'priority', 'control'])
     .default('visible');
 
-export function picRenderCommand(root: Command): Command {
+export function picVideoCommand(root: Command): Command {
   root
-    .command('render')
-    .description('render pic resource as image')
+    .command('video', { hidden: true })
     .argument('<num>', 'picture resource number', cmdIntParser)
     .addOption(layerOption())
     .addOption(RenderOptions.scalerOption('pre'))
@@ -26,9 +25,12 @@ export function picRenderCommand(root: Command): Command {
     .addOption(RenderOptions.forcePalOption())
     .addOption(RenderOptions.formatOption())
     .addOption(
-      new Option('-o, --output <string>', 'output filename, "-" for STDOUT'),
+      new Option(
+        '-o, --output <string>',
+        'output filename, "%d" for frame count',
+      ),
     )
-    .action(Actions.picRenderAction);
+    .action(Actions.picVideoAction);
 
   return root;
 }

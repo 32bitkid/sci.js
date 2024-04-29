@@ -2,6 +2,7 @@ export { createDecodeActionWithMatcher } from './create-decode-action-with-match
 export { listActionFor } from './list-action';
 export { picInfoAction } from './pic-info-action';
 export { picRenderAction } from './pic-render-action';
+export { picVideoAction } from './pic-video-action';
 export { viewInfoAction } from './view-info-action';
 export { viewRenderAction } from './view-render-action';
 export { showFontAction } from './show-font-action';
