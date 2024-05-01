@@ -4,9 +4,12 @@ import path from 'node:path';
 import { type Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
-import { decompress, parsePic } from '@4bitlabs/sci0';
-import { picMatcher } from '../helpers/resource-matchers';
-import { loadContentFromMap } from './load-content-from-map';
+import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
+import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
+import {
+  loadContentFromMap,
+  ResourceMapPredicate,
+} from './load-content-from-map';
 import {
   RenderPicOptions,
   RenderPipelineOptions,
@@ -17,7 +20,18 @@ import workers from '../workers';
 
 interface PicRenderActionOptions {
   readonly output: string;
+  readonly title: string;
 }
+
+const mustParse = async <T>(
+  root: string,
+  engine: 'sci0' | 'sci01',
+  matcher: ResourceMapPredicate,
+  parser: (data: Uint8Array) => T,
+) => {
+  const [picHeader, picRaw] = await loadContentFromMap(root, matcher);
+  return parser(decompress(engine, picHeader.compression, picRaw));
+};
 
 export async function picVideoAction(
   id: number,
@@ -29,14 +43,14 @@ export async function picVideoAction(
   const { root, engine } = getRootOptions(cmd);
   const [picOptions, renderOptions] = pickRenderOptions(options);
   const {
+    title,
     format,
     forcePal,
     output = `pic.${id.toString(10).padStart(3, '0')}.%d.${format}`,
   } = picOptions;
 
-  const [header, compressed] = await loadContentFromMap(root, picMatcher(id));
-  const picData = decompress(engine, header.compression, compressed);
-  const pic = parsePic(picData);
+  const pic = await mustParse(root, engine, picMatcher(id), parsePic);
+  const font = await mustParse(root, engine, fontMatcher(0), parseFont);
 
   const total = pic.length;
   const padLength = Math.ceil(Math.log10(total));
@@ -63,6 +77,16 @@ export async function picVideoAction(
         forcePal,
         format,
         renderOptions,
+        {
+          font,
+          left: [title, id.toString(10).padStart(3, '0')]
+            .filter((it) => it.length > 0)
+            .join(': '),
+          right:
+            idx === frames.length - 1
+              ? ''
+              : `${((idx / frames.length) * 100).toFixed(0)}%`,
+        },
       ])
       .then(() => progress.increment()),
   );

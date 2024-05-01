@@ -48,7 +48,7 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
     Compression: header.compression,
     Size: header.actualSize.toLocaleString(),
     'Size (Compressed)': header.packedSize.toLocaleString(),
-    Total: picData.length.toLocaleString(),
+    Commands: picData.length.toLocaleString(),
   };
   console.log(
     columnify(data, {
@@ -65,7 +65,7 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
     return map;
   }, {});
 
-  console.log('\nDETAILS:');
+  console.log('\nBreakdown:');
   console.log(
     columnify(
       [

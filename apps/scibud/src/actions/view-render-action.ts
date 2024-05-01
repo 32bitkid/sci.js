@@ -17,7 +17,7 @@ import { getRootOptions } from './get-root-options';
 import {
   generatePalette,
   getScalerFromOptions,
-} from '../workers/create-pic-pipeline';
+} from '../helpers/create-pic-pipeline';
 import { ScalerID } from '../models/render-pic-options';
 
 type Padding =

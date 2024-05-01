@@ -24,6 +24,7 @@ export function picVideoCommand(root: Command): Command {
     .addOption(RenderOptions.blurAmountOption())
     .addOption(RenderOptions.forcePalOption())
     .addOption(RenderOptions.formatOption())
+    .addOption(new Option('-t, --title <title>', 'display title').default(''))
     .addOption(
       new Option(
         '-o, --output <string>',
