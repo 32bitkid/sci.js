@@ -30,6 +30,7 @@ export { parseCursor, parseFont, parseView, parsePic };
 
 export { type Loop } from './models/view';
 export { type Cel } from './models/cel';
+export { type FontFace } from './models/font-face';
 
 /** @deprecated use parseCursor() instead */
 export const Cursor = {
