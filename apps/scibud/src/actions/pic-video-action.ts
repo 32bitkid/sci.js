@@ -17,6 +17,8 @@ import {
 import { pickRenderOptions } from './pick-render-options';
 import { getRootOptions } from './get-root-options';
 import workers from '../workers';
+import { formatGraph } from './filter-graph';
+import { crtFilterGraph } from './crt-filter-graph';
 
 interface PicRenderActionOptions {
   readonly output: string;
@@ -119,20 +121,7 @@ export async function picVideoAction(
     ext: '.mp4',
   });
 
-  const filters = [
-    'settb=expr=AVTB',
-    `setpts=${25 / 60}*(PTS-STARTPTS)`,
-    'fps=60',
-    'gblur=sigma=2.5:sigmaV=0.0:steps=3',
-    'vignette=PI/7.5',
-    'pad=iw+8:ih+8:4:4:black',
-    'lenscorrection=k1=0.02:k2=0.02:i=bilinear',
-    'crop=iw-8:ih-8',
-    'format=yuv420p',
-    'scale=-2:720:flags=lanczos',
-  ];
-
   console.log(
-    `\n\nffmpeg -f concat -i ${seqFn} -vf "${filters.join(', ')}" -movflags +faststart ${mp4Fn}\n`,
+    `\n\nffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph())}" -movflags +faststart ${mp4Fn}\n`,
   );
 }
