@@ -8,6 +8,7 @@ export const listCommandForType = (type: ResourceType) =>
   function listCommand(pics: Command): Command {
     pics
       .command('list')
+      .alias('ls')
       .action(listActionFor(isResourceType(type)))
       .description(`list all ${names[type]} resources`);
     return pics;
