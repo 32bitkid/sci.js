@@ -1,6 +1,5 @@
 import {
   FilterChain,
-  FilterGraph,
   formatChain,
   formatFilter,
   formatGraph,
@@ -64,9 +63,9 @@ describe('FilterChain', () => {
 
 describe('FilterGraph', () => {
   it('should serialize', () => {
-    const chainA: FilterChain = [['foo']];
-    const chainB: FilterChain = [['bar']];
-    const chainC: FilterChain = [['baz']];
+    const chainA: FilterChain = [['split']];
+    const chainB: FilterChain = [['blur']];
+    const chainC: FilterChain = [['blend']];
 
     expect(
       formatGraph([
@@ -74,6 +73,6 @@ describe('FilterGraph', () => {
         [['L1'], chainB, ['L3']],
         [['L2', 'L3'], chainC, []],
       ]),
-    ).toBe('foo[L1][L2];[L1]bar[L3];[L2][L3]baz');
+    ).toBe('split[L1][L2];[L1]blur[L3];[L2][L3]blend');
   });
 });
