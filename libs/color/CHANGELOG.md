@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.1...@4bitlabs/color@2.1.2) (2024-05-08)
+
+### Fixed
+
+- Increase the maximum contrast setting for IBM 5153 contrast knob ([a4b1082](https://github.com/32bitkid/sci.js/commit/a4b10827777d175383bf68ccf27908e686f72d55))
+
 ## [2.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.0...@4bitlabs/color@2.1.1) (2024-04-16)
 
 ### Chore

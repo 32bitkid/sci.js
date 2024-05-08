@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.6...@4bitlabs/scibud@1.2.0) (2024-05-08)
+
+### Changed
+
+- --dimmer replaces --contrast option ([e2a418d](https://github.com/32bitkid/sci.js/commit/e2a418d1d18a16a6cc2aeaa7d5d8e4f4aa05df8e))
+
+### Chore
+
+- Add 'ls' alias as 'list' ([4a5d789](https://github.com/32bitkid/sci.js/commit/4a5d78972c019ac75014f66987a25e40d18fde10))
+- Represent the ffmpeg filter as a graph rather than string blob ([694f75d](https://github.com/32bitkid/sci.js/commit/694f75dcc821aecc1f6497c722fa9d261484dd2a))
+
+### New
+
+- Added options parameter to crtFilterGraph() ([f329aa4](https://github.com/32bitkid/sci.js/commit/f329aa47a98f201dfd53ae9f108b6deba3727a67))
+- Added title area to video frame rendering. ([0ecd89e](https://github.com/32bitkid/sci.js/commit/0ecd89ed84cb6bf22371cc59324b4befb0788c2e))
+- pic video command ([3d93337](https://github.com/32bitkid/sci.js/commit/3d933371b1de67e7f5e69d34b37ef19a07acb539))
+
 ## [1.1.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.5...@4bitlabs/scibud@1.1.6) (2024-04-16)
 
 **Note:** Version bump only for package @4bitlabs/scibud

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.5.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.4.6...@4bitlabs/sci0@2.5.0) (2024-05-08)
+
+### New
+
+- Added FontFace type export to sci0 ([24f2ab0](https://github.com/32bitkid/sci.js/commit/24f2ab066c1f39dc5bbb7d730bc534850eaddaa7))
+- adding support for sci01 compression-type "2" ([2011422](https://github.com/32bitkid/sci.js/commit/20114220677673b3a675555a0cb0b0b558623585))
+
 ## [2.4.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.4.5...@4bitlabs/sci0@2.4.6) (2024-04-16)
 
 ### Chore
