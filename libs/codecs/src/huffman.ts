@@ -8,8 +8,10 @@ const nextCode = (
   nodes: Map<number, Node>,
   idx: number,
 ): [number, boolean] => {
-  const [value, siblings] = nodes.get(idx)!;
+  const node = nodes.get(idx);
+  if (!node) throw new Error(`unpack error: unexpected huffman code [${idx}]`);
 
+  const [value, siblings] = node;
   if (siblings === 0) return [value, false];
 
   const next = br.read32(1) ? siblings & 0x0f : (siblings & 0xf0) >> 4;
@@ -17,7 +19,7 @@ const nextCode = (
   return next === 0 ? [br.read32(8), true] : nextCode(br, nodes, idx + next);
 };
 
-export const decode = (bytes: ReadonlyUint8Array): Uint8Array => {
+export const unpack = (bytes: ReadonlyUint8Array): Uint8Array => {
   const br = createBitReader(bytes);
   const nodeCount = br.read32(8);
   const terminal = br.read32(8);
@@ -37,5 +39,5 @@ export const decode = (bytes: ReadonlyUint8Array): Uint8Array => {
   return result.reduce((buffer, i, idx) => {
     buffer[idx] = i;
     return buffer;
-  }, new Uint8Array(result.length));
+  }, new Uint8Array(result.length)); // TODO replace with Uint8Array.from
 };

@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-import { decode, EOF_MARKER } from './lzw';
+import { unpack, EOF_MARKER } from './lzw';
 
 describe('lzw', () => {
   describe('lsb', () => {
@@ -22,9 +22,9 @@ describe('lzw', () => {
           'TOBEORNOTTOBEORTOBEORNOT',
           '549e0829f2448a932754041234b8b0e0c1840101',
         ],
-      ])(`should decode "%s"`, (expected, encoded) => {
+      ])(`should unpack "%s"`, (expected, encoded) => {
         const INPUT_DATA = Buffer.from(encoded, 'hex');
-        const result = decode(INPUT_DATA, { order: 'lsb' });
+        const result = unpack(INPUT_DATA, { order: 'lsb' });
         expect(Buffer.from(result).toString('ascii')).toBe(expected);
       });
     });
@@ -32,7 +32,7 @@ describe('lzw', () => {
 
   describe('msb', () => {
     describe('custom-dictionary', () => {
-      it('should decode', () => {
+      it('should unpack', () => {
         const dictionary = [
           EOF_MARKER,
           /* A-Z */
@@ -56,7 +56,7 @@ describe('lzw', () => {
           0b1000_0000,
         );
 
-        const result = decode(INPUT_DATA, { order: 'msb', dictionary });
+        const result = unpack(INPUT_DATA, { order: 'msb', dictionary });
         expect(Buffer.from(result).toString('ascii')).toBe(
           'TOBEORNOTTOBEORTOBEORNOT',
         );

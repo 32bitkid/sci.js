@@ -13,27 +13,28 @@ A collection of decoders (and eventually encoders) for working with [Sierra On-l
 | ----------------------- | :-----: | :-----: |
 | [Huffman][huffman]      |   ✅    |         |
 | [Lempel–Ziv–Welch][lzw] |   ✅    |         |
+| COMP3                   |   ✅    |         |
 
 ## Huffman
 
-Decoding bytes with [Huffman][huffman]:
+Example decoding bytes with [Huffman][huffman]:
 
 ```ts
 import { Huffman } from '@4bitlabs/codecs';
 
 const encodedBytes = Uint8Array.of(/* encoded data */);
-const bytes = Huffman.decode(encodedBytes);
+const bytes = Huffman.unpack(encodedBytes);
 ```
 
 ## Lempel–Ziv–Welch
 
-Decoding bytes with [Lempel-Ziv-Welch][lzw]:
+Example decoding bytes with [Lempel-Ziv-Welch][lzw]:
 
 ```ts
 import { Lzw } from '@4bitlabs/codecs';
 
 const encodedBytes = Uint8Array.of(/* encoded data */);
-const bytes = Lzw.decode(encodedBytes);
+const bytes = Lzw.unpack(encodedBytes);
 ```
 
 ### Custom LZW Options
@@ -42,13 +43,13 @@ By default, most-significant bit ordering is used. You can change the encoded by
 ordering:
 
 ```ts
-const bytes = Lzw.decode(encodedBytes, { order: 'lsb' });
+const bytes = Lzw.unpack(encodedBytes, { order: 'lsb' });
 ```
 
 The default _code-width_ it uses is `8`, this can also be adjusted. To use a 7-bit code width:
 
 ```ts
-const bytes = Lzw.decode(encodedBytes, { literalWidth: 7 });
+const bytes = Lzw.unpack(encodedBytes, { literalWidth: 7 });
 ```
 
 Also, an entirely custom LZW dictionaries can be used for decoding:
@@ -64,7 +65,7 @@ const dictionary = [
   0x44, // D
 ];
 
-const bytes = Lzw.decode(encodedBytes, { dictionary });
+const bytes = Lzw.unpack(encodedBytes, { dictionary });
 ```
 
 Longer codings can be encoded in the dictionary by using either an array of numbers of with a `Uint8Array`:
@@ -80,7 +81,20 @@ const dictionary = [
   Uint8Array.of(0x41, 0x43, 0x41, 0x47), // ACAG
 ];
 
-const bytes = Lzw.decode(encodedBytes, { dictionary });
+const bytes = Lzw.unpack(encodedBytes, { dictionary });
+```
+
+## `SCI01`/`SCI1`-engine COMP3
+
+`COMP3` compression is used in `SCI01`/`SCI1` engine games, it is a 9–12 bit variable length encoding.
+
+Example decoding bytes with `COMP3` compression:
+
+```ts
+import { Comp3 } from '@4bitlabs/codecs';
+
+const encodedBytes = Uint8Array.of(/* encoded data */);
+const bytes = Comp3.unpack(encodedBytes);
 ```
 
 [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment

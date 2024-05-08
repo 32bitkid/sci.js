@@ -74,7 +74,7 @@ const init = (
   return initFromLiteralWidth(8);
 };
 
-export const decode = (
+export const unpack = (
   source: ReadonlyUint8Array,
   options: LzwDecodeOptions = {},
 ): Uint8Array => {

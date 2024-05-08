@@ -15,7 +15,8 @@
   "exports": {
     ".": "./dist/index.js",
     "./lzw": "./dist/lzw.js",
-    "./huffman": "./dist/huffman.js"
+    "./huffman": "./dist/huffman.js",
+    "./comp3": "./dist/comp3.js"
   },
   "files": [
     "./dist/**/*"
