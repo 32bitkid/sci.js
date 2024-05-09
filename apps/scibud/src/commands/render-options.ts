@@ -41,8 +41,8 @@ export const paletteMixerOption = (): Option =>
 
 export const contrastOption = (): Option =>
   new Option(
-    `--dimmer <value>`,
-    'IBM 5153-style dimmer knob. <value> should be between 0.0 and 1.0, or false',
+    `-c, --contrast <value>`,
+    'IBM 5153-style contrast knob. <value> should be between 0.0 and 1.0, or false',
   )
     .argParser(cmdFloatParser([0.0, 1.0]))
     .default(false);

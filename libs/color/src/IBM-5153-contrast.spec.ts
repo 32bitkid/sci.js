@@ -1,7 +1,7 @@
 import { IBM5153Contrast as contrast } from './IBM-5153-contrast';
 import { CGA_PALETTE } from './palettes';
 
-describe('IBM-5153 Dimmer', () => {
+describe('IBM-5153 Contrast', () => {
   it('should not change colors at 100%', () => {
     const pal = contrast(CGA_PALETTE, 1);
     expect(pal).not.toBe(CGA_PALETTE);
