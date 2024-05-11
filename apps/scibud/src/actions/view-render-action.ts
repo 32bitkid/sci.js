@@ -1,7 +1,7 @@
 import { createWriteStream } from 'node:fs';
 
 import { Command } from 'commander';
-import GifEncoder from 'gif-encoder';
+import { GIFEncoder, quantize, applyPalette } from 'gifenc';
 import sharp, { type Sharp } from 'sharp';
 
 import { decompress, loopPaddingFilter, parseView } from '@4bitlabs/sci0';
@@ -69,7 +69,7 @@ export async function viewRenderAction(
   if (!loop)
     cmd.error(`Error: loop ${loopId} is not valid`, { code: 'INVALID_LOOP' });
 
-  const backgroundColor = animated ? 0xffff00ff : 0x00000000;
+  const backgroundColor = 0x00000000;
 
   const palette = generatePalette(options);
   const pipeline = {
@@ -86,22 +86,31 @@ export async function viewRenderAction(
   );
 
   if (animated) {
-    const gif = new GifEncoder(allFrames[0].width, allFrames[0].height);
+    const gif = GIFEncoder();
 
     if (output !== '-' && !output.endsWith('.gif'))
       cmd.error('only .gif files are supported for animated output');
 
-    const stream =
-      output !== '-'
-        ? createWriteStream(output, { flags: 'w' })
-        : process.stdout;
-
-    gif.pipe(stream);
-    gif.writeHeader();
-    gif.setFrameRate(7.5);
-    gif.setTransparent(backgroundColor);
-    allFrames.forEach((it) => gif.addFrame(it.data));
+    allFrames.forEach(({ data, width, height }) => {
+      const pal = quantize(data, 256, { format: 'rgba4444' });
+      const index = applyPalette(data, pal, 'rgba4444');
+      gif.writeFrame(index, width, height, { palette: pal, transparent: true });
+    });
     gif.finish();
+
+    if (output === '-') {
+      process.stdout.write(gif.bytes());
+    } else {
+      await new Promise<void>((yes, no) =>
+        createWriteStream(output, { flags: 'w' }).write(
+          gif.bytes(),
+          (err: unknown) => {
+            if (err) no(err);
+            yes();
+          },
+        ),
+      );
+    }
   } else {
     const [totalWidth, totalHeight] = allFrames.reduce(
       ([prevW, prevH], imgData) => [
