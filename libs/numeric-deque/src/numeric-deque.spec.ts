@@ -44,7 +44,9 @@ describe('NumericDeque', () => {
       d.push(2);
       d.push(3);
       d.push(4);
-      expect(() => { d.push(5); }).toThrow();
+      expect(() => {
+        d.push(5);
+      }).toThrow();
     });
   });
 
@@ -55,7 +57,9 @@ describe('NumericDeque', () => {
       d.unshift(2);
       d.unshift(3);
       d.unshift(4);
-      expect(() => { d.unshift(5); }).toThrow();
+      expect(() => {
+        d.unshift(5);
+      }).toThrow();
     });
   });
 

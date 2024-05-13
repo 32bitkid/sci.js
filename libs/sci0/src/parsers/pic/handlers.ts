@@ -216,7 +216,9 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     const buffer = new ArrayBuffer(size);
 
     const view = new DataView(buffer);
-    repeat(size, (i) => { view.setUint8(i, r.read32(8)); });
+    repeat(size, (i) => {
+      view.setUint8(i, r.read32(8));
+    });
     const cel = parseCel(view);
 
     cmds.push(['CEL', state.drawMode, pos, cel]);
