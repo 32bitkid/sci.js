@@ -8,7 +8,7 @@ export const getResourceType = (id: number): ResourceType =>
 export const getResourceNumber = (id: number): number => id & 0b111_1111_1111;
 
 export const getResourceIdStr = (id: number) =>
-  `(${getResourceTypeStr(id)}:${getResourceNumber(id)})`;
+  `(${getResourceTypeStr(id)}:${getResourceNumber(id).toString(10)})`;
 
 export const getResourceTypeStr = (id: number) => {
   const type = getResourceType(id);

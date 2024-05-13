@@ -9,7 +9,10 @@ const nextCode = (
   idx: number,
 ): [number, boolean] => {
   const node = nodes.get(idx);
-  if (!node) throw new Error(`unpack error: unexpected huffman code [${idx}]`);
+  if (!node)
+    throw new Error(
+      `unpack error: unexpected huffman code [${idx.toString(16)}]`,
+    );
 
   const [value, siblings] = node;
   if (siblings === 0) return [value, false];

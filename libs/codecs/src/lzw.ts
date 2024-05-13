@@ -136,7 +136,7 @@ export const unpack = (
       continue;
     }
 
-    throw new Error(`invalid lzw code: ${next}`);
+    throw new Error(`invalid lzw code: [${next.toString(16)}]`);
   }
 
   return concat(outputs);

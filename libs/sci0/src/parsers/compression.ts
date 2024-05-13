@@ -34,12 +34,16 @@ export const decompress = (
   switch (mode) {
     case 'sci0': {
       if (!sci0Supported(method))
-        throw new Error(`unsupported compression algorithm: ${method}`);
+        throw new Error(
+          `unsupported compression algorithm: ${method.toString(10)}`,
+        );
       return SCI0[method](bytes);
     }
     case 'sci01': {
       if (!sci01Supported(method))
-        throw new Error(`unsupported compression algorithm: ${method}`);
+        throw new Error(
+          `unsupported compression algorithm: ${method.toString(10)}`,
+        );
       return SCI01[method](bytes);
     }
     default:

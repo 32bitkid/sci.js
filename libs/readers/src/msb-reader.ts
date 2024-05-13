@@ -36,7 +36,9 @@ export class MsbReader implements BitReader {
   read32(n: number): number {
     if (n === 0) return 0;
     if (n > 32 || n < 0)
-      throw new Error(`out of range: ${n} must be between 0 and 32`);
+      throw new Error(
+        `out of range: ${n.toString(10)} must be between 0 and 32`,
+      );
 
     if (n > this.bitsRemaining) {
       const bitsLeft = n - this.bitsRemaining;
@@ -66,7 +68,9 @@ export class MsbReader implements BitReader {
   peek32(n: number): number {
     if (n === 0) return 0;
     if (n > 32 || n < 0)
-      throw new Error(`out of range: ${n} must be between 0 and 32`);
+      throw new Error(
+        `out of range: ${n.toString(10)} must be between 0 and 32`,
+      );
 
     this.fill(n);
     return this.buffer >>> (32 - n);

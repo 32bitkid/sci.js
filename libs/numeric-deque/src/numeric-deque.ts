@@ -31,9 +31,12 @@ export class NumericDeque {
   private readonly buffer: BufferType;
 
   constructor(minSize: number, Buffer: TypeArrayConstructor = Float64Array) {
-    if (minSize <= 1) throw new Error(`Out of bounds: ${minSize} <= 1`);
+    if (minSize <= 1)
+      throw new Error(`Out of bounds: ${minSize.toString(10)} <= 1`);
     if (minSize > MAX_SAFE_DWORD)
-      throw new Error(`Out of bounds: ${minSize} > ${MAX_SAFE_DWORD}`);
+      throw new Error(
+        `Out of bounds: ${minSize.toString(10)} > ${MAX_SAFE_DWORD.toString(10)}`,
+      );
 
     this.capacity = 2 ** (32 - Math.clz32(minSize - 1));
     this.mask = ~0 >>> Math.clz32(minSize - 1);
