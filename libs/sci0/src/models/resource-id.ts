@@ -1,5 +1,6 @@
 import { ResourceType } from './resource-type';
 import * as ResourceTypes from './resource-type';
+import { exhaustive } from '../utils/exhaustive';
 
 export const getResourceType = (id: number): ResourceType =>
   (id >>> 11) as ResourceType;
@@ -33,7 +34,7 @@ export const getResourceTypeStr = (id: number) => {
     case ResourceTypes.PATCH_TYPE:
       return 'Patch';
     default:
-      throw new Error(`Unsupported resource type: ${type}`);
+      exhaustive('Unsupported resource type', type);
   }
 };
 

@@ -2,6 +2,7 @@ import { createScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
 import { DrawCommand, DrawMode } from '../models/draw-command';
 import { RenderResult } from './render-result';
+import { exhaustive } from '../utils/exhaustive';
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
@@ -78,7 +79,7 @@ export const renderPic = (
         break;
       }
       default:
-        console.log(`unhandled opcode: ${mode}`);
+        exhaustive('unhandled opcode', mode);
     }
   }
 
