@@ -37,7 +37,7 @@ module 'gifenc' {
     writeHeader: () => void;
     reset: () => void;
     buffer: ArrayBuffer;
-    stream: any;
+    stream: unknown;
   };
 
   export declare function quantize(
