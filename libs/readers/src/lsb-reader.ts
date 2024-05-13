@@ -21,14 +21,14 @@ export class LsbReader implements BitReader {
     return (this.bitsRemaining & 0b111) === 0;
   }
 
-  align(): LsbReader {
+  align(): this {
     const trashBits = this.bitsRemaining & 0b111;
     this.buffer >>>= trashBits;
     this.bitsRemaining -= trashBits;
     return this;
   }
 
-  seek(offset: number): LsbReader {
+  seek(offset: number): this {
     this.idx = offset;
     this.buffer = 0;
     this.bitsRemaining = 0;
@@ -75,7 +75,7 @@ export class LsbReader implements BitReader {
     return this.buffer & (ALL_ONES >>> (32 - n));
   }
 
-  skip(n: number): LsbReader {
+  skip(n: number): this {
     if (n < 0) throw new Error('out of range: n < 0');
 
     if (n == 0) return this;

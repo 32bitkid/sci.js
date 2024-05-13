@@ -15,7 +15,7 @@ export class AsyncBitReader {
     return (this.bitsRemaining & 0b111) === 0;
   }
 
-  align(): AsyncBitReader {
+  align(): this {
     this._trash(this.bitsRemaining & 0b111);
     return this;
   }

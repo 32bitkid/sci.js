@@ -25,12 +25,12 @@ export class FastLsbReader implements BitReader {
     return (this.bitOffset & 0b111) === 0;
   }
 
-  align(): FastLsbReader {
+  align(): this {
     this.bitOffset += (8 - this.bitOffset) & 0b111;
     return this;
   }
 
-  seek(offset: number): FastLsbReader {
+  seek(offset: number): this {
     this.bitOffset = offset << 3;
     return this;
   }
@@ -67,7 +67,7 @@ export class FastLsbReader implements BitReader {
     return (head << tailBits) | tail;
   }
 
-  skip(n: number): FastLsbReader {
+  skip(n: number): this {
     this.bitOffset += n;
     return this;
   }

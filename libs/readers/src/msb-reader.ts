@@ -19,14 +19,14 @@ export class MsbReader implements BitReader {
     return (this.bitsRemaining & 0b111) === 0;
   }
 
-  align(): MsbReader {
+  align(): this {
     const trashBits = this.bitsRemaining & 0b111;
     this.buffer <<= trashBits;
     this.bitsRemaining -= trashBits;
     return this;
   }
 
-  seek(offset: number): MsbReader {
+  seek(offset: number): this {
     this.idx = offset;
     this.buffer = 0;
     this.bitsRemaining = 0;
@@ -72,7 +72,7 @@ export class MsbReader implements BitReader {
     return this.buffer >>> (32 - n);
   }
 
-  skip(n: number): MsbReader {
+  skip(n: number): this {
     if (n < 0) throw new Error('out of range: n < 0');
 
     if (n == 0) return this;
