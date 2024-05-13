@@ -38,7 +38,7 @@ describe('lzw', () => {
           /* A-Z */
           ...Array(26)
             .fill(65)
-            .map((it, i) => it + i),
+            .map((it: number, i) => it + i),
         ];
 
         const INPUT_DATA = Uint8Array.of(
