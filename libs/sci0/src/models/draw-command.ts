@@ -7,6 +7,15 @@ export enum DrawMode {
   Control = 0b100,
 }
 
+export const isVisualMode = (mode: DrawMode) =>
+  ((mode & DrawMode.Visual) as DrawMode) === DrawMode.Visual;
+
+export const isPriorityMode = (mode: DrawMode) =>
+  ((mode & DrawMode.Priority) as DrawMode) === DrawMode.Priority;
+
+export const isControlMode = (mode: DrawMode) =>
+  ((mode & DrawMode.Control) as DrawMode) === DrawMode.Control;
+
 export type PatternCode = readonly [
   size: number,
   isRect: boolean,

@@ -1,8 +1,12 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
 import { IsFillable, type Plotter, RawPlotter, type Screen } from './screen';
-import { DrawMode } from '../models/draw-command';
+import {
+  isControlMode,
+  isPriorityMode,
+  isVisualMode,
+} from '../models/draw-command';
 import { type RenderResult } from './render-result';
-import { createLine, createFloodFill, createBrush } from './tools';
+import { createBrush, createFloodFill, createLine } from './tools';
 
 const bufferWidth = 320;
 const bufferHeight = 190;
@@ -28,7 +32,7 @@ export const createScreenBuffer = (
   const plot: Plotter = (x: number, y: number, drawMode, drawCodes) => {
     const idx = bufferWidth * y + x;
 
-    if ((drawMode & DrawMode.Visual) === DrawMode.Visual) {
+    if (isVisualMode(drawMode)) {
       const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
       const palette = palettes[pal];
       const palIndex = drawCodes[0] % 40 >>> 0;
@@ -36,11 +40,11 @@ export const createScreenBuffer = (
       alpha.pixels[idx] = 255;
     }
 
-    if ((drawMode & DrawMode.Priority) === DrawMode.Priority) {
+    if (isPriorityMode(drawMode)) {
       priority.pixels[idx] = drawCodes[1];
     }
 
-    if ((drawMode & DrawMode.Control) === DrawMode.Control) {
+    if (isControlMode(drawMode)) {
       control.pixels[idx] = drawCodes[2];
     }
   };
@@ -48,8 +52,7 @@ export const createScreenBuffer = (
   const isFillable: IsFillable = (x, y, drawMode) => {
     const idx = x + y * bufferWidth;
 
-    const isVisible = (drawMode & DrawMode.Visual) === DrawMode.Visual;
-    if (isVisible) {
+    if (isVisualMode(drawMode)) {
       const dither = (x & 1) ^ (y & 1);
       const val = visible.pixels[idx];
       return 0xf === (dither ? val & 0xf : val >>> 4);
@@ -60,11 +63,9 @@ export const createScreenBuffer = (
      * replaced 0x00 pixels in control and priority layers. Not sure if its intentional or not. But
      * may require a different way of modeling indexed "alpha" channel.
      */
-    const isPriority = (drawMode & DrawMode.Priority) === DrawMode.Priority;
-    const isControl = (drawMode & DrawMode.Control) === DrawMode.Control;
     return (
-      (isPriority && priority.pixels[idx] === 0x00) ||
-      (isControl && control.pixels[idx] === 0x00)
+      (isPriorityMode(drawMode) && priority.pixels[idx] === 0x00) ||
+      (isControlMode(drawMode) && control.pixels[idx] === 0x00)
     );
   };
 

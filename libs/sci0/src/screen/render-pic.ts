@@ -1,6 +1,6 @@
 import { createScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
-import { DrawCommand, DrawMode } from '../models/draw-command';
+import { DrawCommand, isVisualMode } from '../models/draw-command';
 import { RenderResult } from './render-result';
 import { exhaustive } from '../utils/exhaustive';
 
@@ -65,7 +65,7 @@ export const renderPic = (
       }
       case 'CEL': {
         const [, drawMode, pos, cel] = cmd;
-        if ((drawMode & DrawMode.Visual) !== DrawMode.Visual) continue;
+        if (!isVisualMode(drawMode)) continue;
 
         const data = cel.pixels;
         for (let y = pos[1]; y < pos[1] + cel.height; y++)
