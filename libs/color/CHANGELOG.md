@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.2...@4bitlabs/color@2.1.3) (2024-05-13)
+
+### Chore
+
+- Wrap void predicates in code-blocks ([3a35456](https://github.com/32bitkid/sci.js/commit/3a35456d383e1287e709f86e50b85f76b7bbbc13))
+
+### Fixed
+
+- renamed --dimmer to --contrast ([a08c73c](https://github.com/32bitkid/sci.js/commit/a08c73c4c6df4b501938190f94709196c4ddb738))
+
 ## [2.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.1...@4bitlabs/color@2.1.2) (2024-05-08)
 
 ### Fixed

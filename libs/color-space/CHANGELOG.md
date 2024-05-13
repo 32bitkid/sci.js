@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.2.1...@4bitlabs/color-space@1.2.2) (2024-05-13)
+
+### Chore
+
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+- Safer array deconstruction ([d80494c](https://github.com/32bitkid/sci.js/commit/d80494cf9d2a842d7a6b6a71b42f530fe193b532))
+
 ## [1.2.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.2.0...@4bitlabs/color-space@1.2.1) (2024-04-13)
 
 ### Fixed

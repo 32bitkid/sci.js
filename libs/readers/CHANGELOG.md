@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/readers@2.0.4...@4bitlabs/readers@2.0.5) (2024-05-13)
+
+### Chore
+
+- Ensure numbers are properly stringified before emitting ([3a007ad](https://github.com/32bitkid/sci.js/commit/3a007ad7a200d9b2c11fa50b7287ecf28a81f7b4))
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+- Use "this" return type for method chaining ([cf350f8](https://github.com/32bitkid/sci.js/commit/cf350f881f29379fd7ed29055c8a63d3708babc3))
+
 ## [2.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/readers@2.0.3...@4bitlabs/readers@2.0.4) (2024-04-05)
 
 ### Chore

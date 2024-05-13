@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.0...@4bitlabs/codecs@2.0.1) (2024-05-13)
+
+### Chore
+
+- Add tests for Comp3 decompression ([da94325](https://github.com/32bitkid/sci.js/commit/da94325631d488840c830ef82115618dfac6a244))
+- Ensure numbers are properly stringified before emitting ([3a007ad](https://github.com/32bitkid/sci.js/commit/3a007ad7a200d9b2c11fa50b7287ecf28a81f7b4))
+- Fix type ambiguity in LZW tests ([8335b02](https://github.com/32bitkid/sci.js/commit/8335b02ad87d28145cc5140525df37f228e66280))
+
 # [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@1.0.4...@4bitlabs/codecs@2.0.0) (2024-05-08)
 
 ### Breaking

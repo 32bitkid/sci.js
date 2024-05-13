@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/numeric-deque@1.1.3...@4bitlabs/numeric-deque@1.1.4) (2024-05-13)
+
+### Chore
+
+- Ensure numbers are properly stringified before emitting ([3a007ad](https://github.com/32bitkid/sci.js/commit/3a007ad7a200d9b2c11fa50b7287ecf28a81f7b4))
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+- Wrap void predicates in code-blocks ([3a35456](https://github.com/32bitkid/sci.js/commit/3a35456d383e1287e709f86e50b85f76b7bbbc13))
+
 ## [1.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/numeric-deque@1.1.2...@4bitlabs/numeric-deque@1.1.3) (2024-04-05)
 
 ### Chore

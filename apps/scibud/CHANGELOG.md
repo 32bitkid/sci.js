@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.2.0...@4bitlabs/scibud@1.3.0) (2024-05-13)
+
+### Changed
+
+- Replace gif-encoder with gifenc for animated view renderer ([c51aea8](https://github.com/32bitkid/sci.js/commit/c51aea8280b1c3d8c2b4d5580ed239dc384a6855))
+
+### Chore
+
+- Fixing gifenc types ([ecefaa8](https://github.com/32bitkid/sci.js/commit/ecefaa85c096d57ac2d01c44acaf236b9fca92c4))
+- Thrown exception should be an Error ([5d4456f](https://github.com/32bitkid/sci.js/commit/5d4456fe8570626bb33b4ef9be2182b463694386))
+- Update eslint to strict typescript checking ([7d26412](https://github.com/32bitkid/sci.js/commit/7d264129a014322df1b0e126c149d3a0ee262625))
+- Wrap void predicates in code-blocks ([3a35456](https://github.com/32bitkid/sci.js/commit/3a35456d383e1287e709f86e50b85f76b7bbbc13))
+
+### Fixed
+
+- renamed --dimmer to --contrast ([a08c73c](https://github.com/32bitkid/sci.js/commit/a08c73c4c6df4b501938190f94709196c4ddb738))
+
+### New
+
+- --fps option for pic video to control output frames-per-second ([3ba5423](https://github.com/32bitkid/sci.js/commit/3ba54232ee48e3e677c05ba7fd08940f0e580a41))
+
+### Upgrade
+
+- eslint and new flat config ([0ce40ea](https://github.com/32bitkid/sci.js/commit/0ce40eaeebfded896ad649551e89707128d0a296))
+- sharp, workerpool, @types/pngjs ([0b904be](https://github.com/32bitkid/sci.js/commit/0b904be457064b4eea71027a79a2674f1b898bb7))
+
 # [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.1.6...@4bitlabs/scibud@1.2.0) (2024-05-08)
 
 ### Changed

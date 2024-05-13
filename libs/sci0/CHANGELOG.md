@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.5.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.5.0...@4bitlabs/sci0@2.5.1) (2024-05-13)
+
+### Chore
+
+- Better type-safe DrawMode flag checking. ([6c202d9](https://github.com/32bitkid/sci.js/commit/6c202d94450446b15d74ee1098cc58e554706e5e))
+- Ensure numbers are properly stringified before emitting ([3a007ad](https://github.com/32bitkid/sci.js/commit/3a007ad7a200d9b2c11fa50b7287ecf28a81f7b4))
+- Update eslint to strict typescript checking ([7d26412](https://github.com/32bitkid/sci.js/commit/7d264129a014322df1b0e126c149d3a0ee262625))
+- Use exhaustive helper ([d9091bc](https://github.com/32bitkid/sci.js/commit/d9091bcc886305db538776150adb646801ab66f2))
+- Wrap void predicates in code-blocks ([3a35456](https://github.com/32bitkid/sci.js/commit/3a35456d383e1287e709f86e50b85f76b7bbbc13))
+
 # [2.5.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.4.6...@4bitlabs/sci0@2.5.0) (2024-05-08)
 
 ### New

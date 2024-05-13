@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.4...@4bitlabs/crt-lite@1.0.5) (2024-05-13)
+
+### Chore
+
+- Removing "size" badge. Not a very good metric/representation. ([a5fc9f8](https://github.com/32bitkid/sci.js/commit/a5fc9f8a9d65a64a8ce9330c620e359cf2b17ac7))
+- Update eslint to strict typescript checking ([7d26412](https://github.com/32bitkid/sci.js/commit/7d264129a014322df1b0e126c149d3a0ee262625))
+- updating README files ([095d19a](https://github.com/32bitkid/sci.js/commit/095d19af411d091c4315da129312e1d063bd2e39))
+
 ## [1.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.3...@4bitlabs/crt-lite@1.0.4) (2024-04-05)
 
 ### Chore

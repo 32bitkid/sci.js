@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/crt-lite",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A tiny, simple CRT-like webgl2-based canvas renderer for ImageData",
   "keywords": [
     "crt",
