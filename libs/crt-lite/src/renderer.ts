@@ -29,7 +29,11 @@ export function createCrtRenderer(
   const gl = canvasEl.getContext('webgl2', {
     desynchronized: true,
     ...contextOptions,
-  })!;
+  });
+
+  if (gl === null) {
+    throw new Error('could not create webgl2 context');
+  }
 
   const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   const fragShader = compileShader(

@@ -14,7 +14,7 @@ export async function loadContentFromMap(
   matcher: ResourceMapPredicate,
 ): Promise<[ResourceHeader, Uint8Array]> {
   const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
-  const match = mapping.find(matcher)!;
+  const match = mapping.find(matcher);
 
   if (!match) {
     throw `error: resource cannot be matched!`;

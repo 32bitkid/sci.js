@@ -2,22 +2,35 @@ import { Cel } from './cel';
 import { StaticVec2 } from './vec2';
 
 export enum DrawMode {
-  Visual = 1 << 0,
-  Priority = 1 << 1,
-  Control = 1 << 2,
+  Visual = 0b001,
+  Priority = 0b010,
+  Control = 0b100,
 }
 
-export type PatternCode = [size: number, isRect: boolean, isSpray: boolean];
-export type DrawCodes = [visual: number, priority: number, control: number];
+export type PatternCode = readonly [
+  size: number,
+  isRect: boolean,
+  isSpray: boolean,
+];
 
-type SetPaletteCommand = [mode: 'SET_PALETTE', pal: number, colors: Uint8Array];
+export type DrawCodes = readonly [
+  visual: number,
+  priority: number,
+  control: number,
+];
 
-type UpdatePaletteCommand = [
+type SetPaletteCommand = readonly [
+  mode: 'SET_PALETTE',
+  pal: number,
+  colors: Uint8Array,
+];
+
+type UpdatePaletteCommand = readonly [
   mode: 'UPDATE_PALETTE',
   entries: [pal: number, idx: number, color: number][],
 ];
 
-type BrushCommand = [
+type BrushCommand = readonly [
   mode: 'BRUSH',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
@@ -26,21 +39,21 @@ type BrushCommand = [
   pos: StaticVec2,
 ];
 
-type FillCommand = [
+type FillCommand = readonly [
   mode: 'FILL',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
   pos: StaticVec2,
 ];
 
-type PolylineCommand = [
+type PolylineCommand = readonly [
   mode: 'PLINE',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
   ...points: StaticVec2[],
 ];
 
-type EmbeddedCelCommand = [
+type EmbeddedCelCommand = readonly [
   mode: 'CEL',
   drawMode: DrawMode,
   pos: StaticVec2,

@@ -1,28 +1,29 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { CodeHandlers, IS_DONE } from './handlers';
-import { isOpCode } from './op-codes';
+import { CodeHandlers, CodeHandlerContext } from './handlers';
+import { OpCode, isOpCode } from './op-codes';
 import { createPicState } from './pic-state';
 import { DrawCommand } from '../../models/draw-command';
 
 export const parseFrom = (data: Uint8Array): DrawCommand[] => {
-  const commands: DrawCommand[] = [];
-
-  const br = createBitReader(data, { mode: 'msb' });
-  const state = createPicState();
+  const ctx: CodeHandlerContext = {
+    r: createBitReader(data, { mode: 'msb' }),
+    state: createPicState(),
+    cmds: [],
+  };
 
   while (true) {
-    const op = br.read32(8);
+    const op = ctx.r.read32(8);
 
     if (!isOpCode(op))
       throw new Error(`Unrecognized opcode: 0x${op.toString(16)}`);
 
+    if (op === OpCode.Done) break;
+
     const handler = CodeHandlers[op];
     if (!handler) throw new Error(`Unhandled opcode: 0x${op.toString(16)}`);
 
-    const next = handler(br, state);
-    if (next === IS_DONE) break;
-    if (next) commands.push(...next);
+    handler(ctx);
   }
 
-  return commands;
+  return ctx.cmds;
 };
