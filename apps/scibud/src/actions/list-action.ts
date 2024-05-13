@@ -18,5 +18,5 @@ export const listActionFor = (matchFn: (id: number) => boolean) =>
 
     [...picSet.values()]
       .sort((a, b) => a - b)
-      .forEach((it) => console.log(it.toString(10)));
+      .forEach((it) => { console.log(it.toString(10)); });
   };

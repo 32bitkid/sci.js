@@ -94,10 +94,10 @@ export async function picVideoAction(
               : `${((idx / frames.length) * 100).toFixed(0)}%`,
         },
       ])
-      .then(() => progress.increment()),
+      .then(() => { progress.increment(); }),
   );
 
-  await Promise.all(done).finally(() => progress.stop());
+  await Promise.all(done).finally(() => { progress.stop(); });
 
   const seqFn = path.format({
     dir,

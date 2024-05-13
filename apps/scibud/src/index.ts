@@ -11,7 +11,7 @@ const program = new Command();
 const applySubCommands = (
   cmd: Command,
   ...subCommands: ((root: Command) => void)[]
-) => subCommands.forEach((fn) => fn(cmd));
+) => { subCommands.forEach((fn) => { fn(cmd); }); };
 
 program
   .option('-r, --root <path>', '', cmdPathParser, '.')

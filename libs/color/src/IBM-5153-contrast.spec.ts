@@ -18,11 +18,11 @@ describe('IBM-5153 Contrast', () => {
     const pal = contrast(CGA_PALETTE, 0.5);
     pal
       .subarray(1, 7)
-      .forEach((it, idx) => expect(it).toBeLessThan(CGA_PALETTE[idx + 1]));
+      .forEach((it, idx) => { expect(it).toBeLessThan(CGA_PALETTE[idx + 1]); });
   });
 
   it('should not adjust all the way to black', () => {
     const pal = contrast(CGA_PALETTE, 0);
-    pal.subarray(1, 7).forEach((it) => expect(it).not.toBe(0xff000000));
+    pal.subarray(1, 7).forEach((it) => { expect(it).not.toBe(0xff000000); });
   });
 });
