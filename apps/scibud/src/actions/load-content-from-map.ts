@@ -17,7 +17,7 @@ export async function loadContentFromMap(
   const match = mapping.find(matcher);
 
   if (!match) {
-    throw `error: resource cannot be matched!`;
+    throw new Error(`error: resource cannot be matched!`);
   }
 
   const { offset, file } = match;
