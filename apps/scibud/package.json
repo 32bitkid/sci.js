@@ -34,13 +34,13 @@
     "commander": "^12.0.0",
     "expand-tilde": "^2.0.2",
     "gifenc": "^1.0.3",
-    "sharp": "^0.33.2",
-    "workerpool": "^9.1.0"
+    "sharp": "^0.33.3",
+    "workerpool": "^9.1.1"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.5",
     "@types/columnify": "^1.5.4",
     "@types/expand-tilde": "^2.0.2",
-    "@types/pngjs": "^6.0.4"
+    "@types/pngjs": "^6.0.5"
   }
 }
