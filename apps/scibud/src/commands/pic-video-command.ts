@@ -26,6 +26,9 @@ export function picVideoCommand(root: Command): Command {
     .addOption(RenderOptions.formatOption())
     .addOption(new Option('-t, --title <title>', 'display title').default(''))
     .addOption(
+      new Option('--fps <number>', 'fps').default(60).argParser(cmdIntParser),
+    )
+    .addOption(
       new Option(
         '-o, --output <string>',
         'output filename, "%d" for frame count',

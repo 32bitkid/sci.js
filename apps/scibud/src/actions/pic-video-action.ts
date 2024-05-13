@@ -20,9 +20,10 @@ import workers from '../workers';
 import { formatGraph } from './filter-graph';
 import { crtFilterGraph } from './crt-filter-graph';
 
-interface PicRenderActionOptions {
+interface PicVideoActionOptions {
   readonly output: string;
   readonly title: string;
+  readonly fps: number;
 }
 
 const mustParse = async <T>(
@@ -37,7 +38,7 @@ const mustParse = async <T>(
 
 export async function picVideoAction(
   id: number,
-  options: PicRenderActionOptions & RenderPicOptions & RenderPipelineOptions,
+  options: PicVideoActionOptions & RenderPicOptions & RenderPipelineOptions,
   cmd: Command,
 ) {
   const progress = new SingleBar(Presets.shades_grey);
@@ -47,8 +48,9 @@ export async function picVideoAction(
   const {
     title,
     format,
+    fps,
     forcePal,
-    output = `pic.${id.toString(10).padStart(3, '0')}.%d.${format}`,
+    output = `pic.%num.%d.${format}`,
   } = picOptions;
 
   const pic = await mustParse(root, engine, picMatcher(id), parsePic);
@@ -64,7 +66,9 @@ export async function picVideoAction(
     .map((_, idx) =>
       path.format({
         dir,
-        name: name.replace(/%d/, idx.toString(10).padStart(padLength, '0')),
+        name: name
+          .replace(/%num/, id.toString(10).padStart(3, '0'))
+          .replace(/%d/, idx.toString(10).padStart(padLength, '0')),
         ext,
       }),
     );
@@ -97,7 +101,9 @@ export async function picVideoAction(
 
   const seqFn = path.format({
     dir,
-    name: name.replace(/%d/, 'seq'),
+    name: name
+      .replace(/%num/, id.toString(10).padStart(3, '0'))
+      .replace(/%d/, 'seq'),
     ext: '.txt',
   });
 
@@ -107,7 +113,7 @@ export async function picVideoAction(
       `ffconcat version 1.0`,
       ``,
       `file '${path.relative(dir, frames[frames.length - 1])}'`,
-      `duration ${3.0 * (60 / 25)}`,
+      `duration ${3.0 * (fps / 25)}`,
       ...frames.flatMap((fn) => [
         `file '${path.relative(dir, fn)}'`,
         `duration ${1 / 25}`,
@@ -117,11 +123,13 @@ export async function picVideoAction(
 
   const mp4Fn = path.format({
     dir,
-    name: name.replace(/%d/, 'result'),
+    name: name
+      .replace(/%num/, id.toString(10).padStart(3, '0'))
+      .replace(/%d/, 'result'),
     ext: '.mp4',
   });
 
   console.log(
-    `\n\nffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph())}" -movflags +faststart ${mp4Fn}\n`,
+    `\n\nffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
   );
 }
