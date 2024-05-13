@@ -11,12 +11,15 @@ export function createColorPredicate<
     [NAME](it: unknown): it is T {
       if (!Array.isArray(it)) return false;
 
-      const [type] = it;
+      const type: unknown = it[0];
+      if (typeof type !== 'string') return false;
       if (!ids.includes(type)) return false;
 
       if (!(it.length === 4 || it.length === 5)) return false;
 
-      const [, a, b, c] = it;
+      const a: unknown = it[1];
+      const b: unknown = it[2];
+      const c: unknown = it[3];
       if (typeof a !== 'number') return false;
       if (typeof b !== 'number') return false;
       if (typeof c !== 'number') return false;
@@ -25,14 +28,12 @@ export function createColorPredicate<
       if (b < bRange[0] || b > bRange[1]) return false;
       if (c < cRange[0] || c > cRange[1]) return false;
 
-      const [, , , , alpha] = it;
+      const alpha: unknown = it[4];
       if (!(typeof alpha === 'undefined' || typeof alpha === 'number')) {
         return false;
       }
 
-      if (!(alpha === undefined || (alpha >= 0 && alpha <= 1))) return false;
-
-      return true;
+      return alpha === undefined || (alpha >= 0 && alpha <= 1);
     },
   }[NAME];
 }
