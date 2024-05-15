@@ -1,18 +1,20 @@
 import { createScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
-import { DrawCommand, isVisualMode } from '../models/draw-command';
+import { DrawCommand } from '../models/draw-command';
 import { RenderResult } from './render-result';
 import { exhaustive } from '../utils/exhaustive';
 
 interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
+  width?: number;
+  height?: number;
 }
 
 export const renderPic = (
   commands: DrawCommand[],
   options: RenderOptions = {},
 ): RenderResult => {
-  const { forcePal } = options;
+  const { forcePal, width = 320, height = 190 } = options;
 
   const palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array] = [
     Uint8Array.from(DEFAULT_PALETTE),
@@ -21,7 +23,10 @@ export const renderPic = (
     Uint8Array.from(DEFAULT_PALETTE),
   ];
 
-  const [result, screen] = createScreenBuffer(forcePal, palettes);
+  const [result, screen] = createScreenBuffer(forcePal, palettes, [
+    width,
+    height,
+  ]);
 
   for (const cmd of commands) {
     const [mode] = cmd;
@@ -64,18 +69,8 @@ export const renderPic = (
         break;
       }
       case 'CEL': {
-        const [, drawMode, pos, cel] = cmd;
-        if (!isVisualMode(drawMode)) continue;
-
-        const data = cel.pixels;
-        for (let y = pos[1]; y < pos[1] + cel.height; y++)
-          for (let x = pos[0]; x < pos[0] + cel.width; x++) {
-            if (x >= 320 || y >= 190) continue;
-
-            const color = data[x + y * cel.width];
-            if (color === cel.keyColor) continue;
-            screen.setPixel(x, y, color);
-          }
+        const [, drawMode, [x, y], cel] = cmd;
+        screen.blit(x, y, drawMode, cel);
         break;
       }
       default:

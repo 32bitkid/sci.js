@@ -28,18 +28,18 @@ export type DrawCodes = readonly [
   control: number,
 ];
 
-type SetPaletteCommand = readonly [
+export type SetPaletteCommand = readonly [
   mode: 'SET_PALETTE',
   pal: number,
   colors: Uint8Array,
 ];
 
-type UpdatePaletteCommand = readonly [
+export type UpdatePaletteCommand = readonly [
   mode: 'UPDATE_PALETTE',
   entries: [pal: number, idx: number, color: number][],
 ];
 
-type BrushCommand = readonly [
+export type BrushCommand = readonly [
   mode: 'BRUSH',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
@@ -48,21 +48,21 @@ type BrushCommand = readonly [
   pos: StaticVec2,
 ];
 
-type FillCommand = readonly [
+export type FillCommand = readonly [
   mode: 'FILL',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
   pos: StaticVec2,
 ];
 
-type PolylineCommand = readonly [
+export type PolylineCommand = readonly [
   mode: 'PLINE',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
   ...points: StaticVec2[],
 ];
 
-type EmbeddedCelCommand = readonly [
+export type EmbeddedCelCommand = readonly [
   mode: 'CEL',
   drawMode: DrawMode,
   pos: StaticVec2,

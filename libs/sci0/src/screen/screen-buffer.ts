@@ -6,31 +6,34 @@ import {
   isVisualMode,
 } from '../models/draw-command';
 import { type RenderResult } from './render-result';
-import { createBrush, createFloodFill, createLine } from './tools';
-
-const bufferWidth = 320;
-const bufferHeight = 190;
+import {
+  createBrush,
+  createFloodFill,
+  createLine,
+  createBlitter,
+} from './tools';
 
 export const createScreenBuffer = (
   forcePal: 0 | 1 | 2 | 3 | undefined,
   palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array],
+  [width, height]: [number, number],
 ): [RenderResult, Screen] => {
-  const visible = createIndexedPixelData(bufferWidth, bufferHeight);
-  const priority = createIndexedPixelData(bufferWidth, bufferHeight);
-  const control = createIndexedPixelData(bufferWidth, bufferHeight);
-  const alpha = createIndexedPixelData(bufferWidth, bufferHeight);
+  const visible = createIndexedPixelData(width, height);
+  const priority = createIndexedPixelData(width, height);
+  const control = createIndexedPixelData(width, height);
+  const alpha = createIndexedPixelData(width, height);
 
   visible.pixels.fill(0xff);
   priority.pixels.fill(0x00);
   control.pixels.fill(0x00);
 
   const setPixel: RawPlotter = (x: number, y: number, color: number) => {
-    const idx = bufferWidth * y + x;
+    const idx = width * y + x;
     visible.pixels[idx] = (color & 0b1111) | (color << 4);
   };
 
   const plot: Plotter = (x: number, y: number, drawMode, drawCodes) => {
-    const idx = bufferWidth * y + x;
+    const idx = width * y + x;
 
     if (isVisualMode(drawMode)) {
       const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
@@ -50,7 +53,7 @@ export const createScreenBuffer = (
   };
 
   const isFillable: IsFillable = (x, y, drawMode) => {
-    const idx = x + y * bufferWidth;
+    const idx = x + y * width;
 
     if (isVisualMode(drawMode)) {
       const dither = (x & 1) ^ (y & 1);
@@ -73,9 +76,10 @@ export const createScreenBuffer = (
     { visible, priority, control, alpha },
     {
       setPixel,
-      brush: createBrush(plot, [bufferWidth, bufferHeight]),
-      fill: createFloodFill(plot, isFillable, [bufferWidth, bufferHeight]),
+      brush: createBrush(plot, [width, height]),
+      fill: createFloodFill(plot, isFillable, [width, height]),
       line: createLine(plot),
+      blit: createBlitter(setPixel, [width, height]),
     },
   ];
 };

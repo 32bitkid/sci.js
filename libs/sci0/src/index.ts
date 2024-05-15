@@ -1,7 +1,18 @@
 export type { ResourceHeader } from './models/resource-header';
 export type { ResourceMap } from './models/resource-map';
 export type { ResourceType } from './models/resource-type';
-export type { DrawCommand } from './models/draw-command';
+export type {
+  PatternCode,
+  DrawCodes,
+  SetPaletteCommand,
+  UpdatePaletteCommand,
+  BrushCommand,
+  FillCommand,
+  PolylineCommand,
+  EmbeddedCelCommand,
+  DrawCommand,
+} from './models/draw-command';
+export { DrawMode } from './models/draw-command';
 
 export {
   getResourceNumber,

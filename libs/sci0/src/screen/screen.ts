@@ -1,4 +1,5 @@
 import { DrawCodes, DrawMode } from '../models/draw-command';
+import { Cel } from '../models/cel';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;
 
@@ -38,9 +39,17 @@ export type Brusher = (
   drawCodes: DrawCodes,
 ) => void;
 
+export type Blitter = (
+  x: number,
+  y: number,
+  drawMode: DrawMode,
+  cel: Cel,
+) => void;
+
 export interface Screen {
   brush: Brusher;
   fill: Filler;
   line: Liner;
   setPixel: RawPlotter;
+  blit: Blitter;
 }
