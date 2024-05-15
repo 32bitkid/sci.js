@@ -5,10 +5,13 @@ import { createPicState } from './pic-state';
 import { DrawCommand } from '../../models/draw-command';
 
 export const parseFrom = (data: Uint8Array): DrawCommand[] => {
+  const commands: DrawCommand[] = [];
   const ctx: CodeHandlerContext = {
     r: createBitReader(data, { mode: 'msb' }),
     state: createPicState(),
-    cmds: [],
+    push(...next: DrawCommand[]) {
+      commands.push(...next);
+    },
   };
 
   while (true) {
@@ -25,5 +28,5 @@ export const parseFrom = (data: Uint8Array): DrawCommand[] => {
     handler(ctx);
   }
 
-  return ctx.cmds;
+  return commands;
 };

@@ -10,7 +10,7 @@ import { parseCel } from '../cel';
 export interface CodeHandlerContext {
   r: BitReader;
   state: PicState;
-  cmds: DrawCommand[];
+  push(...cmds: DrawCommand[]): void;
 }
 
 type CodeHandler = (ctx: CodeHandlerContext) => void;
@@ -47,7 +47,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
   },
 
   // Lines
-  [OpCode.ShortLines]({ r, state, cmds }) {
+  [OpCode.ShortLines]({ r, state, push }) {
     const points: Vec2[] = [];
     const prev = getPoint24(r, vec2.create());
     points.push(vec2.clone(prev));
@@ -56,9 +56,9 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       vec2.copy(prev, next);
     }
-    cmds.push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
-  [OpCode.MediumLines]({ r, state, cmds }) {
+  [OpCode.MediumLines]({ r, state, push }) {
     const points: Vec2[] = [];
     const prev = getPoint24(r, vec2.create());
     points.push(vec2.clone(prev));
@@ -67,15 +67,15 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       vec2.copy(prev, next);
     }
-    cmds.push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
-  [OpCode.LongLines]({ r, state, cmds }) {
+  [OpCode.LongLines]({ r, state, push }) {
     const points: Vec2[] = [];
     points.push(getPoint24(r, vec2.create()));
     while (r.peek32(8) < 0xf0) {
       points.push(getPoint24(r, vec2.create()));
     }
-    cmds.push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
 
   // Patterns
@@ -87,14 +87,14 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       (code & 0b100000) !== 0,
     ];
   },
-  [OpCode.ShortBrushes]({ r, state, cmds }) {
+  [OpCode.ShortBrushes]({ r, state, push }) {
     const prev = vec2.create();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    cmds.push([
+    push([
       'BRUSH',
       drawMode,
       drawCodes,
@@ -106,18 +106,18 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint8(r, vec2.create(), prev);
-      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
       vec2.copy(prev, next);
     }
   },
-  [OpCode.MediumBrushes]({ r, state, cmds }) {
+  [OpCode.MediumBrushes]({ r, state, push }) {
     const prev = vec2.create();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    cmds.push([
+    push([
       'BRUSH',
       drawMode,
       drawCodes,
@@ -129,30 +129,30 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint16(r, vec2.create(), prev);
-      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
       vec2.copy(prev, next);
     }
   },
-  [OpCode.LongBrushes]({ r, state, cmds }) {
+  [OpCode.LongBrushes]({ r, state, push }) {
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     while (r.peek32(8) < 0xf0) {
       const texture = isTextured ? r.read32(8) >> 1 : 0;
       const pos = getPoint24(r, vec2.create());
-      cmds.push(['BRUSH', drawMode, drawCodes, patternCode, texture, pos]);
+      push(['BRUSH', drawMode, drawCodes, patternCode, texture, pos]);
     }
   },
 
   // Fills
-  [OpCode.Fills]({ r, state, cmds }) {
+  [OpCode.Fills]({ r, state, push }) {
     const { drawMode, drawCodes } = state;
     const p1 = vec2.create();
     while (true) {
       const peek = r.peek32(8);
       if (peek >= 0xf0) break;
       getPoint24(r, p1);
-      cmds.push(['FILL', drawMode, drawCodes, vec2.clone(p1)]);
+      push(['FILL', drawMode, drawCodes, vec2.clone(p1)]);
     }
   },
 
@@ -165,7 +165,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
 };
 
 const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
-  [ExtendedOpCode.UpdatePalette]({ r, cmds }) {
+  [ExtendedOpCode.UpdatePalette]({ r, push }) {
     const entries: [number, number, number][] = [];
     while (r.peek32(8) < 0xf0) {
       const entry = r.read32(8);
@@ -176,13 +176,13 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
       entries.push([pal, idx, code]);
     }
 
-    cmds.push(['UPDATE_PALETTE', entries]);
+    push(['UPDATE_PALETTE', entries]);
   },
-  [ExtendedOpCode.SetPalette]({ r, cmds }) {
+  [ExtendedOpCode.SetPalette]({ r, push }) {
     const pal = r.read32(8);
     const colors = new Uint8Array(40);
     repeat(40, (i) => (colors[i] = r.read32(8)));
-    cmds.push(['SET_PALETTE', pal, colors]);
+    push(['SET_PALETTE', pal, colors]);
   },
   [ExtendedOpCode.x02]({ r }) {
     // Looks like a palette, but i'm not sure what this chunk is for
@@ -209,7 +209,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     // Not sure what this code means
     // NOOP
   },
-  [ExtendedOpCode.x07]({ r, state, cmds }) {
+  [ExtendedOpCode.x07]({ r, state, push }) {
     const pos = getPoint24(r, vec2.create());
     const size = r.read32(8) | (r.read32(8) << 8);
 
@@ -221,7 +221,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     });
     const cel = parseCel(view);
 
-    cmds.push(['CEL', state.drawMode, pos, cel]);
+    push(['CEL', state.drawMode, pos, cel]);
   },
   [ExtendedOpCode.x08]({ r }) {
     repeat(14, () => r.read32(8));
