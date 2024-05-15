@@ -69,3 +69,9 @@ export const formatOption = (): Option =>
   )
     .choices(['png', 'jpg', 'webp', 'raw'])
     .default('png');
+
+export const grayscaleOption = (): Option =>
+  new Option(
+    '--grayscale',
+    'convert the output palette into grayscale',
+  ).default(false);

@@ -3,6 +3,7 @@ import {
   Mixers,
   generateSciDitherPairs as generatePairs,
   IBM5153Contrast,
+  toGrayscale,
 } from '@4bitlabs/color';
 import {
   type PixelFilter,
@@ -80,7 +81,7 @@ export function createPostPipeline(
 }
 
 export function generatePalette(
-  options: Pick<RenderPipelineOptions, 'palette' | 'contrast'>,
+  options: Pick<RenderPipelineOptions, 'palette' | 'contrast' | 'grayscale'>,
 ) {
   const basePalette = {
     cga: Palettes.CGA_PALETTE,
@@ -89,9 +90,12 @@ export function generatePalette(
     depth: DEPTH_PALETTE,
   }[options.palette];
 
-  return options.contrast !== false && options.contrast <= 1.0
-    ? IBM5153Contrast(basePalette, options.contrast)
-    : basePalette;
+  const adjusted =
+    options.contrast !== false && options.contrast <= 1.0
+      ? IBM5153Contrast(basePalette, options.contrast)
+      : basePalette;
+
+  return options.grayscale ? toGrayscale(adjusted) : adjusted;
 }
 
 const mixMode = 'CIE-XYZ';

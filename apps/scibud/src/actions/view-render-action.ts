@@ -38,6 +38,7 @@ interface ViewRenderActionOptions {
   scaler: ScalerID;
   output: string;
   format: 'jpg' | 'png' | 'webp' | 'raw';
+  grayscale: boolean;
 }
 
 const FORMAT_MAPPING = {

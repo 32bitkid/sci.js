@@ -12,6 +12,7 @@ export const pickRenderOptions = <T extends RenderPipelineOptions>(
     paletteMixer,
     postScaler,
     preScaler,
+    grayscale,
     ...rest
   } = options;
 
@@ -26,6 +27,7 @@ export const pickRenderOptions = <T extends RenderPipelineOptions>(
       paletteMixer,
       postScaler,
       preScaler,
+      grayscale,
     },
   ];
 };
