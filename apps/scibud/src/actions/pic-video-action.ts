@@ -134,6 +134,18 @@ export async function picVideoAction(
   });
 
   console.log(
-    `\n\nffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
+    `\nRender Video:\n  ffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
+  );
+
+  const finalFn = path.format({
+    dir,
+    name: name
+      .replace(/%num/, id.toString(10).padStart(3, '0'))
+      .replace(/%d/, 'final'),
+    ext: '.png',
+  });
+
+  console.log(
+    `\nRender Image:\n  ffmpeg -i ${frames[frames.length - 1]} -vf "${formatGraph(crtFilterGraph({ image: true, resolution: [-2, 1080] }))}" ${finalFn}\n`,
   );
 }

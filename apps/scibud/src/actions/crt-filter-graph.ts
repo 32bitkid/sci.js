@@ -6,6 +6,8 @@ interface CrtFilterGraphOptions {
   hBlur?: number;
   curve?: number;
   halationBlur?: number;
+  resolution?: [number, number];
+  image?: true;
 }
 
 export const crtFilterGraph = (
@@ -17,9 +19,12 @@ export const crtFilterGraph = (
     hBlur = 2.5,
     curve = 0.02,
     halationBlur = 32,
+    resolution = [-2, 720],
+    image = false,
   } = options;
 
   const fpsChain: FilterChain = [
+    ['format', 'yuv420p'],
     ['settb', { expr: 'AVTB' }],
     ['setpts', `${(defaultFps / desiredFps).toFixed(5)}*(PTS-STARTPTS)`],
     ['fps', desiredFps],
@@ -34,9 +39,8 @@ export const crtFilterGraph = (
   ];
 
   const rescale: FilterChain = [
-    ['scale', [-2, 720, 'flags=lanczos']],
+    ['scale', [...resolution, 'flags=lanczos']],
     ['pad', ['iw+24', 'ih+24', '12', '12', 'black']],
-    ['format', 'yuv420p'],
   ];
 
   const halation: FilterChain = [
@@ -50,6 +54,6 @@ export const crtFilterGraph = (
     [['crt1'], [['rgbashift', { rh: 10, bv: 10, gh: -10 }]], ['hal1']],
     [['crt0', 'hal1'], halation, ['hal2']],
     [['crt2', 'hal2'], [['blend', 'screen']], ['final']],
-    [['final'], [...rescale, ...fpsChain], []],
+    [['final'], [...rescale, ...(image ? [] : fpsChain)], []],
   ];
 };
