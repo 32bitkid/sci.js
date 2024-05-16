@@ -2,7 +2,6 @@
 import { Command, Option } from 'commander';
 
 import { ResourceTypes } from '@4bitlabs/sci0';
-import workers from './workers';
 import * as Commands from './commands';
 import { cmdPathParser } from './commands/cmd-path-parser';
 
@@ -92,17 +91,14 @@ applySubCommands(
   Commands.extractCommandForType(ResourceTypes.PATCH_TYPE),
 );
 
-program
-  .parseAsync()
-  .catch((err: unknown) => {
-    console.error(
-      err
-        ? err instanceof Error
-          ? `error: ${err.message}`
-          : typeof err === 'string'
-            ? err
-            : 'error: unknown'
-        : 'error: unknown',
-    );
-  })
-  .finally(() => workers.terminate());
+program.parseAsync().catch((err: unknown) => {
+  console.error(
+    err
+      ? err instanceof Error
+        ? `error: ${err.message}`
+        : typeof err === 'string'
+          ? err
+          : 'error: unknown'
+      : 'error: unknown',
+  );
+});

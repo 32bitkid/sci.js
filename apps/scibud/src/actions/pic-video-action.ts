@@ -101,6 +101,7 @@ export async function picVideoAction(
 
   await Promise.all(done).finally(() => {
     progress.stop();
+    return workers.terminate();
   });
 
   const seqFn = path.format({
