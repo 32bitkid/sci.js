@@ -33,6 +33,8 @@ export const createScreenBuffer = (
   };
 
   const plot: Plotter = (x: number, y: number, drawMode, drawCodes) => {
+    if (x < 0 || x >= width || y < 0 || y >= height) return;
+
     const idx = width * y + x;
 
     if (isVisualMode(drawMode)) {
