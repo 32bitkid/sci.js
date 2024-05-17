@@ -85,7 +85,7 @@ export async function picVideoAction(
         renderOptions,
         {
           font,
-          left: [title, id.toString(10).padStart(3, '0')]
+          left: [title, `PIC.${id.toString(10).padStart(3, '0')}`]
             .filter((it) => it.length > 0)
             .join(': '),
           right:

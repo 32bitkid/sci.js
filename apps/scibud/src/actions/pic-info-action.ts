@@ -42,13 +42,24 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
     decompress(engine, header.compression, resFile.subarray(start, end)),
   );
 
+  const compressionTypes: Record<'sci0' | 'sci01', Record<number, string>> = {
+    sci0: {
+      0: 'none',
+      1: 'LZW',
+      2: 'Huffman',
+    },
+    sci01: {
+      0: 'none',
+      1: 'Huffman',
+      2: 'Comp3',
+    },
+  };
+
   console.log('');
+  console.log(`PIC.${pic.toString(10).padStart(3, '0')}`);
   const data = {
-    Pic: `#${pic}`,
-    Compression: header.compression,
-    Size: header.actualSize.toLocaleString(),
-    'Size (Compressed)': header.packedSize.toLocaleString(),
     Commands: picData.length.toLocaleString(),
+    Size: `${header.actualSize.toLocaleString()} bytes`,
   };
   console.log(
     columnify(data, {
@@ -60,12 +71,23 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
     }),
   );
 
+  console.log('\n\u{1F5DC} Compression:');
+  console.log(
+    `Type: ${compressionTypes[engine][header.compression]} (${header.compression})`,
+  );
+  if (header.compression !== 0) {
+    console.log(`Size: ${(header.packedSize - 4).toLocaleString()} bytes`);
+    console.log(
+      `Ratio: ${((160 * 190) / (header.packedSize - 4)).toFixed(1)}\u22361 | \u{1F4C9} ${((1 - (header.packedSize - 4) / (160 * 190)) * 100).toFixed(1)}%`,
+    );
+  }
+
   const modeTotals = picData.reduce<Record<string, number>>((map, [mode]) => {
     map[mode] = (map[mode] ?? 0) + 1;
     return map;
   }, {});
 
-  console.log('\nBreakdown:');
+  console.log('\n\u{1F9F0} Breakdown:');
   console.log(
     columnify(
       [
