@@ -31,12 +31,12 @@ export type DrawCodes = readonly [
 export type SetPaletteCommand = readonly [
   mode: 'SET_PALETTE',
   pal: number,
-  colors: Uint8Array,
+  colors: readonly number[],
 ];
 
 export type UpdatePaletteCommand = readonly [
   mode: 'UPDATE_PALETTE',
-  entries: [pal: number, idx: number, color: number][],
+  entries: readonly [pal: number, idx: number, color: number][],
 ];
 
 export type BrushCommand = readonly [

@@ -180,17 +180,17 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
   },
   [ExtendedOpCode.SetPalette]({ r, push }) {
     const pal = r.read32(8);
-    const colors = new Uint8Array(40);
+    const colors: number[] = Array(40).fill(0);
     repeat(40, (i) => (colors[i] = r.read32(8)));
     push(['SET_PALETTE', pal, colors]);
   },
   [ExtendedOpCode.x02]({ r }) {
-    // Looks like a palette, but i'm not sure what this chunk is for
+    // Looks like a palette, but I'm not sure what this chunk is for
     r.skip(8);
     r.skip(8 * 40);
 
     // in Colonels Bequest Demo, PIC.991 this opcode appears to have a 141 byte payload.
-    // Looks like another palette, but i'm not sure what this chunk is for
+    // Looks like another palette, but I'm not sure what this chunk is for
     // br.skip(141 * 8);
   },
   [ExtendedOpCode.x03]({ r }) {

@@ -2,16 +2,13 @@ import { DrawCommand, DrawMode } from '../models/draw-command';
 import { renderPic } from './render-pic';
 
 describe('edge cases', () => {
-  const palette = new Uint8Array(40);
-  palette.set(Uint8Array.of(0x00, 0xf0, 0x0f, 0xff));
-
   it.each<[number, boolean]>([
     [1, true],
     [2, true],
     [0, false],
   ])('should leak out of white dithered lines', (lineColor, leaky) => {
     const picData: DrawCommand[] = [
-      ['SET_PALETTE', 0, palette],
+      ['SET_PALETTE', 0, [0x00, 0xf0, 0x0f, 0xff]],
       [
         'PLINE',
         DrawMode.Visual,
@@ -34,7 +31,7 @@ describe('edge cases', () => {
     [2, true],
   ])('should leak out of single pixel dither "holes"', (lineColor, leaky) => {
     const picData: DrawCommand[] = [
-      ['SET_PALETTE', 0, palette],
+      ['SET_PALETTE', 0, [0x00, 0xf0, 0x0f, 0xff]],
       // Draw a solid box with a 1px hole
       [
         'PLINE',
