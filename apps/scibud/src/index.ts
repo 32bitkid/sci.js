@@ -31,6 +31,7 @@ applySubCommands(
   Commands.picInfoCommand,
   Commands.picRenderCommand,
   Commands.picVideoCommand,
+  Commands.picJSONCommand,
 );
 
 applySubCommands(
