@@ -1,4 +1,4 @@
-import { Ref, shallowRef, triggerRef, watchEffect, unref } from 'vue';
+import { Ref, shallowRef, triggerRef, watchEffect, unref, computed } from 'vue';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -13,15 +13,24 @@ export function useCanvasRenderer(
   picData: Ref<DrawCommand[]>,
   resolution: Ref<[number, number]>,
 ) {
-  const [width, height] = unref(resolution);
-  const pixels = new OffscreenCanvas(width, height);
-  const pixelsRef = shallowRef(pixels);
+  const pixelsRef = computed(() => {
+    const [width, height] = unref(resolution);
+    return new OffscreenCanvas(width, height);
+  });
 
-  const pCtx = pixels.getContext('2d');
-  if (pCtx === null) throw new Error('unable to allocate canvas context');
+  const pCtx = computed(() => {
+    const ctx = unref(pixelsRef).getContext('2d');
+    if (ctx === null) throw new Error('unable to allocate canvas context');
+    return ctx;
+  });
 
-  const img = new ImageData(width, height);
+  const imageDataRef = computed(() => {
+    const [width, height] = unref(resolution);
+    return new ImageData(width, height);
+  });
+
   watchEffect(() => {
+    const [width, height] = unref(resolution);
     const { visible } = renderPic(unref(picData), { width, height });
     const imgData = renderPixelData(visible, {
       dither: createDitherFilter(
@@ -31,8 +40,9 @@ export function useCanvasRenderer(
         ),
       ),
     });
+    const img = unref(imageDataRef);
     img.data.set(imgData.data);
-    pCtx.putImageData(img, 0, 0);
+    unref(pCtx).putImageData(img, 0, 0);
     triggerRef(pixelsRef);
   });
 
