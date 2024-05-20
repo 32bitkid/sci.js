@@ -1,4 +1,4 @@
-import { Ref, shallowRef, triggerRef, watchEffect, unref, computed } from 'vue';
+import { Ref, triggerRef, watchEffect, unref, computed, shallowRef } from 'vue';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -13,6 +13,8 @@ export function useCanvasRenderer(
   picData: Ref<DrawCommand[]>,
   resolution: Ref<[number, number]>,
 ) {
+  const tick = shallowRef({});
+
   const pixelsRef = computed(() => {
     const [width, height] = unref(resolution);
     return new OffscreenCanvas(width, height);
@@ -43,8 +45,11 @@ export function useCanvasRenderer(
     const img = unref(imageDataRef);
     img.data.set(imgData.data);
     unref(pCtx).putImageData(img, 0, 0);
-    triggerRef(pixelsRef);
+    triggerRef(tick);
   });
 
-  return pixelsRef;
+  return computed(() => {
+    unref(tick);
+    return pixelsRef.value;
+  });
 }
