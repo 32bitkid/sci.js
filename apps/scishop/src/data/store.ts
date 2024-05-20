@@ -25,7 +25,7 @@ const canvasResRef = ref<[number, number]>([320, 190]);
 const viewMatrixRef = ref<Matrix>(
   compose(
     rotate(-0 * (Math.PI / 180)),
-    scale(2.0, 2.0),
+    scale(3.0, 3.0),
     scale(1, 6 / 5),
     translate(-35, 0),
   ),
