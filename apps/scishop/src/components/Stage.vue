@@ -17,8 +17,16 @@ const viewStack = computed(() =>
 const pixels = useCanvasRenderer(viewStack, store.canvasRes);
 
 watch(
-  [ctxRef, stageRes, pixels, store.canvasRes, store.viewMatrix],
-  ([ctx, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix]) => {
+  [
+    ctxRef,
+    stageRes,
+    pixels,
+    store.canvasRes,
+    store.viewMatrix,
+    store.selectedCmd,
+  ],
+  ([ctx, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix, topCmd]) => {
+    console.log(topCmd);
     if (!ctx || sWidth === 0 || sHeight === 0) return;
     if (ctx.canvas.width !== sWidth || ctx.canvas.height !== sHeight) {
       ctx.canvas.width = sWidth;
