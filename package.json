@@ -34,7 +34,8 @@
     "libs/sci0",
     "libs/vec2",
     "libs/crt-lite",
-    "apps/scibud"
+    "apps/scibud",
+    "apps/scishop"
   ],
   "devDependencies": {
     "@eslint/js": "^9.6.0",
