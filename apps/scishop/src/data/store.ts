@@ -19,7 +19,7 @@ export type Tool =
   | 'fill';
 
 const selectedToolRef = ref<Tool>('pan');
-const cmdIdx = ref<number>(0);
+const cmdIdxRef = ref<number>(0);
 const cmdsRef = shallowRef<DrawCommand[]>([]);
 const canvasResRef = ref<[number, number]>([320, 190]);
 const viewMatrixRef = ref<Matrix>(
@@ -48,9 +48,12 @@ export default {
     return cmdsRef;
   },
   get cmdIdx() {
-    return unref(cmdIdx);
+    return unref(cmdIdxRef);
   },
   set cmdIdx(idx: number) {
-    cmdIdx.value = Math.min(Math.max(0, idx), cmdsRef.value.length);
+    cmdIdxRef.value = Math.min(Math.max(0, idx), cmdsRef.value.length);
   },
+  selectedCmd: computed(
+    () => unref(cmdsRef)[unref(cmdsRef).length - unref(cmdIdxRef) - 1],
+  ),
 };
