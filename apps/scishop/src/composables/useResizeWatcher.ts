@@ -13,7 +13,6 @@ export function useResizeWatcher<T extends HTMLElement>(
 
   const visiblityHandler = () => {
     if (!document.hidden) {
-      console.log('trigger refocus');
       triggerRef(resolution);
     }
   };
