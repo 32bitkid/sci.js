@@ -78,7 +78,7 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
   if (header.compression !== 0) {
     console.log(`Size: ${(header.packedSize - 4).toLocaleString()} bytes`);
     console.log(
-      `Ratio: ${((160 * 190) / (header.packedSize - 4)).toFixed(1)}\u22361 | \u{1F4C9} ${((1 - (header.packedSize - 4) / (160 * 190)) * 100).toFixed(1)}%`,
+      `Ratio: ${((160 * 190) / (header.packedSize - 4)).toFixed(1)}\u22361 | \u{1F4C9} \u{2212}${((1 - (header.packedSize - 4) / (160 * 190)) * 100).toFixed(1)}%`,
     );
   }
 
