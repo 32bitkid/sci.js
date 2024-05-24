@@ -10,6 +10,5 @@
   color: var(--clr-ink);
   grid-area: header;
   border-bottom: 1px solid black;
-  box-shadow: 0 1rem 1rem rgba(0 0 0 / 10%);
 }
 </style>

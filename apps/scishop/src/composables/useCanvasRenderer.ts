@@ -1,4 +1,4 @@
-import { Ref, triggerRef, watchEffect, unref, computed, shallowRef } from 'vue';
+import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -8,48 +8,46 @@ import {
   Mixers,
   Palettes,
 } from '@4bitlabs/color';
+import { nearestNeighbor } from '@4bitlabs/resize-filters';
+import { get2dContext } from '../helpers/getContext.ts';
 
 export function useCanvasRenderer(
-  picData: Ref<DrawCommand[]>,
-  resolution: Ref<[number, number]>,
-) {
-  const tick = shallowRef({});
+  picDataRef: Ref<DrawCommand[]>,
+  resRef: Ref<[number, number]>,
+): Ref<OffscreenCanvas> {
+  const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
 
-  const pixelsRef = computed(() => {
-    const [width, height] = unref(resolution);
-    return new OffscreenCanvas(width, height);
+  const renderedRef = computed(() => {
+    const picData = unref(picDataRef);
+    const [width, height] = unref(resRef);
+    return renderPic(picData, { width, height });
   });
 
-  const pCtx = computed(() => {
-    const ctx = unref(pixelsRef).getContext('2d');
-    if (ctx === null) throw new Error('unable to allocate canvas context');
-    return ctx;
-  });
+  watch(
+    [renderedRef, resRef],
+    ([pic, [width, height]]) => {
+      const canvas = unref(canvasRef);
+      canvas.width = width * 5;
+      canvas.height = height * 6;
 
-  const imageDataRef = computed(() => {
-    const [width, height] = unref(resolution);
-    return new ImageData(width, height);
-  });
-
-  watchEffect(() => {
-    const [width, height] = unref(resolution);
-    const { visible } = renderPic(unref(picData), { width, height });
-    const imgData = renderPixelData(visible, {
-      dither: createDitherFilter(
-        generateSciDitherPairs(
-          IBM5153Contrast(Palettes.TRUE_CGA_PALETTE, 0.4),
-          Mixers.softMixer(),
+      const imgData = renderPixelData(pic.visible, {
+        dither: createDitherFilter(
+          generateSciDitherPairs(
+            IBM5153Contrast(Palettes.TRUE_CGA_PALETTE, 0.4),
+            Mixers.softMixer(),
+          ),
+          [1, 1],
         ),
-      ),
-    });
-    const img = unref(imageDataRef);
-    img.data.set(imgData.data);
-    unref(pCtx).putImageData(img, 0, 0);
-    triggerRef(tick);
-  });
+        post: [nearestNeighbor([5, 6])],
+        // post: [nearestNeighbor([5, 6])],
+      }) as ImageData;
 
-  return computed(() => {
-    unref(tick);
-    return pixelsRef.value;
-  });
+      const ctx = get2dContext(canvas);
+      ctx.putImageData(imgData, 0, 0);
+      triggerRef(canvasRef);
+    },
+    { immediate: true },
+  );
+
+  return canvasRef;
 }

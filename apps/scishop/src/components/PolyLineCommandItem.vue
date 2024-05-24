@@ -13,7 +13,7 @@ import { fromUint32, toHex } from '@4bitlabs/color-space/srgb';
 
 const { command, pals } = defineProps<{
   command: PolylineCommand | BrushCommand | FillCommand;
-  pals: number[][];
+  pals: [number[], number[], number[], number[]];
 }>();
 
 const [name, drawMode, code] = command;
