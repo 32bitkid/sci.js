@@ -1,6 +1,6 @@
 import { watch, onUnmounted, triggerRef, ShallowRef } from 'vue';
 
-import { useDebouncedRef } from './useDebouncedRef.ts';
+import { useDebouncedRef } from './useDebouncedRef';
 
 export function useResizeWatcher<T extends HTMLElement>(
   refEl: ShallowRef<T | null>,

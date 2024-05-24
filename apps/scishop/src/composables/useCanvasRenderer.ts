@@ -1,4 +1,4 @@
-import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
+import { Ref, watch, ref, unref, shallowRef, triggerRef, computed } from 'vue';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -9,7 +9,9 @@ import {
   Palettes,
 } from '@4bitlabs/color';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
-import { get2dContext } from '../helpers/getContext.ts';
+import { get2dContext } from '../helpers/getContext';
+
+const oversampleRef = ref<[number, number]>([5, 5]);
 
 export function useCanvasRenderer(
   picDataRef: Ref<DrawCommand[]>,
@@ -24,11 +26,11 @@ export function useCanvasRenderer(
   });
 
   watch(
-    [renderedRef, resRef],
-    ([pic, [width, height]]) => {
+    [renderedRef, resRef, oversampleRef],
+    ([pic, [width, height], oversample]) => {
       const canvas = unref(canvasRef);
-      canvas.width = width * 5;
-      canvas.height = height * 6;
+      canvas.width = width * oversample[0];
+      canvas.height = height * oversample[1];
 
       const imgData = renderPixelData(pic.visible, {
         dither: createDitherFilter(
@@ -38,8 +40,7 @@ export function useCanvasRenderer(
           ),
           [1, 1],
         ),
-        post: [nearestNeighbor([5, 6])],
-        // post: [nearestNeighbor([5, 6])],
+        post: [nearestNeighbor(oversample)],
       }) as ImageData;
 
       const ctx = get2dContext(canvas);
