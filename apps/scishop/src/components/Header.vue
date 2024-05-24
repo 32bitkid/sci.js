@@ -6,9 +6,9 @@
 
 <style module>
 .header {
-  background-color: var(--clr-surface--default);
+  background-color: var(--clr-surface--glass);
+  border-bottom: 3px solid var(--clr-surface--glass);
   color: var(--clr-ink);
   grid-area: header;
-  border-bottom: 1px solid black;
 }
 </style>

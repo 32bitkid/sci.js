@@ -9,7 +9,14 @@ import {
   translate,
 } from 'transformation-matrix';
 
-import store from '../data/store.ts';
+import toolbarStore from '../data/toolbarStore';
+import viewStore from '../data/viewStore';
+
+const clampZoom = (current: number, next: number, min: number, max: number) => {
+  if (current * next < min) return min / current;
+  if (current * next > max) return max / current;
+  return next;
+};
 
 export function useInputMachine(
   matrixRef: Ref<Matrix>,
@@ -22,7 +29,7 @@ export function useInputMachine(
     if (!el) return;
 
     el.addEventListener('click', (e) => {
-      if (store.selectedTool === 'line') {
+      if (toolbarStore.selectedTool === 'line') {
         const iMatrix = unref(iMatrixRef);
         const screenPos: [number, number] = [e.offsetX, e.offsetY];
         const [x, y] = applyToPoint(iMatrix, screenPos);
@@ -45,13 +52,18 @@ export function useInputMachine(
       if (!stage) return;
       const { width: sWidth, height: sHeight } = stage;
       const [dx, dy] = [e.offsetX - sWidth / 2, e.offsetY - sHeight / 2];
-
-      store.viewMatrix.value = compose(
+      const scaleFactor = clampZoom(
+        viewStore.zoom,
+        e.deltaY / 1000 + 1,
+        0.5,
+        100,
+      );
+      viewStore.viewMatrix = compose(
         translate(dx, dy),
-        scale(Math.max(0, e.deltaY / 1000 + 1)),
+        scale(scaleFactor),
         rotateDEG(-e.deltaX / 40),
         translate(-dx, -dy),
-        store.viewMatrix.value,
+        viewStore.viewMatrix,
       );
     });
 
@@ -59,7 +71,7 @@ export function useInputMachine(
     el.addEventListener('pointerdown', (e) => {
       if (e.button === 1) {
         el.style.cursor = 'grabbing';
-        dragState = [store.viewMatrix.value, e.offsetX, e.offsetY];
+        dragState = [viewStore.viewMatrix, e.offsetX, e.offsetY];
       }
     });
 
@@ -68,7 +80,7 @@ export function useInputMachine(
       const [matrix, ix, iy] = dragState;
       const dx = ix - e.offsetX;
       const dy = iy - e.offsetY;
-      store.viewMatrix.value = compose(translate(-dx, -dy), matrix);
+      viewStore.viewMatrix = compose(translate(-dx, -dy), matrix);
     });
 
     el.addEventListener('pointerup', () => {

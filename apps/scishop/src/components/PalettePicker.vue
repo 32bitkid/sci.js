@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed, ref, unref } from 'vue';
-import store from '../data/store.ts';
-import { mapToPals } from '../helpers/getPals.ts';
+import store from '../data/picStore';
+import { DEFAULT_PALETTE, mapToPals } from '../helpers/getPals';
 import { IBM5153Contrast, Palettes } from '@4bitlabs/color';
 import { fromUint32, toHex } from '@4bitlabs/color-space/srgb';
 
 const palRef = ref<number>(0);
 
-const Pal = IBM5153Contrast(Palettes.TRUE_CGA_PALETTE, 0.4);
+const basePalette = ref(Palettes.TRUE_CGA_PALETTE);
+const finalPalette = computed(() => IBM5153Contrast(unref(basePalette), 0.4));
 
-const splitPalEntry = (pair: number) => {
+const splitPalEntry = (Pal: Uint32Array, pair: number) => {
   const [aClr, bClr] = [Pal[pair >>> 4], Pal[pair & 0b1111]];
-
   return {
     '--dither-left': toHex(fromUint32(aClr)),
     '--dither-right': toHex(fromUint32(bClr)),
@@ -19,7 +19,13 @@ const splitPalEntry = (pair: number) => {
 };
 
 const pal = computed(
-  () => mapToPals(unref(store.cmds))[store.cmdIdx ?? store.topIdx],
+  () =>
+    mapToPals(store.layers)[store.cmdIdx ?? store.topIdx] ?? [
+      DEFAULT_PALETTE,
+      DEFAULT_PALETTE,
+      DEFAULT_PALETTE,
+      DEFAULT_PALETTE,
+    ],
 );
 </script>
 
@@ -52,7 +58,7 @@ const pal = computed(
       <li
         v-for="_ in pal[palRef]"
         :class="$style.swatch"
-        :style="[splitPalEntry(_)]"
+        :style="[splitPalEntry(finalPalette, _)]"
       ></li>
     </ol>
   </div>
@@ -62,6 +68,7 @@ const pal = computed(
 .panel {
   scrollbar-width: auto;
   scrollbar-gutter: stable;
+  background-color: var(--clr-surface--default);
 }
 
 .header {
@@ -99,7 +106,11 @@ const pal = computed(
 }
 
 .buttonBar li button.palSel {
-  background-color: var(--clr-primary-800);
+  background-image: linear-gradient(
+    0deg,
+    var(--clr-surface--default) 25%,
+    var(--clr-primary-800)
+  );
   border-top-color: var(--clr-primary-500);
   border-left: 1px solid var(--clr-ink-A30);
   border-right: 1px solid var(--clr-ink-A30);
