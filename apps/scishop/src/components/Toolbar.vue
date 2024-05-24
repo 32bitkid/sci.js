@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import store from '../data/store.ts';
+import store from '../data/toolbarStore';
 </script>
 
 <template>
