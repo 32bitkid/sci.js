@@ -5,9 +5,24 @@ import store from '../data/store.ts';
 <template>
   <ul :class="$style.toolbar">
     <li
+      :class="[$style.tool, store.selectedTool === 'select' && $style.selected]"
+    >
+      <button
+        type="button"
+        :class="$style.button"
+        @click="store.selectedTool = 'select'"
+      >
+        select
+      </button>
+    </li>
+    <li
       :class="[$style.tool, store.selectedTool === 'line' && $style.selected]"
     >
-      <button :class="$style.button" @click="store.selectedTool = 'line'">
+      <button
+        type="button"
+        :class="$style.button"
+        @click="store.selectedTool = 'line'"
+      >
         line
       </button>
     </li>
@@ -15,6 +30,7 @@ import store from '../data/store.ts';
       :class="[$style.tool, store.selectedTool === 'bezier' && $style.selected]"
     >
       <button
+        type="button"
         :class="$style.button"
         @click="store.selectedTool = 'bezier'"
         disabled
@@ -26,6 +42,7 @@ import store from '../data/store.ts';
       :class="[$style.tool, store.selectedTool === 'rect' && $style.selected]"
     >
       <button
+        type="button"
         :class="$style.button"
         @click="store.selectedTool = 'rect'"
         disabled
@@ -37,6 +54,7 @@ import store from '../data/store.ts';
       :class="[$style.tool, store.selectedTool === 'oval' && $style.selected]"
     >
       <button
+        type="button"
         :class="$style.button"
         @click="store.selectedTool = 'oval'"
         disabled
@@ -48,6 +66,7 @@ import store from '../data/store.ts';
       :class="[$style.tool, store.selectedTool === 'brush' && $style.selected]"
     >
       <button
+        type="button"
         :class="$style.button"
         @click="store.selectedTool = 'brush'"
         disabled
@@ -58,12 +77,20 @@ import store from '../data/store.ts';
     <li
       :class="[$style.tool, store.selectedTool === 'fill' && $style.selected]"
     >
-      <button :class="$style.button" @click="store.selectedTool = 'fill'">
+      <button
+        type="button"
+        :class="$style.button"
+        @click="store.selectedTool = 'fill'"
+      >
         fill
       </button>
     </li>
     <li :class="[$style.tool, store.selectedTool === 'pan' && $style.selected]">
-      <button :class="$style.button" @click="store.selectedTool = 'pan'">
+      <button
+        type="button"
+        :class="$style.button"
+        @click="store.selectedTool = 'pan'"
+      >
         pan
       </button>
     </li>

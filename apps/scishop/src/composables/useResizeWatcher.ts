@@ -1,13 +1,13 @@
-import { Ref, watch, onUnmounted, triggerRef } from 'vue';
+import { watch, onUnmounted, triggerRef, ShallowRef } from 'vue';
 
 import { useDebouncedRef } from './useDebouncedRef.ts';
 
 export function useResizeWatcher<T extends HTMLElement>(
-  refEl: Ref<T | null>,
+  refEl: ShallowRef<T | null>,
   delay?: number,
 ) {
   const resolution = useDebouncedRef<[width: number, height: number]>(
-    [0, 0],
+    [-1, -1],
     delay,
   );
 

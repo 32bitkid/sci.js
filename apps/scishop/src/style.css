@@ -49,19 +49,20 @@
 }
 
 #app {
-  outline: 1px solid orange;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
 
   display: grid;
-  grid-template-rows: 3rem 1rem calc(100vh - 5rem) 1rem;
-  grid-template-columns: 1rem 3rem 1fr minmax(12rem, 15cqw) 1rem;
+  grid-template-rows: 3rem 1rem calc(100vh - 6.5rem) 1rem 1.5rem;
+  grid-template-columns: 1rem 3rem 1fr minmax(13rem, 15cqw);
   overflow: hidden;
 
   grid-template-areas:
-      "header header header header header"
-      ". . . . ."
-      ". toolbar . sidebar .";
+      "header header  header header"
+      ".      .       .      sidebar"
+      ".      toolbar .      sidebar"
+      ".      .       .      sidebar"
+      "status status  status status";
 }
