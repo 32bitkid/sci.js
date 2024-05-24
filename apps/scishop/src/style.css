@@ -42,7 +42,7 @@
 
   --clr-surface--default: #f5f5f5;
   --clr-surface--shade: color-mix(in srgb, var(--clr-ink), var(--clr-surface--default) 85%);
-  --clr-surface--dark: color-mix(in srgb, var(--clr-ink), var(--clr-surface--default) 70%);
+  --clr-surface--glass: #2f2f2f;
 
   --radius: 0.25rlh;
   --shadow: 0 0.5rlh 0.5rlh rgba(0 0 0 / 20%);
