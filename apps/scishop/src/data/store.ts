@@ -1,15 +1,10 @@
-import { computed, ref, shallowRef, unref } from 'vue';
-import {
-  compose,
-  Matrix,
-  rotate,
-  scale,
-  translate,
-} from 'transformation-matrix';
+import { ref, shallowRef, unref } from 'vue';
+import { identity, Matrix } from 'transformation-matrix';
 
 import { DrawCommand } from '@4bitlabs/sci0';
 
 export type Tool =
+  | 'select'
   | 'pan'
   | 'line'
   | 'bezier'
@@ -19,17 +14,13 @@ export type Tool =
   | 'fill';
 
 const selectedToolRef = ref<Tool>('pan');
-const cmdIdxRef = ref<number>(0);
+const selectedCommandIdx = ref<number | null>(null);
 const cmdsRef = shallowRef<DrawCommand[]>([]);
-const canvasResRef = ref<[number, number]>([320, 190]);
-const viewMatrixRef = ref<Matrix>(
-  compose(
-    rotate(-0 * (Math.PI / 180)),
-    scale(3.0, 3.0),
-    scale(1, 6 / 5),
-    translate(-35, 0),
-  ),
-);
+const topIdxRef = ref<number>(data.length - 1);
+const canvasSizeRef = ref<[number, number]>([320, 190]);
+const aspectRatioRef = ref<number>(6 / 5);
+
+const viewMatrixRef = shallowRef<Matrix>(identity());
 
 export default {
   get selectedTool() {
@@ -39,7 +30,7 @@ export default {
     selectedToolRef.value = next;
   },
   get canvasRes() {
-    return canvasResRef;
+    return canvasSizeRef;
   },
   get viewMatrix() {
     return viewMatrixRef;
@@ -48,12 +39,18 @@ export default {
     return cmdsRef;
   },
   get cmdIdx() {
-    return unref(cmdIdxRef);
+    return unref(selectedCommandIdx);
   },
-  set cmdIdx(idx: number) {
-    cmdIdxRef.value = Math.min(Math.max(0, idx), cmdsRef.value.length);
+  get topIdx() {
+    return unref(topIdxRef);
   },
-  selectedCmd: computed(
-    () => unref(cmdsRef)[unref(cmdsRef).length - unref(cmdIdxRef) - 1],
-  ),
+  set topIdx(n: number) {
+    topIdxRef.value = n;
+  },
+  get aspectRatio() {
+    return unref(aspectRatioRef);
+  },
+  set aspectRatio(value: number) {
+    aspectRatioRef.value = value;
+  },
 };

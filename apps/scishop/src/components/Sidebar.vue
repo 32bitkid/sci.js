@@ -1,29 +1,35 @@
 <script setup lang="ts">
 import LayerNavigator from './LayerNavigator.vue';
+import PaletteNavigator from './PaletteNavigator.vue';
 </script>
 
 <template>
-  <div :class="$style.panel">
-    <LayerNavigator />
+  <div :class="$style.sidebar">
+    <PaletteNavigator :class="$style.panel" />
+    <LayerNavigator :class="$style.panel" />
   </div>
 </template>
 
 <style module>
-.panel {
-  font-size: 0.9rem;
-  background-color: var(--clr-surface--default);
-  color: var(--clr-ink);
+.sidebar {
   grid-area: sidebar;
-  border-radius: var(--radius);
-  align-self: start;
-  padding: 0;
-  box-shadow: var(--shadow);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  color: var(--clr-ink);
+  background-color: #666;
+  gap: 3px;
+}
 
-  display: flex;
-  flex-direction: column;
+.panel {
+  background-color: var(--clr-surface--default);
+  border-top-left-radius: 0.5ch;
+  border-bottom-left-radius: 0.5ch;
+}
 
-  max-height: 100%;
-  box-sizing: border-box;
-  overflow: clip;
+.panel:first-child {
+  border-top-left-radius: 0;
+}
+.panel:last-child {
+  border-bottom-left-radius: 0;
 }
 </style>
