@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import { getPals } from '../helpers/getPals.ts';
+import { computed, unref } from 'vue';
+import { mapToPals } from '../helpers/getPals.ts';
 import store from '../data/store';
 import DrawCommandItem from './DrawCommandItem.vue';
 import PolyLineCommandItem from './PolyLineCommandItem.vue';
 
-const stack = computed(() => [...store.cmds.value].reverse());
+const stack = computed(() => Array.from(unref(store.cmds).entries()).reverse());
+const stackPalettes = computed(() => mapToPals(unref(store.cmds)));
 
 const itemType = {
   SET_PALETTE: DrawCommandItem,
@@ -18,76 +19,95 @@ const itemType = {
 </script>
 
 <template>
-  <h2 :class="$style.head">Layer</h2>
   <ol :class="$style.list">
-    <li :class="[$style.item, $style.header]">
+    <li :class="$style.head">
+      <div>Layer</div>
       <div>Tool</div>
       <div>V</div>
       <div>P</div>
       <div>C</div>
     </li>
     <component
-      v-for="(item, idx) in stack"
+      v-for="[idx, item] in stack"
       :is="itemType[item[0]]"
       :command="item"
-      :pals="getPals(stack.slice(idx))"
+      :pals="stackPalettes[idx]"
       :class="[
         $style.item,
         idx === store.cmdIdx && $style.current,
-        idx < store.cmdIdx && $style.hidden,
+        idx > store.topIdx && $style.hidden,
+        idx === store.topIdx && $style.top,
       ]"
-      @click="store.cmdIdx = idx"
+      @dblclick="store.topIdx = idx"
     />
   </ol>
 </template>
 
 <style module>
-.head {
-  font-weight: bold;
-  padding-inline-start: 0.5ch;
-  padding-block-end: 0.5ch;
-  margin-top: 0.5lh;
-}
-
 .list {
-  font: normal normal 0.75em monospace;
   box-sizing: border-box;
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: var(--clr-ink-A50) transparent;
-  scrollbar-gutter: stable;
-  border: 1px inset var(--clr-ink-A10);
   display: grid;
   flex-direction: column;
-  grid-template-columns: 1fr 1.5rem 1rem 1rem 1px;
+  grid-template-columns: 1fr 1.4rem 1rem 1rem 1px;
   column-gap: 0.5ch;
+  flex-shrink: 1;
+
+  overflow-x: clip;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
 }
 
-.header:first-child {
-  z-index: 1;
+.head {
+  display: grid;
+  grid-template-columns: subgrid;
   position: sticky;
   top: 0;
-  background-color: white;
-  font-size: 0.9em;
+  background-color: var(--clr-surface--default);
+  grid-column: 1 / -1;
   box-shadow: 0 0.125em 0.5em rgba(0 0 0 / 10%);
+  z-index: 1;
+}
+
+.head :nth-child(1) {
+  font-size: 0.85rem;
   font-weight: bold;
-  & > div:nth-child(n + 2) {
-    text-align: center;
-  }
+  padding-inline-start: 0.5ch;
+  padding-block: 0.5lh 0.5ch;
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--clr-ink-A10);
+}
+
+.head :nth-child(n + 2) {
+  padding-block: 0.5lh;
+  padding-inline-start: 0.5ch;
+  font: normal normal 0.75em monospace;
+  font-weight: bold;
+}
+
+.head :nth-child(n + 3) {
+  text-align: center;
 }
 
 .item {
+  font: normal normal 0.75em monospace;
   display: grid;
   grid-column: 1 / -1;
   grid-template-columns: subgrid;
-  padding-block: 0.5lh;
+  padding-block: calc(0.5lh + 1px) 0.5lh;
   padding-inline-start: 0.5ch;
   border-top: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+  cursor: pointer;
+  user-select: none;
+
   &:first-child {
     border-top: 0;
   }
-  cursor: pointer;
+}
+
+.top {
+  padding-block: calc(0.5lh) 0.5lh;
+  border-top: 2px dashed var(--clr-ink-A30);
 }
 
 .current {
@@ -96,5 +116,10 @@ const itemType = {
 
 .hidden {
   opacity: 0.25;
+}
+.sep {
+  background-color: black;
+  height: 2px;
+  grid-column: 1/-1;
 }
 </style>
