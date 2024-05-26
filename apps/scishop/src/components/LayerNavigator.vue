@@ -2,19 +2,21 @@
 import { computed } from 'vue';
 import { mapToPals } from '../helpers/getPals';
 import store from '../data/picStore';
-import DrawCommandItem from './DrawCommandItem.vue';
-import PolyLineCommandItem from './PolyLineCommandItem.vue';
+import GenericCommandItem from './command-items/GenericCommandItem.vue';
+import PolyLineCommandItem from './command-items/PolyLineCommandItem.vue';
+import FillCommandItem from './command-items/FillCommandItem.vue';
+import BrushCommandItem from './command-items/BrushCommandItem.vue';
 
 const stack = computed(() => Array.from(store.layers.entries()).reverse());
 const stackPalettes = computed(() => mapToPals(store.layers));
 
 const itemType = {
-  SET_PALETTE: DrawCommandItem,
-  UPDATE_PALETTE: DrawCommandItem,
-  BRUSH: PolyLineCommandItem,
-  FILL: PolyLineCommandItem,
+  SET_PALETTE: GenericCommandItem,
+  UPDATE_PALETTE: GenericCommandItem,
+  BRUSH: BrushCommandItem,
+  FILL: FillCommandItem,
   PLINE: PolyLineCommandItem,
-  CEL: DrawCommandItem,
+  CEL: GenericCommandItem,
 };
 </script>
 
@@ -28,10 +30,10 @@ const itemType = {
       <div>C</div>
     </li>
     <component
-      v-for="[idx, item] in stack"
-      :key="JSON.stringify(item)"
-      :is="itemType[item[0]]"
-      :command="item"
+      v-for="[idx, { id, type, commands }] in stack"
+      :key="id"
+      :is="itemType[type] ?? GenericCommandItem"
+      :command="commands[0]"
       :pals="stackPalettes[idx]"
       :class="[
         $style.item,

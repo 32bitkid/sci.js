@@ -23,7 +23,7 @@ const uiRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef, 100);
 
 const viewStack = computed(() => [
-  ...store.layers.slice(0, store.topIdx + 1),
+  ...store.layers.slice(0, store.topIdx + 1).flatMap((it) => it.commands),
   ...currentCommandStore.commands,
 ]);
 
