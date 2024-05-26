@@ -1,4 +1,5 @@
 import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
+import { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -13,21 +14,28 @@ import { get2dContext } from '../helpers/getContext';
 import viewStore from '../data/viewStore.ts';
 
 const oversampleRef = computed<[number, number]>(() => {
-  const samples = Math.min(Math.max(1, Math.ceil(viewStore.zoom)), 5);
+  if (viewStore.zoom > 12) return [1, 1];
+  const samples = Math.min(Math.max(1, Math.round(viewStore.zoom)), 5);
+
   return [samples, samples];
 });
 
-export function useCanvasRenderer(
+export function useRenderedPixels(
   picDataRef: Ref<DrawCommand[]>,
   resRef: Ref<[number, number]>,
-): Ref<OffscreenCanvas> {
-  const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
-
-  const renderedRef = computed(() => {
+) {
+  return computed(() => {
     const picData = unref(picDataRef);
     const [width, height] = unref(resRef);
     return renderPic(picData, { width, height });
   });
+}
+
+export function useCanvasRenderer(
+  renderedRef: Ref<RenderResult>,
+  resRef: Ref<[number, number]>,
+): Ref<OffscreenCanvas> {
+  const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
 
   watch(
     [renderedRef, resRef, oversampleRef],

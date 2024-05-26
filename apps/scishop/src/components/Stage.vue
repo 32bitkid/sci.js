@@ -7,7 +7,10 @@ import {
   applyToPoints,
 } from 'transformation-matrix';
 import { useResizeWatcher } from '../composables/useResizeWatcher';
-import { useCanvasRenderer } from '../composables/useCanvasRenderer';
+import {
+  useCanvasRenderer,
+  useRenderedPixels,
+} from '../composables/useCanvasRenderer';
 import store, { currentCommandStore } from '../data/picStore';
 import stageStore from '../data/stageStore';
 import viewStore from '../data/viewStore';
@@ -21,9 +24,11 @@ const stageRes = useResizeWatcher(stageRef, 100);
 
 const viewStack = computed(() => [
   ...store.layers.slice(0, store.topIdx + 1),
-  ...(currentCommandStore.current ? [currentCommandStore.current] : []),
+  ...currentCommandStore.commands,
 ]);
-const pixels = useCanvasRenderer(viewStack, stageStore.canvasRes);
+
+const renderResult = useRenderedPixels(viewStack, stageStore.canvasRes);
+const pixels = useCanvasRenderer(renderResult, stageStore.canvasRes);
 
 const matrixRef = computed(() => {
   const [sWidth, sHeight] = unref(stageRes);
@@ -36,7 +41,7 @@ const matrixRef = computed(() => {
   );
 });
 
-const smootherizeRef = computed(() => viewStore.zoom < 15);
+const smootherizeRef = computed(() => viewStore.zoom < 12);
 
 watch(
   [stageRef, stageRes, pixels, stageStore.canvasRes, matrixRef, smootherizeRef],
@@ -67,6 +72,7 @@ watch(
     ctx.shadowColor = `rgba(0 0 0 / 25%)`;
     ctx.shadowBlur = 25;
     ctx.shadowOffsetY = 10;
+    ctx.shadowOffsetX = 10;
     ctx.fillStyle = `black`;
     ctx.fill();
     ctx.restore();
