@@ -33,6 +33,10 @@ export const currentCommandStore = {
   set current(cmd: DrawCommand | null) {
     currentCommandRef.value = cmd;
   },
+  get commands() {
+    const cmd = unref(currentCommandRef);
+    return cmd ? [cmd] : [];
+  },
   commit() {
     const cmd = unref(currentCommandRef);
     if (cmd === null) return;
