@@ -5,8 +5,8 @@ import LayerNavigator from './LayerNavigator.vue';
 
 <template>
   <div :class="$style.sidebar">
-    <!--    <PalettePicker :class="$style.panel" />-->
-    <LayerNavigator :class="$style.panel" />
+    <!--    <PalettePicker />-->
+    <LayerNavigator />
   </div>
 </template>
 
@@ -19,8 +19,5 @@ import LayerNavigator from './LayerNavigator.vue';
   background-color: var(--clr-surface--default);
   gap: 3px;
   border-left: 3px solid var(--clr-surface--default);
-}
-
-.panel {
 }
 </style>

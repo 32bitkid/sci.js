@@ -1,6 +1,7 @@
 import { ref, shallowRef, unref } from 'vue';
 
 import { DrawCommand } from '@4bitlabs/sci0';
+import { insert } from '../helpers/array-helpers.ts';
 
 const data: DrawCommand[] = [];
 
@@ -20,5 +21,26 @@ export default {
   },
   set topIdx(n: number) {
     topIdxRef.value = n;
+  },
+};
+
+const currentCommandRef = shallowRef<DrawCommand | null>(null);
+
+export const currentCommandStore = {
+  get current() {
+    return unref(currentCommandRef);
+  },
+  set current(cmd: DrawCommand | null) {
+    currentCommandRef.value = cmd;
+  },
+  commit() {
+    const cmd = unref(currentCommandRef);
+    if (cmd === null) return;
+    currentCommandRef.value = null;
+    layersRef.value = insert(layersRef.value, unref(topIdxRef) + 1, cmd);
+    topIdxRef.value += 1;
+  },
+  abort() {
+    currentCommandRef.value = null;
   },
 };

@@ -114,6 +114,7 @@ import store from '../data/toolbarStore';
   background-clip: padding-box;
   letter-spacing: -0.03ex;
   transition: box-shadow 500ms;
+  z-index: 1;
 
   &:first-child {
     border-top-left-radius: var(--radius);
@@ -130,7 +131,7 @@ import store from '../data/toolbarStore';
     color: var(--clr-surface--default);
     font-weight: 700;
     box-shadow: 0 0 4rem -0.25rem var(--clr-primary-A90);
-    z-index: 1;
+    z-index: 2;
   }
 }
 
