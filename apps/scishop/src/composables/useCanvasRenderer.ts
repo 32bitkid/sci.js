@@ -1,4 +1,4 @@
-import { Ref, watch, ref, unref, shallowRef, triggerRef, computed } from 'vue';
+import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
@@ -10,8 +10,12 @@ import {
 } from '@4bitlabs/color';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
 import { get2dContext } from '../helpers/getContext';
+import viewStore from '../data/viewStore.ts';
 
-const oversampleRef = ref<[number, number]>([5, 5]);
+const oversampleRef = computed<[number, number]>(() => {
+  const samples = Math.min(Math.max(1, Math.ceil(viewStore.zoom)), 5);
+  return [samples, samples];
+});
 
 export function useCanvasRenderer(
   picDataRef: Ref<DrawCommand[]>,

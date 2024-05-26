@@ -29,6 +29,7 @@ const itemType = {
     </li>
     <component
       v-for="[idx, item] in stack"
+      :key="JSON.stringify(item)"
       :is="itemType[item[0]]"
       :command="item"
       :pals="stackPalettes[idx]"
