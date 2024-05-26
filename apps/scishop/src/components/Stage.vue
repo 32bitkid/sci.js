@@ -1,35 +1,46 @@
 <script setup lang="ts">
 import { watch, computed, unref, shallowRef } from 'vue';
-import { translate, compose, scale } from 'transformation-matrix';
+import {
+  translate,
+  compose,
+  scale,
+  applyToPoints,
+} from 'transformation-matrix';
 import { useResizeWatcher } from '../composables/useResizeWatcher';
 import { useCanvasRenderer } from '../composables/useCanvasRenderer';
-import store from '../data/picStore';
+import store, { currentCommandStore } from '../data/picStore';
 import stageStore from '../data/stageStore';
 import viewStore from '../data/viewStore';
 import { get2dContext } from '../helpers/getContext';
 import { useInputMachine } from '../composables/useInputMachine';
+import { pathPoly } from '../helpers/polygons.ts';
 
 const stageRef = shallowRef<HTMLCanvasElement | null>(null);
+const uiRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef, 100);
 
-const viewStack = computed(() => store.layers.slice(0, store.topIdx + 1));
+const viewStack = computed(() => [
+  ...store.layers.slice(0, store.topIdx + 1),
+  ...(currentCommandStore.current ? [currentCommandStore.current] : []),
+]);
 const pixels = useCanvasRenderer(viewStack, stageStore.canvasRes);
 
 const matrixRef = computed(() => {
   const [sWidth, sHeight] = unref(stageRes);
   const [cWidth, cHeight] = unref(stageStore.canvasRes);
-  const viewMatrix = unref(viewStore.viewMatrix);
   return compose(
     translate(Math.round(sWidth / 2), Math.round(sHeight / 2)),
-    viewMatrix,
+    viewStore.viewMatrix,
     scale(1, unref(stageStore.aspectRatio)),
     translate(cWidth * -0.5, cHeight * -0.5),
   );
 });
 
+const smootherizeRef = computed(() => viewStore.zoom < 15);
+
 watch(
-  [stageRef, stageRes, pixels, stageStore.canvasRes, matrixRef],
-  ([stage, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix]) => {
+  [stageRef, stageRes, pixels, stageStore.canvasRes, matrixRef, smootherizeRef],
+  ([stage, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix, smooth]) => {
     if (!stage || sWidth < 0 || sHeight < 0) return;
     if (stage.width !== sWidth || stage.height !== sHeight) {
       stage.width = sWidth;
@@ -39,16 +50,28 @@ watch(
     const ctx = get2dContext(stage);
 
     ctx.resetTransform();
-    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingEnabled = smooth;
     ctx.imageSmoothingQuality = 'high';
     ctx.clearRect(0, 0, sWidth, sHeight);
 
-    ctx.setTransform(matrix);
-
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(0 0 0 / 30%)`;
-    ctx.roundRect(-2, -2, cWidth + 4, cHeight + 4, 1);
+    ctx.save();
+    pathPoly(
+      ctx,
+      applyToPoints(matrix, [
+        [-1.5, -1.5],
+        [cWidth + 1.5, -1.5],
+        [cWidth + 1.5, cHeight + 1.5],
+        [-1.5, cHeight + 1.5],
+      ]),
+    );
+    ctx.shadowColor = `rgba(0 0 0 / 25%)`;
+    ctx.shadowBlur = 25;
+    ctx.shadowOffsetY = 10;
+    ctx.fillStyle = `black`;
     ctx.fill();
+    ctx.restore();
+
+    ctx.setTransform(matrix);
 
     ctx.beginPath();
     ctx.fillStyle = `rgba(255 255 255 / 1.0)`;
@@ -60,19 +83,27 @@ watch(
   },
 );
 
-useInputMachine(matrixRef, stageRef);
+useInputMachine(matrixRef, uiRef, stageRes, stageStore.canvasRes);
 </script>
 
 <template>
-  <canvas :class="$style.stage" ref="stageRef"></canvas>
+  <canvas :class="[$style.canvas, $style.stage]" ref="stageRef"></canvas>
+  <canvas :class="[$style.canvas, $style.ui]" ref="uiRef"></canvas>
 </template>
 
 <style module>
-.stage {
-  background-color: #666;
+.canvas {
   grid-column: 1 / -2;
   grid-row: 2 / -2;
   width: 100%;
   height: 100%;
+}
+
+.stage {
+  background-color: #666;
+}
+
+.ui {
+  mix-blend-mode: exclusion;
 }
 </style>
