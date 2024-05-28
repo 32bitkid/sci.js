@@ -12,13 +12,11 @@ type PaletteSet = [number[], number[], number[], number[]];
 
 export const mapToPals = (commands: EditorCommand[]) => {
   return commands.reduce<PaletteSet[]>(
-    (stack: PaletteSet[], editorCmd: EditorCommand) => {
-      const prevSet = stack[stack.length - 1] ?? [
-        DEFAULT_PALETTE,
-        DEFAULT_PALETTE,
-        DEFAULT_PALETTE,
-        DEFAULT_PALETTE,
-      ];
+    (stack: PaletteSet[], editorCmd: EditorCommand, stackIdx: number) => {
+      const prevSet: PaletteSet =
+        stackIdx === 0
+          ? [DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE]
+          : stack[stack.length - 1];
 
       const { type } = editorCmd;
       switch (type) {
@@ -30,10 +28,10 @@ export const mapToPals = (commands: EditorCommand[]) => {
         }
         case 'UPDATE_PALETTE': {
           const [, entries] = editorCmd.commands[0];
-          const next = entries.reduce((pals, [palIdx, idx, color]) => {
+          const next = entries.reduce((pals, [palIdx, clrIdx, color]) => {
             const nextSet: PaletteSet = [...prevSet];
             const nextPal = [...nextSet[palIdx]];
-            nextPal[idx] = color;
+            nextPal[clrIdx] = color;
             nextSet[palIdx] = nextPal;
             return pals;
           }, prevSet);

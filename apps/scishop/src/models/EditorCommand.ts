@@ -12,14 +12,14 @@ export type BasicEditorCommand<T extends DrawCommand> = {
   readonly id: symbol | number | string;
   readonly type: T[0];
   readonly name?: string;
-  readonly commands: readonly [T];
+  readonly commands: [T];
 };
 
 export type CompositeEditorCommand<T extends string> = {
   readonly id: symbol | number | string;
   readonly type: T;
   readonly name?: string;
-  readonly commands: readonly (PolylineCommand | FillCommand | BrushCommand)[];
+  readonly commands: (PolylineCommand | FillCommand | BrushCommand)[];
 };
 
 export type GroupEditorCommand = CompositeEditorCommand<'group'>;
