@@ -34,6 +34,7 @@
     "libs/resize-filters",
     "libs/sci0",
     "libs/sci0-streams",
+    "libs/vec2",
     "libs/crt-lite",
     "apps/scibud"
   ],

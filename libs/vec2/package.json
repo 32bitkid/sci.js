@@ -1,0 +1,29 @@
+{
+  "name": "@4bitlabs/vec2",
+  "version": "0.0.0",
+  "description": "A simple collection of functions for working with two-component vectors.",
+  "keywords": [
+    "vector", "2d", "vec", "geometry"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/vec2#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/32bitkid/sci.js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "clean": "tsc --build --clean",
+    "clean:wipe": "rimraf ./dist",
+    "build": "tsc --build",
+    "test": "jest src/"
+  },
+  "author": "J. Holmes <j@holmes.codes>",
+  "license": "ISC"
+}
