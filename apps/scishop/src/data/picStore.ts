@@ -12,7 +12,7 @@ const wrapRawCommand = (cmd: DrawCommand): EditorCommand =>
 const refData: DrawCommand[] = [];
 
 const data: EditorCommand[] = refData.map(wrapRawCommand);
-const layersRef = shallowRef<EditorCommand[]>(data);
+export const layersRef = shallowRef<EditorCommand[]>(data);
 const selectedCommandIdx = ref<number | null>(null);
 const topIdxRef = ref<number>(data.length);
 
