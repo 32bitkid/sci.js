@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 body {
   line-height: 1;
 }
-ol, ul {
+ol, ul, menu {
   list-style: none;
 }
 blockquote, q {
@@ -41,6 +41,7 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
 button {
   font: inherit;
   text-rendering: inherit;
@@ -56,4 +57,5 @@ button {
   text-indent: inherit;
   text-shadow: inherit;
   text-align: inherit;
+  cursor: pointer;
 }

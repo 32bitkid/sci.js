@@ -1,17 +1,13 @@
-import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
+import { Ref, ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
 import { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
-import {
-  generateSciDitherPairs,
-  IBM5153Contrast,
-  Mixers,
-  Palettes,
-} from '@4bitlabs/color';
+import { generateSciDitherPairs, Mixers } from '@4bitlabs/color';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
 import { get2dContext } from '../helpers/getContext';
 import viewStore from '../data/viewStore.ts';
+import { screenPalette as screenPaletteRef } from '../data/paletteStore.ts';
 
 const oversampleRef = computed<[number, number]>(() => {
   if (viewStore.zoom > 12) return [1, 1];
@@ -31,15 +27,17 @@ export function useRenderedPixels(
   });
 }
 
+const soft = ref<boolean>(true);
+(window as unknown as any)['soft'] = soft;
+
 export function useCanvasRenderer(
   renderedRef: Ref<RenderResult>,
   resRef: Ref<[number, number]>,
 ): Ref<OffscreenCanvas> {
   const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
-
   watch(
-    [renderedRef, resRef, oversampleRef],
-    ([pic, [width, height], oversample]) => {
+    [renderedRef, resRef, oversampleRef, screenPaletteRef, soft],
+    ([pic, [width, height], oversample, palette, softOn]) => {
       const canvas = unref(canvasRef);
       canvas.width = width * oversample[0];
       canvas.height = height * oversample[1];
@@ -47,8 +45,8 @@ export function useCanvasRenderer(
       const imgData = renderPixelData(pic.visible, {
         dither: createDitherFilter(
           generateSciDitherPairs(
-            IBM5153Contrast(Palettes.TRUE_CGA_PALETTE, 0.4),
-            Mixers.softMixer(),
+            palette,
+            softOn ? Mixers.softMixer() : ([a, b]) => [a, b],
           ),
           [1, 1],
         ),

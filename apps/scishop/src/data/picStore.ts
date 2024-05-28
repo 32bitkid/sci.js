@@ -1,4 +1,4 @@
-import { computed, ref, shallowRef, unref } from 'vue';
+import { ref, shallowRef, unref } from 'vue';
 
 import { DrawCommand } from '@4bitlabs/sci0';
 import { insert } from '../helpers/array-helpers.ts';
@@ -6,24 +6,25 @@ import { EditorCommand } from '../models/EditorCommand.ts';
 
 const nextId = () => Math.random().toString(36).substring(2);
 
-const data: EditorCommand[] = [];
+const wrapRawCommand = (cmd: DrawCommand): EditorCommand =>
+  ({ id: nextId(), type: cmd[0], commands: [cmd] }) as EditorCommand;
 
+const refData: DrawCommand[] = [];
+
+const data: EditorCommand[] = refData.map(wrapRawCommand);
 const layersRef = shallowRef<EditorCommand[]>(data);
-const commandsRef = computed(() =>
-  unref(layersRef).flatMap((it) => it.commands),
-);
 const selectedCommandIdx = ref<number | null>(null);
-const topIdxRef = ref<number>(data.length - 1);
+const topIdxRef = ref<number>(data.length);
 
 export default {
   get layers() {
     return unref(layersRef);
   },
-  get commands() {
-    return unref(commandsRef);
-  },
-  get cmdIdx() {
+  get selection() {
     return unref(selectedCommandIdx);
+  },
+  set selection(it: number | null) {
+    selectedCommandIdx.value = it;
   },
   get topIdx() {
     return unref(topIdxRef);
@@ -33,29 +34,25 @@ export default {
   },
 };
 
-const currentCommandRef = shallowRef<DrawCommand | null>(null);
+const currentCommandRef = shallowRef<EditorCommand | null>(null);
 
 export const currentCommandStore = {
   get current() {
     return unref(currentCommandRef);
   },
-  set current(cmd: DrawCommand | null) {
-    currentCommandRef.value = cmd;
-  },
   get commands() {
     const cmd = unref(currentCommandRef);
-    return cmd ? [cmd] : [];
+    return cmd ? [...cmd.commands] : [];
   },
-  commit() {
-    const cmd = unref(currentCommandRef);
-    if (cmd === null) return;
+  begin(cmd: EditorCommand) {
+    currentCommandRef.value = cmd;
+  },
+  commit(cmd: EditorCommand): number {
     currentCommandRef.value = null;
-    layersRef.value = insert(layersRef.value, unref(topIdxRef) + 1, {
-      id: nextId(),
-      type: cmd[0],
-      commands: [cmd],
-    });
+    const insertPosition = unref(topIdxRef);
+    layersRef.value = insert(layersRef.value, insertPosition, cmd);
     topIdxRef.value += 1;
+    return insertPosition;
   },
   abort() {
     currentCommandRef.value = null;

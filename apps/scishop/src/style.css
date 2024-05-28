@@ -41,11 +41,22 @@
 
 
   --clr-surface--default: #f5f5f5;
-  --clr-surface--shade: color-mix(in srgb, var(--clr-ink), var(--clr-surface--default) 85%);
   --clr-surface--glass: #2f2f2f;
+  --clr-surface: var(--clr-surface--default);
+  --clr-surface-800: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 80%);
+  --clr-surface-500: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 50%);
+  --clr-surface-200: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 20%);
 
   --radius: 0.25rlh;
   --shadow: 0 0.5rlh 0.5rlh rgba(0 0 0 / 20%);
+
+  --transparent-img: repeating-linear-gradient(
+      -45deg,
+      rgba(0 0 0 / 5%) 0px,
+      rgba(0 0 0 / 5%) 4px,
+      rgba(0 0 0 / 0%) 4px,
+      rgba(0 0 0 / 0%) 8px
+  );
 }
 
 #app {
@@ -56,7 +67,7 @@
 
   display: grid;
   grid-template-rows: 3rem 1rem calc(100vh - 6.5rem) 1rem 1.5rem;
-  grid-template-columns: 1rem 3rem 1fr minmax(13rem, 15cqw);
+  grid-template-columns: 1rem 3rem 1fr 19rem;
   overflow: hidden;
 
   grid-template-areas:

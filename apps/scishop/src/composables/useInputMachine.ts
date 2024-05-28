@@ -7,6 +7,7 @@ import {
   unref,
   watch,
   watchEffect,
+  onUnmounted,
 } from 'vue';
 import {
   applyToPoint,
@@ -22,16 +23,18 @@ import {
 import toolbarStore from '../data/toolbarStore';
 import viewStore from '../data/viewStore';
 import { get2dContext } from '../helpers/getContext.ts';
-import {
-  isInsideBounds,
-  pixel,
-  areaOfPolygon,
-  pathPoly,
-} from '../helpers/polygons.ts';
-import * as SmoothStep from '../helpers/smoothstep';
+import { isInsideBounds, pixel } from '../helpers/polygons.ts';
 import { useRafRef } from './useRafRef.ts';
-import { currentCommandStore as cmdStore } from '../data/picStore.ts';
+import picStore, {
+  currentCommandStore,
+  currentCommandStore as cmdStore,
+} from '../data/picStore.ts';
 import { intVec2 } from '../helpers/vec2-helpers.ts';
+import { drawState } from '../data/paletteStore.ts';
+import { pixelBorder } from '../render/pixel-border.ts';
+import { fillSkeleton } from '../render/fill-skeleton.ts';
+import { plineSkeleton } from '../render/pline-skeleton.ts';
+import { cursorDot } from '../render/cursor-dot.ts';
 
 const clampZoom = (current: number, next: number, min: number, max: number) => {
   if (current * next < min) return min / current;
@@ -43,31 +46,55 @@ type CSSCursor = string;
 
 export function useInputMachine(
   matrixRef: Ref<Matrix>,
-  stageRef: Ref<HTMLCanvasElement | null>,
+  canvasRef: Ref<HTMLCanvasElement | null>,
   stageResRef: Ref<[number, number]>,
   canvasResRef: Ref<[number, number]>,
 ) {
   const iMatrixRef = computed(() => inverse(unref(matrixRef)));
   const dragStateRef = shallowRef<[Matrix, number, number] | null>(null);
   const currentCursorRef = ref<CSSCursor>('auto');
-  const cursorPositionRef = useRafRef<[number, number]>([0, 0]);
 
-  const projected = computed<readonly [number, number]>((prev) => {
+  const selectedLayerRef = computed(() => {
+    const current = unref(currentCommandStore.current);
+    if (current) return current;
+    const selIdx = unref(picStore.selection);
+    return selIdx !== null ? unref(picStore.layers)[selIdx] : null;
+  });
+
+  const cursorPositionRef = useRafRef<[number, number]>([0, 0]);
+  const canvasPositionRef = computed<[number, number]>(() => {
     const sPos = unref(cursorPositionRef);
-    const next = intVec2(applyToPoint(unref(iMatrixRef), sPos));
+    const iMatrix = unref(iMatrixRef);
+    return applyToPoint(iMatrix, sPos);
+  });
+  const canvasPixelRef = computed<[number, number]>((prev) => {
+    const next = intVec2(unref(canvasPositionRef));
     const isSame = prev && prev[0] === next[0] && prev[1] === next[1];
     return isSame ? prev : next;
   });
 
+  const isOverCanvasRef = computed<boolean>(() => {
+    const canvasPoint = unref(canvasPositionRef);
+    const [cWidth, cHeight] = unref(canvasResRef);
+    return isInsideBounds([cWidth, cHeight], canvasPoint);
+  });
+
+  const isCursorHiddenRef = computed<boolean>(() => {
+    const isTool = ['line', 'fill'].includes(toolbarStore.selectedTool);
+    const isOverCanvas = unref(isOverCanvasRef);
+    return isTool && isOverCanvas;
+  });
+
   watchEffect(() => {
-    const el = unref(stageRef);
+    const el = unref(canvasRef);
     if (!el) return;
-    el.style.cursor = currentCursorRef.value;
+    const hidden = unref(isCursorHiddenRef);
+    const currentCursor = unref(currentCursorRef);
+    el.style.cursor = hidden ? 'none' : currentCursor;
   });
 
   watch([cursorPositionRef, dragStateRef], ([[cX, cY], dragState]) => {
     if (!dragState) return;
-
     const [matrix, ix, iy] = dragState;
     const dx = ix - cX;
     const dy = iy - cY;
@@ -75,8 +102,14 @@ export function useInputMachine(
   });
 
   watch(
-    [stageRef, matrixRef, iMatrixRef, cursorPositionRef],
-    ([el, matrix, iMatrix, screenPoint]) => {
+    [
+      canvasRef,
+      matrixRef,
+      cursorPositionRef,
+      canvasPositionRef,
+      selectedLayerRef,
+    ],
+    ([el, matrix, screenPoint, canvasPoint, selectedLayer]) => {
       if (!el) return;
 
       const [sWidth, sHeight] = unref(stageResRef);
@@ -85,49 +118,57 @@ export function useInputMachine(
       const ctx = get2dContext(el);
       ctx.clearRect(0, 0, sWidth, sHeight);
 
-      if (toolbarStore.selectedTool === 'line') {
-        const canvasPoint = applyToPoint(iMatrix, screenPoint);
+      // Draw precision cursor
+      if (
+        toolbarStore.selectedTool === 'line' ||
+        toolbarStore.selectedTool === 'fill'
+      ) {
+        // const canvasPoint = applyToPoint(iMatrix, screenPoint);
 
         const [cWidth, cHeight] = unref(canvasResRef);
-
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'white';
         const overCanvas = isInsideBounds([cWidth, cHeight], canvasPoint);
-        currentCursorRef.value = overCanvas ? 'none' : 'auto';
-        if (overCanvas) {
-          const pixelBounds = applyToPoints(matrix, pixel(canvasPoint, 0.0125));
 
-          const area = areaOfPolygon(pixelBounds);
-          const alpha = SmoothStep.s1(1, 6 * 6, area);
+        if (overCanvas) {
           ctx.save();
-          pathPoly(ctx, pixelBounds);
-          ctx.setLineDash([1, 1]);
-          ctx.strokeStyle = `oklab(${(alpha * 100).toFixed(0)}% 0 0)`;
-          ctx.fillStyle = `oklab(${(alpha * 100 * 0.45).toFixed(0)}% 0 0)`;
-          ctx.fill();
-          ctx.stroke();
+          pixelBorder(ctx, applyToPoints(matrix, pixel(canvasPoint, 0.0125)));
           ctx.restore();
 
-          ctx.fillStyle = 'white';
-          ctx.beginPath();
-          ctx.arc(...screenPoint, 2, 0, Math.PI * 2);
-          ctx.fill();
+          ctx.save();
+          cursorDot(ctx, screenPoint);
+          ctx.restore();
         }
+      }
+
+      if (selectedLayer) {
+        ctx.save();
+        ctx.lineWidth = 1.5;
+        selectedLayer.commands.forEach((cmd) => {
+          const [type] = cmd;
+          ctx.strokeStyle = 'white';
+          if (type === 'PLINE') {
+            plineSkeleton(ctx, matrix, cmd);
+          } else if (type === 'FILL') {
+            fillSkeleton(ctx, matrix, cmd);
+          }
+        });
       }
     },
   );
 
-  watch([projected], ([pos]) => {
+  watch([canvasPixelRef], ([pos]) => {
     const current = cmdStore.current;
     if (current === null) return;
-    if (current[0] === 'PLINE') {
-      const [id, mode, code, ...coords] = current;
-      cmdStore.current = [id, mode, code, ...coords.slice(0, -1), pos];
+    if (current.type === 'PLINE') {
+      const [type, mode, code, ...coords] = current.commands[0];
+      cmdStore.begin({
+        ...current,
+        commands: [[type, mode, code, ...coords.slice(0, -1), pos]],
+      });
     }
   });
 
   watchEffect(() => {
-    const el = unref(stageRef);
+    const el = unref(canvasRef);
     if (!el) return;
 
     const stateState = unref(dragStateRef);
@@ -146,25 +187,39 @@ export function useInputMachine(
 
   const mouseHandlers = {
     click: (e: MouseEvent) => {
-      console.log(e.button);
-      if (toolbarStore.selectedTool === 'line') {
-        const [x, y] = applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]);
-        const pos: readonly [number, number] = [Math.floor(x), Math.floor(y)];
+      if (toolbarStore.selectedTool === 'fill') {
+        const pos = intVec2(
+          applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+        );
+        const [drawMode, ...drawCodes] = unref(drawState);
+        picStore.selection = cmdStore.commit({
+          id: Math.random().toString(36).substring(2),
+          type: 'FILL',
+          commands: [['FILL', drawMode, drawCodes, pos]],
+        });
+      } else if (toolbarStore.selectedTool === 'line') {
+        const pos = intVec2(
+          applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+        );
 
         const current = cmdStore.current;
+        const [drawMode, ...drawCodes] = unref(drawState);
         if (current === null) {
-          cmdStore.current = [
-            'PLINE',
-            1,
-            [Math.floor(Math.random() * 40), 0, 0],
-            pos,
-            pos,
-          ];
-        } else if (current[0] === 'PLINE') {
-          const [id, mode, code, ...coords] = current;
-          cmdStore.current = [id, mode, code, ...coords.slice(0, -1), pos, pos];
+          cmdStore.begin({
+            id: Math.random().toString(36).substring(2),
+            type: 'PLINE',
+            commands: [['PLINE', drawMode, drawCodes, pos, pos]],
+          });
+        } else if (current.type === 'PLINE') {
+          const [type, mode, code, ...coords] = current.commands[0];
+          cmdStore.begin({
+            ...current,
+            commands: [
+              [type, mode, code, ...coords.slice(0, -1), [...pos], [...pos]],
+            ],
+          });
         } else {
-          throw new Error(`can't append to existing command ${current[0]}`);
+          throw new Error(`can't append to existing command ${current.type}`);
         }
       }
     },
@@ -173,22 +228,23 @@ export function useInputMachine(
       if (toolbarStore.selectedTool === 'line') {
         e.preventDefault();
         const current = cmdStore.current;
-        if (current === null || current[0] !== 'PLINE') return;
+        if (current === null || current.type !== 'PLINE') return;
 
-        const [id, mode, code, ...coords] = current;
+        const [type, mode, code, ...coords] = current.commands[0];
         if (coords.length < 3) {
           cmdStore.abort();
         } else {
-          cmdStore.current = [id, mode, code, ...coords.slice(0, -1)];
-          cmdStore.commit();
+          picStore.selection = cmdStore.commit({
+            ...current,
+            commands: [[type, mode, code, ...coords.slice(0, -1)]],
+          });
         }
-
         return;
       }
     },
 
     wheel: (e: WheelEvent) => {
-      const stage = unref(stageRef);
+      const stage = unref(canvasRef);
       if (!stage) return;
       const [sWidth, sHeight] = unref(stageResRef);
       const [dx, dy] = [e.offsetX - sWidth / 2, e.offsetY - sHeight / 2];
@@ -228,14 +284,24 @@ export function useInputMachine(
   };
 
   onMounted(() => {
-    const el = unref(stageRef);
+    const el = unref(canvasRef);
     if (!el) return;
-
     el.addEventListener('click', mouseHandlers.click);
     el.addEventListener('contextmenu', mouseHandlers.contextMenu);
     el.addEventListener('wheel', mouseHandlers.wheel);
     el.addEventListener('pointerdown', pointerHandlers.down);
     el.addEventListener('pointermove', pointerHandlers.move);
     el.addEventListener('pointerup', pointerHandlers.up);
+  });
+
+  onUnmounted(() => {
+    const el = unref(canvasRef);
+    if (!el) return;
+    el.removeEventListener('pointerup', pointerHandlers.up);
+    el.removeEventListener('pointermove', pointerHandlers.move);
+    el.removeEventListener('pointerdown', pointerHandlers.down);
+    el.removeEventListener('wheel', mouseHandlers.wheel);
+    el.removeEventListener('contextmenu', mouseHandlers.contextMenu);
+    el.removeEventListener('click', mouseHandlers.click);
   });
 }

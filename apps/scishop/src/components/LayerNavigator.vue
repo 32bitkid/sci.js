@@ -1,22 +1,50 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { mapToPals } from '../helpers/getPals';
+import type { Component } from 'vue';
 import store from '../data/picStore';
 import GenericCommandItem from './command-items/GenericCommandItem.vue';
 import PolyLineCommandItem from './command-items/PolyLineCommandItem.vue';
 import FillCommandItem from './command-items/FillCommandItem.vue';
 import BrushCommandItem from './command-items/BrushCommandItem.vue';
+import SetPaletteCommand from './command-items/SetPaletteCommand.vue';
+import { paletteSetStack, drawState } from '../data/paletteStore.ts';
+import {
+  DrawCommand,
+  FillCommand,
+  PolylineCommand,
+  BrushCommand,
+} from '@4bitlabs/sci0';
 
 const stack = computed(() => Array.from(store.layers.entries()).reverse());
-const stackPalettes = computed(() => mapToPals(store.layers));
 
-const itemType = {
-  SET_PALETTE: GenericCommandItem,
-  UPDATE_PALETTE: GenericCommandItem,
-  BRUSH: BrushCommandItem,
-  FILL: FillCommandItem,
-  PLINE: PolyLineCommandItem,
-  CEL: GenericCommandItem,
+const component = new Map<string, Component>([
+  ['SET_PALETTE', SetPaletteCommand],
+  ['UPDATE_PALETTE', GenericCommandItem],
+  ['BRUSH', BrushCommandItem],
+  ['FILL', FillCommandItem],
+  ['PLINE', PolyLineCommandItem],
+  ['CEL', GenericCommandItem],
+  ['group', GenericCommandItem],
+]);
+
+function isHasDrawModes(
+  it: DrawCommand,
+): it is FillCommand | PolylineCommand | BrushCommand {
+  return it[0] === 'FILL' || it[0] === 'PLINE' || it[0] === 'BRUSH';
+}
+
+const handleClick = (e: MouseEvent, idx: number) => {
+  if (e.shiftKey) {
+    store.topIdx = idx + 1;
+  }
+
+  store.selection = store.selection !== idx ? idx : null;
+  const ecmd = store.layers[idx];
+  const lastCmd = ecmd.commands.findLast(isHasDrawModes);
+  if (lastCmd) {
+    const [, drawMode, drawCodes] = lastCmd;
+    drawState.value = [drawMode, ...drawCodes];
+  }
 };
 </script>
 
@@ -32,16 +60,16 @@ const itemType = {
     <component
       v-for="[idx, { id, type, commands }] in stack"
       :key="id"
-      :is="itemType[type] ?? GenericCommandItem"
+      :is="component.get(type) ?? GenericCommandItem"
       :command="commands[0]"
-      :pals="stackPalettes[idx]"
+      :pals="paletteSetStack[idx]"
       :class="[
         $style.item,
-        idx === store.cmdIdx && $style.current,
-        idx > store.topIdx && $style.hidden,
-        idx === store.topIdx && $style.top,
+        idx === store.selection && $style.current,
+        idx >= store.topIdx && $style.hidden,
+        idx === store.topIdx - 1 && $style.top,
       ]"
-      @dblclick="store.topIdx = idx"
+      @click="handleClick($event, idx)"
     />
   </menu>
 </template>
@@ -58,16 +86,9 @@ const itemType = {
   align-items: start;
   align-content: start;
   flex-grow: 1;
-  margin-bottom: 0.25lh;
   padding-bottom: 0.5lh;
   border-bottom-left-radius: 0.5lh;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(0 0 0 / 5%) 0px,
-    rgba(0 0 0 / 5%) 5px,
-    rgba(0 0 0 / 0%) 5px,
-    rgba(0 0 0 / 0%) 10px
-  );
+  background-image: var(--transparent-img);
 }
 
 .head {
@@ -87,7 +108,7 @@ const itemType = {
   padding-inline-start: 0.5ch;
   padding-block: 0.5lh 0.5ch;
   grid-column: 1 / -1;
-  border-bottom: 1px solid var(--clr-ink-A10);
+  border-bottom: 1px solid var(--clr-surface-200);
 }
 
 .head :nth-child(n + 2) {
@@ -120,7 +141,7 @@ const itemType = {
 
 .top {
   padding-block: 0.5lh;
-  border-top: 2px dashed var(--clr-primary-800);
+  border-top: 2px dashed var(--clr-primary-700);
 }
 
 .current {
