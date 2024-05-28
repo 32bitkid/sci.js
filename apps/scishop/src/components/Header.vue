@@ -21,7 +21,6 @@
   color: var(--clr-ink);
   grid-area: header;
   display: flex;
-  border-bottom: 1px solid var(--clr-surface-200);
   align-items: center;
   gap: 1ch;
   padding-inline: 1ch;
