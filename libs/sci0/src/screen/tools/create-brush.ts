@@ -1,12 +1,12 @@
 import { Brusher, Plotter } from '../screen';
-import { StaticVec2 } from '../../models/vec2';
+import { Vec2 } from '../../models/vec2';
 import { DrawCodes, DrawMode } from '../../models/draw-command';
 import { NOISE, NOISE_OFFSETS } from './noise';
 import CIRCLES from './circles';
 
 export const createBrush = (
   plot: Plotter,
-  [stageWidth, stageHeight]: StaticVec2,
+  [stageWidth, stageHeight]: Readonly<Vec2>,
 ): Brusher =>
   function brush(
     cx,

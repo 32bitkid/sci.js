@@ -6,10 +6,10 @@ import {
 } from '../../models/draw-command';
 import { Cel } from '../../models/cel';
 import { RawPlotter } from '../screen';
-import { StaticVec2 } from '../../models/vec2';
+import { Vec2 } from '../../models/vec2';
 
 export const createBlitter =
-  (plot: RawPlotter, [stageWidth, stageHeight]: StaticVec2) =>
+  (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>
   (x0: number, y0: number, drawMode: DrawMode, cel: Cel) => {
     if (isControlMode(drawMode) || isPriorityMode(drawMode))
       console.warn('unhandled CEL command on Control/Priority layer');

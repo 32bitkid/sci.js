@@ -1,5 +1,4 @@
 export type Vec2 = [number, number];
-export type StaticVec2 = readonly [number, number];
 
 export const vec2 = {
   create(): Vec2 {

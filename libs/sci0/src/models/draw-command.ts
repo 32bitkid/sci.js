@@ -1,5 +1,5 @@
 import { Cel } from './cel';
-import { StaticVec2 } from './vec2';
+import { Vec2 } from './vec2';
 
 export enum DrawMode {
   Visual = 0b001,
@@ -45,27 +45,27 @@ export type BrushCommand = readonly [
   drawCodes: DrawCodes,
   patternCode: PatternCode,
   textureCode: number,
-  pos: StaticVec2,
+  pos: Vec2,
 ];
 
 export type FillCommand = readonly [
   mode: 'FILL',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  pos: StaticVec2,
+  pos: Vec2,
 ];
 
 export type PolylineCommand = readonly [
   mode: 'PLINE',
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  ...points: StaticVec2[],
+  ...points: Vec2[],
 ];
 
 export type EmbeddedCelCommand = readonly [
   mode: 'CEL',
   drawMode: DrawMode,
-  pos: StaticVec2,
+  pos: Vec2,
   cel: Cel,
 ];
 

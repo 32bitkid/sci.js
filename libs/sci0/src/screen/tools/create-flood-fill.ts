@@ -1,12 +1,12 @@
 import { NumericDeque } from '@4bitlabs/numeric-deque';
 import { Filler, IsFillable, Plotter } from '../screen';
-import { StaticVec2 } from '../../models/vec2';
+import { Vec2 } from '../../models/vec2';
 import { DrawCodes, DrawMode } from '../../models/draw-command';
 
 export const createFloodFill = (
   plot: Plotter,
   isLegal: IsFillable,
-  [width, height]: StaticVec2,
+  [width, height]: Readonly<Vec2>,
 ): Filler => {
   const visited = new Uint8ClampedArray(width * height);
   const stack = new NumericDeque(width * height, Uint32Array);
