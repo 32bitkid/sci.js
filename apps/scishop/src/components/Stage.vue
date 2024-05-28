@@ -41,7 +41,7 @@ const matrixRef = computed(() => {
   );
 });
 
-const smootherizeRef = computed(() => viewStore.zoom < 12);
+const smootherizeRef = computed(() => viewStore.zoom < 8);
 
 watch(
   [stageRef, stageRes, pixels, stageStore.canvasRes, matrixRef, smootherizeRef],
@@ -56,7 +56,7 @@ watch(
 
     ctx.resetTransform();
     ctx.imageSmoothingEnabled = smooth;
-    ctx.imageSmoothingQuality = 'high';
+    ctx.imageSmoothingQuality = 'medium';
     ctx.clearRect(0, 0, sWidth, sHeight);
 
     ctx.save();

@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@4bitlabs/sci0": "^2.7.0",
-    "@4bitlabs/color": "^2.1.3",
+    "@4bitlabs/color": "^2.1.4",
     "@4bitlabs/color-space": "^1.2.2",
-    "@4bitlabs/image": "^3.3.8",
+    "@4bitlabs/image": "^3.3.9",
+    "@4bitlabs/vec2": "^1.0.1",
     "vue": "^3.4.21",
     "transformation-matrix": "^2.16.1"
   },

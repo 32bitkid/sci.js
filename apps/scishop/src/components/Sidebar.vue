@@ -18,7 +18,7 @@ import PalettePicker from './PalettePicker';
   color: var(--clr-ink);
   background-color: var(--clr-surface-200);
   gap: 0.25lh;
-  padding-block: 0.25lh;
-  padding-left: 0.25lh;
+  padding-block: 0.2lh;
+  padding-left: 0.2lh;
 }
 </style>

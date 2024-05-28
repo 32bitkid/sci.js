@@ -1,6 +1,6 @@
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
+import { squaredDistanceBetween, Vec2 } from '@4bitlabs/vec2';
 import { EditorCommand } from '../models/EditorCommand.ts';
-import { distanceSquared, Vec2 } from './vec2-helpers.ts';
 import { insert } from './array-helpers.ts';
 
 export type FindResult = [cIdx: number, pIdx: number, x: number, y: number];
@@ -9,7 +9,7 @@ type FindState = [d: number, cIdx: number, pIdx: number, x: number, y: number];
 
 export function findClosestPoint(
   layer: EditorCommand,
-  position: Vec2,
+  position: Readonly<Vec2>,
   range: number,
 ): FindResult | null {
   const result = layer.commands.reduce<FindState>(
@@ -19,7 +19,7 @@ export function findClosestPoint(
       const [, , , ...coords] = cmd;
       return coords.reduce<FindState>((state, [x, y], pIdx) => {
         const [pDist2, ,] = state;
-        const dist2 = distanceSquared(position, [x + 0.5, y + 0.5]);
+        const dist2 = squaredDistanceBetween(position, [x + 0.5, y + 0.5]);
         return dist2 < pDist2 ? [dist2, cmdIdx, pIdx, x, y] : state;
       }, $state);
     },
