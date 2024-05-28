@@ -1,4 +1,4 @@
-import { Ref, ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
+import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
 import { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
@@ -27,8 +27,7 @@ export function useRenderedPixels(
   });
 }
 
-const soft = ref<boolean>(true);
-(window as unknown as any)['soft'] = soft;
+const isSoftRef = computed<boolean>(() => viewStore.zoom >= 1);
 
 export function useCanvasRenderer(
   renderedRef: Ref<RenderResult>,
@@ -36,8 +35,8 @@ export function useCanvasRenderer(
 ): Ref<OffscreenCanvas> {
   const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
   watch(
-    [renderedRef, resRef, oversampleRef, screenPaletteRef, soft],
-    ([pic, [width, height], oversample, palette, softOn]) => {
+    [renderedRef, resRef, oversampleRef, screenPaletteRef, isSoftRef],
+    ([pic, [width, height], oversample, palette, isSoft]) => {
       const canvas = unref(canvasRef);
       canvas.width = width * oversample[0];
       canvas.height = height * oversample[1];
@@ -46,7 +45,7 @@ export function useCanvasRenderer(
         dither: createDitherFilter(
           generateSciDitherPairs(
             palette,
-            softOn ? Mixers.softMixer() : ([a, b]) => [a, b],
+            isSoft ? Mixers.softMixer() : ([a, b]) => [a, b],
           ),
           [1, 1],
         ),
