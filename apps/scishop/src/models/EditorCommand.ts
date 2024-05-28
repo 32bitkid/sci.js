@@ -15,17 +15,17 @@ export type BasicEditorCommand<T extends DrawCommand> = {
   readonly commands: [T];
 };
 
-export type CompositeEditorCommand<T extends string> = {
-  readonly id: symbol | number | string;
-  readonly type: T;
-  readonly name?: string;
-  readonly commands: (PolylineCommand | FillCommand | BrushCommand)[];
-};
-
-export type GroupEditorCommand = CompositeEditorCommand<'group'>;
+// export type CompositeEditorCommand<T extends string> = {
+//   readonly id: symbol | number | string;
+//   readonly type: T;
+//   readonly name?: string;
+//   readonly commands: (PolylineCommand | FillCommand | BrushCommand)[];
+// };
+//
+// export type GroupEditorCommand = CompositeEditorCommand<'group'>;
 
 export type EditorCommand =
-  | GroupEditorCommand
+  // | GroupEditorCommand
   | BasicEditorCommand<SetPaletteCommand>
   | BasicEditorCommand<UpdatePaletteCommand>
   | BasicEditorCommand<PolylineCommand>
