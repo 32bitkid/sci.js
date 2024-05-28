@@ -19,6 +19,7 @@ import {
   translate,
 } from 'transformation-matrix';
 
+import { round, isEqual, vec2 } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
 import toolbarStore from '../data/toolbarStore';
 import viewStore from '../data/viewStore';
@@ -30,7 +31,6 @@ import picStore, {
   currentCommandStore as cmdStore,
   layersRef,
 } from '../data/picStore.ts';
-import { toInt, isEqual } from '../helpers/vec2-helpers.ts';
 import { drawState } from '../data/paletteStore.ts';
 import { pixelBorder } from '../render/pixel-border.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
@@ -82,7 +82,7 @@ export function useInputMachine(
     applyToPoint(unref(iMatrixRef), unref(cursorPositionRef)),
   );
   const canvasPixelRef = computed<[number, number]>((prev) => {
-    const next = toInt(unref(canvasPositionRef));
+    const next = round(unref(canvasPositionRef), vec2(), Math.floor);
     const isSame = prev && isEqual(prev, next);
     return isSame ? prev : next;
   });
@@ -226,8 +226,10 @@ export function useInputMachine(
   const mouseHandlers = {
     click: (e: MouseEvent) => {
       if (toolbarStore.selectedTool === 'fill') {
-        const pos = toInt(
+        const pos = round(
           applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+          vec2(),
+          Math.floor,
         );
         const [drawMode, ...drawCodes] = unref(drawState);
         picStore.selection = cmdStore.commit({
@@ -239,8 +241,10 @@ export function useInputMachine(
       }
 
       if (toolbarStore.selectedTool === 'line') {
-        const pos = toInt(
+        const pos = round(
           applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+          vec2(),
+          Math.floor,
         );
 
         const current = cmdStore.current;
@@ -266,7 +270,8 @@ export function useInputMachine(
     },
 
     contextMenu: (e: MouseEvent) => {
-      if (toolbarStore.selectedTool === 'line') {
+      const { selectedTool } = toolbarStore;
+      if (selectedTool === 'line') {
         e.preventDefault();
         const current = cmdStore.current;
         if (current === null || current.type !== 'PLINE') return;
@@ -281,6 +286,10 @@ export function useInputMachine(
           });
         }
         return;
+      }
+
+      if (selectedTool === 'select') {
+        e.preventDefault();
       }
     },
 

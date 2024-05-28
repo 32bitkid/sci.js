@@ -1,8 +1,8 @@
-import { Vec2 } from '../helpers/vec2-helpers.ts';
+import { Vec2 } from '@4bitlabs/vec2';
 
 export function cursorDot(
   ctx: CanvasRenderingContext2D,
-  [x, y]: Vec2,
+  [x, y]: Readonly<Vec2>,
   size = 2,
 ) {
   ctx.save();
