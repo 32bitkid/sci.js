@@ -1,5 +1,5 @@
+import { type Vec2 } from '@4bitlabs/vec2';
 import { Cel } from './cel';
-import { Vec2 } from './vec2';
 
 export enum DrawMode {
   Visual = 0b001,

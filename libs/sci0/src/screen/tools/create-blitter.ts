@@ -1,3 +1,4 @@
+import { type Vec2 } from '@4bitlabs/vec2';
 import {
   DrawMode,
   isControlMode,
@@ -6,7 +7,6 @@ import {
 } from '../../models/draw-command';
 import { Cel } from '../../models/cel';
 import { RawPlotter } from '../screen';
-import { Vec2 } from '../../models/vec2';
 
 export const createBlitter =
   (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>

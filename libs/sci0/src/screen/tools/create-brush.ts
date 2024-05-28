@@ -1,5 +1,5 @@
+import { type Vec2 } from '@4bitlabs/vec2';
 import { Brusher, Plotter } from '../screen';
-import { Vec2 } from '../../models/vec2';
 import { DrawCodes, DrawMode } from '../../models/draw-command';
 import { NOISE, NOISE_OFFSETS } from './noise';
 import CIRCLES from './circles';

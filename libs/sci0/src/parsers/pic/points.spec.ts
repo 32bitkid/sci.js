@@ -1,6 +1,6 @@
 import { createBitReader } from '@4bitlabs/readers';
+import { type Vec2, vec2 } from '@4bitlabs/vec2';
 import { getPoint8, getPoint16, getPoint24 } from './points';
-import { Vec2, vec2 } from '../../models/vec2';
 
 describe('point readers', () => {
   describe('getPoint8', () => {
@@ -25,9 +25,9 @@ describe('point readers', () => {
       [[0b1001_1001], [150, 150], [149, 149]],
     ])('with the value of %s from %s should be %s', (bits, ref, expected) => {
       const br = createBitReader(Uint8Array.from(bits));
-      const out = vec2.create();
+      const out = vec2();
       getPoint8(br, out, ref);
-      expect(out).toEqual(vec2.copy(vec2.create(), expected));
+      expect(out).toEqual(expected);
     });
   });
 
@@ -114,9 +114,9 @@ describe('point readers', () => {
       ],
     ])('with the value of %s from %s should be %s', (bits, ref, expected) => {
       const br = createBitReader(Uint8Array.from(bits));
-      const out = vec2.create();
+      const out = vec2();
       getPoint16(br, out, ref);
-      expect(out).toEqual(vec2.copy(vec2.create(), expected));
+      expect(out).toEqual(expected);
     });
   });
 
@@ -152,9 +152,9 @@ describe('point readers', () => {
       ],
     ])('with the value of %s should be %s', (bits, expected) => {
       const br = createBitReader(Uint8Array.from(bits));
-      const out = vec2.create();
+      const out = vec2();
       getPoint24(br, out);
-      expect(out).toEqual(vec2.copy(vec2.create(), expected));
+      expect(out).toEqual(expected);
     });
   });
 });

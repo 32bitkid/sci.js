@@ -1,9 +1,9 @@
 import { BitReader } from '@4bitlabs/readers';
+import { type Vec2, vec2, clone, assign } from '@4bitlabs/vec2';
 import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes';
 import { PicState } from './pic-state';
 import { getPoint16, getPoint24, getPoint8 } from './points';
 import { DrawCommand, DrawMode } from '../../models/draw-command';
-import { Vec2, vec2 } from '../../models/vec2';
 import { repeat } from '../../utils/repeat';
 import { parseCel } from '../cel';
 
@@ -49,31 +49,31 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
   // Lines
   [OpCode.ShortLines]({ r, state, push }) {
     const points: Vec2[] = [];
-    const prev = getPoint24(r, vec2.create());
-    points.push(vec2.clone(prev));
+    const prev = getPoint24(r, vec2());
+    points.push(clone(prev));
     while (r.peek32(8) < 0xf0) {
-      const next = getPoint8(r, vec2.create(), prev);
+      const next = getPoint8(r, vec2(), prev);
       points.push(next);
-      vec2.copy(prev, next);
+      assign(next, prev);
     }
     push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
   [OpCode.MediumLines]({ r, state, push }) {
     const points: Vec2[] = [];
-    const prev = getPoint24(r, vec2.create());
-    points.push(vec2.clone(prev));
+    const prev = getPoint24(r, vec2());
+    points.push(clone(prev));
     while (r.peek32(8) < 0xf0) {
-      const next = getPoint16(r, vec2.create(), prev);
+      const next = getPoint16(r, vec2(), prev);
       points.push(next);
-      vec2.copy(prev, next);
+      assign(next, prev);
     }
     push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
   [OpCode.LongLines]({ r, state, push }) {
     const points: Vec2[] = [];
-    points.push(getPoint24(r, vec2.create()));
+    points.push(getPoint24(r, vec2()));
     while (r.peek32(8) < 0xf0) {
-      points.push(getPoint24(r, vec2.create()));
+      points.push(getPoint24(r, vec2()));
     }
     push(['PLINE', state.drawMode, state.drawCodes, ...points]);
   },
@@ -88,49 +88,35 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
     ];
   },
   [OpCode.ShortBrushes]({ r, state, push }) {
-    const prev = vec2.create();
+    const prev = vec2();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push([
-      'BRUSH',
-      drawMode,
-      drawCodes,
-      patternCode,
-      texture,
-      vec2.clone(prev),
-    ]);
+    push(['BRUSH', drawMode, drawCodes, patternCode, texture, clone(prev)]);
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
-      const next = getPoint8(r, vec2.create(), prev);
+      const next = getPoint8(r, vec2(), prev);
       push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
-      vec2.copy(prev, next);
+      assign(next, prev);
     }
   },
   [OpCode.MediumBrushes]({ r, state, push }) {
-    const prev = vec2.create();
+    const prev = vec2();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push([
-      'BRUSH',
-      drawMode,
-      drawCodes,
-      patternCode,
-      texture,
-      vec2.clone(prev),
-    ]);
+    push(['BRUSH', drawMode, drawCodes, patternCode, texture, clone(prev)]);
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
-      const next = getPoint16(r, vec2.create(), prev);
+      const next = getPoint16(r, vec2(), prev);
       push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
-      vec2.copy(prev, next);
+      assign(next, prev);
     }
   },
   [OpCode.LongBrushes]({ r, state, push }) {
@@ -139,7 +125,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
 
     while (r.peek32(8) < 0xf0) {
       const texture = isTextured ? r.read32(8) >> 1 : 0;
-      const pos = getPoint24(r, vec2.create());
+      const pos = getPoint24(r, vec2());
       push(['BRUSH', drawMode, drawCodes, patternCode, texture, pos]);
     }
   },
@@ -147,12 +133,12 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
   // Fills
   [OpCode.Fills]({ r, state, push }) {
     const { drawMode, drawCodes } = state;
-    const p1 = vec2.create();
+    const p1 = vec2();
     while (true) {
       const peek = r.peek32(8);
       if (peek >= 0xf0) break;
       getPoint24(r, p1);
-      push(['FILL', drawMode, drawCodes, vec2.clone(p1)]);
+      push(['FILL', drawMode, drawCodes, clone(p1)]);
     }
   },
 
@@ -210,7 +196,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     // NOOP
   },
   [ExtendedOpCode.x07]({ r, state, push }) {
-    const pos = getPoint24(r, vec2.create());
+    const pos = getPoint24(r, vec2());
     const size = r.read32(8) | (r.read32(8) << 8);
 
     const buffer = new ArrayBuffer(size);

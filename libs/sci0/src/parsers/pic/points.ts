@@ -1,5 +1,5 @@
 import { BitReader } from '@4bitlabs/readers';
-import { Vec2, vec2 } from '../../models/vec2';
+import { type Vec2, set } from '@4bitlabs/vec2';
 
 // getPoint24 gets reads an absolute position from the
 // bit-stream. The format is 24-bits long:
@@ -14,7 +14,7 @@ export function getPoint24(br: BitReader, out: Vec2): Vec2 {
   const code = br.read32(24);
   const x = ((code & 0xf00000) >>> 12) | ((code & 0xff00) >>> 8);
   const y = ((code & 0x0f0000) >>> 8) | ((code & 0x00ff) >>> 0);
-  return vec2.set(out, x, y);
+  return set(x, y, out);
 }
 
 // getPoint16 reads a medium length delta from the bit-stream.
@@ -36,7 +36,7 @@ export function getPoint16(
   const x = br.read32(8);
   const dx = x > 0b0111_1111 ? x - 256 : x;
 
-  return vec2.set(out, ref[0] + dx, ref[1] + dy);
+  return set(ref[0] + dx, ref[1] + dy, out);
 }
 
 // getPoint8 reads a medium length delta from the bit-stream.
@@ -54,9 +54,5 @@ export function getPoint8(br: BitReader, out: Vec2, ref: Readonly<Vec2>): Vec2 {
   const dx = (code >>> 4) & 0b111;
   const dy = (code >>> 0) & 0b111;
 
-  return vec2.set(
-    out,
-    ref[0] + (xSign ? -dx : dx),
-    ref[1] + (ySign ? -dy : dy),
-  );
+  return set(ref[0] + (xSign ? -dx : dx), ref[1] + (ySign ? -dy : dy), out);
 }
