@@ -10,16 +10,16 @@ import {
 import { Palettes } from '@4bitlabs/color';
 import { fromUint32, toHex } from '@4bitlabs/color-space/srgb';
 
-const { drawCode, drawMode, pals } = defineProps<{
+const props = defineProps<{
   drawMode: DrawMode;
   drawCode: DrawCodes;
   pals: [number[], number[], number[], number[]];
 }>();
 
 const getVisualPair = computed(() => {
-  const pal = (drawCode[0] / 40) >>> 0;
-  const idx = drawCode[0] % 40;
-  const pair = pals[pal][idx];
+  const pal = (props.drawCode[0] / 40) >>> 0;
+  const idx = props.drawCode[0] % 40;
+  const pair = props.pals[pal][idx];
 
   const [aClr, bClr] = [
     Palettes.TRUE_CGA_PALETTE[pair >>> 4],
@@ -33,13 +33,13 @@ const getVisualPair = computed(() => {
 });
 
 const getPriorityColor = computed(() => ({
-  background: toHex(fromUint32(Palettes.CGA_PALETTE[drawCode[1]])),
-  color: drawCode[1] > 8 ? '#000' : '#fff',
+  background: toHex(fromUint32(Palettes.CGA_PALETTE[props.drawCode[1]])),
+  color: props.drawCode[1] > 8 ? '#000' : '#fff',
 }));
 
 const getControlColor = computed(() => ({
-  background: toHex(fromUint32(Palettes.CGA_PALETTE[drawCode[1]])),
-  color: drawCode[1] > 8 ? '#000' : '#fff',
+  background: toHex(fromUint32(Palettes.CGA_PALETTE[props.drawCode[1]])),
+  color: props.drawCode[1] > 8 ? '#000' : '#fff',
 }));
 </script>
 
@@ -72,13 +72,7 @@ const getControlColor = computed(() => ({
   font-weight: bold;
   border: 1px dotted var(--clr-ink-A10);
   background-clip: padding-box;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    var(--clr-ink-A10) 0em,
-    var(--clr-ink-A10) 0.5em,
-    transparent 0.5em,
-    transparent 1em
-  );
+  background-image: var(--transparent-img);
 }
 
 .pair {
