@@ -141,7 +141,6 @@ import store from '../data/toolbarStore';
   align-items: center;
   justify-content: center;
   aspect-ratio: 1 / 1;
-  cursor: pointer;
   user-select: none;
 
   &:disabled {
