@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.3...@4bitlabs/color@2.1.4) (2024-05-28)
+
+### Chore
+
+- Code-formatting ([e209540](https://github.com/32bitkid/sci.js/commit/e20954075368b2f53b8cfb7f17896f51bad47baa))
+
 ## [2.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.2...@4bitlabs/color@2.1.3) (2024-05-13)
 
 ### Chore

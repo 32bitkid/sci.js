@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.3.0...@4bitlabs/scibud@1.4.0) (2024-05-28)
+
+### Added
+
+- "pic json" dump command ([aff6ecc](https://github.com/32bitkid/sci.js/commit/aff6eccb5d74dabde41cf8fb9730aaff58e95710))
+
+### Changed
+
+- Adjusting pic info output ([29365e8](https://github.com/32bitkid/sci.js/commit/29365e85027b92dd294e65dc9bb6a79a9ca6eb16))
+- Tweaked info output ([2f7b47d](https://github.com/32bitkid/sci.js/commit/2f7b47d98ca0d1fb70970fcbe1b3d9bfddfba51e))
+
+### Chore
+
+- Code-formatting ([e209540](https://github.com/32bitkid/sci.js/commit/e20954075368b2f53b8cfb7f17896f51bad47baa))
+- Rethink worker termination for pic video command ([3949982](https://github.com/32bitkid/sci.js/commit/39499828ed460ee9659e1dda45a2375186daec42))
+
+### New
+
+- add --grayscale flag to "pic video" and "pic render" commands ([4ae8799](https://github.com/32bitkid/sci.js/commit/4ae8799c935a393bc6a5e8270a6667bb0372242e))
+- Emit both video and final image ffmpeg render command ([e561884](https://github.com/32bitkid/sci.js/commit/e561884e40699d0c5e7a2516f2f6d0b2f42f9bd5))
+
 # [1.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.2.0...@4bitlabs/scibud@1.3.0) (2024-05-13)
 
 ### Changed

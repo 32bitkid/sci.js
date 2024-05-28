@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.6.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.5.1...@4bitlabs/sci0@2.6.0) (2024-05-28)
+
+### Changed
+
+- SET_PALETTE draw command now serializes as an array. ([684a01d](https://github.com/32bitkid/sci.js/commit/684a01d4bd9c95e35e1a3713c4829ff2d677a662))
+
+### Chore
+
+- Adjust internal CodeHandlerContext to only support adding commands via push ([803d7ba](https://github.com/32bitkid/sci.js/commit/803d7babfb3e416fb395b9016b220574202fc997))
+- Code-formatting ([e209540](https://github.com/32bitkid/sci.js/commit/e20954075368b2f53b8cfb7f17896f51bad47baa))
+- remove internal StaticVec2 in favor of method args with Readonly ([bbafffb](https://github.com/32bitkid/sci.js/commit/bbafffb6c6197cd3a4c362f83db9fff8177dfe4f))
+
+### Fixed
+
+- Clip plot to screen-space. ([0e21974](https://github.com/32bitkid/sci.js/commit/0e219749112bc2a0a4e040562c8f7695adb15c88))
+
+### New
+
+- renerPic() now allows alternative base canvas sizes. ([2a496a0](https://github.com/32bitkid/sci.js/commit/2a496a0b7a2c1a19ada0b16193cbb98d17b6f5b6))
+
 ## [2.5.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.5.0...@4bitlabs/sci0@2.5.1) (2024-05-13)
 
 ### Chore
