@@ -19,3 +19,8 @@ export const insertN = <T>(
   ...items,
   ...source.slice(index + Math.max(0, replace)),
 ];
+
+export const remove = <T>(source: T[], index: number, count: number = 1) => [
+  ...source.slice(0, index),
+  ...source.slice(index + count),
+];
