@@ -6,6 +6,7 @@ export function plineSkeleton(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   matrix: Matrix,
   cmd: PolylineCommand,
+  highlights: number[] = [],
 ) {
   ctx.save();
 
@@ -19,12 +20,13 @@ export function plineSkeleton(
   points.forEach(([x, y], idx) => ctx[idx ? 'lineTo' : 'moveTo'](x, y));
   ctx.stroke();
 
-  points.forEach(([x, y]) => {
+  points.forEach(([x, y], idx) => {
     ctx.save();
     ctx.translate(x, y);
     ctx.beginPath();
     ctx.roundRect(-3, -3, 6, 6, 0.5);
     ctx.stroke();
+    if (highlights.includes(idx)) ctx.fill();
     ctx.restore();
   });
 
