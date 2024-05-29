@@ -1,52 +1,90 @@
-import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
+import {
+  BrushCommand,
+  DrawCommand,
+  FillCommand,
+  PolylineCommand,
+} from '@4bitlabs/sci0';
 import { squaredDistanceBetween, Vec2 } from '@4bitlabs/vec2';
-import { EditorCommand } from '../models/EditorCommand.ts';
 import { insert } from './array-helpers.ts';
+import { exhaustive } from './exhaustive.ts';
 
-export type FindResult = [cIdx: number, pIdx: number, x: number, y: number];
+export const extractCoordinates = (
+  cmd: PolylineCommand | FillCommand | BrushCommand,
+): Vec2[] => {
+  const [type] = cmd;
+  switch (type) {
+    case 'PLINE': {
+      const [, , , ...vertices] = cmd;
+      return vertices;
+    }
+    case 'FILL': {
+      const [, , , vertex] = cmd;
+      return [vertex];
+    }
+    case 'BRUSH': {
+      const [, , , , , vertex] = cmd;
+      return [vertex];
+    }
+    default:
+      exhaustive(`unexpected type`, type);
+  }
+};
 
-type FindState = [d: number, cIdx: number, pIdx: number, x: number, y: number];
+export type ClosestPointState = [dSqrd: number, idx: number];
+export const findClosestPointTo = (
+  vertices: Readonly<Vec2>[],
+  position: Readonly<Vec2>,
+  initial: ClosestPointState = [Infinity, NaN],
+): ClosestPointState =>
+  vertices.reduce<ClosestPointState>((state, point, pIdx) => {
+    const [prevD2] = state;
+    const thisD2 = squaredDistanceBetween(position, point);
+    return thisD2 < prevD2 ? [thisD2, pIdx] : state;
+  }, initial);
 
-export function findClosestPoint(
-  layer: EditorCommand,
+export type FindState = [dSqrd: number, commandIdx: number, pointIdx: number];
+export const findClosestPointIn = (
+  commands: DrawCommand[],
+  position: Readonly<Vec2>,
+): FindState =>
+  commands.reduce<FindState>(
+    (state, cmd, cmdIdx) => {
+      const [type] = cmd;
+      if (type !== 'PLINE' && type !== 'FILL') return state;
+      const [prevD2] = state;
+      const [nextD2, pIdx] = findClosestPointTo(
+        extractCoordinates(cmd).map(([x, y]) => [x + 0.5, y + 0.5]),
+        position,
+      );
+      return nextD2 < prevD2 ? [nextD2, cmdIdx, pIdx] : state;
+    },
+    [Infinity, NaN, NaN],
+  );
+
+export type FindResult = [commandIdx: number, pointIdx: number];
+export function nearestPointWithRange(
+  commands: DrawCommand[],
   position: Readonly<Vec2>,
   range: number,
 ): FindResult | null {
-  const result = layer.commands.reduce<FindState>(
-    ($state, cmd, cmdIdx) => {
-      const [type] = cmd;
-      if (type !== 'PLINE' && type !== 'FILL') return $state;
-      const [, , , ...coords] = cmd;
-      return coords.reduce<FindState>((state, [x, y], pIdx) => {
-        const [pDist2, ,] = state;
-        const dist2 = squaredDistanceBetween(position, [x + 0.5, y + 0.5]);
-        return dist2 < pDist2 ? [dist2, cmdIdx, pIdx, x, y] : state;
-      }, $state);
-    },
-    [Infinity, NaN, NaN, NaN, NaN],
-  );
+  const result = findClosestPointIn(commands, position);
 
   const [distSqrd, ...rest] = result;
   if (!Number.isFinite(distSqrd)) return null;
 
   const dist = Math.sqrt(distSqrd);
   if (dist > range) return null;
+
   return rest;
 }
 
-export function moveLineVertex(
-  source: PolylineCommand,
+export const moveLineVertex = (
+  [type, mode, codes, ...verts]: PolylineCommand,
   idx: number,
   pos: [number, number],
-): PolylineCommand {
-  const [type, mode, codes, ...verts] = source;
-  return [type, mode, codes, ...insert(verts, idx, pos, true)];
-}
+): PolylineCommand => [type, mode, codes, ...insert(verts, idx, pos, true)];
 
-export function moveFillVertex(
-  source: FillCommand,
+export const moveFillVertex = (
+  [type, mode, codes]: FillCommand,
   pos: [number, number],
-): FillCommand {
-  const [type, mode, codes] = source;
-  return [type, mode, codes, pos];
-}
+): FillCommand => [type, mode, codes, pos];

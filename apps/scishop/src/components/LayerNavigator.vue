@@ -85,10 +85,10 @@ const handleClick = (e: MouseEvent, idx: number) => {
   scrollbar-width: thin;
   align-items: start;
   align-content: start;
-  flex-grow: 1;
   padding-bottom: 0.5lh;
-  border-bottom-left-radius: 0.5lh;
   background-image: var(--transparent-img);
+  background-color: var(--clr-surface--default);
+  min-height: 15rem;
 }
 
 .head {

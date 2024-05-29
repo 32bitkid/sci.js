@@ -37,9 +37,9 @@ import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
 import { cursorDot } from '../render/cursor-dot.ts';
 import {
-  findClosestPoint,
   moveFillVertex,
   moveLineVertex,
+  nearestPointWithRange,
 } from '../helpers/command-helpers.ts';
 import { insert } from '../helpers/array-helpers.ts';
 import { BasicEditorCommand } from '../models/EditorCommand.ts';
@@ -57,8 +57,6 @@ type PointDragState = [
   layerIdx: number,
   cmdIdx: number,
   vertexIdx: number,
-  ix: number,
-  iy: number,
 ];
 
 export function useInputMachine(
@@ -198,13 +196,25 @@ export function useInputMachine(
       if (selectedLayer) {
         ctx.save();
         ctx.lineWidth = 1.5;
-        selectedLayer.commands.forEach((cmd) => {
+
+        const found = nearestPointWithRange(
+          selectedLayer.commands,
+          canvasPoint,
+          Math.max(0.404, 7.5 / viewStore.zoom),
+        );
+
+        selectedLayer.commands.forEach((cmd, idx) => {
           const [type] = cmd;
           ctx.strokeStyle = 'white';
+          ctx.fillStyle = '#999';
           if (type === 'PLINE') {
-            plineSkeleton(ctx, matrix, cmd);
-          } else if (type === 'FILL') {
-            fillSkeleton(ctx, matrix, cmd);
+            const highlight = found?.[0] == idx ? [found[1]] : [];
+            plineSkeleton(ctx, matrix, cmd, highlight);
+          }
+
+          if (type === 'FILL') {
+            const highlight = found?.[0] === idx;
+            fillSkeleton(ctx, matrix, cmd, highlight);
           }
         });
       }
@@ -316,10 +326,7 @@ export function useInputMachine(
 
   const pointerHandlers = {
     down: (e: PointerEvent) => {
-      if (dragStateRef.value !== null) {
-        // already panning
-        return;
-      }
+      if (dragStateRef.value !== null) return; // already panning
 
       const { selectedTool } = toolbarStore;
       const isPanning =
@@ -343,10 +350,14 @@ export function useInputMachine(
         if (!layer) return;
 
         const cPos = unref(canvasPositionRef);
-        const found = findClosestPoint(layer, cPos, 5 / viewStore.zoom);
+        const found = nearestPointWithRange(
+          layer.commands,
+          cPos,
+          Math.max(0.5, 7 / viewStore.zoom),
+        );
         if (!found) return;
-        const [cIdx, pIdx, ix, iy] = found;
-        dragStateRef.value = ['point', selIdx, cIdx, pIdx, ix, iy];
+        const [cIdx, pIdx] = found;
+        dragStateRef.value = ['point', selIdx, cIdx, pIdx];
       }
     },
     move: (e: PointerEvent) => {
