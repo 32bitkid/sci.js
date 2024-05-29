@@ -6,6 +6,7 @@ export function fillSkeleton(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,
   matrix: Matrix,
   cmd: FillCommand,
+  highlight: boolean,
 ) {
   const [, , , ...points] = cmd;
   const all = applyToPoints(
@@ -22,6 +23,7 @@ export function fillSkeleton(
     ctx.lineTo(-3, 0);
     ctx.lineTo(0, 4);
     ctx.lineTo(3, 0);
+    if (highlight) ctx.fill();
     ctx.stroke();
     ctx.restore();
   });
