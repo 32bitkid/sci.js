@@ -23,6 +23,7 @@ export function fillSkeleton(
     ctx.lineTo(-3, 0);
     ctx.lineTo(0, 4);
     ctx.lineTo(3, 0);
+    ctx.lineWidth = 1.5;
     if (highlight) ctx.fill();
     ctx.stroke();
     ctx.restore();

@@ -20,7 +20,7 @@ import { pathPoly } from '../helpers/polygons.ts';
 
 const stageRef = shallowRef<HTMLCanvasElement | null>(null);
 const uiRef = shallowRef<HTMLCanvasElement | null>(null);
-const stageRes = useResizeWatcher(stageRef, 100);
+const stageRes = useResizeWatcher(stageRef);
 
 const viewStack = computed(() => [
   ...store.layers.slice(0, store.topIdx).flatMap((it) => [...it.commands]),

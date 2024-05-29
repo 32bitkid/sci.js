@@ -1,15 +1,11 @@
 import { watch, onUnmounted, triggerRef, ShallowRef } from 'vue';
 
-import { useDebouncedRef } from './useDebouncedRef';
+import { useRafRef } from './useRafRef.ts';
 
 export function useResizeWatcher<T extends HTMLElement>(
   refEl: ShallowRef<T | null>,
-  delay?: number,
 ) {
-  const resolution = useDebouncedRef<[width: number, height: number]>(
-    [-1, -1],
-    delay,
-  );
+  const resolution = useRafRef<[width: number, height: number]>([-1, -1]);
 
   const visiblityHandler = () => {
     if (!document.hidden) {

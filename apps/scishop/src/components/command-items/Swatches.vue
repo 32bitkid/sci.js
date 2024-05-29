@@ -72,7 +72,9 @@ const getControlColor = computed(() => ({
   font-weight: bold;
   border: 1px dotted var(--clr-ink-A10);
   background-clip: padding-box;
+  background-color: white;
   background-image: var(--transparent-img);
+  height: 1lh;
 }
 
 .pair {

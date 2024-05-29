@@ -18,6 +18,7 @@ import {
   scale,
   translate,
 } from 'transformation-matrix';
+import deepEqual from 'fast-deep-equal';
 
 import { round, isEqual, vec2 } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
@@ -37,12 +38,19 @@ import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
 import { cursorDot } from '../render/cursor-dot.ts';
 import {
+  FindResult,
   moveFillVertex,
   moveLineVertex,
   nearestPointWithRange,
+  PointAlongPathResult,
+  pointAlongPaths,
 } from '../helpers/command-helpers.ts';
-import { insert } from '../helpers/array-helpers.ts';
+import { insert, remove } from '../helpers/array-helpers.ts';
 import { BasicEditorCommand } from '../models/EditorCommand.ts';
+import cursorPenSvg from '../assets/cursor-pen.svg';
+import cursorPenStarSvg from '../assets/cursor-pen-star.svg';
+import cursorPenPlusSvg from '../assets/cursor-pen-plus.svg';
+import cursorPenMinusSvg from '../assets/cursor-pen-minus.svg';
 
 const clampZoom = (current: number, next: number, min: number, max: number) => {
   if (current * next < min) return min / current;
@@ -76,9 +84,13 @@ export function useInputMachine(
   });
 
   const cursorPositionRef = useRafRef<[number, number]>([0, 0]);
-  const canvasPositionRef = computed<[number, number]>(() =>
-    applyToPoint(unref(iMatrixRef), unref(cursorPositionRef)),
-  );
+  const canvasPositionRef = computed<[number, number]>((prev) => {
+    const actual = applyToPoint(unref(iMatrixRef), unref(cursorPositionRef));
+    const next = round(actual, vec2(), (i) => Math.round(i * 4) / 4);
+    const isSame = prev && isEqual(prev, next);
+    return isSame ? prev : next;
+  });
+
   const canvasPixelRef = computed<[number, number]>((prev) => {
     const next = round(unref(canvasPositionRef), vec2(), Math.floor);
     const isSame = prev && isEqual(prev, next);
@@ -90,6 +102,34 @@ export function useInputMachine(
     const [cWidth, cHeight] = unref(canvasResRef);
     return isInsideBounds([cWidth, cHeight], canvasPoint);
   });
+
+  const pointerRadiusRef = computed(() =>
+    Math.max(0.404, 7.5 / viewStore.zoom),
+  );
+
+  const nearestExistingPointRef = computed<FindResult | null>((prev = null) => {
+    const cmds = unref(selectedLayerRef)?.commands;
+    if (!cmds || cmds.length < 1) return null;
+
+    const cPos = unref(canvasPositionRef);
+    const radius = unref(pointerRadiusRef);
+    const next = nearestPointWithRange(cmds, cPos, radius);
+
+    return deepEqual(prev, next) ? prev : next;
+  });
+
+  const nearestAddPointRef = computed<PointAlongPathResult | null>(
+    (prev = null) => {
+      const cmds = unref(selectedLayerRef)?.commands;
+      if (!cmds || cmds.length < 1) return null;
+
+      const cPos = unref(canvasPositionRef);
+      const radius = unref(pointerRadiusRef);
+      const next = pointAlongPaths(cmds, cPos, radius);
+
+      return deepEqual(prev, next) ? prev : next;
+    },
+  );
 
   watchEffect(() => {
     const el = unref(canvasRef);
@@ -105,9 +145,19 @@ export function useInputMachine(
       currentCursor = 'grab';
     } else if (selectedTool === 'select') {
       currentCursor = 'crosshair';
-    } else if (['line', 'fill'].includes(selectedTool)) {
+    } else if (selectedTool == 'line') {
       const isOverCanvas = unref(isOverCanvasRef);
-      if (isOverCanvas) currentCursor = 'none';
+      if (isOverCanvas) {
+        if (unref(currentCommandStore.current)) {
+          currentCursor = `url(${cursorPenSvg}) 1 1, none`;
+        } else if (unref(nearestExistingPointRef) !== null) {
+          currentCursor = `url(${cursorPenMinusSvg}) 1 1, none`;
+        } else if (unref(nearestAddPointRef) !== null) {
+          currentCursor = `url(${cursorPenPlusSvg}) 1 1, none`;
+        } else {
+          currentCursor = `url(${cursorPenStarSvg}) 1 1, none`;
+        }
+      }
     }
 
     el.style.cursor = currentCursor;
@@ -195,18 +245,18 @@ export function useInputMachine(
 
       if (selectedLayer) {
         ctx.save();
-        ctx.lineWidth = 1.5;
 
+        const radius = unref(pointerRadiusRef);
         const found = nearestPointWithRange(
           selectedLayer.commands,
           canvasPoint,
-          Math.max(0.404, 7.5 / viewStore.zoom),
+          radius,
         );
 
         selectedLayer.commands.forEach((cmd, idx) => {
           const [type] = cmd;
           ctx.strokeStyle = 'white';
-          ctx.fillStyle = '#999';
+          ctx.fillStyle = '#ddd';
           if (type === 'PLINE') {
             const highlight = found?.[0] == idx ? [found[1]] : [];
             plineSkeleton(ctx, matrix, cmd, highlight);
@@ -234,51 +284,6 @@ export function useInputMachine(
   });
 
   const mouseHandlers = {
-    click: (e: MouseEvent) => {
-      if (toolbarStore.selectedTool === 'fill') {
-        const pos = round(
-          applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
-          vec2(),
-          Math.floor,
-        );
-        const [drawMode, ...drawCodes] = unref(drawState);
-        picStore.selection = cmdStore.commit({
-          id: Math.random().toString(36).substring(2),
-          type: 'FILL',
-          commands: [['FILL', drawMode, drawCodes, pos]],
-        });
-        return;
-      }
-
-      if (toolbarStore.selectedTool === 'line') {
-        const pos = round(
-          applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
-          vec2(),
-          Math.floor,
-        );
-
-        const current = cmdStore.current;
-        const [drawMode, ...drawCodes] = unref(drawState);
-        if (current === null) {
-          cmdStore.begin({
-            id: Math.random().toString(36).substring(2),
-            type: 'PLINE',
-            commands: [['PLINE', drawMode, drawCodes, pos, pos]],
-          });
-        } else if (current.type === 'PLINE') {
-          const [type, mode, code, ...coords] = current.commands[0];
-          cmdStore.begin({
-            ...current,
-            commands: [
-              [type, mode, code, ...coords.slice(0, -1), [...pos], [...pos]],
-            ],
-          });
-        } else {
-          throw new Error(`can't append to existing command ${current.type}`);
-        }
-      }
-    },
-
     contextMenu: (e: MouseEvent) => {
       const { selectedTool } = toolbarStore;
       if (selectedTool === 'line') {
@@ -325,45 +330,153 @@ export function useInputMachine(
   };
 
   const pointerHandlers = {
-    down: (e: PointerEvent) => {
-      if (dragStateRef.value !== null) return; // already panning
-
+    downPan(e: PointerEvent) {
       const { selectedTool } = toolbarStore;
       const isPanning =
         (selectedTool === 'pan' && e.button === 0) || e.button === 1;
-      if (isPanning) {
-        dragStateRef.value = [
-          'view',
-          viewStore.viewMatrix,
-          e.offsetX,
-          e.offsetY,
-        ];
+
+      if (!isPanning) return;
+      if (dragStateRef.value !== null) return; // already panning
+
+      dragStateRef.value = ['view', viewStore.viewMatrix, e.offsetX, e.offsetY];
+
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    },
+
+    downSelect(e: PointerEvent) {
+      const { selectedTool } = toolbarStore;
+
+      if (!(selectedTool === 'select' && e.button === 0)) return;
+
+      const selIdx = unref(picStore.selection);
+      if (selIdx === null) return;
+      const layer = unref(picStore.layers)[selIdx];
+      if (!layer) return;
+      const cPos = unref(canvasPositionRef);
+      const found = nearestPointWithRange(
+        layer.commands,
+        cPos,
+        Math.max(0.5, 7 / viewStore.zoom),
+      );
+      if (!found) return;
+      const [cIdx, pIdx] = found;
+      dragStateRef.value = ['point', selIdx, cIdx, pIdx];
+
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    },
+
+    downFill(e: MouseEvent) {
+      const { selectedTool } = toolbarStore;
+      if (!(selectedTool === 'fill' && e.button === 0)) {
         return;
       }
 
-      if (selectedTool === 'select' && e.button === 0) {
-        // check if is within radius of any point of the selected layer
-        const selIdx = unref(picStore.selection);
-        if (selIdx === null) return;
+      const pos = round(
+        applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+        vec2(),
+        Math.floor,
+      );
 
-        const layer = unref(picStore.layers)[selIdx];
-        if (!layer) return;
+      const [drawMode, ...drawCodes] = unref(drawState);
+      picStore.selection = cmdStore.commit({
+        id: Math.random().toString(36).substring(2),
+        type: 'FILL',
+        commands: [['FILL', drawMode, drawCodes, pos]],
+      });
 
-        const cPos = unref(canvasPositionRef);
-        const found = nearestPointWithRange(
-          layer.commands,
-          cPos,
-          Math.max(0.5, 7 / viewStore.zoom),
-        );
-        if (!found) return;
-        const [cIdx, pIdx] = found;
-        dragStateRef.value = ['point', selIdx, cIdx, pIdx];
+      e.preventDefault();
+    },
+
+    downLine(e: MouseEvent) {
+      const { selectedTool } = toolbarStore;
+      if (!(selectedTool === 'line' && e.button === 0)) {
+        return;
+      }
+
+      const pos = round(
+        applyToPoint(unref(iMatrixRef), [e.offsetX, e.offsetY]),
+        vec2(),
+        Math.floor,
+      );
+
+      const current = cmdStore.current;
+
+      // Append to current line
+      if (current?.type === 'PLINE') {
+        const [type, mode, code, ...coords] = current.commands[0];
+        cmdStore.begin({
+          ...current,
+          commands: [
+            [type, mode, code, ...coords.slice(0, -1), [...pos], [...pos]],
+          ],
+        });
+        e.preventDefault();
+        return;
+      }
+
+      // Remove an existing point on the selected line
+      const nearestExistingPoint = unref(nearestExistingPointRef);
+      if (nearestExistingPoint) {
+        const [cmdIdx, pointIdx] = nearestExistingPoint;
+        picStore.updateSelection((prev) => {
+          if (prev.type !== 'PLINE') return prev;
+
+          const [type, mode, codes, ...prevVerts] = prev.commands[cmdIdx];
+          const nextVerts = remove(prevVerts, pointIdx);
+
+          if (nextVerts.length <= 1) return null;
+          return {
+            ...prev,
+            commands: [[type, mode, codes, ...nextVerts]],
+          };
+        });
+        e.preventDefault();
+        return;
+      }
+
+      // Insert a new point on an existing line
+      const nearestAddPoint = unref(nearestAddPointRef);
+      if (nearestAddPoint) {
+        const [cmdIdx, , idx, vert] = nearestAddPoint;
+        console.log(nearestAddPoint);
+        picStore.updateSelection((prev) => {
+          if (prev.type !== 'PLINE') return prev;
+          const [type, mode, codes, ...prevVerts] = prev.commands[cmdIdx];
+          console.log(JSON.stringify(prevVerts));
+          const nextVerts = insert(
+            prevVerts,
+            idx,
+            round(vert, vert, Math.floor),
+          );
+          console.log(JSON.stringify(nextVerts));
+          return {
+            ...prev,
+            commands: [[type, mode, codes, ...nextVerts]],
+          };
+        });
+        e.preventDefault();
+        return;
+      }
+
+      // Start a new line
+      if (current === null) {
+        const [drawMode, ...drawCodes] = unref(drawState);
+        cmdStore.begin({
+          id: Math.random().toString(36).substring(2),
+          type: 'PLINE',
+          commands: [['PLINE', drawMode, drawCodes, pos, pos]],
+        });
+        e.preventDefault();
+        return;
       }
     },
-    move: (e: PointerEvent) => {
+
+    move(e: PointerEvent) {
       cursorPositionRef.value = [e.offsetX, e.offsetY];
     },
-    up: () => {
+    up() {
       dragStateRef.value = null;
     },
   };
@@ -371,10 +484,12 @@ export function useInputMachine(
   onMounted(() => {
     const el = unref(canvasRef);
     if (!el) return;
-    el.addEventListener('click', mouseHandlers.click);
     el.addEventListener('contextmenu', mouseHandlers.contextMenu);
     el.addEventListener('wheel', mouseHandlers.wheel);
-    el.addEventListener('pointerdown', pointerHandlers.down);
+    el.addEventListener('pointerdown', pointerHandlers.downPan);
+    el.addEventListener('pointerdown', pointerHandlers.downSelect);
+    el.addEventListener('pointerdown', pointerHandlers.downFill);
+    el.addEventListener('pointerdown', pointerHandlers.downLine);
     el.addEventListener('pointermove', pointerHandlers.move);
     el.addEventListener('pointerup', pointerHandlers.up);
   });
@@ -384,9 +499,11 @@ export function useInputMachine(
     if (!el) return;
     el.removeEventListener('pointerup', pointerHandlers.up);
     el.removeEventListener('pointermove', pointerHandlers.move);
-    el.removeEventListener('pointerdown', pointerHandlers.down);
+    el.removeEventListener('pointerdown', pointerHandlers.downLine);
+    el.removeEventListener('pointerdown', pointerHandlers.downFill);
+    el.removeEventListener('pointerdown', pointerHandlers.downSelect);
+    el.removeEventListener('pointerdown', pointerHandlers.downPan);
     el.removeEventListener('wheel', mouseHandlers.wheel);
     el.removeEventListener('contextmenu', mouseHandlers.contextMenu);
-    el.removeEventListener('click', mouseHandlers.click);
   });
 }
