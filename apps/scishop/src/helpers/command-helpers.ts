@@ -4,7 +4,12 @@ import {
   FillCommand,
   PolylineCommand,
 } from '@4bitlabs/sci0';
-import { squaredDistanceBetween, Vec2 } from '@4bitlabs/vec2';
+import {
+  distanceBetween,
+  project,
+  squaredDistanceBetween,
+  Vec2,
+} from '@4bitlabs/vec2';
 import { insert } from './array-helpers.ts';
 import { exhaustive } from './exhaustive.ts';
 
@@ -84,7 +89,42 @@ export const moveLineVertex = (
   pos: [number, number],
 ): PolylineCommand => [type, mode, codes, ...insert(verts, idx, pos, true)];
 
+function* getSegments(points: Vec2[]): Generator<[number, number, Vec2, Vec2]> {
+  for (let i = 0; i < points.length - 1; i++)
+    yield [i, i + 1, points[i], points[i + 1]];
+}
+
 export const moveFillVertex = (
   [type, mode, codes]: FillCommand,
   pos: [number, number],
 ): FillCommand => [type, mode, codes, pos];
+
+export type PointAlongPathResult = [
+  cmdIdx: number,
+  i0: number,
+  i1: number,
+  point: Vec2,
+];
+export function pointAlongPaths(
+  commands: DrawCommand[],
+  position: Readonly<Vec2>,
+  range: number,
+): PointAlongPathResult | null {
+  for (let cmdIdx = 0; cmdIdx < commands.length; cmdIdx++) {
+    const cmd = commands[cmdIdx];
+    const [type] = cmd;
+    if (type !== 'PLINE') continue;
+
+    const points = extractCoordinates(cmd);
+    for (const segment of getSegments(points)) {
+      const [i0, i1, v0, v1] = segment;
+      const p = project(v0, v1, position);
+      const dist = distanceBetween(p, position);
+      if (dist < range) {
+        return [cmdIdx, i0, i1, p];
+      }
+    }
+  }
+
+  return null;
+}

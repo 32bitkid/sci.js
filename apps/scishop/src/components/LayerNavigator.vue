@@ -76,14 +76,17 @@ const handleClick = (e: MouseEvent, idx: number) => {
 
 <style module>
 .list {
+  --lnc-item-height: 32px;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr 1.4rem 1rem 1rem 1px;
+  grid-template-rows: auto;
+  grid-auto-rows: var(--lnc-item-height);
   column-gap: 0.5ch;
   overflow-x: clip;
   overflow-y: auto;
   scrollbar-width: thin;
-  align-items: start;
+  align-items: center;
   align-content: start;
   padding-bottom: 0.5lh;
   background-image: var(--transparent-img);
@@ -132,7 +135,11 @@ const handleClick = (e: MouseEvent, idx: number) => {
   border-top: 1px solid #ddd;
   cursor: pointer;
   user-select: none;
+  align-content: center;
   background-color: var(--clr-surface--default);
+  background-clip: padding-box;
+  height: var(--lnc-item-height);
+  box-sizing: border-box;
 }
 
 .item:last-of-type {

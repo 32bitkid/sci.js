@@ -1,7 +1,7 @@
 import { ref, shallowRef, unref } from 'vue';
 
 import { DrawCommand } from '@4bitlabs/sci0';
-import { insert } from '../helpers/array-helpers.ts';
+import { insert, remove } from '../helpers/array-helpers.ts';
 import { EditorCommand } from '../models/EditorCommand.ts';
 
 const nextId = () => Math.random().toString(36).substring(2);
@@ -31,6 +31,27 @@ export default {
   },
   set topIdx(n: number) {
     topIdxRef.value = n;
+  },
+
+  updateSelection(
+    updateFn: (it: EditorCommand) => EditorCommand | null,
+  ): boolean {
+    const idx = unref(selectedCommandIdx);
+    if (idx === null) return false;
+
+    const cmd = layersRef.value[idx];
+    if (!cmd) return false;
+
+    const next = updateFn(cmd);
+    if (next === null) {
+      layersRef.value = remove(layersRef.value, idx);
+      this.selection = null;
+      if (idx < this.topIdx) this.topIdx -= 1;
+    } else {
+      layersRef.value = insert(layersRef.value, idx, next, true);
+    }
+
+    return true;
   },
 };
 
