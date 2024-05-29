@@ -13,7 +13,7 @@ import {
 import { insert } from './array-helpers.ts';
 import { exhaustive } from './exhaustive.ts';
 
-export const extractCoordinates = (
+export const extractVertices = (
   cmd: PolylineCommand | FillCommand | BrushCommand,
 ): Vec2[] => {
   const [type] = cmd;
@@ -58,7 +58,7 @@ export const findClosestPointIn = (
       if (type !== 'PLINE' && type !== 'FILL') return state;
       const [prevD2] = state;
       const [nextD2, pIdx] = findClosestPointTo(
-        extractCoordinates(cmd).map(([x, y]) => [x + 0.5, y + 0.5]),
+        extractVertices(cmd).map(([x, y]) => [x + 0.5, y + 0.5]),
         position,
       );
       return nextD2 < prevD2 ? [nextD2, cmdIdx, pIdx] : state;
@@ -115,7 +115,10 @@ export function pointAlongPaths(
     const [type] = cmd;
     if (type !== 'PLINE') continue;
 
-    const points = extractCoordinates(cmd);
+    const points = extractVertices(cmd).map<Vec2>(([x, y]) => [
+      x + 0.5,
+      y + 0.5,
+    ]);
     for (const segment of getSegments(points)) {
       const [i0, i1, v0, v1] = segment;
       const p = project(v0, v1, position);
@@ -127,4 +130,28 @@ export function pointAlongPaths(
   }
 
   return null;
+}
+
+export function getVertexFrom(
+  commands: DrawCommand[],
+  cmdIdx: number,
+  vertexIdx: number,
+) {
+  const cmd = commands[cmdIdx];
+  if (!cmd) return null;
+  const [type] = cmd;
+  if (type !== 'PLINE' && type !== 'FILL') return null;
+  const points = extractVertices(cmd);
+  return points[vertexIdx];
+}
+
+export function mustGetVertexFrom(
+  commands: DrawCommand[],
+  cmdIdx: number,
+  vertexIdx: number,
+) {
+  const result = getVertexFrom(commands, cmdIdx, vertexIdx);
+  if (!result)
+    throw new Error(`Command does not contain [${cmdIdx}/${vertexIdx}]`);
+  return result;
 }
