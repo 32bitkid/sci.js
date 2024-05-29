@@ -59,7 +59,7 @@ export const dot = (a: Readonly<Vec2>, b: Readonly<Vec2>) =>
 export const project = (
   a: Readonly<Vec2>,
   b: Readonly<Vec2>,
-  p: Vec2,
+  p: Readonly<Vec2>,
   out: Vec2 = [0, 0],
 ): Vec2 => {
   const vecAB = sub(b, a);
