@@ -7,9 +7,9 @@ export const isInsideBounds = (
 
 export const pixel = ([x, y]: Readonly<Vec2>, offset = 0.0): Vec2[] => [
   [Math.floor(x) + offset, Math.floor(y) + offset],
-  [Math.ceil(x) - offset, Math.floor(y) + offset],
-  [Math.ceil(x) - offset, Math.ceil(y) - offset],
-  [Math.floor(x) + offset, Math.ceil(y) - offset],
+  [Math.floor(x) + 1 - offset, Math.floor(y) + offset],
+  [Math.floor(x) + 1 - offset, Math.floor(y) + 1 - offset],
+  [Math.floor(x) + offset, Math.floor(y) + 1 - offset],
 ];
 
 export const areaOfPolygon = (points: Readonly<Vec2>[]) => {
