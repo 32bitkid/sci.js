@@ -1,9 +1,12 @@
 {
   "name": "@4bitlabs/vec2",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "A simple collection of functions for working with two-component vectors.",
   "keywords": [
-    "vector", "2d", "vec", "geometry"
+    "vector",
+    "2d",
+    "vec",
+    "geometry"
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
