@@ -20,7 +20,7 @@ import {
 } from 'transformation-matrix';
 import deepEqual from 'fast-deep-equal';
 
-import { round, isEqual, vec2 } from '@4bitlabs/vec2';
+import { round, isEqual, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
 import toolbarStore from '../data/toolbarStore';
 import viewStore from '../data/viewStore';
@@ -36,11 +36,11 @@ import { drawState } from '../data/paletteStore.ts';
 import { pixelBorder } from '../render/pixel-border.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
-import { cursorDot } from '../render/cursor-dot.ts';
 import {
   FindResult,
   moveFillVertex,
   moveLineVertex,
+  mustGetVertexFrom,
   nearestPointWithRange,
   PointAlongPathResult,
   pointAlongPaths,
@@ -58,14 +58,21 @@ const clampZoom = (current: number, next: number, min: number, max: number) => {
   return next;
 };
 
-// TODO collapse
-type ViewDragState = ['view', Matrix, number, number];
+type ViewDragState = ['view', iMatrix: Matrix, iPosition: Vec2];
 type PointDragState = [
   'point',
-  layerIdx: number,
-  cmdIdx: number,
-  vertexIdx: number,
+  iPosition: Vec2,
+  ...[layerIdx: number, cmdIdx: number, vertexIdx: number, initial: Vec2][],
 ];
+
+const selectedLayerRef = computed(() => {
+  const current = unref(currentCommandStore.current);
+  if (current) return current;
+  const selIdx = unref(picStore.selection);
+  return selIdx !== null ? unref(picStore.layers)[selIdx] : null;
+});
+
+const pointerRadiusRef = computed(() => Math.max(0.404, 7.5 / viewStore.zoom));
 
 export function useInputMachine(
   matrixRef: Ref<Matrix>,
@@ -76,25 +83,15 @@ export function useInputMachine(
   const iMatrixRef = computed(() => inverse(unref(matrixRef)));
   const dragStateRef = shallowRef<ViewDragState | PointDragState | null>(null);
 
-  const selectedLayerRef = computed(() => {
-    const current = unref(currentCommandStore.current);
-    if (current) return current;
-    const selIdx = unref(picStore.selection);
-    return selIdx !== null ? unref(picStore.layers)[selIdx] : null;
-  });
-
   const cursorPositionRef = useRafRef<[number, number]>([0, 0]);
   const canvasPositionRef = computed<[number, number]>((prev) => {
     const actual = applyToPoint(unref(iMatrixRef), unref(cursorPositionRef));
-    const next = round(actual, vec2(), (i) => Math.round(i * 4) / 4);
-    const isSame = prev && isEqual(prev, next);
-    return isSame ? prev : next;
+    const next = round(actual, vec2(), (i) => Math.round(i * 8) / 8);
+    return prev && isEqual(prev, next) ? prev : next;
   });
-
   const canvasPixelRef = computed<[number, number]>((prev) => {
     const next = round(unref(canvasPositionRef), vec2(), Math.floor);
-    const isSame = prev && isEqual(prev, next);
-    return isSame ? prev : next;
+    return prev && isEqual(prev, next) ? prev : next;
   });
 
   const isOverCanvasRef = computed<boolean>(() => {
@@ -102,10 +99,6 @@ export function useInputMachine(
     const [cWidth, cHeight] = unref(canvasResRef);
     return isInsideBounds([cWidth, cHeight], canvasPoint);
   });
-
-  const pointerRadiusRef = computed(() =>
-    Math.max(0.404, 7.5 / viewStore.zoom),
-  );
 
   const nearestExistingPointRef = computed<FindResult | null>((prev = null) => {
     const cmds = unref(selectedLayerRef)?.commands;
@@ -169,51 +162,55 @@ export function useInputMachine(
     const [mode] = dragState;
     if (mode !== 'view') return;
 
-    const [, matrix, ix, iy] = dragState;
+    const [, matrix, [ix, iy]] = dragState;
     const dx = ix - cX;
     const dy = iy - cY;
     viewStore.viewMatrix = compose(translate(-dx, -dy), matrix);
   });
 
   // Apply point drag state
-  watch([canvasPixelRef, dragStateRef], ([pos, dragState]) => {
+  watch([canvasPositionRef, dragStateRef], ([currentPosition, dragState]) => {
     if (!dragState) return;
     const [mode] = dragState;
     if (mode !== 'point') return;
 
-    const [, lIdx, cIdx, pIdx] = dragState;
-    const layer = unref(picStore.layers)[lIdx];
-    if (layer.type === 'PLINE') {
-      const cmd = layer.commands[cIdx];
-      const next: BasicEditorCommand<PolylineCommand> = {
-        ...layer,
-        commands: [moveLineVertex(cmd, pIdx, pos)],
-      };
-      layersRef.value = insert(picStore.layers, lIdx, next, true);
-      return;
-    }
+    const [, initialPosition, ...pairs] = dragState;
+    const delta = sub(currentPosition, initialPosition);
 
-    if (layer.type === 'FILL') {
-      const cmd = layer.commands[cIdx];
-      const next: BasicEditorCommand<FillCommand> = {
-        ...layer,
-        commands: [moveFillVertex(cmd, pos)],
-      };
-      layersRef.value = insert(picStore.layers, lIdx, next, true);
-      return;
-    }
+    const layers = unref(picStore.layers);
+    pairs.forEach(([lIdx, cIdx, vIdx, iVec]) => {
+      const nextVec = round(add(iVec, delta));
+
+      const layer = layers[lIdx];
+      if (!layer) return;
+
+      switch (layer.type) {
+        case 'PLINE': {
+          const cmd = layer.commands[cIdx];
+          const next: BasicEditorCommand<PolylineCommand> = {
+            ...layer,
+            commands: [moveLineVertex(cmd, vIdx, nextVec)],
+          };
+          layersRef.value = insert(picStore.layers, lIdx, next, true);
+          break;
+        }
+        case 'FILL': {
+          const cmd = layer.commands[cIdx];
+          const next: BasicEditorCommand<FillCommand> = {
+            ...layer,
+            commands: [moveFillVertex(cmd, nextVec)],
+          };
+          layersRef.value = insert(picStore.layers, lIdx, next, true);
+          break;
+        }
+      }
+    });
   });
 
   // Update the UI canvas
   watch(
-    [
-      canvasRef,
-      matrixRef,
-      cursorPositionRef,
-      canvasPositionRef,
-      selectedLayerRef,
-    ],
-    ([el, matrix, screenPoint, canvasPoint, selectedLayer]) => {
+    [canvasRef, matrixRef, canvasPositionRef, selectedLayerRef],
+    ([el, matrix, canvasPoint, selectedLayer]) => {
       if (!el) return;
 
       const [sWidth, sHeight] = unref(stageResRef);
@@ -227,18 +224,12 @@ export function useInputMachine(
         toolbarStore.selectedTool === 'line' ||
         toolbarStore.selectedTool === 'fill'
       ) {
-        // const canvasPoint = applyToPoint(iMatrix, screenPoint);
-
         const [cWidth, cHeight] = unref(canvasResRef);
         const overCanvas = isInsideBounds([cWidth, cHeight], canvasPoint);
 
         if (overCanvas) {
           ctx.save();
           pixelBorder(ctx, applyToPoints(matrix, pixel(canvasPoint, 0.0125)));
-          ctx.restore();
-
-          ctx.save();
-          cursorDot(ctx, screenPoint);
           ctx.restore();
         }
       }
@@ -338,7 +329,11 @@ export function useInputMachine(
       if (!isPanning) return;
       if (dragStateRef.value !== null) return; // already panning
 
-      dragStateRef.value = ['view', viewStore.viewMatrix, e.offsetX, e.offsetY];
+      dragStateRef.value = [
+        'view',
+        viewStore.viewMatrix,
+        [e.offsetX, e.offsetY],
+      ];
 
       e.stopImmediatePropagation();
       e.preventDefault();
@@ -346,25 +341,31 @@ export function useInputMachine(
 
     downSelect(e: PointerEvent) {
       const { selectedTool } = toolbarStore;
-
       if (!(selectedTool === 'select' && e.button === 0)) return;
 
-      const selIdx = unref(picStore.selection);
-      if (selIdx === null) return;
-      const layer = unref(picStore.layers)[selIdx];
+      const lIdx = unref(picStore.selection);
+      if (lIdx === null) return;
+      const layer = unref(picStore.layers)[lIdx];
       if (!layer) return;
+
       const cPos = unref(canvasPositionRef);
       const found = nearestPointWithRange(
         layer.commands,
         cPos,
         Math.max(0.5, 7 / viewStore.zoom),
       );
-      if (!found) return;
-      const [cIdx, pIdx] = found;
-      dragStateRef.value = ['point', selIdx, cIdx, pIdx];
 
-      e.stopImmediatePropagation();
-      e.preventDefault();
+      if (found) {
+        const [cIdx, pIdx] = found;
+        const p = mustGetVertexFrom(layer.commands, cIdx, pIdx);
+        dragStateRef.value = ['point', cPos, [lIdx, cIdx, pIdx, p]];
+
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        return;
+      }
+
+      // start rectangle selector?
     },
 
     downFill(e: MouseEvent) {
@@ -440,17 +441,14 @@ export function useInputMachine(
       const nearestAddPoint = unref(nearestAddPointRef);
       if (nearestAddPoint) {
         const [cmdIdx, , idx, vert] = nearestAddPoint;
-        console.log(nearestAddPoint);
         picStore.updateSelection((prev) => {
           if (prev.type !== 'PLINE') return prev;
           const [type, mode, codes, ...prevVerts] = prev.commands[cmdIdx];
-          console.log(JSON.stringify(prevVerts));
           const nextVerts = insert(
             prevVerts,
             idx,
             round(vert, vert, Math.floor),
           );
-          console.log(JSON.stringify(nextVerts));
           return {
             ...prev,
             commands: [[type, mode, codes, ...nextVerts]],
