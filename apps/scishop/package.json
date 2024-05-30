@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@4bitlabs/sci0": "^2.7.0",
+    "@4bitlabs/sci0": "^3.0.0",
     "@4bitlabs/color": "^2.1.4",
     "@4bitlabs/color-space": "^1.2.2",
     "@4bitlabs/image": "^3.3.9",
