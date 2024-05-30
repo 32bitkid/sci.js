@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.7.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.6.0...@4bitlabs/sci0@2.7.0) (2024-05-30)
+
+### New
+
+- exporting drawMode predicates ([b50abce](https://github.com/32bitkid/sci.js/commit/b50abceb5551237e1d5bec49eb6f77eb17f5f169))
+
+### Upgrade
+
+- Use @4bitlabs/vec2 ([13b1ecb](https://github.com/32bitkid/sci.js/commit/13b1ecb17d4bb277b53780892893e6dcd18116d7))
+
 # [2.6.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.5.1...@4bitlabs/sci0@2.6.0) (2024-05-28)
 
 ### Changed
