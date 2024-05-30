@@ -12,6 +12,7 @@ import {
 } from '@4bitlabs/vec2';
 import { insert } from './array-helpers.ts';
 import { exhaustive } from './exhaustive.ts';
+import { getSegments } from './polygons.ts';
 
 export const extractVertices = (
   cmd: PolylineCommand | FillCommand | BrushCommand,
@@ -88,11 +89,6 @@ export const moveLineVertex = (
   idx: number,
   pos: [number, number],
 ): PolylineCommand => [type, mode, codes, ...insert(verts, idx, pos, true)];
-
-function* getSegments(points: Vec2[]): Generator<[number, number, Vec2, Vec2]> {
-  for (let i = 0; i < points.length - 1; i++)
-    yield [i, i + 1, points[i], points[i + 1]];
-}
 
 export const moveFillVertex = (
   [type, mode, codes]: FillCommand,

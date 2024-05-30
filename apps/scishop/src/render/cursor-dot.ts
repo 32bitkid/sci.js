@@ -7,14 +7,17 @@ export function cursorDot(
 ) {
   ctx.save();
 
-  ctx.beginPath();
-  ctx.arc(x, y, size * 1.5, 0, Math.PI * 2);
-  ctx.fillStyle = 'black';
-  ctx.fill();
+  ctx.translate(x, y);
 
   ctx.beginPath();
-  ctx.arc(x, y, size, 0, Math.PI * 2);
-  ctx.fillStyle = 'white';
+  ctx.arc(0, 0, size * 1.75, 0, Math.PI * 2);
+  ctx.arc(0, 0, size, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(0 0 0 / 20%)';
+  ctx.fill('evenodd');
+
+  ctx.beginPath();
+  ctx.arc(0, 0, size, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(255 255 255 / 40%)';
   ctx.fill();
 
   ctx.restore();
