@@ -70,6 +70,7 @@ const clampZoom = (current: number, next: number, min: number, max: number) => {
 
 type SelectionEntry = [layerIdx: number, cmdIdx: number, vertexIdx: number];
 
+type EmptyDragState = ['none'];
 type ViewDragState = ['view', iMatrix: Matrix, iPosition: Vec2];
 type PointDragState = [
   'point',
@@ -78,7 +79,11 @@ type PointDragState = [
 ];
 type SelectionDragState = ['sel-rect', start: Vec2];
 
-type DragStates = ViewDragState | PointDragState | SelectionDragState;
+type DragStates =
+  | EmptyDragState
+  | ViewDragState
+  | PointDragState
+  | SelectionDragState;
 
 const selectedLayerRef = computed(() => {
   const selIdx = unref(picStore.selection);
@@ -102,7 +107,7 @@ export function useInputMachine(
   canvasResRef: Ref<[number, number]>,
 ) {
   const iMatrixRef = computed(() => inverse(unref(matrixRef)));
-  const dragStateRef = shallowRef<DragStates | null>(null);
+  const dragStateRef = shallowRef<DragStates>(['none']);
   const selectionStateRef = shallowRef<SelectionEntry[]>([]);
 
   const lastCursorPositionRef = useRafRef<[number, number]>([0, 0]);
@@ -155,11 +160,11 @@ export function useInputMachine(
     const el = unref(canvasRef);
     if (!el) return;
 
-    const dragState = unref(dragStateRef);
+    const [dragMode] = unref(dragStateRef);
     const { selectedTool } = toolbarStore;
 
     let currentCursor = 'auto';
-    if (dragState !== null && dragState[0] === 'view') {
+    if (dragMode === 'view') {
       currentCursor = 'grabbing';
     } else if (selectedTool === 'pan') {
       currentCursor = 'grab';
@@ -183,8 +188,7 @@ export function useInputMachine(
   });
 
   // Apply current pan state
-  watch([lastCursorPositionRef, dragStateRef], ([[cX, cY], dragState]) => {
-    if (!dragState) return;
+  watch([dragStateRef, lastCursorPositionRef], ([dragState, [cX, cY]]) => {
     const [mode] = dragState;
     if (mode !== 'view') return;
 
@@ -239,28 +243,28 @@ export function useInputMachine(
     ([el, [sWidth, sHeight], dragState, p1]) => {
       if (!el) return;
       setCanvasDimensions(el, sWidth, sHeight);
-      if (!dragState) return;
+
+      const [dragMode] = dragState;
+      if (dragMode !== 'sel-rect') return;
 
       const ctx = get2dContext(el);
       ctx.clearRect(0, 0, sWidth, sHeight);
 
-      const [dragMode] = dragState;
-      if (dragMode === 'sel-rect') {
-        const [, p0] = dragState;
-        ctx.save();
-        const selRect = rect(p0, p1);
-        pathPoly(ctx, selRect);
-        ctx.fillStyle = 'rgba(42 82 190 / 25%)';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(42 82 190 / 100%)';
-        ctx.stroke();
-        ctx.restore();
-      }
+      const [, p0] = dragState;
+      ctx.save();
+      const selRect = rect(p0, p1);
+      pathPoly(ctx, selRect);
+      ctx.fillStyle = 'rgba(42 82 190 / 25%)';
+      ctx.fill();
+      ctx.strokeStyle = 'rgba(42 82 190 / 100%)';
+      ctx.stroke();
+      ctx.restore();
     },
   );
 
-  watch([selCanvasRef, dragStateRef], ([el, dragState]) => {
-    if (!el || dragState) return;
+  watch([selCanvasRef, dragStateRef], ([el, [dragMode]]) => {
+    if (!el) return;
+    if (dragMode !== 'none') return;
     setCanvasDimensions(el, 1, 1);
     const ctx = get2dContext(el);
     ctx.clearRect(0, 0, 1, 1);
@@ -339,6 +343,7 @@ export function useInputMachine(
     },
   );
 
+  // update current
   watch([canvasPixelRef], ([pos]) => {
     const current = cmdStore.current;
     if (current === null) return;
@@ -400,11 +405,10 @@ export function useInputMachine(
   const pointerHandlers = {
     downPan(e: PointerEvent) {
       const { selectedTool } = toolbarStore;
-      const isPanning =
+      const startPan =
         (selectedTool === 'pan' && e.button === 0) || e.button === 1;
 
-      if (!isPanning) return;
-      if (dragStateRef.value !== null) return; // already panning
+      if (!startPan) return;
 
       dragStateRef.value = [
         'view',
@@ -557,9 +561,9 @@ export function useInputMachine(
       lastCursorPositionRef.value = [e.offsetX, e.offsetY];
 
       const dragState = unref(dragStateRef);
-      if (dragState === null) return;
-
       const [mode] = dragState;
+
+      if (mode !== 'sel-rect') return;
 
       // TODO rethink this
       const layerIdx = unref(picStore.selection);
@@ -569,27 +573,22 @@ export function useInputMachine(
       if (selectedLayer.type !== 'PLINE' && selectedLayer.type !== 'FILL')
         return;
 
-      if (mode === 'sel-rect') {
-        const [, p0] = dragState;
-        const p1 = vec2(e.offsetX, e.offsetY);
-
-        const iMatrix = unref(iMatrixRef);
-        const bounds = applyToPoints(iMatrix, rect(p0, p1));
-
-        const selPoints: SelectionEntry[] = [];
-        selectedLayer.commands.forEach((cmd, cmdIdx) => {
-          const verts = extractVertices(cmd);
-          verts.forEach((v, vIdx) => {
-            if (!isInsidePolygon(bounds, v)) return;
-            selPoints.push([layerIdx, cmdIdx, vIdx]);
-          });
+      const [, p0] = dragState;
+      const p1 = vec2(e.offsetX, e.offsetY);
+      const iMatrix = unref(iMatrixRef);
+      const bounds = applyToPoints(iMatrix, rect(p0, p1));
+      const selPoints: SelectionEntry[] = [];
+      selectedLayer.commands.forEach((cmd, cmdIdx) => {
+        const verts = extractVertices(cmd);
+        verts.forEach((v, vIdx) => {
+          if (!isInsidePolygon(bounds, v)) return;
+          selPoints.push([layerIdx, cmdIdx, vIdx]);
         });
-
-        selectionStateRef.value = selPoints;
-      }
+      });
+      selectionStateRef.value = selPoints;
     },
     up() {
-      dragStateRef.value = null;
+      dragStateRef.value = ['none'];
     },
   };
 
