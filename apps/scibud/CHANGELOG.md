@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.4.1...@4bitlabs/scibud@1.4.2) (2024-05-30)
+
+**Note:** Version bump only for package @4bitlabs/scibud
+
 ## [1.4.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.4.0...@4bitlabs/scibud@1.4.1) (2024-05-30)
 
 **Note:** Version bump only for package @4bitlabs/scibud

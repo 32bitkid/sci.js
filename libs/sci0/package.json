@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0",
-  "version": "2.7.0",
+  "version": "3.0.0",
   "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

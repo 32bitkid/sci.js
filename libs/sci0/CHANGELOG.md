@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.7.0...@4bitlabs/sci0@3.0.0) (2024-05-30)
+
+### Breaking
+
+- Changed structure of internal draw-command representation ([cc85c5d](https://github.com/32bitkid/sci.js/commit/cc85c5d7cbd3042502b8843a13460b7dd2107e16))
+
 # [2.7.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@2.6.0...@4bitlabs/sci0@2.7.0) (2024-05-30)
 
 ### New
