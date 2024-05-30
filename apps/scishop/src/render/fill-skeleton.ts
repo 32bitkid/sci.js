@@ -8,7 +8,7 @@ export function fillSkeleton(
   cmd: FillCommand,
   highlight: boolean = false,
 ) {
-  const [, , , ...points] = cmd;
+  const [, , ...points] = cmd;
   const all = applyToPoints(
     matrix,
     points.map(([x, y]) => [x + 0.5, y + 0.5]),

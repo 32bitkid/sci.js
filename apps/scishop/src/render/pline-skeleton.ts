@@ -10,7 +10,7 @@ export function plineSkeleton(
 ) {
   ctx.save();
 
-  const [, , , ...cPoints] = cmd;
+  const [, , ...cPoints] = cmd;
   const points = applyToPoints(
     matrix,
     cPoints.map(([x, y]) => [x + 0.5, y + 0.5]),

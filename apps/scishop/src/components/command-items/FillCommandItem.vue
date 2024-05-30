@@ -7,7 +7,8 @@ const { command, pals } = defineProps<{
   pals: [number[], number[], number[], number[]];
 }>();
 
-const [, drawMode, drawCode] = command;
+const [, options] = command;
+const [drawMode, drawCode] = options;
 </script>
 
 <template>

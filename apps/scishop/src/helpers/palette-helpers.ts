@@ -21,13 +21,13 @@ export const mapToPals = (commands: EditorCommand[]) => {
       const { type } = editorCmd;
       switch (type) {
         case 'SET_PALETTE': {
-          const [, palIdx, colors] = editorCmd.commands[0];
+          const [, [palIdx], ...colors] = editorCmd.commands[0];
           const next: PaletteSet = [...prevSet];
           next[palIdx] = [...colors];
           return [...stack, next];
         }
         case 'UPDATE_PALETTE': {
-          const [, entries] = editorCmd.commands[0];
+          const [, , ...entries] = editorCmd.commands[0];
           const next = entries.reduce((pals, [palIdx, clrIdx, color]) => {
             const nextSet: PaletteSet = [...prevSet];
             const nextPal = [...nextSet[palIdx]];
