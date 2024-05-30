@@ -56,7 +56,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       assign(next, prev);
     }
-    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
   },
   [OpCode.MediumLines]({ r, state, push }) {
     const points: Vec2[] = [];
@@ -67,7 +67,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       assign(next, prev);
     }
-    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
   },
   [OpCode.LongLines]({ r, state, push }) {
     const points: Vec2[] = [];
@@ -75,7 +75,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
     while (r.peek32(8) < 0xf0) {
       points.push(getPoint24(r, vec2()));
     }
-    push(['PLINE', state.drawMode, state.drawCodes, ...points]);
+    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
   },
 
   // Patterns
@@ -94,12 +94,16 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push(['BRUSH', drawMode, drawCodes, patternCode, texture, clone(prev)]);
+    push([
+      'BRUSH',
+      [drawMode, drawCodes, ...patternCode, texture],
+      clone(prev),
+    ]);
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint8(r, vec2(), prev);
-      push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next]);
       assign(next, prev);
     }
   },
@@ -110,12 +114,16 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push(['BRUSH', drawMode, drawCodes, patternCode, texture, clone(prev)]);
+    push([
+      'BRUSH',
+      [drawMode, drawCodes, ...patternCode, texture],
+      clone(prev),
+    ]);
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint16(r, vec2(), prev);
-      push(['BRUSH', drawMode, drawCodes, patternCode, texture, next]);
+      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next]);
       assign(next, prev);
     }
   },
@@ -126,7 +134,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
     while (r.peek32(8) < 0xf0) {
       const texture = isTextured ? r.read32(8) >> 1 : 0;
       const pos = getPoint24(r, vec2());
-      push(['BRUSH', drawMode, drawCodes, patternCode, texture, pos]);
+      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], pos]);
     }
   },
 
@@ -138,7 +146,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       const peek = r.peek32(8);
       if (peek >= 0xf0) break;
       getPoint24(r, p1);
-      push(['FILL', drawMode, drawCodes, clone(p1)]);
+      push(['FILL', [drawMode, drawCodes], clone(p1)]);
     }
   },
 
@@ -162,13 +170,13 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
       entries.push([pal, idx, code]);
     }
 
-    push(['UPDATE_PALETTE', entries]);
+    push(['UPDATE_PALETTE', [], ...entries]);
   },
   [ExtendedOpCode.SetPalette]({ r, push }) {
     const pal = r.read32(8);
     const colors: number[] = Array(40).fill(0);
     repeat(40, (i) => (colors[i] = r.read32(8)));
-    push(['SET_PALETTE', pal, colors]);
+    push(['SET_PALETTE', [pal], ...colors]);
   },
   [ExtendedOpCode.x02]({ r }) {
     // Looks like a palette, but I'm not sure what this chunk is for
@@ -207,7 +215,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     });
     const cel = parseCel(view);
 
-    push(['CEL', state.drawMode, pos, cel]);
+    push(['CEL', [state.drawMode], pos, cel]);
   },
   [ExtendedOpCode.x08]({ r }) {
     repeat(14, () => r.read32(8));

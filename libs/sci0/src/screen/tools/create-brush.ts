@@ -11,12 +11,12 @@ export const createBrush = (
   function brush(
     cx,
     cy,
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
     size,
     isRect,
     isSpray,
     textureCode,
-    drawMode: DrawMode,
-    drawCodes: DrawCodes,
   ): void {
     const baseWidth = isRect ? 2 : 1;
     const width = baseWidth + size * 2;

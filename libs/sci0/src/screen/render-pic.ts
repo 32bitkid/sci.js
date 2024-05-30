@@ -33,25 +33,25 @@ export const renderPic = (
 
     switch (mode) {
       case 'SET_PALETTE': {
-        const [, idx, palette] = cmd;
+        const [, [idx], ...palette] = cmd;
         palettes[idx].set(palette);
         break;
       }
       case 'UPDATE_PALETTE': {
-        const [, entries] = cmd;
+        const [, , ...entries] = cmd;
         entries.forEach(([pal, idx, color]) => {
           palettes[pal][idx] = color;
         });
         break;
       }
       case 'FILL': {
-        const [, drawMode, drawCodes, pos] = cmd;
+        const [, [drawMode, drawCodes], pos] = cmd;
         const [x, y] = pos;
         screen.fill(x, y, drawMode, drawCodes);
         break;
       }
       case 'PLINE': {
-        const [, drawMode, drawCodes, ...points] = cmd;
+        const [, [drawMode, drawCodes], ...points] = cmd;
         for (let p = 0; p < points.length - 1; p++)
           screen.line(
             points[p][0],
@@ -64,12 +64,12 @@ export const renderPic = (
         break;
       }
       case 'BRUSH': {
-        const [, drawMode, drawCodes, patternCode, textureCode, [cx, cy]] = cmd;
-        screen.brush(cx, cy, ...patternCode, textureCode, drawMode, drawCodes);
+        const [, brushOptions, [cx, cy]] = cmd;
+        screen.brush(cx, cy, ...brushOptions);
         break;
       }
       case 'CEL': {
-        const [, drawMode, [x, y], cel] = cmd;
+        const [, [drawMode], [x, y], cel] = cmd;
         screen.blit(x, y, drawMode, cel);
         break;
       }

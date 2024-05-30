@@ -4,6 +4,7 @@ export type { ResourceType } from './models/resource-type';
 export type {
   PatternCode,
   DrawCodes,
+  DrawCommandStruct,
   SetPaletteCommand,
   UpdatePaletteCommand,
   BrushCommand,

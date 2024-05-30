@@ -31,12 +31,12 @@ export type Liner = (
 export type Brusher = (
   cx: number,
   cy: number,
+  drawMode: DrawMode,
+  drawCodes: DrawCodes,
   size: number,
   isRect: boolean,
   isSpray: boolean,
   textureCode: number,
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
 ) => void;
 
 export type Blitter = (

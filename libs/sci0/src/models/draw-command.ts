@@ -28,46 +28,56 @@ export type DrawCodes = readonly [
   control: number,
 ];
 
-export type SetPaletteCommand = readonly [
-  mode: 'SET_PALETTE',
-  pal: number,
-  colors: readonly number[],
-];
+export type DrawCommandStruct<
+  Type extends string,
+  Options,
+  Payload extends unknown[] = [],
+> = readonly [type: Type, options: Options, ...Payload];
 
-export type UpdatePaletteCommand = readonly [
-  mode: 'UPDATE_PALETTE',
-  entries: readonly [pal: number, idx: number, color: number][],
-];
+export type SetPalettePayload = number[];
+export type SetPaletteCommand = DrawCommandStruct<
+  'SET_PALETTE',
+  [pal: number],
+  SetPalettePayload
+>;
 
-export type BrushCommand = readonly [
-  mode: 'BRUSH',
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-  patternCode: PatternCode,
-  textureCode: number,
-  pos: Vec2,
-];
+export type UpdatePaletteEntry = [pal: number, idx: number, color: number];
+export type UpdatePalettePayload = UpdatePaletteEntry[];
+export type UpdatePaletteCommand = DrawCommandStruct<
+  'UPDATE_PALETTE',
+  [],
+  UpdatePalettePayload
+>;
 
-export type FillCommand = readonly [
-  mode: 'FILL',
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-  pos: Vec2,
-];
+export type BrushCommand = DrawCommandStruct<
+  'BRUSH',
+  [
+    drawMode: DrawMode,
+    drawCodes: DrawCodes,
+    ...patternCode: PatternCode,
+    textureCode: number,
+  ],
+  [Vec2]
+>;
 
-export type PolylineCommand = readonly [
-  mode: 'PLINE',
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-  ...points: Vec2[],
-];
+export type FillCommand = DrawCommandStruct<
+  'FILL',
+  [drawMode: DrawMode, drawCodes: DrawCodes],
+  [Vec2]
+>;
 
-export type EmbeddedCelCommand = readonly [
-  mode: 'CEL',
-  drawMode: DrawMode,
-  pos: Vec2,
-  cel: Cel,
-];
+export type PolylineCommand = DrawCommandStruct<
+  'PLINE',
+  [drawMode: DrawMode, drawCodes: DrawCodes],
+  Vec2[]
+>;
+
+export type EmbeddedCelPayload = [pos: Vec2, cel: Cel];
+export type EmbeddedCelCommand = DrawCommandStruct<
+  'CEL',
+  [drawMode: DrawMode],
+  EmbeddedCelPayload
+>;
 
 export type DrawCommand =
   | BrushCommand
