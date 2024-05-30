@@ -1,4 +1,4 @@
-import { Ref, watch, unref, shallowRef, triggerRef, computed } from 'vue';
+import { computed, Ref, shallowRef, triggerRef, unref, watch } from 'vue';
 import { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
 
 import { DrawCommand, renderPic } from '@4bitlabs/sci0';
@@ -8,6 +8,7 @@ import { nearestNeighbor } from '@4bitlabs/resize-filters';
 import { get2dContext } from '../helpers/getContext';
 import viewStore from '../data/viewStore.ts';
 import { screenPalette as screenPaletteRef } from '../data/paletteStore.ts';
+import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
 
 const oversampleRef = computed<[number, number]>(() => {
   if (viewStore.zoom > 12) return [1, 1];
@@ -28,27 +29,33 @@ export function useRenderedPixels(
 }
 
 const isSoftRef = computed<boolean>(() => viewStore.zoom >= 1);
+const ditherRef = computed(() =>
+  createDitherFilter(
+    generateSciDitherPairs(
+      unref(screenPaletteRef),
+      unref(isSoftRef) ? Mixers.softMixer() : ([a, b]) => [a, b],
+    ),
+  ),
+);
 
 export function useCanvasRenderer(
   renderedRef: Ref<RenderResult>,
   resRef: Ref<[number, number]>,
 ): Ref<OffscreenCanvas> {
   const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
+
   watch(
-    [renderedRef, resRef, oversampleRef, screenPaletteRef, isSoftRef],
-    ([pic, [width, height], oversample, palette, isSoft]) => {
+    [renderedRef, resRef, oversampleRef, ditherRef],
+    ([pic, [width, height], oversample, dither]) => {
       const canvas = unref(canvasRef);
-      canvas.width = width * oversample[0];
-      canvas.height = height * oversample[1];
+      setCanvasDimensions(
+        canvas,
+        width * oversample[0],
+        height * oversample[1],
+      );
 
       const imgData = renderPixelData(pic.visible, {
-        dither: createDitherFilter(
-          generateSciDitherPairs(
-            palette,
-            isSoft ? Mixers.softMixer() : ([a, b]) => [a, b],
-          ),
-          [1, 1],
-        ),
+        dither,
         post: [nearestNeighbor(oversample)],
       }) as ImageData;
 
