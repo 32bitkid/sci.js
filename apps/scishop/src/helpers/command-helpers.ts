@@ -44,6 +44,15 @@ export const findClosestPointTo = (
     return thisD2 < prevD2 ? [thisD2, pIdx] : state;
   }, initial);
 
+export const anyPointCloseTo = (
+  vertices: Readonly<Vec2>[],
+  position: Readonly<Vec2>,
+  proximity: number,
+): boolean => {
+  const [result] = findClosestPointTo(vertices, position);
+  return Math.sqrt(result) <= proximity;
+};
+
 export type FindState = [dSqrd: number, commandIdx: number, pointIdx: number];
 export const findClosestPointIn = (
   commands: DrawCommand[],
