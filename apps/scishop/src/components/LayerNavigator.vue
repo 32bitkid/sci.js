@@ -42,7 +42,8 @@ const handleClick = (e: MouseEvent, idx: number) => {
   const ecmd = store.layers[idx];
   const lastCmd = ecmd.commands.findLast(isHasDrawModes);
   if (lastCmd) {
-    const [, drawMode, drawCodes] = lastCmd;
+    const [, options] = lastCmd;
+    const [drawMode, drawCodes] = options;
     drawState.value = [drawMode, ...drawCodes];
   }
 };
