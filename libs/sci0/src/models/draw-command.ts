@@ -5,6 +5,12 @@ export enum DrawMode {
   Visual = 0b001,
   Priority = 0b010,
   Control = 0b100,
+
+  ___ = 0b000,
+  VP_ = 0b011,
+  V_C = 0b101,
+  _CP = 0b110,
+  VPC = 0b111,
 }
 
 export const isVisualMode = (mode: DrawMode) =>
