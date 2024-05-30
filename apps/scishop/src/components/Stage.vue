@@ -20,6 +20,8 @@ import { pathPoly } from '../helpers/polygons.ts';
 
 const stageRef = shallowRef<HTMLCanvasElement | null>(null);
 const uiRef = shallowRef<HTMLCanvasElement | null>(null);
+const selectRef = shallowRef<HTMLCanvasElement | null>(null);
+const cursorRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef);
 
 const viewStack = computed(() => [
@@ -89,11 +91,20 @@ watch(
   },
 );
 
-useInputMachine(matrixRef, uiRef, stageRes, stageStore.canvasRes);
+useInputMachine(
+  matrixRef,
+  uiRef,
+  selectRef,
+  cursorRef,
+  stageRes,
+  stageStore.canvasRes,
+);
 </script>
 
 <template>
   <canvas :class="[$style.canvas, $style.stage]" ref="stageRef"></canvas>
+  <canvas :class="[$style.canvas, $style.selLayer]" ref="selectRef"></canvas>
+  <canvas :class="[$style.canvas, $style.cursorLayer]" ref="cursorRef"></canvas>
   <canvas :class="[$style.canvas, $style.ui]" ref="uiRef"></canvas>
 </template>
 
@@ -109,7 +120,8 @@ useInputMachine(matrixRef, uiRef, stageRes, stageStore.canvasRes);
   background-color: #666;
 }
 
-.ui {
+.ui,
+.cursorLayer {
   mix-blend-mode: exclusion;
 }
 </style>
