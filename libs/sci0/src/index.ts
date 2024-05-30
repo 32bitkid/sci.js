@@ -12,7 +12,12 @@ export type {
   EmbeddedCelCommand,
   DrawCommand,
 } from './models/draw-command';
-export { DrawMode } from './models/draw-command';
+export {
+  DrawMode,
+  isVisualMode,
+  isPriorityMode,
+  isControlMode,
+} from './models/draw-command';
 
 export {
   getResourceNumber,
