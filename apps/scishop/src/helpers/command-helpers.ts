@@ -1,5 +1,5 @@
 import {
-  BrushCommand,
+  DrawCommandStruct,
   DrawCommand,
   FillCommand,
   PolylineCommand,
@@ -11,28 +11,24 @@ import {
   Vec2,
 } from '@4bitlabs/vec2';
 import { insert } from './array-helpers.ts';
-import { exhaustive } from './exhaustive.ts';
 import { getSegments } from './polygons.ts';
 
 export const extractVertices = (
-  cmd: PolylineCommand | FillCommand | BrushCommand,
+  cmd: DrawCommandStruct<string, unknown, Vec2[]>,
 ): Vec2[] => {
   const [type] = cmd;
   switch (type) {
     case 'PLINE': {
-      const [, , , ...vertices] = cmd;
+      const [, , ...vertices] = cmd;
       return vertices;
     }
+    case 'BRUSH':
     case 'FILL': {
-      const [, , , vertex] = cmd;
-      return [vertex];
-    }
-    case 'BRUSH': {
-      const [, , , , , vertex] = cmd;
+      const [, , vertex] = cmd;
       return [vertex];
     }
     default:
-      exhaustive(`unexpected type`, type);
+      return [];
   }
 };
 
@@ -85,15 +81,15 @@ export function nearestPointWithRange(
 }
 
 export const moveLineVertex = (
-  [type, mode, codes, ...verts]: PolylineCommand,
+  [type, options, ...verts]: PolylineCommand,
   idx: number,
   pos: [number, number],
-): PolylineCommand => [type, mode, codes, ...insert(verts, idx, pos, true)];
+): PolylineCommand => [type, options, ...insert(verts, idx, pos, true)];
 
 export const moveFillVertex = (
-  [type, mode, codes]: FillCommand,
+  [type, options]: FillCommand,
   pos: [number, number],
-): FillCommand => [type, mode, codes, pos];
+): FillCommand => [type, options, pos];
 
 export type PointAlongPathResult = [
   cmdIdx: number,

@@ -343,10 +343,10 @@ export function useInputMachine(
     const current = cmdStore.current;
     if (current === null) return;
     if (current.type === 'PLINE') {
-      const [type, mode, code, ...coords] = current.commands[0];
+      const [type, options, ...coords] = current.commands[0];
       cmdStore.begin({
         ...current,
-        commands: [[type, mode, code, ...coords.slice(0, -1), pos]],
+        commands: [[type, options, ...coords.slice(0, -1), pos]],
       });
     }
   });
@@ -359,13 +359,13 @@ export function useInputMachine(
         const current = cmdStore.current;
         if (current === null || current.type !== 'PLINE') return;
 
-        const [type, mode, code, ...coords] = current.commands[0];
+        const [type, options, ...coords] = current.commands[0];
         if (coords.length < 3) {
           cmdStore.abort();
         } else {
           picStore.selection = cmdStore.commit({
             ...current,
-            commands: [[type, mode, code, ...coords.slice(0, -1)]],
+            commands: [[type, options, ...coords.slice(0, -1)]],
           });
         }
         return;
@@ -466,7 +466,7 @@ export function useInputMachine(
       picStore.selection = cmdStore.commit({
         id: Math.random().toString(36).substring(2),
         type: 'FILL',
-        commands: [['FILL', drawMode, drawCodes, pos]],
+        commands: [['FILL', [drawMode, drawCodes], pos]],
       });
 
       e.preventDefault();
@@ -488,11 +488,11 @@ export function useInputMachine(
 
       // Append to current line
       if (current?.type === 'PLINE') {
-        const [type, mode, code, ...coords] = current.commands[0];
+        const [type, options, ...coords] = current.commands[0];
         cmdStore.begin({
           ...current,
           commands: [
-            [type, mode, code, ...coords.slice(0, -1), [...pos], [...pos]],
+            [type, options, ...coords.slice(0, -1), [...pos], [...pos]],
           ],
         });
         e.preventDefault();
@@ -506,13 +506,13 @@ export function useInputMachine(
         picStore.updateSelection((prev) => {
           if (prev.type !== 'PLINE') return prev;
 
-          const [type, mode, codes, ...prevVerts] = prev.commands[cmdIdx];
+          const [type, options, ...prevVerts] = prev.commands[cmdIdx];
           const nextVerts = remove(prevVerts, pointIdx);
 
           if (nextVerts.length <= 1) return null;
           return {
             ...prev,
-            commands: [[type, mode, codes, ...nextVerts]],
+            commands: [[type, options, ...nextVerts]],
           };
         });
         e.preventDefault();
@@ -525,7 +525,7 @@ export function useInputMachine(
         const [cmdIdx, , idx, vert] = nearestAddPoint;
         picStore.updateSelection((prev) => {
           if (prev.type !== 'PLINE') return prev;
-          const [type, mode, codes, ...prevVerts] = prev.commands[cmdIdx];
+          const [type, options, ...prevVerts] = prev.commands[cmdIdx];
           const nextVerts = insert(
             prevVerts,
             idx,
@@ -533,7 +533,7 @@ export function useInputMachine(
           );
           return {
             ...prev,
-            commands: [[type, mode, codes, ...nextVerts]],
+            commands: [[type, options, ...nextVerts]],
           };
         });
         e.preventDefault();
@@ -546,7 +546,7 @@ export function useInputMachine(
         cmdStore.begin({
           id: Math.random().toString(36).substring(2),
           type: 'PLINE',
-          commands: [['PLINE', drawMode, drawCodes, pos, pos]],
+          commands: [['PLINE', [drawMode, drawCodes], pos, pos]],
         });
         e.preventDefault();
         return;
@@ -566,7 +566,8 @@ export function useInputMachine(
       if (layerIdx === null) return;
       const selectedLayer = unref(picStore.layers)[layerIdx];
       if (!selectedLayer) return;
-      if (selectedLayer.type !== 'PLINE') return;
+      if (selectedLayer.type !== 'PLINE' && selectedLayer.type !== 'FILL')
+        return;
 
       if (mode === 'sel-rect') {
         const [, p0] = dragState;
@@ -587,7 +588,7 @@ export function useInputMachine(
         selectionStateRef.value = selPoints;
       }
     },
-    up(_: PointerEvent) {
+    up() {
       dragStateRef.value = null;
     },
   };
