@@ -26,8 +26,8 @@ export function plineSkeleton(
     ctx.save();
     ctx.translate(x, y);
     ctx.beginPath();
-    ctx.clearRect(-2, -2, 4, 4);
-    ctx.roundRect(-2.5, -2.5, 5, 5, 0.5);
+    ctx.clearRect(-4, -4, 8, 8);
+    ctx.roundRect(-2.5, -2.5, 5, 5, 0);
     ctx.stroke();
     if (highlights.includes(idx)) ctx.fill();
     ctx.restore();
