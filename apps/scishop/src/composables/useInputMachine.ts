@@ -43,6 +43,7 @@ import { pixelBorder } from '../render/pixel-border.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
 import {
+  anyPointCloseTo,
   extractVertices,
   FindResult,
   moveFillVertex,
@@ -72,11 +73,8 @@ type SelectionEntry = [layerIdx: number, cmdIdx: number, vertexIdx: number];
 
 type EmptyDragState = ['none'];
 type ViewDragState = ['view', iMatrix: Matrix, iPosition: Vec2];
-type PointDragState = [
-  'point',
-  iPosition: Vec2,
-  ...[...SelectionEntry, initial: Vec2][],
-];
+type PointDragEntry = [...SelectionEntry, initial: Vec2];
+type PointDragState = ['point', iPosition: Vec2, ...PointDragEntry[]];
 type SelectionDragState = ['sel-rect', start: Vec2];
 
 type DragStates =
@@ -207,22 +205,18 @@ export function useInputMachine(
     const [, initialPosition, ...pairs] = dragState;
     const delta = sub(currentPosition, initialPosition);
 
-    const layers = unref(picStore.layers);
-    pairs.forEach(([lIdx, cIdx, vIdx, iVec]) => {
+    layersRef.value = pairs.reduce((prevLayers, [lIdx, cIdx, vIdx, iVec]) => {
       const nextVec = round(add(iVec, delta));
+      const layer = prevLayers[lIdx];
 
-      const layer = layers[lIdx];
-      if (!layer) return;
-
-      switch (layer.type) {
+      switch (layer?.type) {
         case 'PLINE': {
           const cmd = layer.commands[cIdx];
           const next: BasicEditorCommand<PolylineCommand> = {
             ...layer,
             commands: [moveLineVertex(cmd, vIdx, nextVec)],
           };
-          layersRef.value = insert(picStore.layers, lIdx, next, true);
-          break;
+          return insert(prevLayers, lIdx, next, true);
         }
         case 'FILL': {
           const cmd = layer.commands[cIdx];
@@ -230,11 +224,11 @@ export function useInputMachine(
             ...layer,
             commands: [moveFillVertex(cmd, nextVec)],
           };
-          layersRef.value = insert(picStore.layers, lIdx, next, true);
-          break;
+          return insert(prevLayers, lIdx, next, true);
         }
       }
-    });
+      return prevLayers;
+    }, unref(picStore.layers));
   });
 
   // Update Selection UI
@@ -420,16 +414,58 @@ export function useInputMachine(
       e.preventDefault();
     },
 
+    downSelectionMoveStart(e: PointerEvent) {
+      const { selectedTool } = toolbarStore;
+      if (!(selectedTool === 'select' && e.button === 0)) return;
+
+      const layers = unref(picStore.layers);
+      const cPos = unref(canvasPositionRef);
+
+      const selState = unref(selectionStateRef);
+      const selectedVertices = selState.flatMap(([lIdx, cIdx, vIdx]) => {
+        const cmd = layers[lIdx]?.commands[cIdx];
+        if (!cmd) return [];
+        if (cmd[0] !== 'PLINE' && cmd[0] !== 'FILL') return [];
+        const vertex = extractVertices(cmd)[vIdx];
+        if (!vertex) return [];
+        const [x, y] = vertex;
+        return [vec2(x + 0.5, y + 0.5)];
+      });
+
+      const found = anyPointCloseTo(
+        selectedVertices,
+        cPos,
+        Math.max(0.5, 7 / viewStore.zoom),
+      );
+
+      if (!found) return;
+
+      const dragEntries = selState.map<PointDragEntry>(([lIdx, cIdx, pIdx]) => [
+        lIdx,
+        cIdx,
+        pIdx,
+        mustGetVertexFrom(layers[lIdx].commands, cIdx, pIdx),
+      ]);
+
+      dragStateRef.value = ['point', cPos, ...dragEntries];
+
+      e.stopImmediatePropagation();
+      e.preventDefault();
+    },
+
     downPointSelect(e: PointerEvent) {
       const { selectedTool } = toolbarStore;
       if (!(selectedTool === 'select' && e.button === 0)) return;
 
-      const lIdx = unref(picStore.selection);
-      if (lIdx === null) return;
-      const layer = unref(picStore.layers)[lIdx];
+      const layers = unref(picStore.layers);
+      const cPos = unref(canvasPositionRef);
+
+      const iIdx = unref(picStore.selection);
+      if (iIdx === null) return;
+
+      const layer = layers[iIdx];
       if (!layer) return;
 
-      const cPos = unref(canvasPositionRef);
       const found = nearestPointWithRange(
         layer.commands,
         cPos,
@@ -439,7 +475,7 @@ export function useInputMachine(
       if (found) {
         const [cIdx, pIdx] = found;
         const p = mustGetVertexFrom(layer.commands, cIdx, pIdx);
-        dragStateRef.value = ['point', cPos, [lIdx, cIdx, pIdx, p]];
+        dragStateRef.value = ['point', cPos, [iIdx, cIdx, pIdx, p]];
 
         e.stopImmediatePropagation();
         e.preventDefault();
@@ -598,6 +634,7 @@ export function useInputMachine(
     el.addEventListener('contextmenu', mouseHandlers.contextMenu);
     el.addEventListener('wheel', mouseHandlers.wheel);
     el.addEventListener('pointerdown', pointerHandlers.downPan);
+    el.addEventListener('pointerdown', pointerHandlers.downSelectionMoveStart);
     el.addEventListener('pointerdown', pointerHandlers.downPointSelect);
     el.addEventListener('pointerdown', pointerHandlers.downPointStartRect);
     el.addEventListener('pointerdown', pointerHandlers.downFill);
@@ -615,6 +652,10 @@ export function useInputMachine(
     el.removeEventListener('pointerdown', pointerHandlers.downFill);
     el.removeEventListener('pointerdown', pointerHandlers.downPointStartRect);
     el.removeEventListener('pointerdown', pointerHandlers.downPointSelect);
+    el.removeEventListener(
+      'pointerdown',
+      pointerHandlers.downSelectionMoveStart,
+    );
     el.removeEventListener('pointerdown', pointerHandlers.downPan);
     el.removeEventListener('wheel', mouseHandlers.wheel);
     el.removeEventListener('contextmenu', mouseHandlers.contextMenu);
