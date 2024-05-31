@@ -4,6 +4,9 @@ import Toolbar from './components/Toolbar.vue';
 import SideBar from './components/Sidebar.vue';
 import Stage from './components/Stage.vue';
 import StatusBar from './components/StatusBar.vue';
+import { useAppStoreProvider } from './data/useAppStoreProvider.ts';
+
+useAppStoreProvider();
 </script>
 
 <template>
