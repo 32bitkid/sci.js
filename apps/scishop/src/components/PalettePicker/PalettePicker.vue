@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, unref, computed } from 'vue';
 import { fromUint32, toHex } from '@4bitlabs/color-space/srgb';
 import ModeSelector from './ModeSelector.vue';
 import {
@@ -12,11 +12,13 @@ import {
   priorityCode,
   controlCode,
 } from '../../data/paletteStore.ts';
-import viewStore from '../../data/viewStore';
+import { zoomRef } from '../../data/viewStore';
 
-const ditherSize = computed(
-  () => `${Math.round(Math.min(12, Math.max(1, viewStore.zoom))) * 2}px`,
-);
+const ditherSize = computed(() => {
+  const zoom = unref(zoomRef);
+  const pixelSize = Math.min(12, Math.max(1, zoom));
+  return `${Math.round(pixelSize) * 2}px`;
+});
 
 const mode = ref<'v' | 'p' | 'c' | 'none'>('v');
 

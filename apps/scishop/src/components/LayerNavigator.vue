@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, unref } from 'vue';
 import type { Component } from 'vue';
-import store from '../data/picStore';
+import { layersRef, selectedIdxRef, topIdxRef } from '../data/picStore';
 import GenericCommandItem from './command-items/GenericCommandItem.vue';
 import PolyLineCommandItem from './command-items/PolyLineCommandItem.vue';
 import FillCommandItem from './command-items/FillCommandItem.vue';
@@ -15,7 +15,7 @@ import {
   BrushCommand,
 } from '@4bitlabs/sci0';
 
-const stack = computed(() => Array.from(store.layers.entries()).reverse());
+const stack = computed(() => Array.from(unref(layersRef).entries()).reverse());
 
 const component = new Map<string, Component>([
   ['SET_PALETTE', SetPaletteCommand],
@@ -35,11 +35,11 @@ function isHasDrawModes(
 
 const handleClick = (e: MouseEvent, idx: number) => {
   if (e.shiftKey) {
-    store.topIdx = idx + 1;
+    topIdxRef.value = idx + 1;
   }
 
-  store.selection = store.selection !== idx ? idx : null;
-  const ecmd = store.layers[idx];
+  selectedIdxRef.value = unref(selectedIdxRef) !== idx ? idx : null;
+  const ecmd = unref(layersRef)[idx];
   const lastCmd = ecmd.commands.findLast(isHasDrawModes);
   if (lastCmd) {
     const [, options] = lastCmd;
@@ -66,9 +66,9 @@ const handleClick = (e: MouseEvent, idx: number) => {
       :pals="paletteSetStack[idx]"
       :class="[
         $style.item,
-        idx === store.selection && $style.current,
-        idx >= store.topIdx && $style.hidden,
-        idx === store.topIdx - 1 && $style.top,
+        idx === selectedIdxRef && $style.current,
+        idx >= topIdxRef && $style.hidden,
+        idx === topIdxRef - 1 && $style.top,
       ]"
       @click="handleClick($event, idx)"
     />
