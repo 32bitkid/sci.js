@@ -1,19 +1,30 @@
 <script setup lang="ts">
 import { computed, unref } from 'vue';
 import type { Component } from 'vue';
-import { layersRef, selectedIdxRef, topIdxRef } from '../data/picStore';
 import GenericCommandItem from './command-items/GenericCommandItem.vue';
 import PolyLineCommandItem from './command-items/PolyLineCommandItem.vue';
 import FillCommandItem from './command-items/FillCommandItem.vue';
 import BrushCommandItem from './command-items/BrushCommandItem.vue';
 import SetPaletteCommand from './command-items/SetPaletteCommand.vue';
-import { paletteSetStack, drawState } from '../data/paletteStore.ts';
 import {
   DrawCommand,
   FillCommand,
   PolylineCommand,
   BrushCommand,
 } from '@4bitlabs/sci0';
+import { mustInject } from '../data/mustInject.ts';
+import {
+  drawStateKey,
+  layersKey,
+  paletteKey,
+  pointersKey,
+} from '../data/keys.ts';
+
+const { raw: rawDrawState } = mustInject(drawStateKey);
+const layersRef = mustInject(layersKey);
+const { topIdx: topIdxRef, selectedIdx: selectedIdxRef } =
+  mustInject(pointersKey);
+const { paletteSetStack } = mustInject(paletteKey);
 
 const stack = computed(() => Array.from(unref(layersRef).entries()).reverse());
 
@@ -44,7 +55,7 @@ const handleClick = (e: MouseEvent, idx: number) => {
   if (lastCmd) {
     const [, options] = lastCmd;
     const [drawMode, drawCodes] = options;
-    drawState.value = [drawMode, ...drawCodes];
+    rawDrawState.value = [drawMode, ...drawCodes];
   }
 };
 </script>

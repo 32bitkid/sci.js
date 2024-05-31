@@ -8,7 +8,7 @@ export const DEFAULT_PALETTE: number[] = [
   0xfe, 0xff, 0x08, 0x91, 0x2a, 0x3b, 0x4c, 0x5d, 0x6e, 0x88,
 ] as const;
 
-type PaletteSet = [number[], number[], number[], number[]];
+export type PaletteSet = [number[], number[], number[], number[]];
 
 export const mapToPals = (commands: EditorCommand[]) => {
   return commands.reduce<PaletteSet[]>(

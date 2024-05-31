@@ -2,17 +2,20 @@
 import { ref, unref, computed } from 'vue';
 import { fromUint32, toHex } from '@4bitlabs/color-space/srgb';
 import ModeSelector from './ModeSelector.vue';
-import {
-  screenPalette,
-  palette,
+import { mustInject } from '../../data/mustInject.ts';
+import { drawStateKey, paletteKey, viewKey } from '../../data/keys.ts';
+
+const {
   visualEnabled,
-  priorityEnabled,
   controlEnabled,
-  visualCode,
+  priorityEnabled,
   priorityCode,
+  visualCode,
   controlCode,
-} from '../../data/paletteStore.ts';
-import { zoomRef } from '../../data/viewStore';
+} = mustInject(drawStateKey);
+const { finalColors, currentPalette } = mustInject(paletteKey);
+
+const { viewZoom: zoomRef } = mustInject(viewKey);
 
 const ditherSize = computed(() => {
   const zoom = unref(zoomRef);
@@ -57,7 +60,9 @@ const getDitherComponents = (
             v-model:enabled="visualEnabled"
             :selected="mode === 'v'"
             @update:select="mode = 'v'"
-            :color="getDitherComponents(screenPalette, palette, visualCode)"
+            :color="
+              getDitherComponents(finalColors, currentPalette, visualCode)
+            "
           />
         </li>
         <li>
@@ -66,7 +71,7 @@ const getDitherComponents = (
             v-model:enabled="priorityEnabled"
             :selected="mode === 'p'"
             @update:select="mode = 'p'"
-            :color="getSingle(screenPalette, priorityCode)"
+            :color="getSingle(finalColors, priorityCode)"
           />
         </li>
         <li>
@@ -75,18 +80,18 @@ const getDitherComponents = (
             v-model:enabled="controlEnabled"
             :selected="mode === 'c'"
             @update:select="mode = 'c'"
-            :color="getSingle(screenPalette, controlCode)"
+            :color="getSingle(finalColors, controlCode)"
           />
         </li>
       </menu>
       <menu :class="$style.grid" v-if="mode === 'v'">
-        <li v-for="(_, idx) in palette">
+        <li v-for="(_, idx) in currentPalette">
           <button
             :class="[
               $style.swatch,
               visualEnabled && idx === visualCode && $style.selected,
             ]"
-            :style="[getDitherPair(screenPalette, _)]"
+            :style="[getDitherPair(finalColors, _)]"
             @click="visualCode = idx"
           ></button>
         </li>

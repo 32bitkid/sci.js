@@ -22,8 +22,6 @@ import deepEqual from 'fast-deep-equal';
 
 import { round, isEqual, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
-import { toolRef } from '../data/toolbarStore';
-import { viewMatrixRef, zoomRef } from '../data/viewStore';
 import { get2dContext } from '../helpers/getContext.ts';
 import {
   isInsideBounds,
@@ -33,13 +31,6 @@ import {
   rect,
 } from '../helpers/polygons.ts';
 import { useRafRef } from './useRafRef.ts';
-import {
-  currentRef,
-  currentCommandStore as cmdStore,
-  layersRef,
-  selectedIdxRef,
-} from '../data/picStore.ts';
-import { drawState } from '../data/paletteStore.ts';
 import { pixelBorder } from '../render/pixel-border.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
@@ -63,7 +54,18 @@ import cursorPenMinusSvg from '../assets/cursor-pen-minus.svg';
 import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
 import { cursorDot } from '../render/cursor-dot.ts';
 import { pointSkeleton } from '../render/point-skeleton.ts';
-import { updateSelection } from '../data/updateSelection.ts';
+import { useUpdateSelectionFn } from '../data/useUpdateSelectionFn.ts';
+import { useCurrentCommandActions } from '../data/useCurrentCommandActions.ts';
+import {
+  currentKey,
+  drawStateKey,
+  layersKey,
+  pointersKey,
+  stageOptionsKey,
+  toolKey,
+  viewKey,
+} from '../data/keys.ts';
+import { mustInject } from '../data/mustInject.ts';
 
 const clampZoom = (current: number, next: number, min: number, max: number) => {
   if (current * next < min) return min / current;
@@ -85,27 +87,50 @@ type DragStates =
   | PointDragState
   | SelectionDragState;
 
-const selectedLayerRef = computed(() => {
-  const selIdx = unref(selectedIdxRef);
-  return selIdx !== null ? unref(layersRef)[selIdx] : null;
-});
-
-const activeLayerRef = computed(() => {
-  const current = unref(currentRef);
-  if (current) return current;
-  return unref(selectedLayerRef);
-});
-
-const pointerRadiusRef = computed(() => Math.max(0.404, 7.5 / unref(zoomRef)));
-
 export function useInputMachine(
   matrixRef: Ref<Matrix>,
   canvasRef: Ref<HTMLCanvasElement | null>,
   selCanvasRef: Ref<HTMLCanvasElement | null>,
   cursorCanvasRef: Ref<HTMLCanvasElement | null>,
   stageResRef: Ref<[number, number]>,
-  canvasResRef: Ref<[number, number]>,
 ) {
+  const layersRef = mustInject(layersKey);
+  const toolRef = mustInject(toolKey);
+  const currentRef = mustInject(currentKey);
+  const { matrix: viewMatrixRef, viewZoom: zoomRef } = mustInject(viewKey);
+  const { canvasSize } = mustInject(stageOptionsKey);
+  const { raw: rawDrawState } = mustInject(drawStateKey);
+  const { topIdx: topIdxRef, selectedIdx: selectedIdxRef } =
+    mustInject(pointersKey);
+
+  const updateSelection = useUpdateSelectionFn({
+    layers: layersRef,
+    topIdx: topIdxRef,
+    selectedIdx: selectedIdxRef,
+  });
+
+  const cmdStore = useCurrentCommandActions({
+    layers: layersRef,
+    current: currentRef,
+    topIdx: topIdxRef,
+    selectedIdx: selectedIdxRef,
+  });
+
+  const selectedLayerRef = computed(() => {
+    const selIdx = unref(selectedIdxRef);
+    return selIdx !== null ? unref(layersRef)[selIdx] : null;
+  });
+
+  const activeLayerRef = computed(() => {
+    const current = unref(currentRef);
+    if (current) return current;
+    return unref(selectedLayerRef);
+  });
+
+  const pointerRadiusRef = computed(() =>
+    Math.max(0.404, 7.5 / unref(zoomRef)),
+  );
+
   const iMatrixRef = computed(() => inverse(unref(matrixRef)));
   const dragStateRef = shallowRef<DragStates>(['none']);
   const selectionStateRef = shallowRef<SelectionEntry[]>([]);
@@ -127,7 +152,7 @@ export function useInputMachine(
 
   const isOverCanvasRef = computed<boolean>(() => {
     const canvasPoint = unref(canvasPixelRef);
-    const [cWidth, cHeight] = unref(canvasResRef);
+    const [cWidth, cHeight] = unref(canvasSize);
     return isInsideBounds([cWidth, cHeight], canvasPoint);
   });
 
@@ -289,7 +314,7 @@ export function useInputMachine(
       if (simpleCusor) return;
 
       // Draw precision cursor
-      const [cWidth, cHeight] = unref(canvasResRef);
+      const [cWidth, cHeight] = unref(canvasSize);
       const overCanvas = isInsideBounds([cWidth, cHeight], canvasPoint);
       if (overCanvas) {
         ctx.save();
@@ -503,7 +528,7 @@ export function useInputMachine(
         Math.floor,
       );
 
-      const [drawMode, ...drawCodes] = unref(drawState);
+      const [drawMode, ...drawCodes] = unref(rawDrawState);
       cmdStore.commit({
         id: Math.random().toString(36).substring(2),
         type: 'FILL',
@@ -583,7 +608,7 @@ export function useInputMachine(
 
       // Start a new line
       if (current === null) {
-        const [drawMode, ...drawCodes] = unref(drawState);
+        const [drawMode, ...drawCodes] = unref(rawDrawState);
         cmdStore.begin({
           id: Math.random().toString(36).substring(2),
           type: 'PLINE',
