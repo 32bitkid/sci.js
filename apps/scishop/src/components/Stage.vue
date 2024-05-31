@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import { watch, computed, unref, shallowRef } from 'vue';
-import {
-  translate,
-  compose,
-  scale,
-  applyToPoints,
-} from 'transformation-matrix';
+import { translate, compose, applyToPoints } from 'transformation-matrix';
 import { useResizeWatcher } from '../composables/useResizeWatcher';
 import {
   useCanvasRenderer,
   useRenderedPixels,
 } from '../composables/useCanvasRenderer';
-import { currentCommandsRef, layersRef, topIdxRef } from '../data/picStore';
-import { aspectRatioRef, canvasSizeRef } from '../data/stageStore';
-import { viewMatrixRef, zoomRef } from '../data/viewStore';
 import { get2dContext } from '../helpers/getContext';
 import { useInputMachine } from '../composables/useInputMachine';
 import { pathPoly } from '../helpers/polygons.ts';
+import { mustInject } from '../data/mustInject.ts';
+import {
+  layersKey,
+  pointersKey,
+  stageOptionsKey,
+  viewKey,
+} from '../data/keys.ts';
+import * as Keys from '../data/keys.ts';
+
+const layersRef = mustInject(layersKey);
+const { matrix: viewMatrixRef, viewZoom: zoomRef } = mustInject(viewKey);
+const { canvasSize, aspectRatioScaleComponent } = mustInject(stageOptionsKey);
+const { topIdx: topIdxRef } = mustInject(pointersKey);
+const currentRef = mustInject(Keys.currentKey);
 
 const stageRef = shallowRef<HTMLCanvasElement | null>(null);
 const uiRef = shallowRef<HTMLCanvasElement | null>(null);
@@ -24,23 +30,28 @@ const selectRef = shallowRef<HTMLCanvasElement | null>(null);
 const cursorRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef);
 
+const currentCommands = computed(() => {
+  const current = unref(currentRef);
+  return current ? [...current.commands] : [];
+});
+
 const viewStack = computed(() => [
   ...unref(layersRef)
     .slice(0, unref(topIdxRef))
     .flatMap((it) => [...it.commands]),
-  ...unref(currentCommandsRef),
+  ...unref(currentCommands),
 ]);
 
-const renderResult = useRenderedPixels(viewStack, canvasSizeRef);
-const pixels = useCanvasRenderer(renderResult, canvasSizeRef);
+const renderResult = useRenderedPixels(viewStack);
+const pixels = useCanvasRenderer(renderResult);
 
 const matrixRef = computed(() => {
   const [sWidth, sHeight] = unref(stageRes);
-  const [cWidth, cHeight] = unref(canvasSizeRef);
+  const [cWidth, cHeight] = unref(canvasSize);
   return compose(
     translate(Math.round(sWidth / 2), Math.round(sHeight / 2)),
     unref(viewMatrixRef),
-    scale(1, unref(aspectRatioRef)),
+    unref(aspectRatioScaleComponent),
     translate(cWidth * -0.5, cHeight * -0.5),
   );
 });
@@ -48,7 +59,7 @@ const matrixRef = computed(() => {
 const smootherizeRef = computed(() => unref(zoomRef) < 8);
 
 watch(
-  [stageRef, stageRes, pixels, canvasSizeRef, matrixRef, smootherizeRef],
+  [stageRef, stageRes, pixels, canvasSize, matrixRef, smootherizeRef],
   ([stage, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix, smooth]) => {
     if (!stage || sWidth < 0 || sHeight < 0) return;
     if (stage.width !== sWidth || stage.height !== sHeight) {
@@ -93,14 +104,7 @@ watch(
   },
 );
 
-useInputMachine(
-  matrixRef,
-  uiRef,
-  selectRef,
-  cursorRef,
-  stageRes,
-  canvasSizeRef,
-);
+useInputMachine(matrixRef, uiRef, selectRef, cursorRef, stageRes);
 </script>
 
 <template>

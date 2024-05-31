@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { toolRef } from '../data/toolbarStore';
+import { mustInject } from '../data/mustInject.ts';
+import { toolKey } from '../data/keys.ts';
+
+const toolRef = mustInject(toolKey);
 </script>
 
 <template>

@@ -1,5 +1,3 @@
-import { ref } from 'vue';
-
 export type Tool =
   | 'select'
   | 'pan'
@@ -9,5 +7,3 @@ export type Tool =
   | 'oval'
   | 'brush'
   | 'fill';
-
-export const toolRef = ref<Tool>('pan');
