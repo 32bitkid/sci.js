@@ -9,7 +9,7 @@ import {
 } from '@4bitlabs/sci0';
 import { IBM5153Contrast, Palettes } from '@4bitlabs/color';
 import { DEFAULT_PALETTE, mapToPals } from '../helpers/palette-helpers.ts';
-import store from './picStore.ts';
+import { layersRef, topIdxRef } from './picStore.ts';
 
 export const drawState = ref<[DrawMode, ...DrawCodes]>([
   DrawMode.Visual | DrawMode.Priority,
@@ -81,11 +81,12 @@ export const screenPalette = computed(() =>
   IBM5153Contrast(unref(baseScreenPalette), 0.4),
 );
 
-export const paletteSetStack = computed(() => mapToPals(store.layers));
+export const paletteSetStack = computed(() => mapToPals(unref(layersRef)));
 
 export const topPaletteSet = computed(() => {
-  return store.topIdx > 0
-    ? unref(paletteSetStack)[store.topIdx - 1]
+  const top = unref(topIdxRef);
+  return top > 0
+    ? unref(paletteSetStack)[top - 1]
     : [DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE];
 });
 

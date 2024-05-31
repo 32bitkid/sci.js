@@ -11,9 +11,9 @@ import {
   useCanvasRenderer,
   useRenderedPixels,
 } from '../composables/useCanvasRenderer';
-import store, { currentCommandStore } from '../data/picStore';
-import stageStore from '../data/stageStore';
-import viewStore from '../data/viewStore';
+import { currentCommandsRef, layersRef, topIdxRef } from '../data/picStore';
+import { aspectRatioRef, canvasSizeRef } from '../data/stageStore';
+import { viewMatrixRef, zoomRef } from '../data/viewStore';
 import { get2dContext } from '../helpers/getContext';
 import { useInputMachine } from '../composables/useInputMachine';
 import { pathPoly } from '../helpers/polygons.ts';
@@ -25,28 +25,30 @@ const cursorRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef);
 
 const viewStack = computed(() => [
-  ...store.layers.slice(0, store.topIdx).flatMap((it) => [...it.commands]),
-  ...currentCommandStore.commands,
+  ...unref(layersRef)
+    .slice(0, unref(topIdxRef))
+    .flatMap((it) => [...it.commands]),
+  ...unref(currentCommandsRef),
 ]);
 
-const renderResult = useRenderedPixels(viewStack, stageStore.canvasRes);
-const pixels = useCanvasRenderer(renderResult, stageStore.canvasRes);
+const renderResult = useRenderedPixels(viewStack, canvasSizeRef);
+const pixels = useCanvasRenderer(renderResult, canvasSizeRef);
 
 const matrixRef = computed(() => {
   const [sWidth, sHeight] = unref(stageRes);
-  const [cWidth, cHeight] = unref(stageStore.canvasRes);
+  const [cWidth, cHeight] = unref(canvasSizeRef);
   return compose(
     translate(Math.round(sWidth / 2), Math.round(sHeight / 2)),
-    viewStore.viewMatrix,
-    scale(1, unref(stageStore.aspectRatio)),
+    unref(viewMatrixRef),
+    scale(1, unref(aspectRatioRef)),
     translate(cWidth * -0.5, cHeight * -0.5),
   );
 });
 
-const smootherizeRef = computed(() => viewStore.zoom < 8);
+const smootherizeRef = computed(() => unref(zoomRef) < 8);
 
 watch(
-  [stageRef, stageRes, pixels, stageStore.canvasRes, matrixRef, smootherizeRef],
+  [stageRef, stageRes, pixels, canvasSizeRef, matrixRef, smootherizeRef],
   ([stage, [sWidth, sHeight], pixels, [cWidth, cHeight], matrix, smooth]) => {
     if (!stage || sWidth < 0 || sHeight < 0) return;
     if (stage.width !== sWidth || stage.height !== sHeight) {
@@ -97,7 +99,7 @@ useInputMachine(
   selectRef,
   cursorRef,
   stageRes,
-  stageStore.canvasRes,
+  canvasSizeRef,
 );
 </script>
 
