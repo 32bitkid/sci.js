@@ -1,96 +1,66 @@
 <script setup lang="ts">
-import store from '../data/toolbarStore';
+import { toolRef } from '../data/toolbarStore';
 </script>
 
 <template>
   <ul :class="$style.toolbar">
-    <li
-      :class="[$style.tool, store.selectedTool === 'select' && $style.selected]"
-    >
-      <button
-        type="button"
-        :class="$style.button"
-        @click="store.selectedTool = 'select'"
-      >
+    <li :class="[$style.tool, toolRef === 'select' && $style.selected]">
+      <button type="button" :class="$style.button" @click="toolRef = 'select'">
         select
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'line' && $style.selected]"
-    >
-      <button
-        type="button"
-        :class="$style.button"
-        @click="store.selectedTool = 'line'"
-      >
+    <li :class="[$style.tool, toolRef === 'line' && $style.selected]">
+      <button type="button" :class="$style.button" @click="toolRef = 'line'">
         line
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'bezier' && $style.selected]"
-    >
+    <li :class="[$style.tool, toolRef === 'bezier' && $style.selected]">
       <button
         type="button"
         :class="$style.button"
-        @click="store.selectedTool = 'bezier'"
+        @click="toolRef = 'bezier'"
         disabled
       >
         bezier
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'rect' && $style.selected]"
-    >
+    <li :class="[$style.tool, toolRef === 'rect' && $style.selected]">
       <button
         type="button"
         :class="$style.button"
-        @click="store.selectedTool = 'rect'"
+        @click="toolRef = 'rect'"
         disabled
       >
         rect
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'oval' && $style.selected]"
-    >
+    <li :class="[$style.tool, toolRef === 'oval' && $style.selected]">
       <button
         type="button"
         :class="$style.button"
-        @click="store.selectedTool = 'oval'"
+        @click="toolRef = 'oval'"
         disabled
       >
         oval
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'brush' && $style.selected]"
-    >
+    <li :class="[$style.tool, toolRef === 'brush' && $style.selected]">
       <button
         type="button"
         :class="$style.button"
-        @click="store.selectedTool = 'brush'"
+        @click="toolRef = 'brush'"
         disabled
       >
         brush
       </button>
     </li>
-    <li
-      :class="[$style.tool, store.selectedTool === 'fill' && $style.selected]"
-    >
-      <button
-        type="button"
-        :class="$style.button"
-        @click="store.selectedTool = 'fill'"
-      >
+    <li :class="[$style.tool, toolRef === 'fill' && $style.selected]">
+      <button type="button" :class="$style.button" @click="toolRef = 'fill'">
         fill
       </button>
     </li>
-    <li :class="[$style.tool, store.selectedTool === 'pan' && $style.selected]">
-      <button
-        type="button"
-        :class="$style.button"
-        @click="store.selectedTool = 'pan'"
-      >
+    <li :class="[$style.tool, toolRef === 'pan' && $style.selected]">
+      <button type="button" :class="$style.button" @click="toolRef = 'pan'">
         pan
       </button>
     </li>

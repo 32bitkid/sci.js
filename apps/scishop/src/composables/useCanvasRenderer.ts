@@ -6,14 +6,15 @@ import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
 import { generateSciDitherPairs, Mixers } from '@4bitlabs/color';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
 import { get2dContext } from '../helpers/getContext';
-import viewStore from '../data/viewStore.ts';
+import { zoomRef } from '../data/viewStore.ts';
 import { screenPalette as screenPaletteRef } from '../data/paletteStore.ts';
 import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
+import { clamp } from '../helpers/clamp.ts';
 
 const oversampleRef = computed<[number, number]>(() => {
-  if (viewStore.zoom > 12) return [1, 1];
-  const samples = Math.min(Math.max(1, Math.round(viewStore.zoom)), 5);
-
+  const zoom = unref(zoomRef);
+  if (zoom > 12) return [1, 1];
+  const samples = Math.round(clamp(zoom, 1, 5));
   return [samples, samples];
 });
 
@@ -28,7 +29,7 @@ export function useRenderedPixels(
   });
 }
 
-const isSoftRef = computed<boolean>(() => viewStore.zoom >= 1);
+const isSoftRef = computed<boolean>(() => unref(zoomRef) >= 1);
 const ditherRef = computed(() =>
   createDitherFilter(
     generateSciDitherPairs(
