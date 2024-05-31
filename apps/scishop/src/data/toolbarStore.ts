@@ -1,4 +1,4 @@
-import { ref, unref } from 'vue';
+import { ref } from 'vue';
 
 export type Tool =
   | 'select'
@@ -10,13 +10,4 @@ export type Tool =
   | 'brush'
   | 'fill';
 
-const selectedToolRef = ref<Tool>('pan');
-
-export default {
-  get selectedTool() {
-    return unref(selectedToolRef);
-  },
-  set selectedTool(next: Tool) {
-    selectedToolRef.value = next;
-  },
-};
+export const toolRef = ref<Tool>('pan');

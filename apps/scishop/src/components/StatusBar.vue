@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import viewStore from '../data/viewStore';
+import { rotateRef, zoomRef } from '../data/viewStore';
 </script>
 <template>
   <div class="statusbar">
-    <div class="zoom">{{ viewStore.zoom.toFixed(1) }}&times;</div>
+    <div class="zoom">{{ zoomRef.toFixed(1) }}&times;</div>
     <div class="rotate">
-      {{ (viewStore.rotate * (180 / Math.PI)).toFixed(0) }}&deg;
+      {{ (rotateRef * (180 / Math.PI)).toFixed(0) }}&deg;
     </div>
   </div>
 </template>

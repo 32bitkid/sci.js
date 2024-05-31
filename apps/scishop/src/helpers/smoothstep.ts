@@ -1,5 +1,4 @@
-const clamp = (x: number, lower: number = 0, upper: number = 1) =>
-  Math.max(Math.min(x, upper), lower);
+import { clamp } from './clamp.ts';
 
 export const s0 = (left: number, right: number, val: number) =>
   clamp((val - left) / (right - left));
