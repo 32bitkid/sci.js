@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { rotateRef, zoomRef } from '../data/viewStore';
+import { mustInject } from '../data/mustInject.ts';
+import { viewKey } from '../data/keys.ts';
+import { computed, unref } from 'vue';
+const { viewZoom: zoomRef, viewRotation: rotateRef } = mustInject(viewKey);
+
+const formattedZoom = computed(() => {
+  const zoom = unref(zoomRef);
+  return (Math.floor(zoom * 100) / 100).toFixed(1);
+});
 </script>
 <template>
   <div class="statusbar">
-    <div class="zoom">{{ zoomRef.toFixed(1) }}&times;</div>
+    <div class="zoom">{{ formattedZoom }}&times;</div>
     <div class="rotate">
       {{ (rotateRef * (180 / Math.PI)).toFixed(0) }}&deg;
     </div>
