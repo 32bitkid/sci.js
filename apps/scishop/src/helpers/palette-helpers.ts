@@ -1,4 +1,4 @@
-import { EditorCommand } from '../models/EditorCommand.ts';
+import { DrawCommand } from '@4bitlabs/sci0';
 
 // prettier-ignore
 export const DEFAULT_PALETTE: number[] = [
@@ -10,37 +10,44 @@ export const DEFAULT_PALETTE: number[] = [
 
 export type PaletteSet = [number[], number[], number[], number[]];
 
-export const mapToPals = (commands: EditorCommand[]) => {
-  return commands.reduce<PaletteSet[]>(
-    (stack: PaletteSet[], editorCmd: EditorCommand, stackIdx: number) => {
-      const prevSet: PaletteSet =
-        stackIdx === 0
-          ? [DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE, DEFAULT_PALETTE]
-          : stack[stack.length - 1];
+export type IndexedPaletteSet = [number, PaletteSet];
 
-      const { type } = editorCmd;
-      switch (type) {
-        case 'SET_PALETTE': {
-          const [, [palIdx], ...colors] = editorCmd.commands[0];
-          const next: PaletteSet = [...prevSet];
-          next[palIdx] = [...colors];
-          return [...stack, next];
-        }
-        case 'UPDATE_PALETTE': {
-          const [, , ...entries] = editorCmd.commands[0];
-          const next = entries.reduce((pals, [palIdx, clrIdx, color]) => {
-            const nextSet: PaletteSet = [...prevSet];
-            const nextPal = [...nextSet[palIdx]];
-            nextPal[clrIdx] = color;
-            nextSet[palIdx] = nextPal;
-            return pals;
-          }, prevSet);
-          return [...stack, next];
-        }
-        default:
-          return [...stack, prevSet];
+export function reduceMutations(
+  mutations: [number, DrawCommand][],
+): IndexedPaletteSet[] {
+  let prevSet: PaletteSet = [
+    DEFAULT_PALETTE,
+    DEFAULT_PALETTE,
+    DEFAULT_PALETTE,
+    DEFAULT_PALETTE,
+  ];
+
+  const sets: [number, PaletteSet][] = [];
+  for (const [idx, cmd] of mutations) {
+    const [type] = cmd;
+    switch (type) {
+      case 'SET_PALETTE': {
+        const [, [palIdx], ...colors] = cmd;
+        const nextSet: PaletteSet = [...prevSet];
+        nextSet[palIdx] = [...colors];
+        sets.push([idx, nextSet]);
+        prevSet = nextSet;
+        break;
       }
-    },
-    [],
-  );
-};
+      case 'UPDATE_PALETTE': {
+        const [, , ...entries] = cmd;
+        const next = entries.reduce((prevSet_, [palIdx, clrIdx, color]) => {
+          const nextSet: PaletteSet = [...prevSet_];
+          const nextPal = [...nextSet[palIdx]];
+          nextPal[clrIdx] = color;
+          nextSet[palIdx] = nextPal;
+          return nextSet;
+        }, prevSet);
+        sets.push([idx, next]);
+        prevSet = next;
+        break;
+      }
+    }
+  }
+  return sets;
+}

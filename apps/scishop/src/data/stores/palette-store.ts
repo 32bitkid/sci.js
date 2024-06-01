@@ -7,7 +7,8 @@ export interface PaletteStore {
   readonly baseColors: Ref<Uint32Array>;
   readonly variant: Ref<0 | 1 | 2 | 3>;
   readonly finalColors: ComputedRef<Uint32Array>;
-  readonly paletteSetStack: ComputedRef<PaletteSet[]>;
   readonly topPaletteSet: ComputedRef<PaletteSet>;
   readonly currentPalette: ComputedRef<number[]>;
+
+  resolvePaletteAtIdx(n: number): PaletteSet;
 }
