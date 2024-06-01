@@ -30,6 +30,7 @@ export {
 } from './models/resource-id';
 export { ResourceTypes } from './models/resource-type';
 
+export type { RenderResult } from './screen/render-result';
 export { renderPic, loopPaddingFilter } from './screen';
 
 export {
