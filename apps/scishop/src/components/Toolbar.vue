@@ -12,6 +12,11 @@ const toolRef = mustInject(toolKey);
         select
       </button>
     </li>
+    <li :class="[$style.tool, toolRef === 'find' && $style.selected]">
+      <button type="button" :class="$style.button" @click="toolRef = 'find'">
+        find
+      </button>
+    </li>
     <li :class="[$style.tool, toolRef === 'line' && $style.selected]">
       <button type="button" :class="$style.button" @click="toolRef = 'line'">
         line
