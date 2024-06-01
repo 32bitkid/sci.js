@@ -20,18 +20,15 @@ import {
 } from 'transformation-matrix';
 import deepEqual from 'fast-deep-equal';
 
-import { round, isEqual, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
+import { round, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
 import { get2dContext } from '../helpers/getContext.ts';
 import {
   isInsideBounds,
   isInsidePolygon,
   pathPoly,
-  pixel,
   rect,
 } from '../helpers/polygons.ts';
-import { useRafRef } from './useRafRef.ts';
-import { pixelBorder } from '../render/pixel-border.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
 import {
@@ -52,7 +49,6 @@ import cursorPenStarSvg from '../assets/cursor-pen-star.svg';
 import cursorPenPlusSvg from '../assets/cursor-pen-plus.svg';
 import cursorPenMinusSvg from '../assets/cursor-pen-minus.svg';
 import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
-import { cursorDot } from '../render/cursor-dot.ts';
 import { pointSkeleton } from '../render/point-skeleton.ts';
 import { useUpdateSelectionFn } from '../data/useUpdateSelectionFn.ts';
 import { useCurrentCommandActions } from '../data/useCurrentCommandActions.ts';
@@ -66,6 +62,7 @@ import {
   viewKey,
 } from '../data/keys.ts';
 import { mustInject } from '../data/mustInject.ts';
+import { CursorPosition } from './useCursorWatcher.ts';
 
 const clampZoom = (current: number, next: number, min: number, max: number) => {
   if (current * next < min) return min / current;
@@ -91,8 +88,8 @@ export function useInputMachine(
   matrixRef: Ref<Matrix>,
   canvasRef: Ref<HTMLCanvasElement | null>,
   selCanvasRef: Ref<HTMLCanvasElement | null>,
-  cursorCanvasRef: Ref<HTMLCanvasElement | null>,
   stageResRef: Ref<[number, number]>,
+  cursorPosition: CursorPosition,
 ) {
   const layersRef = mustInject(layersKey);
   const toolRef = mustInject(toolKey);
@@ -135,20 +132,11 @@ export function useInputMachine(
   const dragStateRef = shallowRef<DragStates>(['none']);
   const selectionStateRef = shallowRef<SelectionEntry[]>([]);
 
-  const lastCursorPositionRef = useRafRef<[number, number]>([0, 0]);
-  const canvasPositionRef = computed<[number, number]>((prev = vec2()) => {
-    const actual = applyToPoint(
-      unref(iMatrixRef),
-      unref(lastCursorPositionRef),
-    );
-    const next = round(actual, vec2(), (i) => Math.floor(i * 8) / 8);
-    return isEqual(prev, next) ? prev : next;
-  });
-
-  const canvasPixelRef = computed<[number, number]>((prev = vec2()) => {
-    const next = round(unref(canvasPositionRef), vec2(), Math.floor);
-    return isEqual(prev, next) ? prev : next;
-  });
+  const {
+    screen: lastCursorPositionRef,
+    canvas: canvasPositionRef,
+    pixel: canvasPixelRef,
+  } = cursorPosition;
 
   const isOverCanvasRef = computed<boolean>(() => {
     const canvasPoint = unref(canvasPixelRef);
@@ -291,40 +279,6 @@ export function useInputMachine(
     ctx.clearRect(0, 0, 1, 1);
   });
 
-  // Update the cursor layer
-  watch(
-    [
-      cursorCanvasRef,
-      stageResRef,
-      matrixRef,
-      lastCursorPositionRef,
-      canvasPositionRef,
-      activeLayerRef,
-    ],
-    ([el, [sWidth, sHeight], matrix, screenPoint, canvasPoint]) => {
-      if (!el) return;
-      setCanvasDimensions(el, sWidth, sHeight);
-      const ctx = get2dContext(el);
-      ctx.clearRect(0, 0, sWidth, sHeight);
-
-      const simpleCusor = !(
-        unref(toolRef) === 'line' || unref(toolRef) === 'fill'
-      );
-
-      if (simpleCusor) return;
-
-      // Draw precision cursor
-      const [cWidth, cHeight] = unref(canvasSize);
-      const overCanvas = isInsideBounds([cWidth, cHeight], canvasPoint);
-      if (overCanvas) {
-        ctx.save();
-        pixelBorder(ctx, applyToPoints(matrix, pixel(canvasPoint, -0.0125)));
-        cursorDot(ctx, screenPoint);
-        ctx.restore();
-      }
-    },
-  );
-
   // Update the UI canvas
   watch(
     [canvasRef, stageResRef, matrixRef, activeLayerRef, selectionStateRef],
@@ -374,6 +328,32 @@ export function useInputMachine(
         commands: [[type, options, ...coords.slice(0, -1), pos]],
       });
     }
+  });
+
+  watch([dragStateRef, lastCursorPositionRef], ([dragState, p1]) => {
+    const [mode] = dragState;
+
+    if (mode !== 'sel-rect') return;
+
+    // TODO rethink this
+    const layerIdx = unref(selectedIdxRef);
+    if (layerIdx === null) return;
+    const selectedLayer = unref(layersRef)[layerIdx];
+    if (!selectedLayer) return;
+    if (selectedLayer.type !== 'PLINE' && selectedLayer.type !== 'FILL') return;
+
+    const [, p0] = dragState;
+    const iMatrix = unref(iMatrixRef);
+    const bounds = applyToPoints(iMatrix, rect(p0, p1));
+    const selPoints: SelectionEntry[] = [];
+    selectedLayer.commands.forEach((cmd, cmdIdx) => {
+      const verts = extractVertices(cmd);
+      verts.forEach((v, vIdx) => {
+        if (!isInsidePolygon(bounds, v)) return;
+        selPoints.push([layerIdx, cmdIdx, vIdx]);
+      });
+    });
+    selectionStateRef.value = selPoints;
   });
 
   const mouseHandlers = {
@@ -619,36 +599,6 @@ export function useInputMachine(
       }
     },
 
-    move(e: PointerEvent) {
-      lastCursorPositionRef.value = [e.offsetX, e.offsetY];
-
-      const dragState = unref(dragStateRef);
-      const [mode] = dragState;
-
-      if (mode !== 'sel-rect') return;
-
-      // TODO rethink this
-      const layerIdx = unref(selectedIdxRef);
-      if (layerIdx === null) return;
-      const selectedLayer = unref(layersRef)[layerIdx];
-      if (!selectedLayer) return;
-      if (selectedLayer.type !== 'PLINE' && selectedLayer.type !== 'FILL')
-        return;
-
-      const [, p0] = dragState;
-      const p1 = vec2(e.offsetX, e.offsetY);
-      const iMatrix = unref(iMatrixRef);
-      const bounds = applyToPoints(iMatrix, rect(p0, p1));
-      const selPoints: SelectionEntry[] = [];
-      selectedLayer.commands.forEach((cmd, cmdIdx) => {
-        const verts = extractVertices(cmd);
-        verts.forEach((v, vIdx) => {
-          if (!isInsidePolygon(bounds, v)) return;
-          selPoints.push([layerIdx, cmdIdx, vIdx]);
-        });
-      });
-      selectionStateRef.value = selPoints;
-    },
     up() {
       dragStateRef.value = ['none'];
     },
@@ -665,7 +615,6 @@ export function useInputMachine(
     el.addEventListener('pointerdown', pointerHandlers.downPointStartRect);
     el.addEventListener('pointerdown', pointerHandlers.downFill);
     el.addEventListener('pointerdown', pointerHandlers.downLine);
-    el.addEventListener('pointermove', pointerHandlers.move);
     el.addEventListener('pointerup', pointerHandlers.up);
   });
 
@@ -673,7 +622,6 @@ export function useInputMachine(
     const el = unref(canvasRef);
     if (!el) return;
     el.removeEventListener('pointerup', pointerHandlers.up);
-    el.removeEventListener('pointermove', pointerHandlers.move);
     el.removeEventListener('pointerdown', pointerHandlers.downLine);
     el.removeEventListener('pointerdown', pointerHandlers.downFill);
     el.removeEventListener('pointerdown', pointerHandlers.downPointStartRect);
