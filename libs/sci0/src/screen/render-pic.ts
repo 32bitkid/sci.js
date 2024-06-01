@@ -1,3 +1,4 @@
+import { Vec2 } from '@4bitlabs/vec2';
 import { createScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
 import { DrawCommand } from '../models/draw-command';
@@ -23,12 +24,12 @@ export const renderPic = (
     Uint8Array.from(DEFAULT_PALETTE),
   ];
 
-  const [result, screen] = createScreenBuffer(forcePal, palettes, [
-    width,
-    height,
-  ]);
+  const size: Vec2 = [width, height];
+  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
+  const { fill, line, brush, blit } = screen;
 
-  for (const cmd of commands) {
+  for (let i = 0; i < commands.length; i = tick(i)) {
+    const cmd = commands[i];
     const [mode] = cmd;
 
     switch (mode) {
@@ -47,13 +48,13 @@ export const renderPic = (
       case 'FILL': {
         const [, [drawMode, drawCodes], pos] = cmd;
         const [x, y] = pos;
-        screen.fill(x, y, drawMode, drawCodes);
+        fill(x, y, drawMode, drawCodes);
         break;
       }
       case 'PLINE': {
         const [, [drawMode, drawCodes], ...points] = cmd;
         for (let p = 0; p < points.length - 1; p++)
-          screen.line(
+          line(
             points[p][0],
             points[p][1],
             points[p + 1][0],
@@ -65,12 +66,12 @@ export const renderPic = (
       }
       case 'BRUSH': {
         const [, brushOptions, [cx, cy]] = cmd;
-        screen.brush(cx, cy, ...brushOptions);
+        brush(cx, cy, ...brushOptions);
         break;
       }
       case 'CEL': {
         const [, [drawMode], [x, y], cel] = cmd;
-        screen.blit(x, y, drawMode, cel);
+        blit(x, y, drawMode, cel);
         break;
       }
       default:
