@@ -38,7 +38,7 @@ export function useCanvasRenderer(
     return isEqual(prev, next) ? prev : next;
   });
 
-  const isSoftRef = computed<boolean>(() => false);
+  const isSoftRef = computed<boolean>(() => unref(zoomRef) >= 1);
   const ditherRef = computed(() =>
     createDitherFilter(
       generateSciDitherPairs(
