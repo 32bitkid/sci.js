@@ -1,5 +1,5 @@
+import type { ShallowRef } from 'vue';
 import {
-  Ref,
   computed,
   onMounted,
   shallowRef,
@@ -23,12 +23,7 @@ import deepEqual from 'fast-deep-equal';
 import { round, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
 import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
 import { get2dContext } from '../helpers/getContext.ts';
-import {
-  isInsideBounds,
-  isInsidePolygon,
-  pathPoly,
-  rect,
-} from '../helpers/polygons.ts';
+import { isInsidePolygon, pathPoly, rect } from '../helpers/polygons.ts';
 import { fillSkeleton } from '../render/fill-skeleton.ts';
 import { plineSkeleton } from '../render/pline-skeleton.ts';
 import {
@@ -57,7 +52,6 @@ import {
   drawStateKey,
   layersKey,
   pointersKey,
-  stageOptionsKey,
   toolKey,
   viewKey,
 } from '../data/keys.ts';
@@ -85,17 +79,16 @@ type DragStates =
   | SelectionDragState;
 
 export function useInputMachine(
-  matrixRef: Ref<Matrix>,
-  canvasRef: Ref<HTMLCanvasElement | null>,
-  selCanvasRef: Ref<HTMLCanvasElement | null>,
-  stageResRef: Ref<[number, number]>,
+  matrixRef: ShallowRef<Matrix>,
+  canvasRef: ShallowRef<HTMLCanvasElement | null>,
+  selCanvasRef: ShallowRef<HTMLCanvasElement | null>,
+  stageResRef: ShallowRef<[number, number]>,
   cursorPosition: CursorPosition,
 ) {
   const layersRef = mustInject(layersKey);
   const toolRef = mustInject(toolKey);
   const currentRef = mustInject(currentKey);
   const { matrix: viewMatrixRef, viewZoom: zoomRef } = mustInject(viewKey);
-  const { canvasSize } = mustInject(stageOptionsKey);
   const { raw: rawDrawState } = mustInject(drawStateKey);
   const { topIdx: topIdxRef, selectedIdx: selectedIdxRef } =
     mustInject(pointersKey);
@@ -138,12 +131,6 @@ export function useInputMachine(
     pixel: canvasPixelRef,
   } = cursorPosition;
 
-  const isOverCanvasRef = computed<boolean>(() => {
-    const canvasPoint = unref(canvasPixelRef);
-    const [cWidth, cHeight] = unref(canvasSize);
-    return isInsideBounds([cWidth, cHeight], canvasPoint);
-  });
-
   const nearestExistingPointRef = computed<FindResult | null>((prev = null) => {
     const cmds = unref(selectedLayerRef)?.commands;
     if (!cmds || cmds.length < 1) return null;
@@ -179,12 +166,14 @@ export function useInputMachine(
     let currentCursor = 'auto';
     if (dragMode === 'view') {
       currentCursor = 'grabbing';
+    } else if (selectedTool === 'find') {
+      currentCursor = 'crosshair';
     } else if (selectedTool === 'pan') {
       currentCursor = 'grab';
     } else if (selectedTool === 'select') {
       currentCursor = 'crosshair';
     } else if (selectedTool == 'line') {
-      const isOverCanvas = unref(isOverCanvasRef);
+      const isOverCanvas = unref(cursorPosition.isOver);
       if (isOverCanvas) {
         if (unref(currentRef)) {
           currentCursor = `url(${cursorPenSvg}) 0 0, none`;

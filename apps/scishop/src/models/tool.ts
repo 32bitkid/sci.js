@@ -6,4 +6,5 @@ export type Tool =
   | 'rect'
   | 'oval'
   | 'brush'
-  | 'fill';
+  | 'fill'
+  | 'find';
