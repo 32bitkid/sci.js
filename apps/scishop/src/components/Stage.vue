@@ -19,6 +19,7 @@ import {
 import * as Keys from '../data/keys.ts';
 import { useCursorWatcher } from '../composables/useCursorWatcher.ts';
 import { usePrecisionCursorEffect } from '../composables/useCursorEffect.ts';
+import { useFindTool } from '../composables/useFindTool.ts';
 
 const layersRef = mustInject(layersKey);
 const { matrix: viewMatrixRef, viewZoom: zoomRef } = mustInject(viewKey);
@@ -59,7 +60,6 @@ const matrixRef = computed(() => {
 });
 
 const smootherizeRef = computed(() => unref(zoomRef) < 8);
-
 const cursorPosition = useCursorWatcher(uiRef, matrixRef);
 
 watch(
@@ -110,6 +110,7 @@ watch(
 
 useInputMachine(matrixRef, uiRef, selectRef, stageRes, cursorPosition);
 usePrecisionCursorEffect(matrixRef, cursorCanvasRef, stageRes, cursorPosition);
+useFindTool(uiRef, renderResult, cursorPosition);
 </script>
 
 <template>
