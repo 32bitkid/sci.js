@@ -24,7 +24,7 @@ const { raw: rawDrawState } = mustInject(drawStateKey);
 const layersRef = mustInject(layersKey);
 const { topIdx: topIdxRef, selectedIdx: selectedIdxRef } =
   mustInject(pointersKey);
-const { paletteSetStack } = mustInject(paletteKey);
+const { resolvePaletteAtIdx } = mustInject(paletteKey);
 
 const stack = computed(() => Array.from(unref(layersRef).entries()).reverse());
 
@@ -74,7 +74,7 @@ const handleClick = (e: MouseEvent, idx: number) => {
       :key="id"
       :is="component.get(type) ?? GenericCommandItem"
       :command="commands[0]"
-      :pals="paletteSetStack[idx]"
+      :pals="resolvePaletteAtIdx(idx)"
       :class="[
         $style.item,
         idx === selectedIdxRef && $style.current,
