@@ -17,6 +17,8 @@ import {
   viewKey,
 } from '../data/keys.ts';
 import * as Keys from '../data/keys.ts';
+import { useCursorWatcher } from '../composables/useCursorWatcher.ts';
+import { usePrecisionCursorEffect } from '../composables/useCursorEffect.ts';
 
 const layersRef = mustInject(layersKey);
 const { matrix: viewMatrixRef, viewZoom: zoomRef } = mustInject(viewKey);
@@ -27,7 +29,7 @@ const currentRef = mustInject(Keys.currentKey);
 const stageRef = shallowRef<HTMLCanvasElement | null>(null);
 const uiRef = shallowRef<HTMLCanvasElement | null>(null);
 const selectRef = shallowRef<HTMLCanvasElement | null>(null);
-const cursorRef = shallowRef<HTMLCanvasElement | null>(null);
+const cursorCanvasRef = shallowRef<HTMLCanvasElement | null>(null);
 const stageRes = useResizeWatcher(stageRef);
 
 const currentCommands = computed(() => {
@@ -57,6 +59,8 @@ const matrixRef = computed(() => {
 });
 
 const smootherizeRef = computed(() => unref(zoomRef) < 8);
+
+const cursorPosition = useCursorWatcher(uiRef, matrixRef);
 
 watch(
   [stageRef, stageRes, pixels, canvasSize, matrixRef, smootherizeRef],
@@ -104,13 +108,17 @@ watch(
   },
 );
 
-useInputMachine(matrixRef, uiRef, selectRef, cursorRef, stageRes);
+useInputMachine(matrixRef, uiRef, selectRef, stageRes, cursorPosition);
+usePrecisionCursorEffect(matrixRef, cursorCanvasRef, stageRes, cursorPosition);
 </script>
 
 <template>
   <canvas :class="[$style.canvas, $style.stage]" ref="stageRef"></canvas>
   <canvas :class="[$style.canvas, $style.selLayer]" ref="selectRef"></canvas>
-  <canvas :class="[$style.canvas, $style.cursorLayer]" ref="cursorRef"></canvas>
+  <canvas
+    :class="[$style.canvas, $style.cursorLayer]"
+    ref="cursorCanvasRef"
+  ></canvas>
   <canvas :class="[$style.canvas, $style.ui]" ref="uiRef"></canvas>
 </template>
 
