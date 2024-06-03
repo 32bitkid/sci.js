@@ -13,20 +13,22 @@ import {
   createBlitter,
 } from './tools';
 
-type TickFn = (n: number) => number;
+type SetTValueFn = (n: number) => void;
 
 export const createScreenBuffer = (
   forcePal: 0 | 1 | 2 | 3 | undefined,
   palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array],
   [width, height]: [number, number],
-): [RenderResult, Screen, TickFn] => {
+): [RenderResult, Screen, SetTValueFn] => {
   const visible = createIndexedPixelData(width, height);
   const priority = createIndexedPixelData(width, height);
   const control = createIndexedPixelData(width, height);
   const tBuffer = new Uint32Array(width * height).fill(-1);
 
   let t = 0;
-  const tickFn = (next: number) => (t = ++next);
+  const setTValue = (next: number) => {
+    t = next;
+  };
 
   visible.pixels.fill(0xff);
   priority.pixels.fill(0x00);
@@ -88,6 +90,6 @@ export const createScreenBuffer = (
       line: createLine(plot),
       blit: createBlitter(setPixel, [width, height]),
     },
-    tickFn,
+    setTValue,
   ];
 };

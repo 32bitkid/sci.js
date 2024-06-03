@@ -9,13 +9,14 @@ interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
   width?: number;
   height?: number;
+  onAfterStep?: (idx: number, cmd: DrawCommand, result: RenderResult) => void;
 }
 
 export const renderPic = (
   commands: DrawCommand[],
   options: RenderOptions = {},
 ): RenderResult => {
-  const { forcePal, width = 320, height = 190 } = options;
+  const { forcePal, width = 320, height = 190, onAfterStep } = options;
 
   const palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array] = [
     Uint8Array.from(DEFAULT_PALETTE),
@@ -25,10 +26,11 @@ export const renderPic = (
   ];
 
   const size: Vec2 = [width, height];
-  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
+  const [result, screen, setT] = createScreenBuffer(forcePal, palettes, size);
   const { fill, line, brush, blit } = screen;
 
-  for (let i = 0; i < commands.length; i = tick(i)) {
+  for (let i = 0; i < commands.length; i += 1) {
+    setT(i);
     const cmd = commands[i];
     const [mode] = cmd;
 
@@ -77,6 +79,8 @@ export const renderPic = (
       default:
         exhaustive('unhandled opcode', mode);
     }
+
+    onAfterStep?.(i, cmd, result);
   }
 
   return result;
