@@ -13,6 +13,12 @@ export function get2dContext(el: Canvas): Context {
 
   const ctx = el.getContext('2d');
   if (!ctx) throw new Error('cannot establish new canvas context');
+  if (
+    !(ctx instanceof CanvasRenderingContext2D) &&
+    !(ctx instanceof OffscreenCanvasRenderingContext2D)
+  )
+    throw new Error('context is not the correct type');
+
   cache.set(el, ctx);
   return ctx;
 }

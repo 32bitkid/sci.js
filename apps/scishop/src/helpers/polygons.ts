@@ -41,13 +41,15 @@ export const rect = ([x0, y0]: Vec2, [x1, y1]: Vec2): Vec2[] => [
   [x0, y1],
 ];
 
-export function* getSegments(
-  points: Vec2[],
+export function* getSegments<T extends Vec2>(
+  points: T[],
   loop = false,
-): Generator<[number, number, Vec2, Vec2]> {
+): Generator<[T, T, number, number]> {
   const length = points.length;
-  for (let i = 0; i < points.length - (loop ? 0 : 1); i++)
-    yield [i, i + 1, points[i], points[(i + 1) % length]];
+  for (let i = 0; i < points.length - (loop ? 0 : 1); i++) {
+    const next = (i + 1) % length;
+    yield [points[i], points[next], i, next];
+  }
 }
 
 export const isInsidePolygon = (
@@ -57,7 +59,7 @@ export const isInsidePolygon = (
 ): boolean => {
   let inside = false;
 
-  for (const [, , [x0, y0], [x1, y1]] of getSegments(verts, loop)) {
+  for (const [[x0, y0], [x1, y1]] of getSegments(verts, loop)) {
     if (y <= Math.min(y0, y1)) continue;
     if (y > Math.max(y0, y1)) continue;
     if (x > Math.max(x0, x1)) continue;

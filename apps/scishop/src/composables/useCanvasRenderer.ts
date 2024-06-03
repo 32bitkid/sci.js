@@ -43,6 +43,7 @@ export function useCanvasRenderer(
     createDitherFilter(
       generateSciDitherPairs(
         unref(finalColors),
+        Mixers.mixBy(0.25),
         unref(isSoftRef) ? Mixers.softMixer() : ([a, b]) => [a, b],
       ),
     ),

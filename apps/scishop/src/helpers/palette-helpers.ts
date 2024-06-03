@@ -10,10 +10,19 @@ export const DEFAULT_PALETTE: number[] = [
 
 export type PaletteSet = [number[], number[], number[], number[]];
 
+export const DEFAULT_PALETTE_SET: PaletteSet = [
+  DEFAULT_PALETTE,
+  DEFAULT_PALETTE,
+  DEFAULT_PALETTE,
+  DEFAULT_PALETTE,
+];
+
 export type IndexedPaletteSet = [number, PaletteSet];
 
 export function reduceMutations(
-  mutations: [number, DrawCommand][],
+  mutations:
+    | Array<[number, DrawCommand]>
+    | IterableIterator<[number, DrawCommand]>,
 ): IndexedPaletteSet[] {
   let prevSet: PaletteSet = [
     DEFAULT_PALETTE,
