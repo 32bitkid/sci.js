@@ -4,20 +4,13 @@ import deepEqual from 'fast-deep-equal';
 import { IBM5153Contrast, Palettes } from '@4bitlabs/color';
 import { DrawCommand } from '@4bitlabs/sci0';
 import {
-  DEFAULT_PALETTE,
+  DEFAULT_PALETTE_SET,
   IndexedPaletteSet,
   PaletteSet,
   reduceMutations,
 } from '../helpers/palette-helpers.ts';
 import { EditorCommand } from '../models/EditorCommand.ts';
 import { paletteKey } from './keys.ts';
-
-const DEFAULT_PALETTE_SET: PaletteSet = [
-  DEFAULT_PALETTE,
-  DEFAULT_PALETTE,
-  DEFAULT_PALETTE,
-  DEFAULT_PALETTE,
-];
 
 export function usePaletteProvider(deps: {
   layersRef: ShallowRef<EditorCommand[]>;
@@ -27,7 +20,7 @@ export function usePaletteProvider(deps: {
 
   const baseRef = ref(Palettes.TRUE_CGA_PALETTE);
   const contrastRef = ref<number | false>(0.4);
-  const variantRef = ref<0 | 1 | 2 | 3>(0);
+  const variantRef = ref<0 | 1 | 2 | 3>(2);
 
   const finalRef = computed(() => {
     const base = unref(baseRef);

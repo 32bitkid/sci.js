@@ -7,14 +7,19 @@ const toolRef = mustInject(toolKey);
 
 <template>
   <ul :class="$style.toolbar">
+    <li :class="[$style.tool, toolRef === 'find' && $style.selected]">
+      <button
+        type="button"
+        :class="$style.button"
+        @click="toolRef = 'find'"
+        title="Select"
+      >
+        find
+      </button>
+    </li>
     <li :class="[$style.tool, toolRef === 'select' && $style.selected]">
       <button type="button" :class="$style.button" @click="toolRef = 'select'">
         select
-      </button>
-    </li>
-    <li :class="[$style.tool, toolRef === 'find' && $style.selected]">
-      <button type="button" :class="$style.button" @click="toolRef = 'find'">
-        find
       </button>
     </li>
     <li :class="[$style.tool, toolRef === 'line' && $style.selected]">

@@ -92,16 +92,11 @@ watch(
     ctx.shadowBlur = 25;
     ctx.shadowOffsetY = 10;
     ctx.shadowOffsetX = 10;
-    ctx.fillStyle = `black`;
+    ctx.fillStyle = `rgba(127 127 127 / 1.0)`;
     ctx.fill();
     ctx.restore();
 
     ctx.setTransform(matrix);
-
-    ctx.beginPath();
-    ctx.fillStyle = `rgba(255 255 255 / 1.0)`;
-    ctx.rect(-0.5, -0.5, cWidth + 1, cHeight + 1);
-    ctx.fill();
 
     ctx.drawImage(pixels, 0, 0, cWidth, cHeight);
     ctx.resetTransform();

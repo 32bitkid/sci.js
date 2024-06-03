@@ -12,7 +12,7 @@ export function useFindTool(
   pixels: Ref<RenderResult>,
   pos: CursorPosition,
 ) {
-  const { selectedIdx } = mustInject(pointersKey);
+  const { selectedIdx, topIdx } = mustInject(pointersKey);
   const toolRef = mustInject(toolKey);
   const { canvasSize } = mustInject(stageOptionsKey);
 
@@ -28,13 +28,12 @@ export function useFindTool(
     return cmd !== MAX ? cmd : -1;
   });
 
-  const handleClick = () => {
+  const handleClick = (e: MouseEvent) => {
     if (unref(toolRef) !== 'find') return;
     const val = unref(commandUnderPosition);
     if (val === -1) return;
-
     selectedIdx.value = val;
-    toolRef.value = 'select';
+    if (e.shiftKey) topIdx.value = val + 1;
   };
 
   onMounted(() => {
