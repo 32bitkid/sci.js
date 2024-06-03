@@ -15,8 +15,9 @@ const [drawMode, drawCode, size, isRect, isSpray] = options;
   <li>
     <div>
       {{ isSpray ? 'Spray' : 'Solid' }}
-      {{ isRect ? 'Square' : 'Circle' }}
-      Brush Size {{ size }}
+      Brush:
+      {{ isRect ? '\u{25A0}' : '\u{25CF}' }}
+      {{ size }}
     </div>
     <Swatches :drawMode="drawMode" :drawCode="drawCode" :pals="pals" />
   </li>

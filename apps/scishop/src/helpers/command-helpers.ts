@@ -121,7 +121,7 @@ export function pointAlongPaths(
       y + 0.5,
     ]);
     for (const segment of getSegments(points)) {
-      const [i0, i1, v0, v1] = segment;
+      const [v0, v1, i0, i1] = segment;
       const p = project(v0, v1, position);
       const dist = distanceBetween(p, position);
       if (dist < range) {
