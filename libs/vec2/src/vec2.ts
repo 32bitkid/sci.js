@@ -55,6 +55,16 @@ export const scale = (
 export const dot = (a: Readonly<Vec2>, b: Readonly<Vec2>) =>
   a[0] * b[0] + a[1] * b[1];
 
+/** rotate Vec2 around [0,0] by theta */
+export const rotate = (source: Vec2, theta: number, out: Vec2 = source) => {
+  const sin = Math.sin(theta);
+  const cos = Math.cos(theta);
+  return ([out[0], out[1]] = [
+    source[0] * cos - source[1] * sin,
+    source[0] * sin + source[1] * cos,
+  ]);
+};
+
 /** Project point P onto the line-segment AB‾ */
 export const project = (
   a: Readonly<Vec2>,
@@ -91,6 +101,10 @@ export const squaredDistanceBetween = (
   const [dx, dy] = sub(b, a);
   return dx ** 2 + dy ** 2;
 };
+
+/** Normalize the source vector into dest */
+export const normalize = (source: Readonly<Vec2>, dest: Vec2) =>
+  scale(source, 1 / length(source), dest);
 
 /** Returns the Euclidean distance between vectors A and B */
 export const distanceBetween = (a: Readonly<Vec2>, b: Readonly<Vec2>) =>
