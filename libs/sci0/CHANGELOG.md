@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.0.1...@4bitlabs/sci0@3.1.0) (2024-06-04)
+
+### Changed
+
+- export the RenderResult interface ([9c6e2e8](https://github.com/32bitkid/sci.js/commit/9c6e2e8b768fdaaccd970b52e216721789af2bfa))
+- fill in permutations of DrawMode ([8c5ba22](https://github.com/32bitkid/sci.js/commit/8c5ba2206ee3a8d7744f4bdd164f91bf47cdf760))
+
+### New
+
+- Create onAfterStep() hook to inspect that buffers between steps ([5308974](https://github.com/32bitkid/sci.js/commit/5308974412cc1b4fb98f812cdd0ec6ae5534a9fe))
+- tBuffer to render result, maps pixels to the command responsible ([f1254b9](https://github.com/32bitkid/sci.js/commit/f1254b9a4d98b4468334b147fb484c28eb62eea2))
+
 ## [3.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.0.0...@4bitlabs/sci0@3.0.1) (2024-05-30)
 
 **Note:** Version bump only for package @4bitlabs/sci0

@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,6 +28,6 @@
     "@4bitlabs/image": "^3.3.9",
     "@4bitlabs/numeric-deque": "^1.1.5",
     "@4bitlabs/readers": "^2.0.5",
-    "@4bitlabs/vec2": "^1.0.1"
+    "@4bitlabs/vec2": "^1.1.0"
   }
 }
