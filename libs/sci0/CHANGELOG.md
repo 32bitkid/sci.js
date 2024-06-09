@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.0...@4bitlabs/sci0@3.1.1) (2024-06-09)
+
+### Chore
+
+- Fixing render-pic unit-tests ([63ef3ee](https://github.com/32bitkid/sci.js/commit/63ef3eeb415ef8510ca21e564e175e3770e7d8b5))
+
 # [3.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.0.1...@4bitlabs/sci0@3.1.0) (2024-06-04)
 
 ### Changed

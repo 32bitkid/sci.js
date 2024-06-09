@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.10](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.9...@4bitlabs/image@3.3.10) (2024-06-09)
+
+### Changed
+
+- Remove magic symbol in IndexedPixelData ([4c7ae15](https://github.com/32bitkid/sci.js/commit/4c7ae152dfca085558c6e35406f50f43d8b51ac8))
+
 ## [3.3.9](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.8...@4bitlabs/image@3.3.9) (2024-05-28)
 
 **Note:** Version bump only for package @4bitlabs/image

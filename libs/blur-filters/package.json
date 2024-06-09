@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/blur-filters",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "A collection of blur-filters for rendering Sierra On-line SCI-engine assets.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -21,7 +21,7 @@
     "build": "tsc --build"
   },
   "dependencies": {
-    "@4bitlabs/image": "^3.3.9",
+    "@4bitlabs/image": "^3.3.10",
     "@4bitlabs/numeric-deque": "^1.1.5"
   },
   "author": "J. Holmes <j@holmes.codes>",
