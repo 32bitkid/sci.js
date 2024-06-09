@@ -22,7 +22,7 @@
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/numeric-deque#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/32bitkid/sci.js.git"
+    "url": "git+https://github.com/32bitkid/sci.js.git"
   },
   "bugs": {
     "url": "https://github.com/32bitkid/sci.js/issues"

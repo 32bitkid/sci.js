@@ -9,7 +9,7 @@
   ],
   "main": "./dist/index.js",
   "bin": {
-    "scibud": "./dist/index.js"
+    "scibud": "dist/index.js"
   },
   "scripts": {
     "clean": "tsc --build --clean",
