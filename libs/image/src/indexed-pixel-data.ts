@@ -1,11 +1,8 @@
-export const INDEXED: unique symbol = Symbol('INDEXED');
-
 export interface IndexedPixelData {
   readonly pixels: Uint8ClampedArray;
   readonly width: number;
   readonly height: number;
   readonly keyColor?: number;
-  readonly [INDEXED]: typeof INDEXED;
 }
 
 interface CreateIndexPixelDataOptions {
@@ -26,7 +23,6 @@ export function createIndexedPixelData(
   if (keyColor !== undefined) pixels.fill(keyColor);
 
   return {
-    [INDEXED]: INDEXED,
     keyColor,
     pixels,
     width,
@@ -38,7 +34,11 @@ export function isIndexedPixelData(it: unknown): it is IndexedPixelData {
   return (
     typeof it === 'object' &&
     it !== null &&
-    INDEXED in it &&
-    it[INDEXED] === INDEXED
+    'pixels' in it &&
+    it.pixels instanceof Uint8ClampedArray &&
+    'width' in it &&
+    typeof it.width === 'number' &&
+    'height' in it &&
+    typeof it.height === 'number'
   );
 }
