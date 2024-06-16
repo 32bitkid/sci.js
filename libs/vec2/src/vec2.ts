@@ -75,16 +75,15 @@ export const project = (
   const vecAB = sub(b, a);
   const vecAP = sub(p, a);
 
-  const vecBA = sub(a, b);
-  const vecBP = sub(p, b);
+  const lenSqrd = squaredLength(vecAB);
+  if (lenSqrd === 0) return assign(a, out);
 
   const dotAB_AP = dot(vecAB, vecAP);
-  const dotBA_BP = dot(vecBA, vecBP);
 
-  if (dotBA_BP < 0) return assign(b, out);
-  if (dotAB_AP < 0) return assign(a, out);
+  const mag = dotAB_AP / lenSqrd;
+  if (mag < 0) return assign(a, out);
+  if (mag >= 1) return assign(b, out);
 
-  const mag = dotAB_AP / squaredLength(vecAB);
   scale(vecAB, mag, out);
   return add(a, out, out);
 };
