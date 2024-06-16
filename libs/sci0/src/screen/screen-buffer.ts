@@ -67,7 +67,8 @@ export const createScreenBuffer = (
     if (isVisualMode(drawMode)) {
       const dither = (x & 1) ^ (y & 1);
       const val = visible.pixels[idx];
-      return 0xf === (dither ? val & 0xf : val >>> 4);
+      const [high, low] = [val >>> 4, val & 0b1111];
+      return 0xf === (dither ? high : low);
     }
 
     /* TODO not sure if this is correct… but it looks *okay*-ish.
