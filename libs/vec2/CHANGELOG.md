@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/vec2@1.1.1...@4bitlabs/vec2@1.2.0) (2024-06-16)
+
+### New
+
+- Added lerp function for vec2 ([6a6bba0](https://github.com/32bitkid/sci.js/commit/6a6bba0be163ded3f59255f14295d39f10824d8e))
+
 ## [1.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/vec2@1.1.0...@4bitlabs/vec2@1.1.1) (2024-06-16)
 
 ### Chore

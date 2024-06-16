@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.2...@4bitlabs/sci0@3.1.3) (2024-06-16)
+
+### Fixed
+
+- unit tests for flood-fill edge case ([a20780e](https://github.com/32bitkid/sci.js/commit/a20780e572e742da76ff80e4c9bd14cd556700e2))
+
 ## [3.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.1...@4bitlabs/sci0@3.1.2) (2024-06-16)
 
 ### Chore
