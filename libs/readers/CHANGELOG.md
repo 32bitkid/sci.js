@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/readers@2.0.5...@4bitlabs/readers@2.0.6) (2024-06-16)
+
+### Chore
+
+- Cleaning up package.json repo links ([787872b](https://github.com/32bitkid/sci.js/commit/787872b5c232e9e14112ab3dfe09cde059987b75))
+
 ## [2.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/readers@2.0.4...@4bitlabs/readers@2.0.5) (2024-05-13)
 
 ### Chore

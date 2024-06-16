@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.1...@4bitlabs/sci0@3.1.2) (2024-06-16)
+
+### Chore
+
+- Cleaning up package.json repo links ([787872b](https://github.com/32bitkid/sci.js/commit/787872b5c232e9e14112ab3dfe09cde059987b75))
+
+### Fixed
+
+- Dither ordering was incorrect when checking flood-fills ([930b14d](https://github.com/32bitkid/sci.js/commit/930b14d850fdeaadb5da19861d78c0fc98e2c2d6))
+
 ## [3.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.0...@4bitlabs/sci0@3.1.1) (2024-06-09)
 
 ### Chore

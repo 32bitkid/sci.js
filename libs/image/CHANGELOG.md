@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.11](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.10...@4bitlabs/image@3.3.11) (2024-06-16)
+
+### Chore
+
+- Cleaning up package.json repo links ([787872b](https://github.com/32bitkid/sci.js/commit/787872b5c232e9e14112ab3dfe09cde059987b75))
+
 ## [3.3.10](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.9...@4bitlabs/image@3.3.10) (2024-06-09)
 
 ### Changed

@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/color-space",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Utility functions for parsing, converting and mixing colors in sRGB, CIE-XYZ, CIE-L*a*b*, and okLab color spaces",
   "keywords": [
     "color",

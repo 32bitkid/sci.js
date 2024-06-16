@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,10 +24,10 @@
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "dependencies": {
-    "@4bitlabs/codecs": "^2.0.1",
-    "@4bitlabs/image": "^3.3.10",
-    "@4bitlabs/numeric-deque": "^1.1.5",
-    "@4bitlabs/readers": "^2.0.5",
-    "@4bitlabs/vec2": "^1.1.0"
+    "@4bitlabs/codecs": "^2.0.2",
+    "@4bitlabs/image": "^3.3.11",
+    "@4bitlabs/numeric-deque": "^1.1.6",
+    "@4bitlabs/readers": "^2.0.6",
+    "@4bitlabs/vec2": "^1.1.1"
   }
 }
