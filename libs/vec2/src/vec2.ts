@@ -1,3 +1,5 @@
+import { scalarLerp } from './maths';
+
 /** Two component vector */
 export type Vec2 = [number, number];
 
@@ -30,7 +32,7 @@ export const round = (
   method: (v: number) => number = Math.round,
 ): Vec2 => set(method(x), method(y), out);
 
-/** Adds vector a to vector b, and puts the result in out */
+/** Adds vector A to vector B, and puts the result in out */
 export const add = (
   [x0, y0]: Readonly<Vec2>,
   [x1, y1]: Readonly<Vec2>,
@@ -121,3 +123,14 @@ export const toString = (
   { angleBrackets = false }: { angleBrackets?: boolean } = {},
 ) =>
   `${angleBrackets ? '\u27E8' : '('}${x}, ${y}${angleBrackets ? '\u27E9' : ')'}`;
+
+/** Perform a linear-interpolation from vector A to vector B by t. t can be either a scalar or a Vec2. */
+export const lerp = (
+  a: Readonly<Vec2>,
+  b: Readonly<Vec2>,
+  t: number | Readonly<Vec2>,
+  out: Vec2 = [0, 0],
+): Vec2 => {
+  const [tX, tY] = typeof t === 'number' ? [t, t] : t;
+  return set(scalarLerp(a[0], b[0], tX), scalarLerp(a[1], b[1], tY), out);
+};
