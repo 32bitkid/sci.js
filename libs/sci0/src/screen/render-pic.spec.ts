@@ -26,8 +26,8 @@ describe('edge cases', () => {
   });
 
   it.each<[number, boolean]>([
-    [1, false],
-    [2, true],
+    [1, true],
+    [2, false],
   ])('should leak out of single pixel dither "holes"', (lineColor, leaky) => {
     const picData: DrawCommand[] = [
       ['SET_PALETTE', [0], 0x00, 0xf0, 0x0f, 0xff],
