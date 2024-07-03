@@ -1,5 +1,4 @@
 import { Command } from 'commander';
-import columnify from 'columnify';
 
 import {
   decompress,
@@ -57,19 +56,8 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
 
   console.log('');
   console.log(`PIC.${pic.toString(10).padStart(3, '0')}`);
-  const data = {
-    Commands: picData.length.toLocaleString(),
-    Size: `${header.actualSize.toLocaleString()} bytes`,
-  };
-  console.log(
-    columnify(data, {
-      showHeaders: false,
-      config: {
-        key: { dataTransform: (it) => `${it}:` },
-        value: { align: 'right' },
-      },
-    }),
-  );
+  console.log(`Commands: ${picData.length.toLocaleString()}`);
+  console.log(`Size: ${header.actualSize.toLocaleString()} bytes`);
 
   console.log('\n\u{1F5DC} Compression:');
   console.log(
@@ -88,31 +76,21 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
   }, {});
 
   console.log('\n\u{1F9F0} Breakdown:');
-  console.log(
-    columnify(
-      [
-        ...Object.entries(modeTotals)
-          .sort((a, b) => b[1] - a[1])
-          .map(([key, val]) => ({
-            tool: key.toLowerCase(),
-            count: val.toLocaleString(),
-            percent: `${((val / picData.length) * 100).toFixed(0)}%`,
-          })),
-      ],
-      {
-        columns: ['tool', 'count', 'percent'],
-        showHeaders: false,
-        columnSplitter: ' | ',
-        config: {
-          tool: { align: 'left' },
-          count: {
-            align: 'right',
-          },
-          percent: {
-            align: 'right',
-          },
-        },
-      },
-    ),
-  );
+  const toolIcons: Record<string, string> = {
+    pline: '\u{1F4C8}',
+    brush: '\u{1F58C}',
+    fill: '\u{1FAA3}',
+    set_palette: '\u{1F3A8}',
+  };
+
+  Object.entries(modeTotals)
+    .sort((a, b) => b[1] - a[1])
+    .map(([key, val]) => ({
+      tool: key.toLowerCase(),
+      count: val.toLocaleString(),
+      percent: `${((val / picData.length) * 100).toFixed(0)}%`,
+    }))
+    .forEach(({ tool, count, percent }) => {
+      console.log(`${toolIcons[tool]} ${tool}: ${count} (${percent})`);
+    });
 }
