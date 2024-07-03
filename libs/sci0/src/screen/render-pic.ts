@@ -9,14 +9,13 @@ interface RenderOptions {
   forcePal?: 0 | 1 | 2 | 3 | undefined;
   width?: number;
   height?: number;
-  onAfterStep?: (idx: number, cmd: DrawCommand, result: RenderResult) => void;
 }
 
-export const renderPic = (
+export function* generatePic(
   commands: DrawCommand[],
   options: RenderOptions = {},
-): RenderResult => {
-  const { forcePal, width = 320, height = 190, onAfterStep } = options;
+): Generator<[number, DrawCommand, RenderResult]> {
+  const { forcePal, width = 320, height = 190 } = options;
 
   const palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array] = [
     Uint8Array.from(DEFAULT_PALETTE),
@@ -80,8 +79,14 @@ export const renderPic = (
         exhaustive('unhandled opcode', mode);
     }
 
-    onAfterStep?.(i, cmd, result);
+    yield [i, cmd, result];
   }
+}
 
+export const renderPic = (
+  commands: DrawCommand[],
+  options: RenderOptions = {},
+): RenderResult => {
+  const [[, , result]] = [...generatePic(commands, options)].slice(-1);
   return result;
 };
