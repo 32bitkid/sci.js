@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.3...@4bitlabs/sci0@4.0.0) (2024-07-03)
+
+### Breaking
+
+- Introducing generatePic generator to iterate on intermediary pic resources ([22b6229](https://github.com/32bitkid/sci.js/commit/22b6229b7519c4341ac0b24c721569dfc157a159))
+
 ## [3.1.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.2...@4bitlabs/sci0@3.1.3) (2024-06-16)
 
 ### Fixed
