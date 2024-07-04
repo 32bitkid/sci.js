@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@4.0.0...@4bitlabs/sci0@4.0.1) (2024-07-04)
+
+### Fixed
+
+- renderPic always returns a result, even if commands is empty ([0af8b75](https://github.com/32bitkid/sci.js/commit/0af8b75161d62e0c587744a146ec25c99c6fea5b))
+
 # [4.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@3.1.3...@4bitlabs/sci0@4.0.0) (2024-07-03)
 
 ### Breaking
