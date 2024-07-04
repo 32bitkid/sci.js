@@ -4,7 +4,8 @@ import path from 'node:path';
 import { type Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
-import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
+import { decompress, generatePic, parseFont, parsePic } from '@4bitlabs/sci0';
+import { createIndexedPixelData, IndexedPixelData } from '@4bitlabs/image';
 import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
 import {
   loadContentFromMap,
@@ -25,6 +26,17 @@ interface PicVideoActionOptions {
   readonly title: string;
   readonly fps: number;
 }
+
+const clone = ({
+  width,
+  height,
+  keyColor,
+  pixels,
+}: IndexedPixelData): IndexedPixelData => {
+  const dupe = createIndexedPixelData(width, height, { keyColor });
+  dupe.pixels.set(pixels);
+  return dupe;
+};
 
 const mustParse = async <T>(
   root: string,
@@ -74,30 +86,35 @@ export async function picVideoAction(
     );
 
   progress.start(total, 0);
-  const done = frames.map((fn, idx) =>
-    workers
-      .exec('renderPic', [
-        fn,
-        pic.slice(0, idx + 1),
-        picOptions.layer,
-        forcePal,
-        format,
-        renderOptions,
-        {
-          font,
-          left: [title, `PIC.${id.toString(10).padStart(3, '0')}`]
-            .filter((it) => it.length > 0)
-            .join(': '),
-          right:
-            idx === frames.length - 1
-              ? ''
-              : `${((idx / frames.length) * 100).toFixed(0)}%`,
-        },
-      ])
-      .then(() => {
-        progress.increment();
-      }),
-  );
+
+  const done: PromiseLike<void>[] = [];
+
+  for (const [idx, , layers] of generatePic(pic, { forcePal })) {
+    const outfile = frames[idx];
+    const message = {
+      font,
+      left: [title, `PIC.${id.toString(10).padStart(3, '0')}`]
+        .filter((it) => it.length > 0)
+        .join(': '),
+      right:
+        idx === frames.length - 1
+          ? ''
+          : `${((idx / frames.length) * 100).toFixed(0)}%`,
+    };
+
+    done.push(
+      workers
+        .exec('renderPic', [
+          outfile,
+          clone(layers[picOptions.layer]),
+          picOptions.layer,
+          format,
+          renderOptions,
+          message,
+        ])
+        .then(() => progress.increment()),
+    );
+  }
 
   await Promise.all(done).finally(() => {
     progress.stop();
