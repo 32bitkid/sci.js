@@ -1,6 +1,6 @@
-import { formatFloat as fmt } from './utils/format-float';
-import { alphaPart as fmtA } from './utils/alpha-fns';
-import { createColorPredicate } from './utils/create-color-predicate';
+import { formatFloat as fmt } from '../utils/format-float';
+import { alphaPart as fmtA } from '../utils/alpha-fns';
+import { createColorPredicate } from '../utils/create-color-predicate';
 
 export type LabTuple = [
   'CIELAB' | 'CIE-L*a*b*',

@@ -1,11 +1,11 @@
-import { type XYZTuple, create as createXYZ } from './xyz-tuple';
-import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
-import { type LabTuple, create as createLab } from './lab-tuple';
-import { type okLabTuple, create as createOkLab } from './oklab-tuple';
-import { D50 } from './reference-white';
-import { clamp } from './utils/clamp';
-import { lerp } from './utils/lerp';
-import { assign } from './utils/assign-values';
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
+import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
+import { type LabTuple, create as createLab } from '../tuples/lab-tuple';
+import { type okLabTuple, create as createOkLab } from '../tuples/oklab-tuple';
+import { D50 } from '../reference-white';
+import { clamp } from '../utils/clamp';
+import { lerp } from '../utils/lerp';
+import { assign } from '../utils/assign-values';
 
 // prettier-ignore
 const matrix = Float64Array.of(

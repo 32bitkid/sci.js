@@ -1,6 +1,6 @@
-import { alphaPart as fmtA } from './utils/alpha-fns';
-import { formatFloat as fmt } from './utils/format-float';
-import { createColorPredicate } from './utils/create-color-predicate';
+import { alphaPart as fmtA } from '../utils/alpha-fns';
+import { formatFloat as fmt } from '../utils/format-float';
+import { createColorPredicate } from '../utils/create-color-predicate';
 
 export type sRGBTuple = ['sRGB', r: number, g: number, b: number, a?: number];
 

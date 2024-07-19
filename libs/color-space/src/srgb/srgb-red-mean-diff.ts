@@ -1,4 +1,4 @@
-import { sRGBTuple } from './srgb-tuple';
+import { sRGBTuple } from '../tuples/srgb-tuple';
 
 export const redMeanDiff = (c1: sRGBTuple, c2: sRGBTuple) => {
   const [, c1R, c1G, c1B] = c1;

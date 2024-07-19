@@ -1,11 +1,11 @@
-import { type sRGBTuple, create as createSRGB } from './srgb-tuple';
-import { type XYZTuple, create as createXYZ } from './xyz-tuple';
+import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
 import {
   type linearRGBTuple,
   create as createLinearRGB,
-} from './linear-rgb-tuple';
-import { lerp } from './utils/lerp';
-import { assign } from './utils/assign-values';
+} from '../tuples/linear-rgb-tuple';
+import { lerp } from '../utils/lerp';
+import { assign } from '../utils/assign-values';
 export { redMeanDiff } from './srgb-red-mean-diff';
 
 const inverseGamma = (c: number) =>

@@ -1,8 +1,8 @@
-import { type XYZTuple } from './xyz-tuple';
-import { type LabTuple, create as createLab } from './lab-tuple';
-import { D50 } from './reference-white';
-import { lerp } from './utils/lerp';
-import { assign } from './utils/assign-values';
+import { type XYZTuple } from '../tuples/xyz-tuple';
+import { type LabTuple, create as createLab } from '../tuples/lab-tuple';
+import { D50 } from '../reference-white';
+import { lerp } from '../utils/lerp';
+import { assign } from '../utils/assign-values';
 export { deltaE } from './lab-delta-e';
 
 const ϵ = 216 / 24389; // 6^3/29^3

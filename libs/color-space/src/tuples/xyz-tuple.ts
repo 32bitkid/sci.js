@@ -1,7 +1,7 @@
-import { formatFloat as fmt } from './utils/format-float';
-import { alphaPart as fmtA } from './utils/alpha-fns';
-import { createColorPredicate } from './utils/create-color-predicate';
-import { D65 } from './reference-white';
+import { formatFloat as fmt } from '../utils/format-float';
+import { alphaPart as fmtA } from '../utils/alpha-fns';
+import { createColorPredicate } from '../utils/create-color-predicate';
+import { D65 } from '../reference-white';
 
 export type XYZTuple = ['CIE-XYZ', x: number, y: number, z: number, a?: number];
 

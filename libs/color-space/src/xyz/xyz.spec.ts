@@ -1,8 +1,8 @@
 import { toLab, toOkLab, toSRGB } from './xyz-fns';
-import { type XYZTuple } from './xyz-tuple';
-import { type LabTuple } from './lab-tuple';
-import { type okLabTuple } from './oklab-tuple';
-import { type sRGBTuple } from './srgb-tuple';
+import { type XYZTuple } from '../tuples/xyz-tuple';
+import { type LabTuple } from '../tuples/lab-tuple';
+import { type okLabTuple } from '../tuples/oklab-tuple';
+import { type sRGBTuple } from '../tuples/srgb-tuple';
 
 describe('CIE-XYZ color-space', () => {
   describe('toSRGB()', () => {

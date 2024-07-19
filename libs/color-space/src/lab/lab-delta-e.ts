@@ -1,4 +1,4 @@
-import { LabTuple } from './lab-tuple';
+import { LabTuple } from '../tuples/lab-tuple';
 
 export function deltaE(labA: LabTuple, labB: LabTuple) {
   const deltaL = labA[1] - labB[1];

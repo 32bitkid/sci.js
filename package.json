@@ -8,6 +8,7 @@
     "lint": "eslint .",
     "format:fix": "prettier -w .",
     "build": "lerna run build",
+    "rebuild": "nx reset && lerna run clean:wipe && lerna run build",
     "test": "lerna run test",
     "clean": "lerna run clean",
     "clean:wipe": "lerna run clean:wipe"

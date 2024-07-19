@@ -6,9 +6,14 @@ import {
   toUint32,
   fromUint24,
 } from './srgb-fns';
-import { type sRGBTuple, isSRGBTuple, create, toString } from './srgb-tuple';
-import { type XYZTuple } from './xyz-tuple';
-import { linearRGBTuple } from './linear-rgb-tuple';
+import {
+  type sRGBTuple,
+  isSRGBTuple,
+  create,
+  toString,
+} from '../tuples/srgb-tuple';
+import { type XYZTuple } from '../tuples/xyz-tuple';
+import { linearRGBTuple } from '../tuples/linear-rgb-tuple';
 
 describe('sRGB color-space', () => {
   describe('toString()', () => {

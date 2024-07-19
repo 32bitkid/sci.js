@@ -1,8 +1,8 @@
 // prettier-ignore
-import  { type okLabTuple, create as createOkLab } from "./oklab-tuple";
-import { type XYZTuple, create as createXYZ } from './xyz-tuple';
-import { lerp } from './utils/lerp';
-import { assign } from './utils/assign-values';
+import  { type okLabTuple, create as createOkLab } from "../tuples/oklab-tuple";
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
+import { lerp } from '../utils/lerp';
+import { assign } from '../utils/assign-values';
 
 // prettier-ignore
 const OKLAB_M1i = Float64Array.of(

@@ -3,5 +3,5 @@ export {
   create,
   toString,
   isLinearRGBTuple,
-} from './linear-rgb-tuple';
+} from '../tuples/linear-rgb-tuple';
 export { toSRGB, mix } from './linear-rgb-fns';

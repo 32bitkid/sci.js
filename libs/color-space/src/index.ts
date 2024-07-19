@@ -1,11 +1,11 @@
-export type { sRGBTuple } from './srgb-tuple';
-export type { linearRGBTuple } from './linear-rgb-tuple';
-export type { XYZTuple } from './xyz-tuple';
-export type { LabTuple } from './lab-tuple';
-export type { okLabTuple } from './oklab-tuple';
+export type { sRGBTuple } from './tuples/srgb-tuple';
+export type { linearRGBTuple } from './tuples/linear-rgb-tuple';
+export type { XYZTuple } from './tuples/xyz-tuple';
+export type { LabTuple } from './tuples/lab-tuple';
+export type { okLabTuple } from './tuples/oklab-tuple';
 
-export * as sRGB from './srgb';
-export * as linearRGB from './linear-rgb';
-export * as XYZ from './xyz';
-export * as Lab from './lab';
-export * as okLab from './oklab';
+export * as sRGB from './srgb/srgb';
+export * as linearRGB from './linear-rgb/linear-rgb';
+export * as XYZ from './xyz/xyz';
+export * as Lab from './lab/lab';
+export * as okLab from './oklab/oklab';

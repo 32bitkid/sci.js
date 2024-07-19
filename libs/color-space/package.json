@@ -22,11 +22,11 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./srgb": "./dist/srgb.js",
-    "./xyz": "./dist/xyz.js",
-    "./lab": "./dist/lab.js",
-    "./oklab": "./dist/oklab.js",
-    "./linear-rgb": "./dist/linear-rgb.js"
+    "./srgb": "./dist/srgb/srgb.js",
+    "./xyz": "./dist/xyz/xyz.js",
+    "./lab": "./dist/lab/lab.js",
+    "./oklab": "./dist/oklab/oklab.js",
+    "./linear-rgb": "./dist/linear-rgb/linear-rgb.js"
   },
   "files": [
     "./dist/**/*"
