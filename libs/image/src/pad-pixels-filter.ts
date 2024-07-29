@@ -5,7 +5,7 @@ import {
 } from './indexed-pixel-data';
 import { type Padding, type PadQuad, toPadding4 } from './padding';
 
-interface PadPixelsFilterOptions {
+export interface PadPixelsFilterOptions {
   keyColor?: number;
 }
 

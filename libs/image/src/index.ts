@@ -1,6 +1,7 @@
 export { type ImageDataLike, createImageData } from './image-data-like';
 export {
   type IndexedPixelData,
+  type CreateIndexPixelDataOptions,
   createIndexedPixelData,
   isIndexedPixelData,
 } from './indexed-pixel-data';
@@ -13,8 +14,21 @@ export {
 } from './image-filter';
 
 export { createDitherFilter } from './dither-filter';
-export { createPaletteFilter } from './palette-filter';
+export {
+  createPaletteFilter,
+  type PaletteFilterOptions,
+} from './palette-filter';
 export { type RenderPipeline, renderPixelData } from './render-pixel-data';
-export { padPixelsFilter } from './pad-pixels-filter';
-export { padImageFilter } from './pad-image-filter';
+export {
+  padPixelsFilter,
+  type PadPixelsFilterOptions,
+} from './pad-pixels-filter';
+export { padImageFilter, type PadImageFilterOptions } from './pad-image-filter';
+export type {
+  Padding,
+  PadSingle,
+  PadDouble,
+  PadTriple,
+  PadQuad,
+} from './padding';
 export { padFilter } from './pad-filter';

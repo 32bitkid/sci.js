@@ -5,7 +5,7 @@ export interface IndexedPixelData {
   readonly keyColor?: number;
 }
 
-interface CreateIndexPixelDataOptions {
+export interface CreateIndexPixelDataOptions {
   keyColor?: number;
 }
 

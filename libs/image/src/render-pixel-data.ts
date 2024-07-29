@@ -8,6 +8,34 @@ export interface RenderPipeline {
   post?: (ImageFilter | false | undefined)[];
 }
 
+/**
+ * You can also execute more complex transformation pipelines with {@link renderPixelData}.
+ *
+ * @param source
+ * @param pipeline
+ *
+ * @example
+ *
+ * ```ts
+ * import { Palette, Dithers } from '@4bitlabs/color';
+ * import { scale5x6 } from '@4bitlabs/blur-filters';
+ * import { hBoxBlur } from '@4bitlabs/blur-filters';
+ * import {
+ *   renderPixelData,
+ *   createDitherFilter,
+ *   type RenderPipeline,
+ * } from '@4bitlabs/image';
+ *
+ * const imageData = renderPixelData(visual, {
+ *   // First, scale the image using the scale5x6 algorithm
+ *   pre: [scale5x6],
+ *   // Dither with CGA pairs, using a 5 by 6 pattern
+ *   dither: createDitherFilter(Dithers.CGA, [5, 6]),
+ *   // Finally, apply a horizontal box blur to the image
+ *   post: [hBoxBlur(3)], //
+ * });
+ * ```
+ */
 export function renderPixelData(
   source: IndexedPixelData,
   pipeline: RenderPipeline,

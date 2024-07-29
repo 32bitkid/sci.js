@@ -2,7 +2,7 @@ import { createImageData, ImageDataLike } from './image-data-like';
 import { Padding, PadQuad, toPadding4 } from './padding';
 import { ImageFilter } from './image-filter';
 
-interface PadImageFilterOptions {
+export interface PadImageFilterOptions {
   backgroundColor?: number;
 }
 

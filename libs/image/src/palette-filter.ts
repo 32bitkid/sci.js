@@ -2,11 +2,29 @@ import { PaletteFilter } from './image-filter';
 import { IndexedPixelData } from './indexed-pixel-data';
 import { createImageData, ImageDataLike } from './image-data-like';
 
-interface PaletteFilterOptions {
+export interface PaletteFilterOptions {
   ignoreKeyColor?: true;
   backgroundColor?: number;
 }
 
+/**
+ * Generates a {@link PaletteFilter} for processing 4-bit pixel data from `view`, `cursor`,
+ * and `font` assets.
+ *
+ * @param palette
+ * @param options
+ *
+ * @example
+ *
+ * ```ts
+ * import { Palettes } from '@4bitlabs/color';
+ * import { createPaletteFilter } from '@4bitlabs/image';
+ *
+ * // Generate a classic 1x1 EGA dither
+ * const render = createPaletteFilter(Palettes.CGA);
+ * const ouput = render(visual);
+ * ```
+ */
 export const createPaletteFilter = (
   palette: Uint32Array,
   options: PaletteFilterOptions = {},
