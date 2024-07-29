@@ -1,5 +1,5 @@
 import { BitReader } from '@4bitlabs/readers';
-import { type Vec2, set } from '@4bitlabs/vec2';
+import { type Vec2, type MutableVec2, set } from '@4bitlabs/vec2';
 
 // getPoint24 gets reads an absolute position from the
 // bit-stream. The format is 24-bits long:
@@ -10,7 +10,7 @@ import { type Vec2, set } from '@4bitlabs/vec2';
 //  8-15 | low byte of x-position
 // 16-23 | low byte of y-position
 //
-export function getPoint24(br: BitReader, out: Vec2): Vec2 {
+export function getPoint24(br: BitReader, out: MutableVec2): MutableVec2 {
   const code = br.read32(24);
   const x = ((code & 0xf00000) >>> 12) | ((code & 0xff00) >>> 8);
   const y = ((code & 0x0f0000) >>> 8) | ((code & 0x00ff) >>> 0);
@@ -26,9 +26,9 @@ export function getPoint24(br: BitReader, out: Vec2): Vec2 {
 //
 export function getPoint16(
   br: BitReader,
-  out: Vec2,
+  out: MutableVec2,
   ref: Readonly<Vec2>,
-): Vec2 {
+): MutableVec2 {
   const y = br.read32(8);
   const absY = y & 0b0111_1111;
   const dy = (y & 0b1000_0000) !== 0 ? -absY : absY;
@@ -46,7 +46,11 @@ export function getPoint16(
 // 0-3  | y-delta
 // 4-7  | x-delta
 //
-export function getPoint8(br: BitReader, out: Vec2, ref: Readonly<Vec2>): Vec2 {
+export function getPoint8(
+  br: BitReader,
+  out: MutableVec2,
+  ref: Readonly<Vec2>,
+): MutableVec2 {
   const code = br.read32(8);
 
   const xSign = ((code >>> 4) & 0b1000) !== 0;

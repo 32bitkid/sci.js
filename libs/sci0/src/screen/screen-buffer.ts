@@ -1,3 +1,4 @@
+import type { Vec2 } from '@4bitlabs/vec2';
 import { createIndexedPixelData } from '@4bitlabs/image';
 import { IsFillable, type Plotter, RawPlotter, type Screen } from './screen';
 import {
@@ -18,7 +19,7 @@ type SetTValueFn = (n: number) => void;
 export const createScreenBuffer = (
   forcePal: 0 | 1 | 2 | 3 | undefined,
   palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array],
-  [width, height]: [number, number],
+  [width, height]: Vec2,
 ): [RenderResult, Screen, SetTValueFn] => {
   const visible = createIndexedPixelData(width, height);
   const priority = createIndexedPixelData(width, height);
