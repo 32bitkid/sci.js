@@ -34,38 +34,3 @@ export const Dithers = {
   TRUE_CGA_FLAT: TRUE_CGA_FLAT_PAIRS,
   TRUE_CGA_SOFT: TRUE_CGA_SOFT_PAIRS,
 };
-
-// TODO remove deprecated exports in next major release
-/**
- * @deprecated use Palettes.CGA_PALETTE instead
- */
-export const RAW_CGA = Palettes.CGA_PALETTE;
-
-/**
- * @deprecated use Palettes.TRUE_CGA_PALETTE instead
- */
-export const TRUE_CGA = Palettes.TRUE_CGA_PALETTE;
-
-/**
- * @deprecated use Palettes.DGA_PALETTE instead
- */
-export const DGA_PALETTE = Palettes.DGA_PALETTE;
-
-/**
- * @deprecated use Pairs.* instead
- */
-export const BuiltinDitherPairs = {
-  CLASSIC: CGA_PAIRS,
-  MIX: CGA_MIX_PAIRS,
-  SOFT: CGA_SOFT_PAIRS,
-};
-
-/**
- * @deprecated use IBM5153Contrast instead
- */
-export const IBM5153Dimmer = IBM5153Contrast;
-
-/**
- * @deprecated use Dithers instead
- */
-export const Pairs = Dithers;
