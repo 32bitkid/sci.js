@@ -28,7 +28,7 @@ export {
   isResourceType,
   isResourceNumber,
 } from './models/resource-id';
-export { ResourceTypes } from './models/resource-type';
+export * as ResourceTypes from './models/resource-types';
 
 export type { RenderResult } from './screen/render-result';
 export { renderPic, generatePic, loopPaddingFilter } from './screen';

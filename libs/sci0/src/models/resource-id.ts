@@ -1,5 +1,16 @@
 import { ResourceType } from './resource-type';
-import * as ResourceTypes from './resource-type';
+import {
+  VIEW_TYPE,
+  PIC_TYPE,
+  SCRIPT_TYPE,
+  TEXT_TYPE,
+  SOUND_TYPE,
+  MEMORY_TYPE,
+  VOCAB_TYPE,
+  FONT_TYPE,
+  CURSOR_TYPE,
+  PATCH_TYPE,
+} from './resource-types';
 import { exhaustive } from '../utils/exhaustive';
 
 export const getResourceType = (id: number): ResourceType =>
@@ -13,25 +24,25 @@ export const getResourceIdStr = (id: number) =>
 export const getResourceTypeStr = (id: number): string => {
   const type = getResourceType(id);
   switch (type) {
-    case ResourceTypes.VIEW_TYPE:
+    case VIEW_TYPE:
       return 'View';
-    case ResourceTypes.PIC_TYPE:
+    case PIC_TYPE:
       return 'Pic';
-    case ResourceTypes.SCRIPT_TYPE:
+    case SCRIPT_TYPE:
       return 'Script';
-    case ResourceTypes.TEXT_TYPE:
+    case TEXT_TYPE:
       return 'Text';
-    case ResourceTypes.SOUND_TYPE:
+    case SOUND_TYPE:
       return 'Sound';
-    case ResourceTypes.MEMORY_TYPE:
+    case MEMORY_TYPE:
       return 'Memory';
-    case ResourceTypes.VOCAB_TYPE:
+    case VOCAB_TYPE:
       return 'Vocab';
-    case ResourceTypes.FONT_TYPE:
+    case FONT_TYPE:
       return 'Font';
-    case ResourceTypes.CURSOR_TYPE:
+    case CURSOR_TYPE:
       return 'Cursor';
-    case ResourceTypes.PATCH_TYPE:
+    case PATCH_TYPE:
       return 'Patch';
     default:
       exhaustive('Unsupported resource type', type);
