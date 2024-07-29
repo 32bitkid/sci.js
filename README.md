@@ -1,8 +1,12 @@
 # SCI.js
 
-A collection of packages, utilities and apps for decoding assets from
+A collection of packages, utilities and apps for encoding and decoding assets from Sierra On-line SCI0-engine games.
 
-This monorepo is a work-in-progress.
+> Warning: This monorepo is a work-in-progress.
+
+## General Purpose
+
+- [`@4bitlabs/vec2`](./libs/vec2/README.md): A simple collection of functions for working with two-component vectors.
 
 ## Image-related packages
 

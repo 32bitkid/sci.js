@@ -116,6 +116,13 @@ export function toOkLab(
   return assign(out, L, a, b, alpha);
 }
 
+/**
+ * Mix two colors in xyz color space.
+ * @param c1
+ * @param c2
+ * @param bias
+ * @param out
+ */
 export const mix = (
   c1: XYZTuple,
   c2: XYZTuple,

@@ -1,0 +1,7 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "plugin": ["typedoc-plugin-mdn-links"],
+  "categorizeByGroup": true,
+  "gitRevision": "HEAD",
+  "sort": ["kind", "instance-first", "source-order"]
+}

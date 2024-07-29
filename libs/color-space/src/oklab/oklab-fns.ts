@@ -40,6 +40,13 @@ export function toXYZ(
   return assign(out, x * 100, y * 100, z * 100, alpha);
 }
 
+/**
+ * Lighten a color in oklab color space.
+ *
+ * @param lab
+ * @param amount
+ * @param out
+ */
 export const lighten = (
   [, L, a, b, alpha]: okLabTuple,
   amount: number,
@@ -53,6 +60,13 @@ export const lighten = (
     alpha,
   );
 
+/**
+ * Darken a color in oklab color space.
+ *
+ * @param lab
+ * @param amount
+ * @param out
+ */
 export const darken = (
   [, L, a, b, alpha]: okLabTuple,
   amount: number,
@@ -66,6 +80,13 @@ export const darken = (
     alpha,
   );
 
+/**
+ * Mix two colors in oklab color space.
+ * @param c1
+ * @param c2
+ * @param bias
+ * @param out
+ */
 export const mix = (
   c1: okLabTuple,
   c2: okLabTuple,

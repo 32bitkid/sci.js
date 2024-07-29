@@ -13,6 +13,12 @@ export { redMeanDiff } from './srgb-red-mean-diff';
 const inverseGamma = (c: number) =>
   c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 
+/**
+ * Convert a color in {@link sRGBTuple} color space into a color in {@link linearRGBTuple} colorspace.
+ *
+ * @param rgb
+ * @param out
+ */
 export function toLinearRGB(
   rgb: sRGBTuple,
   out: linearRGBTuple = createLinearRGB(),
@@ -41,6 +47,12 @@ const matrix = Float64Array.of(
   0.01933081871559182, 0.11919477979462598, 0.9505321522496607,
 );
 
+/**
+ * Convert a color in {@link sRGBTuple} color space into a color in {@link XYZTuple} colorspace.
+ *
+ * @param rgb
+ * @param out
+ */
 export function toXYZ(rgb: sRGBTuple, out: XYZTuple = createXYZ()): XYZTuple {
   const [, R, G, B, alpha] = rgb;
   const rL = inverseGamma(R / 255);
@@ -75,6 +87,11 @@ export function toUint32(
   );
 }
 
+/**
+ * Encode as a CSS hex color string.
+ *
+ * @param rgb
+ */
 export function toHex(rgb: sRGBTuple): string {
   const [, r, g, b] = rgb;
   const hexCode = [r, g, b]
@@ -83,6 +100,11 @@ export function toHex(rgb: sRGBTuple): string {
   return `#${hexCode}`;
 }
 
+/**
+ * Parse a {@link sRGBTuple} from a CSS hex color string . Supports both `#rgb` and `#rrggbb` formatted strings.
+ *
+ * @param hex
+ */
 export function fromHex(hex: string): sRGBTuple {
   if (/^#?[0-9a-f]{3}$/i.test(hex))
     return [
@@ -125,6 +147,14 @@ export function fromUint32(
   return ['sRGB', r, g, b, a];
 }
 
+/**
+ * Mix two {@link sRGBTuple} colors in [sRGB](https://en.wikipedia.org/wiki/SRGB) color space.
+ *
+ * @param c1
+ * @param c2
+ * @param bias
+ * @param out
+ */
 export const mix = (
   c1: sRGBTuple,
   c2: sRGBTuple,

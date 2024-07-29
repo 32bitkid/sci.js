@@ -1,5 +1,12 @@
 import { LabTuple } from '../tuples/lab-tuple';
 
+/**
+ * Calculate the [CIELAB &Delta;E*](https://en.wikipedia.org/wiki/Color_difference#CIELAB_%CE%94E*) between two
+ * {@link LabTuple} colors.
+ *
+ * @param labA
+ * @param labB
+ */
 export function deltaE(labA: LabTuple, labB: LabTuple) {
   const deltaL = labA[1] - labB[1];
   const deltaA = labA[2] - labB[2];

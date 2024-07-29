@@ -2,7 +2,7 @@ import { type LabTuple, toString } from '../tuples/lab-tuple';
 import * as LAB from './lab-fns';
 import { XYZTuple } from '../tuples/xyz-tuple';
 
-describe('L*a*b* colorspace', () => {
+describe('L*a*b* color space', () => {
   describe('toString()', () => {
     it.each<[LabTuple, string]>([
       [['CIELAB', 50, 0, 0], 'lab(50 0 0)'],

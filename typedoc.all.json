@@ -1,0 +1,15 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "extends": ["./typedoc.json"],
+  "out": "./docs",
+  "tsconfig": "./tsconfig.base.json",
+  "entryPoints": ["./libs/*"],
+  "entryPointStrategy": "packages",
+  "readme": ["./MODULE.md"],
+  "markdownItOptions": {
+    "html": true,
+    "linkify": true,
+    "typographer": true
+  },
+  "name": "SCI.js"
+}

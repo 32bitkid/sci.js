@@ -7,6 +7,16 @@
 
 A simple collection of functions for working with two-component vectors.
 
+## Installing
+
+```bash
+$ npm install --save @4bitlabs/vec2
+```
+
+## Documentation
+
+Full documentation for the library can be found [here](https://32bitkid.github.io/sci.js/modules/_4bitlabs_vec2.html).
+
 ## Basic Usage
 
 ```ts

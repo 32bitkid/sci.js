@@ -20,6 +20,13 @@ export function toSRGB(
   return assign(out, r, g, b, alpha);
 }
 
+/**
+ * Mix two colors in linear sRGB color space.
+ * @param c1
+ * @param c2
+ * @param bias
+ * @param out
+ */
 export const mix = (
   c1: linearRGBTuple,
   c2: linearRGBTuple,

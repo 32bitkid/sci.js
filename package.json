@@ -1,7 +1,7 @@
 {
   "name": "@4bitlabs/sci.js",
   "version": "0.0.0",
-  "description": "",
+  "description": "A monorepo of packages, utilities and apps for encoding and decoding assets from Sierra On-line SCI0 engine games.",
   "private": true,
   "main": "",
   "scripts": {
@@ -10,6 +10,8 @@
     "build": "lerna run build",
     "rebuild": "nx reset && lerna run clean:wipe && lerna run build",
     "test": "lerna run test",
+    "docs": "typedoc --options typedoc.all.json",
+    "docs:rebuild": "rimraf docs/ && npm run docs",
     "clean": "lerna run clean",
     "clean:wipe": "lerna run clean:wipe"
   },
@@ -49,6 +51,9 @@
     "prettier": "^3.3.2",
     "rimraf": "^5.0.7",
     "ts-jest": "^29.1.5",
+    "typedoc": "^0.26.5",
+    "typedoc-plugin-mdn-links": "^3.2.5",
+    "typedoc-plugin-missing-exports": "^3.0.0",
     "typescript": "^5.5.3",
     "typescript-eslint": "^7.15.0"
   }

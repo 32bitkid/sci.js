@@ -43,6 +43,13 @@ export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
   return assign(out, x, y, z, alpha);
 }
 
+/**
+ * Lighten a color in lab color space.
+ *
+ * @param lab
+ * @param amount
+ * @param out
+ */
 export const lighten = (
   [, L, a, b, alpha]: LabTuple,
   amount: number,
@@ -56,6 +63,13 @@ export const lighten = (
     alpha,
   );
 
+/**
+ * Darken a color in lab color space.
+ *
+ * @param lab
+ * @param amount
+ * @param out
+ */
 export const darken = (
   [, L, a, b, alpha]: LabTuple,
   amount: number,
@@ -69,6 +83,13 @@ export const darken = (
     alpha,
   );
 
+/**
+ * Mix two colors in lab color space.
+ * @param c1
+ * @param c2
+ * @param bias
+ * @param out
+ */
 export const mix = (
   c1: LabTuple,
   c2: LabTuple,
