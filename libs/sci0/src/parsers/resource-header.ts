@@ -10,5 +10,5 @@ export const parseHeaderFrom = (bytes: Uint8Array): ResourceHeader => {
   };
 };
 
-export const getPayloadLength = ({ packedSize }: ResourceHeader) =>
+export const getPayloadLength = ({ packedSize }: ResourceHeader): number =>
   packedSize - 4;

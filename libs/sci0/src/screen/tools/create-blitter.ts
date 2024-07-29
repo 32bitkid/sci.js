@@ -10,7 +10,7 @@ import { RawPlotter } from '../screen';
 
 export const createBlitter =
   (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>
-  (x0: number, y0: number, drawMode: DrawMode, cel: Cel) => {
+  (x0: number, y0: number, drawMode: DrawMode, cel: Cel): void => {
     if (isControlMode(drawMode) || isPriorityMode(drawMode))
       console.warn('unhandled CEL command on Control/Priority layer');
 

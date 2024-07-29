@@ -10,7 +10,7 @@ export const getResourceNumber = (id: number): number => id & 0b111_1111_1111;
 export const getResourceIdStr = (id: number) =>
   `(${getResourceTypeStr(id)}:${getResourceNumber(id).toString(10)})`;
 
-export const getResourceTypeStr = (id: number) => {
+export const getResourceTypeStr = (id: number): string => {
   const type = getResourceType(id);
   switch (type) {
     case ResourceTypes.VIEW_TYPE:

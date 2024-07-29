@@ -21,7 +21,18 @@ export type ResourceType =
   | typeof CURSOR_TYPE
   | typeof PATCH_TYPE;
 
-export const ResourceTypes = {
+export const ResourceTypes: {
+  VIEW_TYPE: typeof VIEW_TYPE;
+  PIC_TYPE: typeof PIC_TYPE;
+  SCRIPT_TYPE: typeof SCRIPT_TYPE;
+  TEXT_TYPE: typeof TEXT_TYPE;
+  SOUND_TYPE: typeof SOUND_TYPE;
+  MEMORY_TYPE: typeof MEMORY_TYPE;
+  VOCAB_TYPE: typeof VOCAB_TYPE;
+  FONT_TYPE: typeof FONT_TYPE;
+  CURSOR_TYPE: typeof CURSOR_TYPE;
+  PATCH_TYPE: typeof PATCH_TYPE;
+} = {
   VIEW_TYPE,
   PIC_TYPE,
   SCRIPT_TYPE,
