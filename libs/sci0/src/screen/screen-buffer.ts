@@ -5,7 +5,7 @@ import {
   isControlMode,
   isPriorityMode,
   isVisualMode,
-} from '../models/draw-command';
+} from '../models/draw-mode';
 import { type RenderResult } from './render-result';
 import {
   createBrush,

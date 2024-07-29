@@ -1,4 +1,6 @@
-import { DrawCodes, DrawMode, PatternCode } from '../../models/draw-command';
+import { DrawMode } from '../../models/draw-mode';
+import { DrawCodes } from '../../models/draw-codes';
+import { PatternCode } from '../../models/pattern-code';
 
 export interface PicState {
   drawMode: DrawMode;

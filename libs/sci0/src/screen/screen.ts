@@ -1,4 +1,5 @@
-import { DrawCodes, DrawMode } from '../models/draw-command';
+import { DrawMode } from '../models/draw-mode';
+import { DrawCodes } from '../models/draw-codes';
 import { Cel } from '../models/cel';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;

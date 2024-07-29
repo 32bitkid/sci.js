@@ -4,7 +4,7 @@ import {
   isControlMode,
   isPriorityMode,
   isVisualMode,
-} from '../../models/draw-command';
+} from '../../models/draw-mode';
 import { Cel } from '../../models/cel';
 import { RawPlotter } from '../screen';
 

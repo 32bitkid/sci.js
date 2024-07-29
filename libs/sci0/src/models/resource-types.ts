@@ -1,0 +1,10 @@
+export const VIEW_TYPE = 0 as const;
+export const PIC_TYPE = 1 as const;
+export const SCRIPT_TYPE = 2 as const;
+export const TEXT_TYPE = 3 as const;
+export const SOUND_TYPE = 4 as const;
+export const MEMORY_TYPE = 5 as const;
+export const VOCAB_TYPE = 6 as const;
+export const FONT_TYPE = 7 as const;
+export const CURSOR_TYPE = 8 as const;
+export const PATCH_TYPE = 9 as const;
