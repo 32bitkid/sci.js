@@ -5,11 +5,11 @@ export {
   isSRGBTuple,
 } from '../tuples/srgb-tuple';
 export {
+  type FromUint32Options,
   toLinearRGB,
   toXYZ,
   toUint32,
   toHex,
-  fromUint24,
   fromUint32,
   fromHex,
   mix,

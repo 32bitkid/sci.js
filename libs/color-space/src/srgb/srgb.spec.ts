@@ -1,11 +1,4 @@
-import {
-  toXYZ,
-  toLinearRGB,
-  fromHex,
-  fromUint32,
-  toUint32,
-  fromUint24,
-} from './srgb-fns';
+import { toXYZ, toLinearRGB, fromHex, fromUint32, toUint32 } from './srgb-fns';
 import {
   type sRGBTuple,
   isSRGBTuple,
@@ -112,8 +105,21 @@ describe('sRGB color-space', () => {
       });
     });
 
-    it('should parse uint24 and ignore the alpha component', () => {
-      const actual = fromUint24(0x7f563412);
+    it('should ignore the alpha component', () => {
+      const actual = fromUint32(0x7f563412, { alpha: false });
+      expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
+    });
+
+    it('should support big-endian encoded ints', () => {
+      const actual = fromUint32(0x123456ff, { byteOrder: 'big-endian' });
+      expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56, 1.0]);
+    });
+
+    it('should support big-endian encoded ints without alpha', () => {
+      const actual = fromUint32(0x123456ff, {
+        byteOrder: 'big-endian',
+        alpha: false,
+      });
       expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
     });
   });

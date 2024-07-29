@@ -85,18 +85,39 @@ export function fromHex(hex: string): sRGBTuple {
   throw new Error('invalid format');
 }
 
-export function fromUint24(c: number): sRGBTuple {
-  return ['sRGB', (c >>> 0) & 0xff, (c >>> 8) & 0xff, (c >>> 16) & 0xff];
+export interface FromUint32Options {
+  /**
+   * If **false**, ignore the alpha component.
+   * @default `true`
+   */
+  alpha?: boolean;
+  /**
+   * Specify what byte-ordering is used.
+   * @default `'little-endian'`
+   */
+  byteOrder?: 'little-endian' | 'big-endian';
 }
 
-export function fromUint32(c: number): sRGBTuple {
-  return [
-    'sRGB',
-    (c >>> 0) & 0xff,
-    (c >>> 8) & 0xff,
-    (c >>> 16) & 0xff,
-    ((c >>> 24) & 0xff) / 255,
-  ];
+/**
+ * Parse a {@link sRGBTuple} from a 32-bit unsigned integer, assumes [little-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) byte-ordering.
+ *
+ * @param c
+ * @param options
+ */
+export function fromUint32(
+  c: number,
+  options: FromUint32Options = {},
+): sRGBTuple {
+  const { alpha = true, byteOrder = 'little-endian' } = options;
+  const le = byteOrder !== 'big-endian';
+
+  const r = (c >>> (le ? 0 : 24)) & 0xff;
+  const g = (c >>> (le ? 8 : 16)) & 0xff;
+  const b = (c >>> (le ? 16 : 8)) & 0xff;
+  if (!alpha) return ['sRGB', r, g, b];
+
+  const a = ((c >>> (le ? 24 : 0)) & 0xff) / 255;
+  return ['sRGB', r, g, b, a];
 }
 
 export const mix = (
