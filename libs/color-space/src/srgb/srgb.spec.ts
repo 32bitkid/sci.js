@@ -85,7 +85,7 @@ describe('sRGB color-space', () => {
     });
   });
 
-  describe('uint32/uint24 conversion', () => {
+  describe('uint32 conversion', () => {
     describe('fromUint32', () => {
       it('should load the correct bits', () => {
         const actual = fromUint32(0xffffaa55);
@@ -96,31 +96,38 @@ describe('sRGB color-space', () => {
         const actual = fromUint32(0x7fffaa55);
         expect(actual[4]).toBeCloseTo(0.49803);
       });
+
+      it('should ignore the alpha component', () => {
+        const actual = fromUint32(0x7f563412, { alpha: false });
+        expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
+      });
+
+      it('should support big-endian encoded ints', () => {
+        const actual = fromUint32(0x123456ff, { byteOrder: 'big-endian' });
+        expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56, 1.0]);
+      });
+
+      it('should support big-endian encoded ints without alpha', () => {
+        const actual = fromUint32(0x123456ff, {
+          byteOrder: 'big-endian',
+          alpha: false,
+        });
+        expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
+      });
     });
 
     describe('toUint32', () => {
       it('should convert correctly back into a uint32', () => {
-        const actual = toUint32(['sRGB', 0x55, 0xaa, 0xff, 1.0]);
-        expect(actual).toBe(0xffffaa55);
+        const actual = toUint32(['sRGB', 0x55, 0xaa, 0x99, 1.0]);
+        expect(actual).toBe(0xff99aa55);
       });
-    });
 
-    it('should ignore the alpha component', () => {
-      const actual = fromUint32(0x7f563412, { alpha: false });
-      expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
-    });
-
-    it('should support big-endian encoded ints', () => {
-      const actual = fromUint32(0x123456ff, { byteOrder: 'big-endian' });
-      expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56, 1.0]);
-    });
-
-    it('should support big-endian encoded ints without alpha', () => {
-      const actual = fromUint32(0x123456ff, {
-        byteOrder: 'big-endian',
-        alpha: false,
+      it('should convert to big-endian format', () => {
+        const actual = toUint32(['sRGB', 0x55, 0xaa, 0x99, 1.0], {
+          byteOrder: 'big-endian',
+        });
+        expect(actual).toBe(0x55aa99ff);
       });
-      expect(actual).toStrictEqual(['sRGB', 0x12, 0x34, 0x56]);
     });
   });
 

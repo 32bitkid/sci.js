@@ -6,6 +6,8 @@ import {
 } from '../tuples/linear-rgb-tuple';
 import { lerp } from '../utils/lerp';
 import { assign } from '../utils/assign-values';
+import { ToUint32Options, FromUint32Options } from './uint32-options';
+
 export { redMeanDiff } from './srgb-red-mean-diff';
 
 const inverseGamma = (c: number) =>
@@ -52,9 +54,25 @@ export function toXYZ(rgb: sRGBTuple, out: XYZTuple = createXYZ()): XYZTuple {
   return assign(out, x * 100, y * 100, z * 100, alpha);
 }
 
-export function toUint32(rgb: sRGBTuple): number {
+/**
+ * Encode as a 32-bit unsigned integer, defaults to [little-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) byte-ordering.
+ * @param rgb
+ * @param options
+ */
+export function toUint32(
+  rgb: sRGBTuple,
+  options: ToUint32Options = {},
+): number {
   const [, r, g, b, a = 1.0] = rgb;
-  return (((a * 255) << 24) | (b << 16) | (g << 8) | r) >>> 0;
+  const { byteOrder = 'little-endian' } = options;
+  const le = byteOrder !== 'big-endian';
+  return (
+    (((a * 255) << (le ? 24 : 0)) |
+      (b << (le ? 16 : 8)) |
+      (g << (le ? 8 : 16)) |
+      (r << (le ? 0 : 24))) >>>
+    0
+  );
 }
 
 export function toHex(rgb: sRGBTuple): string {
@@ -85,21 +103,8 @@ export function fromHex(hex: string): sRGBTuple {
   throw new Error('invalid format');
 }
 
-export interface FromUint32Options {
-  /**
-   * If **false**, ignore the alpha component.
-   * @default `true`
-   */
-  alpha?: boolean;
-  /**
-   * Specify what byte-ordering is used.
-   * @default `'little-endian'`
-   */
-  byteOrder?: 'little-endian' | 'big-endian';
-}
-
 /**
- * Parse a {@link sRGBTuple} from a 32-bit unsigned integer, assumes [little-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) byte-ordering.
+ * Parse a {@link sRGBTuple} from a 32-bit unsigned integer, defaults to [little-endian](https://developer.mozilla.org/en-US/docs/Glossary/Endianness) byte-ordering.
  *
  * @param c
  * @param options

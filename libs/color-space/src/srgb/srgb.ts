@@ -4,8 +4,8 @@ export {
   toString,
   isSRGBTuple,
 } from '../tuples/srgb-tuple';
+
 export {
-  type FromUint32Options,
   toLinearRGB,
   toXYZ,
   toUint32,
@@ -15,3 +15,5 @@ export {
   mix,
   redMeanDiff,
 } from './srgb-fns';
+
+export type { ToUint32Options, FromUint32Options } from './uint32-options';
