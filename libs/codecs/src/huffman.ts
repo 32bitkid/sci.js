@@ -1,5 +1,4 @@
 import { createBitReader, BitReader } from '@4bitlabs/readers';
-import { ReadonlyUint8Array } from './shared';
 
 type Node = [value: number, siblings: number];
 
@@ -22,8 +21,27 @@ const nextCode = (
   return next === 0 ? [br.read32(8), true] : nextCode(br, nodes, idx + next);
 };
 
-export const unpack = (bytes: ReadonlyUint8Array): Uint8Array => {
-  const br = createBitReader(bytes);
+/**
+ * [Huffman][huffman] decompression algorithm used in [Sierra On-line][sierra] [SCI-engine][sci0] games.
+ *
+ * [huffman]: https://en.wikipedia.org/wiki/Huffman_coding
+ * [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+ * [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
+ *
+ * @param source The compressed bytes.
+ * @returns Decompressed payload.
+ *
+ * @example
+ *
+ * ```ts
+ * import { Huffman } from '@4bitlabs/codecs';
+ *
+ * const encodedBytes = Uint8Array.of(\/* encoded data *\/);
+ * const bytes = Huffman.unpack(encodedBytes);
+ * ```
+ */
+export const unpack = (source: Uint8Array | Uint8ClampedArray): Uint8Array => {
+  const br = createBitReader(source);
   const nodeCount = br.read32(8);
   const terminal = br.read32(8);
 

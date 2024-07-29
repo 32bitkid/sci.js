@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-import { unpack, EOF_MARKER } from './lzw';
+import { unpack, EOF_MARKER, InitialDictionary } from './lzw';
 
 describe('lzw', () => {
   describe('lsb', () => {
@@ -33,7 +33,7 @@ describe('lzw', () => {
   describe('msb', () => {
     describe('custom-dictionary', () => {
       it('should unpack', () => {
-        const dictionary = [
+        const dictionary: InitialDictionary = [
           EOF_MARKER,
           /* A-Z */
           ...Array(26)

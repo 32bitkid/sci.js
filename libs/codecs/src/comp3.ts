@@ -1,5 +1,4 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { ReadonlyUint8Array } from './shared';
 
 const EOF = 0x101;
 const RESET = 0x100;
@@ -9,8 +8,29 @@ const NEXT: unique symbol = Symbol('state:1');
 const DONE: unique symbol = Symbol('state:4');
 type State = typeof INIT | typeof NEXT | typeof DONE;
 
-// Based on the implementation in SCI Decoder by Carl Muckenhoupt
-export const unpack = (source: ReadonlyUint8Array): Uint8Array => {
+/**
+ * COMP3 decompression algorithm used in [Sierra On-line][sierra] [SCI-engine][sci0] games.
+ *
+ * [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+ * [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
+ *
+ * Based on the implementation in SCI Decoder by Carl Muckenhoupt
+ *
+ * @param source The compressed bytes.
+ * @returns Decompressed payload.
+ *
+ * @example
+ *
+ * ```ts
+ * import { Comp3 } from '@4bitlabs/codecs';
+ *
+ * const encodedBytes = Uint8Array.of(\/* encoded data *\/);
+ * const bytes = Comp3.unpack(encodedBytes);
+ * ```
+ */
+export const unpack = (source: Uint8Array | Uint8ClampedArray): Uint8Array => {
+  const r = createBitReader(source, { mode: 'msb' });
+
   const outputs: number[] = [];
 
   let lastChar = 0;
@@ -27,8 +47,6 @@ export const unpack = (source: ReadonlyUint8Array): Uint8Array => {
     data: new Uint8Array(0x1004),
     next: new Uint16Array(0x1004),
   } as const;
-
-  const r = createBitReader(source, { mode: 'msb' });
 
   while (state !== DONE) {
     const next = r.read32(numBits);

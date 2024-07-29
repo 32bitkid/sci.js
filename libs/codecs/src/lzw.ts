@@ -1,28 +1,112 @@
 import { createBitReader } from '@4bitlabs/readers';
 import { concat } from './concat';
-import { Sequence, CodeMapping, ReadonlyUint8Array } from './shared';
 
-export const EOF_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());
-export const RESET_MARKER: ReadonlyUint8Array = Object.freeze(Uint8Array.of());
+/**
+ * The EOF/STOP marker. When encountered, stops processing the input stream and return the uncompressed data.
+ */
+export const EOF_MARKER: unique symbol = Symbol('EOF_MARKER');
+/**
+ * The RESET marker. When encountered, resets the dictionary back to its initial state.
+ */
+export const RESET_MARKER: unique symbol = Symbol('RESET_ MARKER');
 
-interface CommonLzwDecodeOptions {
+export type CodeMapping = [
+  number,
+  Uint8Array | Uint8ClampedArray | typeof EOF_MARKER | typeof RESET_MARKER,
+];
+
+/**
+ * Basic options for LZW decoding.
+ *
+ * @example Changing the bit packing ordering.
+ *
+ * By default, least-significant bit ordering is used. You can change the encoded byte ordering of the decoder with the `options` parameter. To use least-significant bit
+ * ordering:
+ *
+ * ```ts
+ * const bytes = Lzw.unpack(encodedBytes, { order: 'msb' });
+ * ```
+ *
+ * @example Using a different code-width for decoding
+ *
+ * The default _code-width_ it uses is `8`, this can also be adjusted. To use an ASCII 7-bit code width:
+ *
+ * ```ts
+ * const bytes = Lzw.unpack(encodedBytes, { literalWidth: 7 });
+ * ```
+ *
+ */
+export interface SimpleLzwDecodeOptions {
+  /**
+   * Select the packing bit-ordering.
+   * @default 'lsb'
+   */
   order?: 'msb' | 'lsb';
+  /**
+   * Specify an explicit initial code-width for the LZW algorithm.
+   * @default 8
+   */
+  literalWidth?: number;
 }
 
-interface LiteralLzwDecodeOptions {
-  literalWidth: number;
-}
+export type InitialDictionary = (
+  | number
+  | number[]
+  | Uint8Array
+  | Uint8ClampedArray
+  | typeof EOF_MARKER
+  | typeof RESET_MARKER
+)[];
 
-type InitialDictionary = (number | number[] | ReadonlyUint8Array)[];
+/**
+ * Advanced options, allowing for full control of the initial dictionary/decoding state.
+ *
+ * @example Using a custom LZW dictionary for decoding.
+ *
+ * ```ts
+ * import { Lzw } from '@4bitlabs/codecs';
+ *
+ * const dictionary = [
+ *   Lzw.EOF_MARKER,
+ *   0x41, // A
+ *   0x42, // B
+ *   0x43, // C
+ *   0x44, // D
+ * ];
+ *
+ * const bytes = Lzw.unpack(encodedBytes, { dictionary });
+ * ```
+ *
+ * @example Decoding with extended codes in LZW dictionary.
+ *
+ * Longer codings can be encoded in the dictionary by using either an array of numbers of with a `Uint8Array`:
+ *
+ * ```ts
+ * import { Lzw, EOF_MARKER } from '@4bitlabs/codecs';
+ *
+ * const dictionary = [
+ *   Lzw.EOF_MARKER,
+ *   Uint8Array.of(0x47, 0x41, 0x54, 0x41), // GATA
+ *   Uint8Array.of(0x41, 0x54, 0x54, 0x41), // ATTA
+ *   Uint8Array.of(0x43, 0x47, 0x41, 0x54), // CGAT
+ *   Uint8Array.of(0x41, 0x43, 0x41, 0x47), // ACAG
+ * ];
+ *
+ * const bytes = Lzw.unpack(encodedBytes, { dictionary });
+ * ```
+ */
+export interface AdvancedLzwDecodeOptions {
+  /**
+   * Select the packing bit-ordering.
+   * @default 'lsb'
+   */
+  order?: 'msb' | 'lsb';
 
-interface CustomLzwDecodeOptions {
+  /**
+   * Initialize the LZW dictionary.
+   */
   dictionary: InitialDictionary;
 }
-
-type LzwDecodeOptions =
-  | CommonLzwDecodeOptions
-  | (CommonLzwDecodeOptions & LiteralLzwDecodeOptions)
-  | (CommonLzwDecodeOptions & CustomLzwDecodeOptions);
 
 const MAX_CODE_LENGTH = 12;
 
@@ -65,20 +149,46 @@ const initFromDict = (seq: InitialDictionary): LzwInit => {
   };
 };
 
+type Bytes = Uint8Array | Uint8ClampedArray;
+
 const init = (
-  opts: LiteralLzwDecodeOptions | CustomLzwDecodeOptions | Record<never, never>,
+  opts: SimpleLzwDecodeOptions | AdvancedLzwDecodeOptions,
 ): LzwInit => {
-  if ('literalWidth' in opts) return initFromLiteralWidth(opts.literalWidth);
+  if ('literalWidth' in opts && opts.literalWidth)
+    return initFromLiteralWidth(opts.literalWidth);
   if ('dictionary' in opts) return initFromDict(opts.dictionary);
 
   return initFromLiteralWidth(8);
 };
 
+/**
+ * [Lempel-Ziv-Welch][lzw] decompression algorithm used in [Sierra On-line][sierra] [SCI-engine][sci0] games.
+ *
+ * [lzw]: https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch
+ * [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+ * [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
+ *
+ * @param source The compressed bytes.
+ * @param options
+ * @returns Decompressed payload.
+ *
+ * @see {@link SimpleLzwDecodeOptions}
+ * @see {@link AdvancedLzwDecodeOptions}
+ *
+ * @example Basic decoding, using default options.
+ *
+ * ```ts
+ * import { Lzw } from '@4bitlabs/codecs';
+ *
+ * const encodedBytes = Uint8Array.of(\/* encoded data *\/);
+ * const bytes = Lzw.unpack(encodedBytes);
+ * ```
+ */
 export const unpack = (
-  source: ReadonlyUint8Array,
-  options: LzwDecodeOptions = {},
+  source: Uint8Array | Uint8ClampedArray,
+  options: SimpleLzwDecodeOptions | AdvancedLzwDecodeOptions = {},
 ): Uint8Array => {
-  const outputs: Sequence[] = [];
+  const outputs: Bytes[] = [];
 
   const { order = 'lsb' } = options;
   const { DICTIONARY, TOP, CODE_WIDTH } = init(options);
@@ -86,7 +196,7 @@ export const unpack = (
   let seen = new Map(DICTIONARY);
   let codeWidth = CODE_WIDTH;
   let nextCode = TOP;
-  let previous: Sequence | null = null;
+  let previous: Bytes | null = null;
 
   const r = createBitReader(source, { mode: order });
 

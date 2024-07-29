@@ -7,6 +7,10 @@
 
 A collection color manipulation functions and predefined palettes for working with EGA/CGA images.
 
+## Documentation
+
+Full documentation for the library can be found [here](https://32bitkid.github.io/sci.js/modules/_4bitlabs_color.html).
+
 ## Palettes
 
 ### Predefined Palettes

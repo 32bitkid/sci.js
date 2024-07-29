@@ -1,9 +1,6 @@
-type MutableProperties = 'copyWithin' | 'fill' | 'reverse' | 'set' | 'sort';
+export type ReadonlyBytes = Omit<
+  Uint8Array | Uint8ClampedArray,
+  'copyWithin' | 'fill' | 'reverse' | 'set' | 'sort'
+> & { readonly [n: number]: number };
 
-export interface ReadonlyUint8Array
-  extends Omit<Uint8Array, MutableProperties> {
-  readonly [n: number]: number;
-}
-
-export type Sequence = ReadonlyUint8Array;
-export type CodeMapping = [number, Sequence];
+export type Sequence = ReadonlyBytes;

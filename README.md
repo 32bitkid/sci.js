@@ -1,6 +1,6 @@
 # SCI.js
 
-A collection of packages, utilities and apps for encoding and decoding assets from Sierra On-line SCI0-engine games.
+A collection of packages, utilities and apps for encoding and decoding assets from [Sierra On-line][sierra] [SCI-engine][sci0] games.
 
 > Warning: This monorepo is a work-in-progress.
 
@@ -31,3 +31,6 @@ A collection of packages, utilities and apps for encoding and decoding assets fr
 
 - [`@4bitlabs/crt-lite`](./libs/crt-lite/README.md): A WebGL renderer for `ImageData` that replicates some of the basic
   look and feel of <abbr title="Cathode-ray Tube">CRT</abbr> monitors.
+
+[sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
