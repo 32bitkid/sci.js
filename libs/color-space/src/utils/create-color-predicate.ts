@@ -1,3 +1,5 @@
+export type ColorPredicate<T> = (it: unknown) => it is T;
+
 export function createColorPredicate<
   T extends [string, number, number, number, number?],
 >(
@@ -6,7 +8,7 @@ export function createColorPredicate<
   aRange: [number, number] = [-Infinity, Infinity],
   bRange: [number, number] = [-Infinity, Infinity],
   cRange: [number, number] = [-Infinity, Infinity],
-): (it: unknown) => it is T {
+): ColorPredicate<T> {
   return {
     [NAME](it: unknown): it is T {
       if (!Array.isArray(it)) return false;

@@ -1,6 +1,9 @@
 import { alphaPart as fmtA } from '../utils/alpha-fns';
 import { formatFloat as fmt } from '../utils/format-float';
-import { createColorPredicate } from '../utils/create-color-predicate';
+import {
+  type ColorPredicate,
+  createColorPredicate,
+} from '../utils/create-color-predicate';
 
 /**
  * Linear, non gamma-compressed, [sRGB](https://en.wikipedia.org/wiki/SRGB) color space.
@@ -42,10 +45,11 @@ export const toString = ([, r, g, b, alpha]: linearRGBTuple) =>
 /**
  * Type-predicate that validate and match {@link linearRGBTuple}.
  */
-export const isLinearRGBTuple = createColorPredicate<linearRGBTuple>(
-  'isLinearRGBTuple',
-  ['linear-RGB'],
-  [0.0, 1.0],
-  [0.0, 1.0],
-  [0.0, 1.0],
-);
+export const isLinearRGBTuple: ColorPredicate<linearRGBTuple> =
+  createColorPredicate<linearRGBTuple>(
+    'isLinearRGBTuple',
+    ['linear-RGB'],
+    [0.0, 1.0],
+    [0.0, 1.0],
+    [0.0, 1.0],
+  );

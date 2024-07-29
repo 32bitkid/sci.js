@@ -22,7 +22,7 @@ const inverseGamma = (c: number) =>
 export function toLinearRGB(
   rgb: sRGBTuple,
   out: linearRGBTuple = createLinearRGB(),
-) {
+): linearRGBTuple {
   const [, R, G, B, alpha] = rgb;
   const rL = inverseGamma(R / 255);
   const gL = inverseGamma(G / 255);

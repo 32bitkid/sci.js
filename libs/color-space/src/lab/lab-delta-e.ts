@@ -7,7 +7,7 @@ import { LabTuple } from '../tuples/lab-tuple';
  * @param labA
  * @param labB
  */
-export function deltaE(labA: LabTuple, labB: LabTuple) {
+export function deltaE(labA: LabTuple, labB: LabTuple): number {
   const deltaL = labA[1] - labB[1];
   const deltaA = labA[2] - labB[2];
   const deltaB = labA[3] - labB[3];

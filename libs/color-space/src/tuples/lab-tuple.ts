@@ -1,6 +1,9 @@
 import { formatFloat as fmt } from '../utils/format-float';
 import { alphaPart as fmtA } from '../utils/alpha-fns';
-import { createColorPredicate } from '../utils/create-color-predicate';
+import {
+  type ColorPredicate,
+  createColorPredicate,
+} from '../utils/create-color-predicate';
 
 /**
  * [CIELAB](https://en.wikipedia.org/wiki/CIELAB_color_space) color space.
@@ -42,10 +45,11 @@ export const toString = ([, L, a, b, alpha]: LabTuple) =>
 /**
  * Type-predicate that validate and match {@link LabTuple}.
  */
-export const isLabTuple = createColorPredicate<LabTuple>(
-  'isLabTuple',
-  ['CIELAB', 'CIE-L*a*b*'],
-  [0, 100],
-  [-160, 160],
-  [-160, 160],
-);
+export const isLabTuple: ColorPredicate<LabTuple> =
+  createColorPredicate<LabTuple>(
+    'isLabTuple',
+    ['CIELAB', 'CIE-L*a*b*'],
+    [0, 100],
+    [-160, 160],
+    [-160, 160],
+  );

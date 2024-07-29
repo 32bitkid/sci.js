@@ -57,7 +57,7 @@ const BRADFORD_Ma = Float64Array.of(
 const ϵ = 216 / 24389;
 const κ = 24389 / 27;
 
-export function toLab(xyz: XYZTuple, out: LabTuple = createLab()) {
+export function toLab(xyz: XYZTuple, out: LabTuple = createLab()): LabTuple {
   const [, x, y, z, alpha] = xyz;
 
   const xD50 = x * BRADFORD_Ma[0] + y * BRADFORD_Ma[1] + z * BRADFORD_Ma[2];

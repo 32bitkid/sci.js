@@ -1,6 +1,9 @@
 import { formatFloat as fmt } from '../utils/format-float';
 import { alphaPart as fmtA } from '../utils/alpha-fns';
-import { createColorPredicate } from '../utils/create-color-predicate';
+import {
+  type ColorPredicate,
+  createColorPredicate,
+} from '../utils/create-color-predicate';
 
 /**
  * [Oklab](https://bottosson.github.io/posts/oklab/) color space.
@@ -36,10 +39,11 @@ export const toString = ([, L, a, b, alpha]: okLabTuple) =>
 /**
  * Type-predicate that validate and match {@link okLabTuple}.
  */
-export const isOkLabTuple = createColorPredicate<okLabTuple>(
-  'isOkLabTuple',
-  ['okLab'],
-  [0.0, 1.0],
-  [-0.5, 0.5],
-  [-0.5, 0.5],
-);
+export const isOkLabTuple: ColorPredicate<okLabTuple> =
+  createColorPredicate<okLabTuple>(
+    'isOkLabTuple',
+    ['okLab'],
+    [0.0, 1.0],
+    [-0.5, 0.5],
+    [-0.5, 0.5],
+  );

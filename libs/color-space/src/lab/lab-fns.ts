@@ -15,7 +15,10 @@ const BRADFORD_Mb = Float64Array.of(
    0.0122982, -0.0204830,  1.3299098,
 )
 
-export function toXYZ(lab: LabTuple, out: XYZTuple = ['CIE-XYZ', 0, 0, 0]) {
+export function toXYZ(
+  lab: LabTuple,
+  out: XYZTuple = ['CIE-XYZ', 0, 0, 0],
+): XYZTuple {
   const [, L, a, b, alpha] = lab;
   const fy = (L + 16) / 116;
   const fx = a / 500 + fy;

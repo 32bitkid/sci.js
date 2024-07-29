@@ -1,6 +1,9 @@
 import { formatFloat as fmt } from '../utils/format-float';
 import { alphaPart as fmtA } from '../utils/alpha-fns';
-import { createColorPredicate } from '../utils/create-color-predicate';
+import {
+  type ColorPredicate,
+  createColorPredicate,
+} from '../utils/create-color-predicate';
 import { D65 } from '../reference-white';
 
 /**
@@ -37,10 +40,11 @@ export const toString = ([, x, y, z, alpha]: XYZTuple) =>
 /**
  * Type-predicate that validate and match {@link XYZTuple}.
  */
-export const isXYZTuple = createColorPredicate<XYZTuple>(
-  'isXYZTuple',
-  ['CIE-XYZ'],
-  [0, D65[0]],
-  [0, D65[1]],
-  [0, D65[2]],
-);
+export const isXYZTuple: ColorPredicate<XYZTuple> =
+  createColorPredicate<XYZTuple>(
+    'isXYZTuple',
+    ['CIE-XYZ'],
+    [0, D65[0]],
+    [0, D65[1]],
+    [0, D65[2]],
+  );

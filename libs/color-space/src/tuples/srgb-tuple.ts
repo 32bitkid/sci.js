@@ -1,6 +1,9 @@
 import { alphaPart as fmtA } from '../utils/alpha-fns';
 import { formatFloat as fmt } from '../utils/format-float';
-import { createColorPredicate } from '../utils/create-color-predicate';
+import {
+  type ColorPredicate,
+  createColorPredicate,
+} from '../utils/create-color-predicate';
 
 /**
  * 8-bit gamma-compressed [sRGB](https://en.wikipedia.org/wiki/SRGB) color space.
@@ -43,10 +46,11 @@ export const toString = ([, r, g, b, alpha]: sRGBTuple) =>
 /**
  * Type-predicate that validate and match {@link sRGBTuple}.
  */
-export const isSRGBTuple = createColorPredicate<sRGBTuple>(
-  'isSRGBTuple',
-  ['sRGB'],
-  [0, 255],
-  [0, 255],
-  [0, 255],
-);
+export const isSRGBTuple: ColorPredicate<sRGBTuple> =
+  createColorPredicate<sRGBTuple>(
+    'isSRGBTuple',
+    ['sRGB'],
+    [0, 255],
+    [0, 255],
+    [0, 255],
+  );
