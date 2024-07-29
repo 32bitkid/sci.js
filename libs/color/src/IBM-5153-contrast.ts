@@ -5,7 +5,16 @@ import { clamp } from './utils/clamp';
 
 const BLACK = linearRGB.create(0, 0, 0);
 
-// https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
+/**
+ * Simulate the effects of the IBM 5153 monitor's contrast knob.
+ *
+ * @param source The source palette.
+ * @param dimmer The dimmer amount. Range [0.0&ndash;1.0]
+ * @returns The adjusted/dimmed palette.
+ *
+ * @see https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
+ */
+//
 export function IBM5153Contrast(
   source: Readonly<Uint32Array>,
   dimmer: number,

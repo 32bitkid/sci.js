@@ -1,4 +1,6 @@
-// https://lospec.com/palette-list/soft-cga
+/**
+ * Colly's [Soft CGA](https://lospec.com/palette-list/soft-cga) palette.
+ */
 export const COLLY_SOFT_PALETTE: Uint32Array = Uint32Array.of(
   0xff000000,
   0xff770022,

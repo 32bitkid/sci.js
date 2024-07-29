@@ -1,4 +1,7 @@
-// https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
+/**
+ * [VileR](https://int10h.org/)'s [True CGA](https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/) palette
+ */
+
 export const TRUE_CGA_PALETTE: Uint32Array = Uint32Array.of(
   0xff000000,
   0xffc40000,

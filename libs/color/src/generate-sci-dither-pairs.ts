@@ -7,6 +7,11 @@ const rawPairs =
 
 const ENTRIES = Array(256).fill(0);
 
+/**
+ * Generate 256 dither pairings for all CGA pair combinations from a given palette.
+ * @param source
+ * @param transforms
+ */
 export const generateSciDitherPairs = (
   source: Readonly<Uint32Array> | ((entry: number) => DitherPair),
   ...transforms: DitherTransform[]

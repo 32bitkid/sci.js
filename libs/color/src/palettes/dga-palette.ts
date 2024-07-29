@@ -1,4 +1,6 @@
-// https://lospec.com/palette-list/aap-dga16
+/**
+ * [Adigun A. Polack](https://lospec.com/adigunpolack)'s [AAP-DGA16](https://lospec.com/palette-list/aap-dga16) Palette.
+ */
 export const DGA_PALETTE: Uint32Array = Uint32Array.of(
   0xff010101,
   0xff751b03,

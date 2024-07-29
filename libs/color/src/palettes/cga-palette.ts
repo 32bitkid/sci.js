@@ -1,3 +1,6 @@
+/**
+ * The standard [IBM CGA](https://en.wikipedia.org/wiki/Color_Graphics_Adapter) Palette.
+ */
 export const CGA_PALETTE: Uint32Array = Uint32Array.of(
   0xff000000,
   0xffaa0000,
