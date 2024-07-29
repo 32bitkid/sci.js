@@ -1,5 +1,5 @@
 // https://int10h.org/blog/2022/06/ibm-5153-color-true-cga-palette/
-export const TRUE_CGA_PALETTE = Uint32Array.of(
+export const TRUE_CGA_PALETTE: Uint32Array = Uint32Array.of(
   0xff000000,
   0xffc40000,
   0xff00c400,

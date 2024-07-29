@@ -1,16 +1,17 @@
-import { sRGB, Lab, okLab, XYZ, linearRGB } from '@4bitlabs/color-space';
+import { Lab, linearRGB, okLab, sRGB, XYZ } from '@4bitlabs/color-space';
 import {
   Lab_to_uint32,
-  XYZ_to_uint32,
   linearRGB_to_uint32,
   okLab_to_uint32,
   uint32_to_Lab,
-  uint32_to_XYZ,
   uint32_to_linearRGB,
   uint32_to_okLab,
+  uint32_to_XYZ,
+  XYZ_to_uint32,
 } from './utils/conversions';
-import { DitherPair } from './dither-pair';
-import { DitherTransform } from './dither-transform';
+import type { DitherPair } from './dither-pair';
+import type { DitherTransform } from './dither-transform';
+import type { MixOptions } from './mix-options';
 
 const createMixer =
   <T>(
@@ -36,10 +37,6 @@ const colorMixers = {
     linearRGB_to_uint32,
   ),
 } as const;
-
-export interface MixOptions {
-  mixMode?: 'okLab' | 'CIE-XYZ' | 'CIELAB' | 'sRGB' | 'linear-RGB';
-}
 
 const defaultMixMode: keyof typeof colorMixers = 'linear-RGB';
 
