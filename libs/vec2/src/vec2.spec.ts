@@ -37,14 +37,14 @@ describe('vec2', () => {
 
     it('should be able to round in place', () => {
       const v = vec2(1.5, 3.1);
-      const result = round(v, v);
+      const result = round(v, Math.round, v);
       expect(v).toBe(result);
       expect(v).toStrictEqual([2, 3]);
     });
 
     it('should be able to use another method', () => {
       const v = vec2(1.9, 3.9);
-      const result = round(v, vec2(), Math.floor);
+      const result = round(v, Math.floor);
       expect(result).toStrictEqual([1, 3]);
     });
   });

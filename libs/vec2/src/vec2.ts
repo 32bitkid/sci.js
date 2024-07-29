@@ -25,14 +25,20 @@ export const set = (x: number, y: number, out: Vec2) => {
   return out;
 };
 
-/** Round the given vector using method, defaults to Math.round. Puts the result in out */
-export const round = (
-  [x, y]: Readonly<Vec2>,
-  out: Vec2 = [0, 0],
-  method: (v: number) => number = Math.round,
-): Vec2 => set(method(x), method(y), out);
+export type RoundingMethodFn = (v: number) => number;
 
-/** Adds vector A to vector B, and puts the result in out */
+/**
+ * Round the given vector using method, defaults to Math.round. Puts the result in out.
+ *
+ * @param vec
+ * @param method
+ * @param out
+ */
+export const round = (
+  [x, y]: Vec2,
+  method: RoundingMethodFn = Math.round,
+  out: MutableVec2 = [0, 0],
+): MutableVec2 => set(method(x), method(y), out);
 export const add = (
   [x0, y0]: Readonly<Vec2>,
   [x1, y1]: Readonly<Vec2>,
