@@ -3,7 +3,7 @@
   "version": "independent",
   "changelog": true,
   "changelogPreset": "conventional-changelog-eslint",
-  "ignoreChanges": ["**/*.md"],
+  "ignoreChanges": [],
   "command": {
     "version": {
       "conventionalCommits": true
