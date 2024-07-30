@@ -3,9 +3,8 @@ import columnify from 'columnify';
 
 import {
   decompress,
-  getPayloadLength,
   parseAllMappings,
-  parseHeaderFrom,
+  parseHeaderWithPayload,
   parseView,
 } from '@4bitlabs/sci0';
 import { viewMatcher } from '../helpers/resource-matchers';
@@ -36,14 +35,8 @@ export async function viewInfoAction(
   );
 
   const resFile = await readFile(root, `RESOURCE.${resPart}`);
-  const headerContent = resFile.subarray(offset, offset + 8);
-  const header = parseHeaderFrom(headerContent);
-
-  const start = offset + 8;
-  const end = start + getPayloadLength(header);
-  const viewData = parseView(
-    decompress(engine, header.compression, resFile.subarray(start, end)),
-  );
+  const [header, payload] = parseHeaderWithPayload(resFile, offset);
+  const viewData = parseView(decompress(engine, header.compression, payload));
 
   const data = {
     View: `#${viewNum}`,

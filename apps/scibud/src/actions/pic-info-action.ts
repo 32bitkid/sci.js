@@ -2,9 +2,8 @@ import { Command } from 'commander';
 
 import {
   decompress,
-  getPayloadLength,
   parseAllMappings,
-  parseHeaderFrom,
+  parseHeaderWithPayload,
   parsePic,
 } from '@4bitlabs/sci0';
 import { picMatcher } from '../helpers/resource-matchers';
@@ -32,14 +31,8 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
 
   const resFile = await readFile(root, `RESOURCE.${resPart}`);
 
-  const headerContent = resFile.subarray(offset, offset + 8);
-  const header = parseHeaderFrom(headerContent);
-
-  const start = offset + 8;
-  const end = start + getPayloadLength(header);
-  const picData = parsePic(
-    decompress(engine, header.compression, resFile.subarray(start, end)),
-  );
+  const [header, payload] = parseHeaderWithPayload(resFile, offset);
+  const picData = parsePic(decompress(engine, header.compression, payload));
 
   const compressionTypes: Record<'sci0' | 'sci01', Record<number, string>> = {
     sci0: {

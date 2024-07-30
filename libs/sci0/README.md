@@ -58,12 +58,9 @@ const resource = await readFile(
   `path/to/RESOURCE.${file.toString().padStart(3, '0')}}`,
 );
 
-// Parse the asset header
-const header = parseHeaderFrom(resFile.subarray(offset, offset + 8));
-// Determine the payload length
-const payloadLength = getPayloadLength(header);
-// Snip out the bytes from the payload.
-const compressed = resFile.subarray(offset + 8, start + payloadLength);
+// Parse the asset header and payload
+const [header, compressed] = parseHeaderWithPayload(resource, offset);
+
 // Decompress the asset data
 const data = decompress('sci0', header.compression, compressed);
 ```

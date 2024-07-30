@@ -1,7 +1,6 @@
 import {
-  getPayloadLength,
   parseAllMappings,
-  parseHeaderFrom,
+  parseHeaderWithPayload,
   ResourceHeader,
   ResourceMap,
 } from '@4bitlabs/sci0';
@@ -24,10 +23,5 @@ export async function loadContentFromMap(
   const resFilename = `RESOURCE.${file.toString().padStart(3, '0')}`;
 
   const resFile = await readFile(root, resFilename);
-
-  const headerContent = resFile.subarray(offset, offset + 8);
-  const header = parseHeaderFrom(headerContent);
-  const start = offset + 8;
-  const end = start + getPayloadLength(header);
-  return [header, resFile.subarray(start, end)];
+  return parseHeaderWithPayload(resFile, offset);
 }

@@ -24,7 +24,10 @@ export {
   parseAll as parseAllMappings,
   consume as consumeNextMappingChunk,
 } from './parsers/mapping';
-export { getPayloadLength, parseHeaderFrom } from './parsers/resource-header';
+export {
+  parseHeaderFrom,
+  parseHeaderWithPayload,
+} from './parsers/resource-header';
 export { decompress } from './parsers/compression';
 import { parseFrom as parseCursor } from './parsers/cursor';
 import { parseFrom as parseFont } from './parsers/font';
