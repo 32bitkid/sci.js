@@ -1,6 +1,6 @@
 import { type Command } from 'commander';
 
-import { decompress, getResourceType } from '@4bitlabs/sci0';
+import { decompress, Resource } from '@4bitlabs/sci0';
 import {
   loadContentFromMap,
   ResourceMapPredicate,
@@ -29,7 +29,7 @@ export const createDecodeActionWithMatcher = (
     } else {
       // preamble
       const data = decompress(engine, header.compression, rawData);
-      stream.write(Uint8Array.of(getResourceType(header.id) | 0x80, 0x00));
+      stream.write(Uint8Array.of(Resource.getType(header.id) | 0x80, 0x00));
       stream.write(data);
     }
   };

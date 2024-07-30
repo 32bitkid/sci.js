@@ -13,16 +13,16 @@ import {
   PATCH_TYPE,
 } from './resource-types';
 
-export const getResourceType = (id: number): ResourceType =>
+export const getType = (id: number): ResourceType =>
   (id >>> 11) as ResourceType;
 
-export const getResourceNumber = (id: number): number => id & 0b111_1111_1111;
+export const getNumber = (id: number): number => id & 0b111_1111_1111;
 
-export const getResourceIdStr = (id: number) =>
-  `(${getResourceTypeStr(id)}:${getResourceNumber(id).toString(10)})`;
+export const getIdStr = (id: number) =>
+  `(${getTypeStr(id)}:${getNumber(id).toString(10)})`;
 
-export const getResourceTypeStr = (id: number): string => {
-  const type = getResourceType(id);
+export const getTypeStr = (id: number): string => {
+  const type = getType(id);
   switch (type) {
     case VIEW_TYPE:
       return 'View';

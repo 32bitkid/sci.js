@@ -1,6 +1,5 @@
 import {
-  getResourceNumber,
-  getResourceType,
+  Resource,
   ResourceTypes,
   type ResourceMap,
   type ResourceType,
@@ -11,7 +10,7 @@ export const createMatcherForType =
   (resType: ResourceType) =>
   (resId: number): ResourceMapPredicate =>
   ({ id }: ResourceMap) =>
-    getResourceType(id) === resType && getResourceNumber(id) === resId;
+    Resource.getType(id) === resType && Resource.getNumber(id) === resId;
 
 export const picMatcher = createMatcherForType(ResourceTypes.PIC_TYPE);
 export const viewMatcher = createMatcherForType(ResourceTypes.VIEW_TYPE);

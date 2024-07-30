@@ -1,6 +1,6 @@
 import { type Command } from 'commander';
 
-import { getResourceNumber, parseAllMappings } from '@4bitlabs/sci0';
+import { Resource, parseAllMappings } from '@4bitlabs/sci0';
 import { readFile } from '../helpers/read-file';
 import { getRootOptions } from './get-root-options';
 
@@ -13,7 +13,7 @@ export const listActionFor = (matchFn: (id: number) => boolean) =>
     const picSet = new Set<number>(
       mapping
         .filter((it) => matchFn(it.id))
-        .map((it) => getResourceNumber(it.id)),
+        .map((it) => Resource.getNumber(it.id)),
     );
 
     [...picSet.values()]
