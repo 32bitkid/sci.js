@@ -1,11 +1,7 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import { createIndexedPixelData } from '@4bitlabs/image';
 import { IsFillable, type Plotter, RawPlotter, type Screen } from './screen';
-import {
-  isControlMode,
-  isPriorityMode,
-  isVisualMode,
-} from '../models/draw-mode';
+import { DrawMode } from '../models/draw-mode';
 import { type RenderResult } from './render-result';
 import {
   createBrush,
@@ -45,7 +41,7 @@ export const createScreenBuffer = (
 
     const idx = width * y + x;
 
-    if (isVisualMode(drawMode)) {
+    if (DrawMode.isVisualMode(drawMode)) {
       const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
       const palette = palettes[pal];
       const palIndex = drawCodes[0] % 40 >>> 0;
@@ -53,11 +49,11 @@ export const createScreenBuffer = (
       tBuffer[idx] = t;
     }
 
-    if (isPriorityMode(drawMode)) {
+    if (DrawMode.isPriorityMode(drawMode)) {
       priority.pixels[idx] = drawCodes[1];
     }
 
-    if (isControlMode(drawMode)) {
+    if (DrawMode.isControlMode(drawMode)) {
       control.pixels[idx] = drawCodes[2];
     }
   };
@@ -65,7 +61,7 @@ export const createScreenBuffer = (
   const isFillable: IsFillable = (x, y, drawMode) => {
     const idx = x + y * width;
 
-    if (isVisualMode(drawMode)) {
+    if (DrawMode.isVisualMode(drawMode)) {
       const dither = (x & 1) ^ (y & 1);
       const val = visible.pixels[idx];
       const [high, low] = [val >>> 4, val & 0b1111];
@@ -78,8 +74,8 @@ export const createScreenBuffer = (
      * may require a different way of modeling indexed "alpha" channel.
      */
     return (
-      (isPriorityMode(drawMode) && priority.pixels[idx] === 0x00) ||
-      (isControlMode(drawMode) && control.pixels[idx] === 0x00)
+      (DrawMode.isPriorityMode(drawMode) && priority.pixels[idx] === 0x00) ||
+      (DrawMode.isControlMode(drawMode) && control.pixels[idx] === 0x00)
     );
   };
 

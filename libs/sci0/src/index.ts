@@ -12,12 +12,7 @@ export type {
 export type { DrawCodes } from './models/draw-codes';
 export type { PatternCode } from './models/pattern-code';
 export type { DrawCommand } from './models/draw-command';
-export {
-  DrawMode,
-  isVisualMode,
-  isPriorityMode,
-  isControlMode,
-} from './models/draw-mode';
+export { DrawMode } from './models/draw-mode';
 
 export {
   getResourceNumber,

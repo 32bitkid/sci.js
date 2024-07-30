@@ -1,20 +1,15 @@
 import { type Vec2 } from '@4bitlabs/vec2';
-import {
-  DrawMode,
-  isControlMode,
-  isPriorityMode,
-  isVisualMode,
-} from '../../models/draw-mode';
+import { DrawMode } from '../../models/draw-mode';
 import { Cel } from '../../models/cel';
 import { RawPlotter } from '../screen';
 
 export const createBlitter =
   (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>
   (x0: number, y0: number, drawMode: DrawMode, cel: Cel): void => {
-    if (isControlMode(drawMode) || isPriorityMode(drawMode))
+    if (DrawMode.isControlMode(drawMode) || DrawMode.isPriorityMode(drawMode))
       console.warn('unhandled CEL command on Control/Priority layer');
 
-    if (!isVisualMode(drawMode)) return;
+    if (!DrawMode.isVisualMode(drawMode)) return;
 
     const data = cel.pixels;
     for (let y = y0; y < y0 + cel.height; y++)
