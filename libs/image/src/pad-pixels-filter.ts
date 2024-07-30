@@ -3,7 +3,7 @@ import {
   type IndexedPixelData,
   createIndexedPixelData,
 } from './indexed-pixel-data';
-import { type Padding, type PadQuad, toPadding4 } from './padding';
+import { type Padding, type Padding4, toPadding4 } from './padding';
 
 export interface PadPixelsFilterOptions {
   keyColor?: number;
@@ -11,7 +11,7 @@ export interface PadPixelsFilterOptions {
 
 export const padIndexedPixelDataFilter = (
   source: IndexedPixelData,
-  [padT, padR, padB, padL]: PadQuad,
+  [padT, padR, padB, padL]: Padding4,
   options: PadPixelsFilterOptions = {},
 ): IndexedPixelData => {
   const keyColor = options.keyColor ?? source.keyColor;

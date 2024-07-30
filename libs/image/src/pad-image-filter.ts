@@ -1,5 +1,5 @@
 import { createImageData, ImageDataLike } from './image-data-like';
-import { Padding, PadQuad, toPadding4 } from './padding';
+import { type Padding, type Padding4, toPadding4 } from './padding';
 import { ImageFilter } from './image-filter';
 
 export interface PadImageFilterOptions {
@@ -8,7 +8,7 @@ export interface PadImageFilterOptions {
 
 export const padImageDataFilter = (
   source: ImageDataLike,
-  [padT, padR, padB, padL]: PadQuad,
+  [padT, padR, padB, padL]: Padding4,
   options: PadImageFilterOptions = {},
 ): ImageDataLike => {
   const dest = createImageData(

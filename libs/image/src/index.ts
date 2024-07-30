@@ -24,11 +24,5 @@ export {
   type PadPixelsFilterOptions,
 } from './pad-pixels-filter';
 export { padImageFilter, type PadImageFilterOptions } from './pad-image-filter';
-export type {
-  Padding,
-  PadSingle,
-  PadDouble,
-  PadTriple,
-  PadQuad,
-} from './padding';
+export type { Padding } from './padding';
 export { padFilter } from './pad-filter';

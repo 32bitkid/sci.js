@@ -1,16 +1,18 @@
-export type PadSingle = number | [number];
-export type PadDouble = [vertical: number, horizontal: number];
-export type PadTriple = [top: number, h: number, bottom: number];
-export type PadQuad = [
+export type Padding =
+  | number
+  | [all: number]
+  | [vertical: number, horizontal: number]
+  | [top: number, horizontal: number, bottom: number]
+  | [top: number, right: number, bottom: number, left: number];
+
+export type Padding4 = [
   top: number,
   right: number,
   bottom: number,
   left: number,
 ];
 
-export type Padding = PadSingle | PadDouble | PadTriple | PadQuad;
-
-export const toPadding4 = (pad: Padding): PadQuad => {
+export const toPadding4 = (pad: Padding): Padding4 => {
   if (typeof pad === 'number') return [pad, pad, pad, pad];
   const [a] = pad;
   if (pad.length === 1) return [a, a, a, a];
