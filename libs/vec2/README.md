@@ -17,6 +17,8 @@ $ npm install --save @4bitlabs/vec2
 
 Full documentation for the library can be found [here][docs].
 
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_vec2.html
+
 ## Basic Usage
 
 ```ts
@@ -31,5 +33,3 @@ console.log(
   `The dot-product of ${toString(v1)} and ${toString(v2)} is ${result}`,
 );
 ```
-
-[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_vec2.html

@@ -7,6 +7,12 @@
 
 Library for parsing and rendering assets from [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0].
 
+## Documentation
+
+Full documentation for the library can be found [here][docs].
+
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_sci0.html
+
 ## Supported SCI0 resource types
 
 | Type   | Extract | Parse/Render | Write |

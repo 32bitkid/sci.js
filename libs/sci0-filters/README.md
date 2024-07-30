@@ -7,10 +7,11 @@
 
 Image filters for processing and rendering [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0] graphical assets.
 
+[sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
+
 ## Documentation
 
 Full documentation for the library can be found [here][docs].
 
-[sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
-[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
 [docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_sci0_filters.html
