@@ -12,6 +12,7 @@ export default tseslint.config(
       '**/dist/**/*',
       '**/jest.config.js',
       '.eslintrc.js',
+      'docs/**/*',
     ],
   },
   eslint.configs.recommended,

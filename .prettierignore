@@ -1,3 +1,4 @@
 dist/
 coverage/
 tsconfig.json
+docs/
