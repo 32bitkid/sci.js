@@ -26,27 +26,51 @@ const SCI01: Record<Sci01Algorithms, DecompressFn> = {
   2: (bytes) => unpackComp3(bytes),
 };
 
+/**
+ * Decompress resource payload bytes with a specific algorithm.
+ *
+ * #### SCI0 algorithm
+ * |  |  |
+ * | --- | --- |
+ * | 0 | _no compression_ |
+ * | 1 | LZW (8-bit/lsb) |
+ * | 2 | Huffman |
+ *
+ * #### SCI01 algorithm
+ * |  |  |
+ * | --- | --- |
+ * | 0 | _no compression_ |
+ * | 1 | Huffman |
+ * | 2 | COMP3 |
+ *
+ * @see {@link ResourceHeader.compression}
+ *
+ * @param engine Select between engine type: `sci0` or `sci01`.
+ * @param algorithm The decompression method.
+ * @param bytes The compressed bytes to decompress.
+ * @returns Decompressed payload data.
+ */
 export const decompress = (
-  mode: 'sci0' | 'sci01',
-  method: number,
+  engine: 'sci0' | 'sci01',
+  algorithm: number,
   bytes: Uint8Array,
 ): Uint8Array => {
-  switch (mode) {
+  switch (engine) {
     case 'sci0': {
-      if (!sci0Supported(method))
+      if (!sci0Supported(algorithm))
         throw new Error(
-          `unsupported compression algorithm: ${method.toString(10)}`,
+          `unsupported compression algorithm: ${algorithm.toString(10)}`,
         );
-      return SCI0[method](bytes);
+      return SCI0[algorithm](bytes);
     }
     case 'sci01': {
-      if (!sci01Supported(method))
+      if (!sci01Supported(algorithm))
         throw new Error(
-          `unsupported compression algorithm: ${method.toString(10)}`,
+          `unsupported compression algorithm: ${algorithm.toString(10)}`,
         );
-      return SCI01[method](bytes);
+      return SCI01[algorithm](bytes);
     }
     default:
-      exhaustive('unsupported compression mode', mode);
+      exhaustive('unsupported engine/compression', engine);
   }
 };
