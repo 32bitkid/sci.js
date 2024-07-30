@@ -35,19 +35,19 @@ const [mapping] = parseAllMappings(resourceMap);
 ## Working `ResourceMap` Entires
 
 ```ts
-import { getResourceNumber, getResourceTypeStr } from '@4bitlabs/sci0';
+import { Resource } from '@4bitlabs/sci0';
 
 // finding by type
-const firstPic = mapping.find((it) => getResourceTypeStr(it.id) === 'Pic');
+const firstPic = mapping.find((it) => Resource.getTypeStr(it.id) === 'Pic');
 
 // ...or by specific resource number.
-const num11 = mapping.find((it) => getResourceNumber(it.id) === 11);
+const num11 = mapping.find((it) => Resource.getNumber(it.id) === 11);
 ```
 
 ## Getting the actual data
 
 ```ts
-import { parseHeaderFrom, decompress } from '@4bitlabs/sci0';
+import { parseHeaderWithPayload, decompress } from '@4bitlabs/sci0';
 
 // Get the resource file that contains this asset, and its offset where the header starts.
 const { file, offset } = mapping.find(
