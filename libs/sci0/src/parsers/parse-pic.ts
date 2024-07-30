@@ -4,10 +4,10 @@ import { OpCode, isOpCode } from './pic/op-codes';
 import { createPicState } from './pic/pic-state';
 import { DrawCommand } from '../models/draw-command';
 
-export const parsePic = (data: Uint8Array): DrawCommand[] => {
+export const parsePic = (source: Uint8Array): DrawCommand[] => {
   const commands: DrawCommand[] = [];
   const ctx: CodeHandlerContext = {
-    r: createBitReader(data, { mode: 'msb' }),
+    r: createBitReader(source, { mode: 'msb' }),
     state: createPicState(),
     push(...next: DrawCommand[]) {
       commands.push(...next);
