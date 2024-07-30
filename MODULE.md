@@ -12,7 +12,7 @@ A collection of packages, utilities and apps for encoding and decoding assets fr
 - {@link @4bitlabs/resize-filters! | @4bitlabs/resize-filters}: Various image filters for resizing `ImageData` and 8-bit indexed-pixel data.
 - {@link @4bitlabs/blur-filters! | @4bitlabs/blur-filters}: Various image filters for blurring `ImageData` and 8-bit indexed-pixel data.
 
-### <abbr title="Sierra Creative Interpreter">SCI</abbr> packages
+### SCI packages
 
 - {@link @4bitlabs/codecs! | @4bitlabs/codecs}: Some common decompression algorithms, _e.g._ `Huffman` and `LZW`.
 - {@link @4bitlabs/sci0! | @4bitlabs/sci0}: Data-structures and methods for decoding and parsing SCI0/SCI01-engine
