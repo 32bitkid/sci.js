@@ -1,13 +1,9 @@
-import { type IndexedPixelData, createIndexedPixelData } from '@4bitlabs/image';
+import { createIndexedPixelData, type IndexedPixelData } from '@4bitlabs/image';
 import { FontFace } from '../models/font-face';
 import { repeat } from '../utils/repeat';
+import { ParseFontOptions } from './parse-font-options';
 
-export interface ParseFontOptions {
-  color?: number;
-  keyColor?: number;
-}
-
-export const parseFrom = (
+export const parseFont = (
   source: Uint8Array,
   options: ParseFontOptions = {},
 ): FontFace => {

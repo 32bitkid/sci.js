@@ -1,25 +1,15 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
 import { type Cursor } from '../models/cursor';
+import { ParseCursorOptions } from './parse-cursor-options';
 
-type ColorMapping = {
-  black: number;
-  gray: number;
-  white: number;
-  keyColor: number;
-};
-
-const DEFAULT_MAPPING: ColorMapping = {
+const DEFAULT_MAPPING = {
   black: 0x00,
   white: 0x0f,
   gray: 0x07,
   keyColor: 0x0d,
 };
 
-export interface ParseCursorOptions {
-  mapping?: ColorMapping;
-}
-
-export const parseFrom = (
+export const parseCursor = (
   source: Uint8Array,
   options: ParseCursorOptions = {},
 ): Cursor => {

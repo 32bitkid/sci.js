@@ -1,8 +1,8 @@
 import { type View, type Loop } from '../models/view';
-import { parseCel } from './cel';
+import { parseCel } from './parse-cel';
 import { repeat } from '../utils/repeat';
 
-export const parseFrom = (source: Uint8Array): View => {
+export const parseView = (source: Uint8Array): View => {
   const view = new DataView(
     source.buffer,
     source.byteOffset,

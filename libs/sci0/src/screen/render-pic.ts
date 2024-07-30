@@ -5,6 +5,7 @@ import { DrawCommand } from '../models/draw-command';
 import { RenderResult } from './render-result';
 import { exhaustive } from '../utils/exhaustive';
 import type { Screen } from './screen';
+import { RenderPicOptions } from './render-pic-options';
 
 type PaletteSet = [Uint8Array, Uint8Array, Uint8Array, Uint8Array];
 const defaultPalettes = (): PaletteSet => [
@@ -67,15 +68,9 @@ function picStep(
   }
 }
 
-interface RenderOptions {
-  forcePal?: 0 | 1 | 2 | 3 | undefined;
-  width?: number;
-  height?: number;
-}
-
 export function* generatePic(
   commands: DrawCommand[],
-  options: RenderOptions = {},
+  options: RenderPicOptions = {},
 ): Generator<[number, DrawCommand, RenderResult]> {
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
@@ -93,7 +88,7 @@ export function* generatePic(
 
 export const renderPic = (
   commands: DrawCommand[],
-  options: RenderOptions = {},
+  options: RenderPicOptions = {},
 ): RenderResult => {
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];

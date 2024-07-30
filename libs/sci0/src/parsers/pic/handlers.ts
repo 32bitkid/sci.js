@@ -6,7 +6,7 @@ import { getPoint16, getPoint24, getPoint8 } from './points';
 import { DrawCommand } from '../../models/draw-command';
 import { DrawMode } from '../../models/draw-mode';
 import { repeat } from '../../utils/repeat';
-import { parseCel } from '../cel';
+import { parseCel } from '../parse-cel';
 
 export interface CodeHandlerContext {
   r: BitReader;

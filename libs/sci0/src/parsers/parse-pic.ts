@@ -1,10 +1,10 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { CodeHandlers, CodeHandlerContext } from './handlers';
-import { OpCode, isOpCode } from './op-codes';
-import { createPicState } from './pic-state';
-import { DrawCommand } from '../../models/draw-command';
+import { CodeHandlers, CodeHandlerContext } from './pic/handlers';
+import { OpCode, isOpCode } from './pic/op-codes';
+import { createPicState } from './pic/pic-state';
+import { DrawCommand } from '../models/draw-command';
 
-export const parseFrom = (data: Uint8Array): DrawCommand[] => {
+export const parsePic = (data: Uint8Array): DrawCommand[] => {
   const commands: DrawCommand[] = [];
   const ctx: CodeHandlerContext = {
     r: createBitReader(data, { mode: 'msb' }),

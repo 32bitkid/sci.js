@@ -21,6 +21,6 @@ export function* consume(bytes: Uint8Array): IterableIterator<ResourceMap> {
   }
 }
 
-export const parseAll = (bytes: Uint8Array): ResourceMap[] => [
+export const parseAllMappings = (bytes: Uint8Array): ResourceMap[] => [
   ...consume(bytes),
 ];

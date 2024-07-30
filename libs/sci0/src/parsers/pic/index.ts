@@ -1,1 +1,0 @@
-export { parseFrom } from './parser';

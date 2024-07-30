@@ -1,4 +1,5 @@
 export type { ResourceHeader } from './models/resource-header';
+
 export type { ResourceMap } from './models/resource-map';
 export type { ResourceType } from './models/resource-type';
 export type * as DrawCommands from './models/draw-commands';
@@ -11,21 +12,26 @@ export * as Resource from './models/resource-id';
 export * as ResourceTypes from './models/resource-types';
 
 export type { RenderResult } from './screen/render-result';
-export { renderPic, generatePic, loopPaddingFilter } from './screen';
+export type { RenderPicOptions } from './screen/render-pic-options';
+export { renderPic, generatePic } from './screen/render-pic';
+export { loopPaddingFilter } from './screen/loop-padding-filter';
 
-export { parseAll as parseAllMappings } from './parsers/mapping';
+export { parseAllMappings } from './parsers/mapping';
 export {
   parseHeaderFrom,
   parseHeaderWithPayload,
 } from './parsers/resource-header';
 export { decompress } from './parsers/compression';
-import { parseFrom as parseCursor } from './parsers/cursor';
-import { parseFrom as parseFont } from './parsers/font';
-import { parseFrom as parseView } from './parsers/view';
-import { parseFrom as parsePic } from './parsers/pic';
 
-export { parseCursor, parseFont, parseView, parsePic };
+export type { ParseCursorOptions } from './parsers/parse-cursor-options';
+export type { ParseFontOptions } from './parsers/parse-font-options';
+export { parseCursor } from './parsers/parse-cursor';
+export { parseFont } from './parsers/parse-font';
+export { parseView } from './parsers/parse-view';
+export { parsePic } from './parsers/parse-pic';
 
 export { type Loop } from './models/view';
 export { type Cel } from './models/cel';
 export { type FontFace } from './models/font-face';
+export { type Cursor } from './models/cursor';
+export { type View } from './models/view';
