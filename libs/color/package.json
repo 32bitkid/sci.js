@@ -14,7 +14,9 @@
   },
   "exports": {
     ".": "./dist/index.js",
-    "./palettes": "./dist/palettes/index.js"
+    "./dithers": "./dist/dithers/index.js",
+    "./palettes": "./dist/palettes/index.js",
+    "./mixers": "./dist/mixers/index.js"
   },
   "files": [
     "./dist/**/*"
