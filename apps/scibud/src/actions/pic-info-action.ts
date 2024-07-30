@@ -15,7 +15,7 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
 
   console.log(`Searching for pic #${pic}…`);
 
-  const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
+  const mapping = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
 
   const found = mapping.find(picMatcher(pic));
   if (!found) {

@@ -20,10 +20,7 @@ export * as ResourceTypes from './models/resource-types';
 export type { RenderResult } from './screen/render-result';
 export { renderPic, generatePic, loopPaddingFilter } from './screen';
 
-export {
-  parseAll as parseAllMappings,
-  consume as consumeNextMappingChunk,
-} from './parsers/mapping';
+export { parseAll as parseAllMappings } from './parsers/mapping';
 export {
   parseHeaderFrom,
   parseHeaderWithPayload,

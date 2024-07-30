@@ -8,7 +8,7 @@ export const listActionFor = (matchFn: (id: number) => boolean) =>
   async function listAction(_: unknown, cmd: Command) {
     const { root } = getRootOptions(cmd);
 
-    const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
+    const mapping = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
 
     const picSet = new Set<number>(
       mapping

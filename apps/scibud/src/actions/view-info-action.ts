@@ -20,7 +20,7 @@ export async function viewInfoAction(
 
   console.log(`Searching for view #${viewNum}…`);
 
-  const [mapping] = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
+  const mapping = parseAllMappings(await readFile(root, 'RESOURCE.MAP'));
 
   const found = mapping.find(viewMatcher(viewNum));
   if (!found) {
