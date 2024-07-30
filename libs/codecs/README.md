@@ -9,7 +9,7 @@ A collection of decoders (and eventually encoders) for working with [Sierra On-l
 
 ## Documentation
 
-Full documentation for the library can be found [here](https://32bitkid.github.io/sci.js/modules/_4bitlabs_codecs.html).
+Full documentation for the library can be found [here][docs].
 
 ## Supported Codecs
 
@@ -23,3 +23,4 @@ Full documentation for the library can be found [here](https://32bitkid.github.i
 [huffman]: https://en.wikipedia.org/wiki/Huffman_coding
 [lzw]: https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch
 [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_codecs.html

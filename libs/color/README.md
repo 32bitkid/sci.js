@@ -9,7 +9,9 @@ A collection color manipulation functions and predefined palettes for working wi
 
 ## Documentation
 
-Full documentation for the library can be found [here](https://32bitkid.github.io/sci.js/modules/_4bitlabs_color.html).
+Full documentation for the library can be found [here][docs].
+
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_color.html
 
 ## Palettes
 

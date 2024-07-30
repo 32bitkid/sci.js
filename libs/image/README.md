@@ -9,6 +9,7 @@ A collection of image primitives and manipulation functions for rendering [Sierr
 
 ## Documentation
 
-Full documentation for the library can be found [here](https://32bitkid.github.io/sci.js/modules/_4bitlabs_image.html).
+Full documentation for the library can be found [here][docs].
 
 [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_image.html
