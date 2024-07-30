@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@5.0.0...@4bitlabs/sci0@5.0.1) (2024-07-30)
+
+### Fix
+
+- removing anomalous stderr write ([ca3d813](https://github.com/32bitkid/sci.js/commit/ca3d813e44adf6fc8713233cf71abd233e6ef3f7))
+
 # [5.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@4.0.1...@4bitlabs/sci0@5.0.0) (2024-07-30)
 
 ### Breaking
