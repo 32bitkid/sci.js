@@ -1,16 +1,16 @@
 import {
-  Palettes,
-  Mixers,
-  generateSciDitherPairs as generatePairs,
+  Dithers,
   IBM5153Contrast,
+  Mixers,
+  Palettes,
   toGrayscale,
 } from '@4bitlabs/color';
 import {
-  type PixelFilter,
   createDitherFilter,
-  ImageFilter,
-  RenderPipeline,
   createPaletteFilter,
+  ImageFilter,
+  type PixelFilter,
+  RenderPipeline,
 } from '@4bitlabs/image';
 import * as ResizeFilters from '@4bitlabs/resize-filters';
 import * as BlurFilters from '@4bitlabs/blur-filters';
@@ -101,16 +101,17 @@ export function generatePalette(
 const mixMode = 'CIE-XYZ';
 
 const DITHER_STYLE = {
-  none: (pal: Uint32Array) => generatePairs(pal),
+  none: (pal: Uint32Array) => Dithers.generatePairs(pal),
   '10%': (pal: Uint32Array) =>
-    generatePairs(pal, Mixers.mixBy(0.1, { mixMode })),
+    Dithers.generatePairs(pal, Mixers.mixBy(0.1, { mixMode })),
   '15%': (pal: Uint32Array) =>
-    generatePairs(pal, Mixers.mixBy(0.15, { mixMode })),
+    Dithers.generatePairs(pal, Mixers.mixBy(0.15, { mixMode })),
   '25%': (pal: Uint32Array) =>
-    generatePairs(pal, Mixers.mixBy(0.25, { mixMode })),
+    Dithers.generatePairs(pal, Mixers.mixBy(0.25, { mixMode })),
   '50%': (pal: Uint32Array) =>
-    generatePairs(pal, Mixers.mixBy(0.5, { mixMode })),
-  soft: (pal: Uint32Array) => generatePairs(pal, Mixers.softMixer({ mixMode })),
+    Dithers.generatePairs(pal, Mixers.mixBy(0.5, { mixMode })),
+  soft: (pal: Uint32Array) =>
+    Dithers.generatePairs(pal, Mixers.softMixer({ mixMode })),
 };
 
 export function createPicPipeline(

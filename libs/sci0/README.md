@@ -83,13 +83,13 @@ Example:
 
 ```ts
 import { renderPic } from '@4bitlabs/sci0';
-import { RAW_CGA, generateSciDitherPairs, CGA_PAIRS } from '@4bitlabs/color';
+import { Dithers } from '@4bitlabs/color';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
 
 const picData = Pic.parseFrom(data);
 const { visible, priority, control } = renderPic(picData);
 const image = renderPixelData(visible, {
-  dither: createDitherFilter(CGA_PAIRS),
+  dither: createDitherFilter(Dithers.CGA),
 });
 ```
 

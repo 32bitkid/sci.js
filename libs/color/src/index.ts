@@ -1,17 +1,7 @@
-export { generateSciDitherPairs } from './generate-sci-dither-pairs';
-
-export type { DitherPair } from './dither-pair';
-export type { DitherTransform } from './dither-transform';
-export { toGrayscale } from './to-grayscale';
-
-export { IBM5153Contrast } from './IBM-5153-contrast';
-
 /**
- *
+ * Common pre-defined palettes for working with CGA/EGA graphics.
  */
 export * as Palettes from './palettes';
-
-export type { MixOptions, MixMode } from './mix-options';
 
 /**
  * Color mixing utilities.
@@ -32,4 +22,7 @@ export * as Mixers from './mixers';
  * | {@link Dithers.TRUE_CGA_FLAT} | {@link Palettes.TRUE_CGA_PALETTE } | {@link Mixers.mixBy | 50% mix } |
  * | {@link Dithers.TRUE_CGA_SOFT} | {@link Palettes.TRUE_CGA_PALETTE } | {@link Mixers.softMixer | soft } |
  */
-export * as Dithers from './predefined-dither-pairs';
+export * as Dithers from './dithers';
+
+export { toGrayscale } from './to-grayscale';
+export { IBM5153Contrast } from './IBM-5153-contrast';

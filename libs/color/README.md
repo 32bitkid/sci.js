@@ -53,9 +53,9 @@ const customPalette = Uint32Array.of(
 ## Generating your own Dither Pairs
 
 ```ts
-import { generateSciDitherPairs, Mixers } from '@4bitlabs/color';
+import { Dithers, Mixers } from '@4bitlabs/color';
 
-const pairs = generateSciDitherPairs(customPalette, Mixers.softMixer());
+const pairs = Dithers.generatePairs(customPalette, Mixers.softMixer());
 ```
 
 ## IBM 5153 Contrast Knob

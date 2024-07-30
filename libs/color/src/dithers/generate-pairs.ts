@@ -12,7 +12,7 @@ const ENTRIES = Array(256).fill(0);
  * @param source
  * @param transforms
  */
-export const generateSciDitherPairs = (
+export const generatePairs = (
   source: Readonly<Uint32Array> | ((entry: number) => DitherPair),
   ...transforms: DitherTransform[]
 ): DitherPair[] => {

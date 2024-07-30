@@ -1,4 +1,4 @@
-import { generateSciDitherPairs } from '@4bitlabs/color';
+import { Dithers } from '@4bitlabs/color';
 import { createDitherFilter } from './dither-filter';
 import { createIndexedPixelData } from './indexed-pixel-data';
 
@@ -11,7 +11,7 @@ describe('dither-filter', () => {
     img.pixels[3] = 0x01;
 
     const filter = createDitherFilter(
-      generateSciDitherPairs(Uint32Array.of(0xff_00_00_00, 0xff_ff_00_00)),
+      Dithers.generatePairs(Uint32Array.of(0xff_00_00_00, 0xff_ff_00_00)),
     );
     const result = filter(img);
     expect(result.data).toEqual(
