@@ -4,4 +4,5 @@ export { menuTextFilter } from './filters/menu-text-filter';
 
 export type { RenderResult } from './pic/render-result';
 export type { RenderPicOptions } from './pic/render-pic-options';
-export { renderPic, generatePic } from './pic/render-pic';
+export { renderPic } from './pic/render-pic';
+export { generatePic } from './pic/generate-pic';
