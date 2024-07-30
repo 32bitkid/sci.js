@@ -1,17 +1,20 @@
 import type { FontFace } from '@4bitlabs/sci0';
 import { createIndexedPixelData, PixelFilter } from '@4bitlabs/image';
 
-export const menuFilter =
-  (
-    ox: number,
-    oy: number,
-    {
-      font,
-      left = '',
-      right = '',
-    }: { font: FontFace; left?: string; right?: string },
-  ): PixelFilter =>
-  (it) => {
+export interface MenuTextFilterOptions {
+  font: FontFace;
+  left?: string;
+  right?: string;
+}
+
+export const menuTextFilter = (
+  ox: number,
+  oy: number,
+  options: MenuTextFilterOptions,
+): PixelFilter => {
+  const { font, left = '', right = '' } = options;
+
+  return (it) => {
     const output = createIndexedPixelData(it.width, it.height + 10);
     output.pixels.set(it.pixels, it.width * 10);
     for (let i = 0; i < it.width * 10; i++) {
@@ -44,3 +47,4 @@ export const menuFilter =
 
     return output;
   };
+};

@@ -34,6 +34,7 @@
     "libs/pmachine",
     "libs/resize-filters",
     "libs/sci0",
+    "libs/sci0-filters",
     "libs/vec2",
     "libs/crt-lite",
     "apps/scibud"

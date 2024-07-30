@@ -14,7 +14,6 @@ export * as ResourceTypes from './models/resource-types';
 export type { RenderResult } from './screen/render-result';
 export type { RenderPicOptions } from './screen/render-pic-options';
 export { renderPic, generatePic } from './screen/render-pic';
-export { loopPaddingFilter } from './screen/loop-padding-filter';
 
 export { parseAllMappings } from './parsers/mapping';
 export {

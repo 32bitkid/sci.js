@@ -4,13 +4,14 @@ import { Command } from 'commander';
 import { GIFEncoder, quantize, applyPalette } from 'gifenc';
 import sharp, { type Sharp } from 'sharp';
 
-import { decompress, loopPaddingFilter, parseView } from '@4bitlabs/sci0';
+import { decompress, parseView } from '@4bitlabs/sci0';
 import {
   createImageData,
   createPaletteFilter,
   padPixelsFilter,
   renderPixelData,
 } from '@4bitlabs/image';
+import { loopPaddingFilter } from '@4bitlabs/sci0-filters';
 import { loadContentFromMap } from './load-content-from-map';
 import { viewMatcher } from '../helpers/resource-matchers';
 import { getRootOptions } from './get-root-options';

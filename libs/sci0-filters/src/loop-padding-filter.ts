@@ -1,15 +1,13 @@
-import { createIndexedPixelData, IndexedPixelData } from '@4bitlabs/image';
-import { type Loop } from '../models/view';
-import { type Cel } from '../models/cel';
+import type { Loop, Cel } from '@4bitlabs/sci0';
+import type { IndexedPixelData, PixelFilter } from '@4bitlabs/image';
+import { createIndexedPixelData } from '@4bitlabs/image';
 
-export const loopPaddingFilter = (loop: Loop) => {
+export const loopPaddingFilter = (loop: Loop): PixelFilter => {
   const { isMirrored, bounds } = loop;
   const { left, top, right, width: loopWidth, height: loopHeight } = bounds;
 
-  return (source: IndexedPixelData | Cel): IndexedPixelData => {
-    if (!('dx' in source)) {
-      return source;
-    }
+  return (source: Cel | IndexedPixelData): IndexedPixelData => {
+    if (!('dx' in source)) return source;
 
     const dest = createIndexedPixelData(loopWidth, loopHeight, {
       keyColor: source.keyColor,
