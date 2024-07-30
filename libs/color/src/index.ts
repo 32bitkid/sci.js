@@ -9,7 +9,7 @@ export * as Palettes from './palettes';
 export * as Mixers from './mixers';
 
 /**
- * Pre-defined Dither Pairs
+ * Pre-defined Dither Pairs and dithering functions
  *
  * | NAME | Palette | Mix |
  * | --- | --- | --- |
