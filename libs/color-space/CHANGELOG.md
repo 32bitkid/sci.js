@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.2.3...@4bitlabs/color-space@2.0.0) (2024-07-30)
+
+### Breaking
+
+- removing fromUint24. Replaced with options to fromUint32 ([656a5bb](https://github.com/32bitkid/sci.js/commit/656a5bbe7a789f15d8ffbbb1ff91280cc3f97080))
+
+### Changed
+
+- toUint32 also supports big-endian encoding. ([3b2757f](https://github.com/32bitkid/sci.js/commit/3b2757f624d791f487d3ad899aa00099c5b17a15))
+
+### Chore
+
+- enable isolatedDeclarations ([74a172d](https://github.com/32bitkid/sci.js/commit/74a172decd614b7d0f46a82b5f7de651a7ca4ec5))
+- restructuring `@4bitlabs/color-space` internals ([c23ba51](https://github.com/32bitkid/sci.js/commit/c23ba519f16fd7f89487a57902226637e5be5776))
+
+### Docs
+
+- adding docs for vec2 and color-space modules ([7257357](https://github.com/32bitkid/sci.js/commit/725735778032c1ac41275ce16a6ad3592b4e7a07))
+- adding documentation for @4bitlabs/color ([e28c94e](https://github.com/32bitkid/sci.js/commit/e28c94ef3969ab8534d55f4510fc7603a0c3a8b1))
+- update readme documentation links ([7e0dd51](https://github.com/32bitkid/sci.js/commit/7e0dd51f78faf9f216b69c604484d7ead20b8176))
+
 ## [1.2.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color-space@1.2.2...@4bitlabs/color-space@1.2.3) (2024-06-16)
 
 ### Chore

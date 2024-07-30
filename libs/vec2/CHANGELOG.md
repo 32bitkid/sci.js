@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/vec2@1.2.0...@4bitlabs/vec2@2.0.0) (2024-07-30)
+
+### Breaking
+
+- Change the signature of round to round(vec, method, out) ([91ddbf0](https://github.com/32bitkid/sci.js/commit/91ddbf0bd85ca1a31dcf050dc58df1824ee81023))
+- change Vec2 to be immutable, introduce MutableVec2 ([87802da](https://github.com/32bitkid/sci.js/commit/87802da2355259564c1cc526eddbbaf1af338963))
+
+### Chore
+
+- enable tsc option isolatedDeclarations ([e5d8979](https://github.com/32bitkid/sci.js/commit/e5d8979a8ef84c9ea75cc2de75bdea0c7645760e))
+
+### Docs
+
+- adding docs for vec2 and color-space modules ([7257357](https://github.com/32bitkid/sci.js/commit/725735778032c1ac41275ce16a6ad3592b4e7a07))
+- adding documentation for @4bitlabs/color ([e28c94e](https://github.com/32bitkid/sci.js/commit/e28c94ef3969ab8534d55f4510fc7603a0c3a8b1))
+- adding the remaining library packages. ([46b4445](https://github.com/32bitkid/sci.js/commit/46b444506659e4837e535d01cc8dbda056d6b58b))
+- update readme documentation links ([7e0dd51](https://github.com/32bitkid/sci.js/commit/7e0dd51f78faf9f216b69c604484d7ead20b8176))
+
 # [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/vec2@1.1.1...@4bitlabs/vec2@1.2.0) (2024-06-16)
 
 ### New

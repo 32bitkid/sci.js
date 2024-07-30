@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0-renderer",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Image processing filters and rendering functions for Sierra On-line SCI0 graphical assets.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -23,9 +23,9 @@
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC",
   "dependencies": {
-    "@4bitlabs/image": "^3.3.11",
+    "@4bitlabs/image": "^4.0.0",
     "@4bitlabs/numeric-deque": "^1.1.6",
-    "@4bitlabs/sci0": "^4.0.1",
-    "@4bitlabs/vec2": "^1.2.0"
+    "@4bitlabs/sci0": "^5.0.0",
+    "@4bitlabs/vec2": "^2.0.0"
   }
 }

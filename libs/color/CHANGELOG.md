@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.5...@4bitlabs/color@3.0.0) (2024-07-30)
+
+### Breaking
+
+- consolidate all dithers into Dithers namespace. ([1251153](https://github.com/32bitkid/sci.js/commit/12511538589ff675a93ddea71b4f8dac3ee6c3e7))
+- removing deprecated aliases. ([144ee3f](https://github.com/32bitkid/sci.js/commit/144ee3f7dd2754f75884864040a12688ab8ef7b3))
+
+### Chore
+
+- enable isolatedDeclarations ([b2b0a8f](https://github.com/32bitkid/sci.js/commit/b2b0a8fbcf7c01a7d56df657c5989cd61f80baf0))
+
+### Docs
+
+- adding documentation @4bitlabs/codecs ([2af3073](https://github.com/32bitkid/sci.js/commit/2af30739b37a8bf23d0ce9117264af1bb5979e94))
+- adding documentation for @4bitlabs/color ([e28c94e](https://github.com/32bitkid/sci.js/commit/e28c94ef3969ab8534d55f4510fc7603a0c3a8b1))
+- small tweak to dithers docs ([e3957ba](https://github.com/32bitkid/sci.js/commit/e3957ba6428838cba9cfde5ef6002125f98fb2cd))
+- update readme documentation links ([7e0dd51](https://github.com/32bitkid/sci.js/commit/7e0dd51f78faf9f216b69c604484d7ead20b8176))
+
+### New
+
+- adding module exports for dithers and mixers ([efa4e1d](https://github.com/32bitkid/sci.js/commit/efa4e1d356a67736c962df390d983a3a75d20323))
+
 ## [2.1.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/color@2.1.4...@4bitlabs/color@2.1.5) (2024-06-16)
 
 ### Chore

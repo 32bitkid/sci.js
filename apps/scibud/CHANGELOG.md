@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.4.9...@4bitlabs/scibud@2.0.0) (2024-07-30)
+
+### Breaking
+
+- consolidate all dithers into Dithers namespace. ([1251153](https://github.com/32bitkid/sci.js/commit/12511538589ff675a93ddea71b4f8dac3ee6c3e7))
+- move resource-id getters to Resource namespace ([317e425](https://github.com/32bitkid/sci.js/commit/317e425b65e2bc7cfb08aec6120f2a86d4bf1882))
+- Remove getPayloadLength helper in favor of parseHeaderWithPayload ([47bf809](https://github.com/32bitkid/sci.js/commit/47bf8099fbe09ad86be751ec361e383bbef5247b))
+- Remove resource predicates ([d328996](https://github.com/32bitkid/sci.js/commit/d3289960a9b978ae6eeb163746e5f90b768d018b))
+- renaming sci0-filters to sci0-renderer ([801d168](https://github.com/32bitkid/sci.js/commit/801d1685e8bd2e63bb1b32910f6e3138be22b8f6))
+- simplify parseAllMappings and don't export consume ([11c161d](https://github.com/32bitkid/sci.js/commit/11c161d75d46422840d1d1339c0e7fad6ee59289))
+
+### Changed
+
+- performance improvements to pic video action ([42374cb](https://github.com/32bitkid/sci.js/commit/42374cb8a98eedee6502a9caeccc025b36714e70))
+
+### Chore
+
+- cleanup 4bitlabs package imports ([2c6f3d6](https://github.com/32bitkid/sci.js/commit/2c6f3d60ef70e5f849a52d93acd76bcda29e7dbe))
+
+### New
+
+- Creat sci0-filters package to home sci0 specific image processing filters ([6990987](https://github.com/32bitkid/sci.js/commit/699098752c89c1d608fc920316f835f383c5e3df))
+
 ## [1.4.9](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@1.4.8...@4bitlabs/scibud@1.4.9) (2024-07-04)
 
 **Note:** Version bump only for package @4bitlabs/scibud

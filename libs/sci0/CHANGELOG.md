@@ -3,6 +3,49 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@4.0.1...@4bitlabs/sci0@5.0.0) (2024-07-30)
+
+### Breaking
+
+- Attach DrawMode predicates to DrawMode namespace ([4e72e1c](https://github.com/32bitkid/sci.js/commit/4e72e1c10ef7963747ff7481d09d7ed2fd99eb98))
+- consolidate all dithers into Dithers namespace. ([1251153](https://github.com/32bitkid/sci.js/commit/12511538589ff675a93ddea71b4f8dac3ee6c3e7))
+- Move DrawCommands into Namespace ([8592ac0](https://github.com/32bitkid/sci.js/commit/8592ac0f1e823015e34773119e688fa6c0ea1240))
+- move resource-id getters to Resource namespace ([317e425](https://github.com/32bitkid/sci.js/commit/317e425b65e2bc7cfb08aec6120f2a86d4bf1882))
+- remove deprecated aliases ([86de09c](https://github.com/32bitkid/sci.js/commit/86de09c0aca5506e68c42d1d9f9766b9400085ee))
+- Remove getPayloadLength helper in favor of parseHeaderWithPayload ([47bf809](https://github.com/32bitkid/sci.js/commit/47bf8099fbe09ad86be751ec361e383bbef5247b))
+- Remove resource predicates ([d328996](https://github.com/32bitkid/sci.js/commit/d3289960a9b978ae6eeb163746e5f90b768d018b))
+- renaming sci0-filters to sci0-renderer ([801d168](https://github.com/32bitkid/sci.js/commit/801d1685e8bd2e63bb1b32910f6e3138be22b8f6))
+- simplify parseAllMappings and don't export consume ([11c161d](https://github.com/32bitkid/sci.js/commit/11c161d75d46422840d1d1339c0e7fad6ee59289))
+
+### Changed
+
+- interals refactor draw-commands ([426f80d](https://github.com/32bitkid/sci.js/commit/426f80d44bbfb0756b5dc4e227657e6bac0c6848))
+- mark other DrawMode values as hidden ([fcdb7be](https://github.com/32bitkid/sci.js/commit/fcdb7be84faee04be0f8e5bdb35e78ebffa05881))
+- match variable name to other parsers ([51f62ef](https://github.com/32bitkid/sci.js/commit/51f62efe6ee9698cac2f6d1b7734ac18ce5aa1b7))
+- refactor ResourceTypes ([cbada7b](https://github.com/32bitkid/sci.js/commit/cbada7b4c52f2c7d5fcc0bca157d8de2c54edd35))
+- simplify top-level import/exports ([73e09c9](https://github.com/32bitkid/sci.js/commit/73e09c9bbc0503076f4f8023da67e79b784fdb7b))
+
+### Chore
+
+- cleanup 4bitlabs package imports ([2c6f3d6](https://github.com/32bitkid/sci.js/commit/2c6f3d60ef70e5f849a52d93acd76bcda29e7dbe))
+- enable isolatedDeclarations ([0111b3e](https://github.com/32bitkid/sci.js/commit/0111b3e36c6b6a2f6c4ed6d1a44a13a9b32e55f8))
+- fixed tests ([c33fe67](https://github.com/32bitkid/sci.js/commit/c33fe67c3fe751a1acbdc92b5b434611f070583a))
+
+### Docs
+
+- add documentation to decompress ([a21027c](https://github.com/32bitkid/sci.js/commit/a21027cca8fc789fb2b78ead1048c44ffd69f916))
+- adding docs for sci0 ([83d4c53](https://github.com/32bitkid/sci.js/commit/83d4c530fc2d89c5bf272c920ea05fdd064ac819))
+- adding the remaining library packages. ([46b4445](https://github.com/32bitkid/sci.js/commit/46b444506659e4837e535d01cc8dbda056d6b58b))
+- updating README.md ([092f3c7](https://github.com/32bitkid/sci.js/commit/092f3c722a4b0ea04de0d0b4aad05acfdd511381))
+
+### New
+
+- Creat sci0-filters package to home sci0 specific image processing filters ([6990987](https://github.com/32bitkid/sci.js/commit/699098752c89c1d608fc920316f835f383c5e3df))
+
+### Update
+
+- interal updates for vec2 ([34ddf1d](https://github.com/32bitkid/sci.js/commit/34ddf1d9b4ebbe7bfbac453b7f810dcddbd53ab8))
+
 ## [4.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@4.0.0...@4bitlabs/sci0@4.0.1) (2024-07-04)
 
 ### Fixed

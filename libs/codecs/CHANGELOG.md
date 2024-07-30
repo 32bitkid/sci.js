@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.2...@4bitlabs/codecs@2.0.3) (2024-07-30)
+
+### Chore
+
+- enable isolatedDeclarations ([8aa0834](https://github.com/32bitkid/sci.js/commit/8aa0834fb426ca68ed0106c3d89e6ed12eb4e89c))
+
+### Docs
+
+- adding documentation @4bitlabs/codecs ([2af3073](https://github.com/32bitkid/sci.js/commit/2af30739b37a8bf23d0ce9117264af1bb5979e94))
+- adding documentation for @4bitlabs/image ([8c0b2a1](https://github.com/32bitkid/sci.js/commit/8c0b2a1ba14c32e1f6b9f9de0ed23fac9fb6e94a))
+- adding the remaining library packages. ([46b4445](https://github.com/32bitkid/sci.js/commit/46b444506659e4837e535d01cc8dbda056d6b58b))
+- update readme documentation links ([7e0dd51](https://github.com/32bitkid/sci.js/commit/7e0dd51f78faf9f216b69c604484d7ead20b8176))
+
 ## [2.0.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.1...@4bitlabs/codecs@2.0.2) (2024-06-16)
 
 ### Chore

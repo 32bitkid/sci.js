@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.5...@4bitlabs/crt-lite@1.0.6) (2024-07-30)
+
+### Chore
+
+- enable isolatedDeclarations ([27a4a5c](https://github.com/32bitkid/sci.js/commit/27a4a5c7d487af96f6de5b81d320feb7962bd1fc))
+- fix crt-lite repo link ([f47c57d](https://github.com/32bitkid/sci.js/commit/f47c57d90dc15b98985cca88fd35feb5f7223a2c))
+
+### Docs
+
+- adding the remaining library packages. ([46b4445](https://github.com/32bitkid/sci.js/commit/46b444506659e4837e535d01cc8dbda056d6b58b))
+
 ## [1.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.4...@4bitlabs/crt-lite@1.0.5) (2024-05-13)
 
 ### Chore

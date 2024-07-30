@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/resize-filters",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "A collection of pixel resize filters for rendering Sierra On-line SCI-engine assets.",
   "keywords": [
     "scale2x",
@@ -28,7 +28,7 @@
     "test": "jest src/"
   },
   "dependencies": {
-    "@4bitlabs/image": "^3.3.11"
+    "@4bitlabs/image": "^4.0.0"
   },
   "author": "J. Holmes <j@holmes.codes>",
   "license": "ISC"

@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.11...@4bitlabs/image@4.0.0) (2024-07-30)
+
+### Breaking
+
+- consolidate all dithers into Dithers namespace. ([1251153](https://github.com/32bitkid/sci.js/commit/12511538589ff675a93ddea71b4f8dac3ee6c3e7))
+- renaming sci0-filters to sci0-renderer ([801d168](https://github.com/32bitkid/sci.js/commit/801d1685e8bd2e63bb1b32910f6e3138be22b8f6))
+
+### Changed
+
+- simplify padding types ([639ed4a](https://github.com/32bitkid/sci.js/commit/639ed4a256793f01f6c4d99dccf0470d77f1cb4b))
+
+### Chore
+
+- cleanup 4bitlabs package imports ([2c6f3d6](https://github.com/32bitkid/sci.js/commit/2c6f3d60ef70e5f849a52d93acd76bcda29e7dbe))
+
+### Docs
+
+- adding documentation for @4bitlabs/image ([8c0b2a1](https://github.com/32bitkid/sci.js/commit/8c0b2a1ba14c32e1f6b9f9de0ed23fac9fb6e94a))
+- adding the remaining library packages. ([46b4445](https://github.com/32bitkid/sci.js/commit/46b444506659e4837e535d01cc8dbda056d6b58b))
+- update readme documentation links ([7e0dd51](https://github.com/32bitkid/sci.js/commit/7e0dd51f78faf9f216b69c604484d7ead20b8176))
+
 ## [3.3.11](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@3.3.10...@4bitlabs/image@3.3.11) (2024-06-16)
 
 ### Chore
