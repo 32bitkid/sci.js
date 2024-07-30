@@ -28,7 +28,7 @@ export const showFontAction = async (
   const glyphs = characters.map((ch) =>
     renderPixelData(ch, {
       pre: [padPixelsFilter([0, 0, 1, 0])],
-      dither: createPaletteFilter(CGA_PALETTE),
+      render: createPaletteFilter(CGA_PALETTE),
     }),
   );
 

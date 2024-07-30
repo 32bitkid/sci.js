@@ -11,10 +11,6 @@ export { DrawMode } from './models/draw-mode';
 export * as Resource from './models/resource-id';
 export * as ResourceTypes from './models/resource-types';
 
-export type { RenderResult } from './screen/render-result';
-export type { RenderPicOptions } from './screen/render-pic-options';
-export { renderPic, generatePic } from './screen/render-pic';
-
 export { parseAllMappings } from './parsers/mapping';
 export {
   parseHeaderFrom,
@@ -34,3 +30,4 @@ export { type Cel } from './models/cel';
 export { type FontFace } from './models/font-face';
 export { type Cursor } from './models/cursor';
 export { type View } from './models/view';
+export { type Pic } from './models/pic';

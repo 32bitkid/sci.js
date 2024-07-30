@@ -28,7 +28,7 @@
     "@4bitlabs/image": "^3.3.11",
     "@4bitlabs/resize-filters": "^1.0.17",
     "@4bitlabs/sci0": "^4.0.1",
-    "@4bitlabs/sci0-filters": "0.0.0",
+    "@4bitlabs/sci0-renderer": "^0.0.0",
     "@types/gif-encoder": "^0.7.4",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",

@@ -11,7 +11,7 @@ import {
   padPixelsFilter,
   renderPixelData,
 } from '@4bitlabs/image';
-import { loopPaddingFilter } from '@4bitlabs/sci0-filters';
+import { loopPaddingFilter } from '@4bitlabs/sci0-renderer';
 import { loadContentFromMap } from './load-content-from-map';
 import { viewMatcher } from '../helpers/resource-matchers';
 import { getRootOptions } from './get-root-options';
@@ -79,7 +79,7 @@ export async function viewRenderAction(
       loopPaddingFilter(loop),
       hasPadding(options.padding) && padPixelsFilter(options.padding),
     ],
-    dither: createPaletteFilter(palette, { backgroundColor }),
+    render: createPaletteFilter(palette, { backgroundColor }),
     post: [getScalerFromOptions(options.scaler)],
   };
 

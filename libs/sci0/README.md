@@ -5,7 +5,7 @@
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fsci0
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fsci0
 
-Library for parsing and rendering assets from [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0].
+Library for decoding and parsing assets from [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0].
 
 ## Documentation
 
@@ -76,22 +76,6 @@ const data = decompress('sci0', header.compression, compressed);
 Example:
 
 _todo_
-
-## `PIC` Resource
-
-Example:
-
-```ts
-import { renderPic } from '@4bitlabs/sci0';
-import { Dithers } from '@4bitlabs/color';
-import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
-
-const picData = Pic.parseFrom(data);
-const { visible, priority, control } = renderPic(picData);
-const image = renderPixelData(visible, {
-  dither: createDitherFilter(Dithers.CGA),
-});
-```
 
 [sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
 [sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter

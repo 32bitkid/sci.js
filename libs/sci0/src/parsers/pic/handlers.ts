@@ -8,47 +8,47 @@ import { DrawMode } from '../../models/draw-mode';
 import { repeat } from '../../utils/repeat';
 import { parseCel } from '../parse-cel';
 
-export interface CodeHandlerContext {
-  r: BitReader;
-  state: PicState;
-  push(...cmds: DrawCommand[]): void;
-}
-
-type CodeHandler = (ctx: CodeHandlerContext) => void;
+type CodeHandler = (r: BitReader, state: PicState) => Iterable<DrawCommand>;
 
 export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
-  [OpCode.SetVisual]({ r, state }) {
+  [OpCode.SetVisual](r, state) {
     const [, priorityCode, controlCode] = state.drawCodes;
     const visualCode = r.read32(8);
     state.drawCodes = [visualCode, priorityCode, controlCode];
     state.drawMode |= DrawMode.Visual;
+    return [];
   },
-  [OpCode.ClearVisual]({ state }) {
+  [OpCode.ClearVisual](_, state) {
     state.drawMode &= ~DrawMode.Visual;
+    return [];
   },
 
-  [OpCode.SetPriority]({ r: br, state }) {
+  [OpCode.SetPriority](br, state) {
     const [visualCode, , controlCode] = state.drawCodes;
     const priorityCode = br.read32(8);
     state.drawCodes = [visualCode, priorityCode, controlCode];
     state.drawMode |= DrawMode.Priority;
+    return [];
   },
-  [OpCode.ClearPriority]({ state }) {
+  [OpCode.ClearPriority](_, state) {
     state.drawMode &= ~DrawMode.Priority;
+    return [];
   },
 
-  [OpCode.SetControl]({ r, state }) {
+  [OpCode.SetControl](r, state) {
     const [visualCode, priorityCode] = state.drawCodes;
     const controlCode = r.read32(8);
     state.drawCodes = [visualCode, priorityCode, controlCode];
     state.drawMode |= DrawMode.Control;
+    return [];
   },
-  [OpCode.ClearControl]({ state }) {
+  [OpCode.ClearControl](_, state) {
     state.drawMode &= ~DrawMode.Control;
+    return [];
   },
 
   // Lines
-  [OpCode.ShortLines]({ r, state, push }) {
+  *[OpCode.ShortLines](r, state) {
     const points: Vec2[] = [];
     const prev = getPoint24(r, vec2());
     points.push(clone(prev));
@@ -57,9 +57,9 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       assign(next, prev);
     }
-    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
+    yield ['PLINE', [state.drawMode, state.drawCodes], ...points];
   },
-  [OpCode.MediumLines]({ r, state, push }) {
+  *[OpCode.MediumLines](r, state) {
     const points: Vec2[] = [];
     const prev = getPoint24(r, vec2());
     points.push(clone(prev));
@@ -68,99 +68,100 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       points.push(next);
       assign(next, prev);
     }
-    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
+    yield ['PLINE', [state.drawMode, state.drawCodes], ...points];
   },
-  [OpCode.LongLines]({ r, state, push }) {
+  *[OpCode.LongLines](r, state) {
     const points: Vec2[] = [];
     points.push(getPoint24(r, vec2()));
     while (r.peek32(8) < 0xf0) {
       points.push(getPoint24(r, vec2()));
     }
-    push(['PLINE', [state.drawMode, state.drawCodes], ...points]);
+    yield ['PLINE', [state.drawMode, state.drawCodes], ...points];
   },
 
   // Patterns
-  [OpCode.SetPattern]({ r, state }) {
+  [OpCode.SetPattern](r, state) {
     const code = r.read32(8);
     state.patternCode = [
       code & 0b00111,
       (code & 0b010000) !== 0,
       (code & 0b100000) !== 0,
     ];
+    return [];
   },
-  [OpCode.ShortBrushes]({ r, state, push }) {
+  *[OpCode.ShortBrushes](r, state) {
     const prev = vec2();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push([
+    yield [
       'BRUSH',
       [drawMode, drawCodes, ...patternCode, texture],
       clone(prev),
-    ]);
+    ];
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint8(r, vec2(), prev);
-      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next]);
+      yield ['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next];
       assign(next, prev);
     }
   },
-  [OpCode.MediumBrushes]({ r, state, push }) {
+  *[OpCode.MediumBrushes](r, state) {
     const prev = vec2();
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     let texture: number = isTextured ? r.read32(8) >> 1 : 0;
     getPoint24(r, prev);
-    push([
+    yield [
       'BRUSH',
       [drawMode, drawCodes, ...patternCode, texture],
       clone(prev),
-    ]);
+    ];
 
     while (r.peek32(8) < 0xf0) {
       texture = isTextured ? r.read32(8) >> 1 : 0;
       const next = getPoint16(r, vec2(), prev);
-      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next]);
+      yield ['BRUSH', [drawMode, drawCodes, ...patternCode, texture], next];
       assign(next, prev);
     }
   },
-  [OpCode.LongBrushes]({ r, state, push }) {
+  *[OpCode.LongBrushes](r, state) {
     const { drawMode, drawCodes, patternCode } = state;
     const [, , isTextured] = patternCode;
 
     while (r.peek32(8) < 0xf0) {
       const texture = isTextured ? r.read32(8) >> 1 : 0;
       const pos = getPoint24(r, vec2());
-      push(['BRUSH', [drawMode, drawCodes, ...patternCode, texture], pos]);
+      yield ['BRUSH', [drawMode, drawCodes, ...patternCode, texture], pos];
     }
   },
 
   // Fills
-  [OpCode.Fills]({ r, state, push }) {
+  *[OpCode.Fills](r, state) {
     const { drawMode, drawCodes } = state;
     const p1 = vec2();
     while (true) {
       const peek = r.peek32(8);
       if (peek >= 0xf0) break;
       getPoint24(r, p1);
-      push(['FILL', [drawMode, drawCodes], clone(p1)]);
+      yield ['FILL', [drawMode, drawCodes], clone(p1)];
     }
   },
 
-  [OpCode.XOp](ctx) {
-    const opx = ctx.r.read32(8);
+  [OpCode.XOp](r, state) {
+    const opx = r.read32(8);
     if (!isExtendedOpCode(opx))
       throw new Error(`Unrecognized xopcode: 0x${opx.toString(16)}`);
-    ExtendedHandlers[opx](ctx);
+    return ExtendedHandlers[opx](r, state);
   },
 };
 
 const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
-  [ExtendedOpCode.UpdatePalette]({ r, push }) {
+  *[ExtendedOpCode.UpdatePalette](r) {
     const entries: [number, number, number][] = [];
     while (r.peek32(8) < 0xf0) {
       const entry = r.read32(8);
@@ -171,15 +172,15 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
       entries.push([pal, idx, code]);
     }
 
-    push(['UPDATE_PALETTE', [], ...entries]);
+    yield ['UPDATE_PALETTE', [], ...entries];
   },
-  [ExtendedOpCode.SetPalette]({ r, push }) {
+  *[ExtendedOpCode.SetPalette](r) {
     const pal = r.read32(8);
     const colors: number[] = Array(40).fill(0);
     repeat(40, (i) => (colors[i] = r.read32(8)));
-    push(['SET_PALETTE', [pal], ...colors]);
+    yield ['SET_PALETTE', [pal], ...colors];
   },
-  [ExtendedOpCode.x02]({ r }) {
+  [ExtendedOpCode.x02](r) {
     // Looks like a palette, but I'm not sure what this chunk is for
     r.skip(8);
     r.skip(8 * 40);
@@ -187,24 +188,29 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     // in Colonels Bequest Demo, PIC.991 this opcode appears to have a 141 byte payload.
     // Looks like another palette, but I'm not sure what this chunk is for
     // br.skip(141 * 8);
+    return [];
   },
-  [ExtendedOpCode.x03]({ r }) {
+  [ExtendedOpCode.x03](r) {
     // Not sure what byte this is for
     r.skip(8);
+    return [];
   },
   [ExtendedOpCode.x04]() {
     // Not sure what this code means
     // NOOP
+    return [];
   },
-  [ExtendedOpCode.x05]({ r }) {
+  [ExtendedOpCode.x05](r) {
     // Not sure what byte this is for
     r.skip(8);
+    return [];
   },
   [ExtendedOpCode.x06]() {
     // Not sure what this code means
     // NOOP
+    return [];
   },
-  [ExtendedOpCode.x07]({ r, state, push }) {
+  *[ExtendedOpCode.x07](r, state) {
     const pos = getPoint24(r, vec2());
     const size = r.read32(8) | (r.read32(8) << 8);
 
@@ -216,9 +222,10 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     });
     const cel = parseCel(view);
 
-    push(['CEL', [state.drawMode], pos, cel]);
+    yield ['CEL', [state.drawMode], pos, cel];
   },
-  [ExtendedOpCode.x08]({ r }) {
+  [ExtendedOpCode.x08](r) {
     repeat(14, () => r.read32(8));
+    return [];
   },
 };

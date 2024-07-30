@@ -22,7 +22,7 @@ export const showCursorAction = async (
   const payload = decompress(engine, header.compression, bytes);
   const cursor = parseCursor(payload);
   const bitmap = renderPixelData(cursor, {
-    dither: createPaletteFilter(CGA_PALETTE),
+    render: createPaletteFilter(CGA_PALETTE),
   });
 
   const image = sharp(bitmap.data, {

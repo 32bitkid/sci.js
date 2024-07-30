@@ -117,14 +117,14 @@ export function createPicPipeline(
   const palette = generatePalette(options);
   const pairs = DITHER_STYLE[options.paletteMixer](generatePalette(options));
 
-  const dither =
+  const render =
     layer === 'visible'
       ? createDitherFilter(pairs, options.dither)
       : createPaletteFilter(palette);
 
   return {
     pre: createPrePipeline(options),
-    dither,
+    render,
     post: createPostPipeline(options),
   };
 }

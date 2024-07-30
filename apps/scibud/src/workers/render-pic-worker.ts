@@ -2,7 +2,7 @@ import sharp, { type Sharp } from 'sharp';
 
 import { type FontFace } from '@4bitlabs/sci0';
 import { type IndexedPixelData, renderPixelData } from '@4bitlabs/image';
-import { menuTextFilter } from '@4bitlabs/sci0-filters';
+import { menuTextFilter } from '@4bitlabs/sci0-renderer';
 import { createPicPipeline } from '../helpers/create-pic-pipeline';
 import { RenderPipelineOptions } from '../models/render-pic-options';
 
@@ -24,7 +24,7 @@ export async function renderPicWorker(
   const pipeline = createPicPipeline(layer, options);
   const { data, width, height } = renderPixelData(layerData, {
     pre: [message && menuTextFilter(1, 1, message), ...(pipeline.pre ?? [])],
-    dither: pipeline.dither,
+    render: pipeline.render,
     post: pipeline.post,
   });
   const image = sharp(data, { raw: { width, height, channels: 4 } });

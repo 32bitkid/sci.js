@@ -1,7 +1,8 @@
 import { type Command } from 'commander';
 import sharp, { type Sharp } from 'sharp';
 
-import { decompress, parsePic, renderPic } from '@4bitlabs/sci0';
+import { decompress, parsePic } from '@4bitlabs/sci0';
+import { renderPic } from '@4bitlabs/sci0-renderer';
 import { renderPixelData } from '@4bitlabs/image';
 import { picMatcher } from '../helpers/resource-matchers';
 import { loadContentFromMap } from './load-content-from-map';
@@ -40,7 +41,7 @@ export async function picRenderAction(
 
   const [header, compressed] = await loadContentFromMap(root, picMatcher(id));
   const picData = decompress(engine, header.compression, compressed);
-  const pic = parsePic(picData);
+  const pic = parsePic(picData, { defer: true });
 
   const layers = renderPic(pic, { forcePal: forcePal });
 

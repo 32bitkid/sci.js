@@ -4,7 +4,8 @@ import path from 'node:path';
 import { type Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
-import { decompress, generatePic, parseFont, parsePic } from '@4bitlabs/sci0';
+import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
+import { generatePic } from '@4bitlabs/sci0-renderer';
 import { createIndexedPixelData, IndexedPixelData } from '@4bitlabs/image';
 import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
 import {
@@ -65,7 +66,7 @@ export async function picVideoAction(
     output = `pic.%num.%d.${format}`,
   } = picOptions;
 
-  const pic = await mustParse(root, engine, picMatcher(id), parsePic);
+  const pic = await mustParse(root, engine, picMatcher(id), (d) => parsePic(d));
   const font = await mustParse(root, engine, fontMatcher(0), parseFont);
 
   const total = pic.length;

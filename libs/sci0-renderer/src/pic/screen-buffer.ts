@@ -1,7 +1,12 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import { createIndexedPixelData } from '@4bitlabs/image';
-import { IsFillable, type Plotter, RawPlotter, type Screen } from './screen';
-import { DrawMode } from '../models/draw-mode';
+import { DrawMode } from '@4bitlabs/sci0';
+import {
+  IsFillable,
+  type Plotter,
+  RawPlotter,
+  type Screen,
+} from './tools/screen';
 import { type RenderResult } from './render-result';
 import {
   createBrush,

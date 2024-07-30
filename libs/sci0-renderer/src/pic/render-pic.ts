@@ -1,11 +1,11 @@
-import { Vec2 } from '@4bitlabs/vec2';
+import type { Vec2 } from '@4bitlabs/vec2';
+import type { Pic, DrawCommand } from '@4bitlabs/sci0';
 import { createScreenBuffer } from './screen-buffer';
 import { DEFAULT_PALETTE } from './default-palette';
-import { DrawCommand } from '../models/draw-command';
 import { RenderResult } from './render-result';
-import { exhaustive } from '../utils/exhaustive';
-import type { Screen } from './screen';
+import type { Screen } from './tools/screen';
 import { RenderPicOptions } from './render-pic-options';
+import { exhaustive } from '../utils/exhaustive';
 
 type PaletteSet = [Uint8Array, Uint8Array, Uint8Array, Uint8Array];
 const defaultPalettes = (): PaletteSet => [
@@ -69,36 +69,39 @@ function picStep(
 }
 
 export function* generatePic(
-  commands: DrawCommand[],
+  pic: Pic,
   options: RenderPicOptions = {},
 ): Generator<[number, DrawCommand, RenderResult]> {
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
   const palettes = defaultPalettes();
-  const [result, screen, t] = createScreenBuffer(forcePal, palettes, size);
+  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
 
-  for (let i = 0; i < commands.length; i += 1) {
-    t(i);
-    const cmd = commands[i];
+  let step = 0;
+  for (const cmd of pic) {
+    tick(step);
     picStep(cmd, screen, palettes);
-    yield [i, cmd, result];
+    yield [step, cmd, result];
+    step += 1;
   }
 }
 
 export const renderPic = (
-  commands: DrawCommand[],
+  pic: Pic,
   options: RenderPicOptions = {},
 ): RenderResult => {
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
   const palettes = defaultPalettes();
-  const [result, screen, t] = createScreenBuffer(forcePal, palettes, size);
+  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
 
-  for (let i = 0; i < commands.length; i += 1) {
-    t(i);
-    picStep(commands[i], screen, palettes);
+  let step = 0;
+  for (const cmd of pic) {
+    tick(step);
+    picStep(cmd, screen, palettes);
+    step += 1;
   }
 
   return result;

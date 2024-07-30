@@ -1,7 +1,7 @@
 {
   "name": "@4bitlabs/sci0",
   "version": "4.0.1",
-  "description": "Library for parsing and rendering assets from Sierra On-line's SCI-engine.",
+  "description": "Library for decoding and parsing assets from Sierra On-line's SCI-engine.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0#readme",
@@ -26,7 +26,6 @@
   "dependencies": {
     "@4bitlabs/codecs": "^2.0.2",
     "@4bitlabs/image": "^3.3.11",
-    "@4bitlabs/numeric-deque": "^1.1.6",
     "@4bitlabs/readers": "^2.0.6",
     "@4bitlabs/vec2": "^1.2.0"
   }
