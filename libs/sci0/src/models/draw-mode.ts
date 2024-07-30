@@ -3,10 +3,15 @@ export enum DrawMode {
   Priority = 0b010,
   Control = 0b100,
 
+  /** @hidden */
   ___ = 0b000,
+  /** @hidden */
   VP_ = 0b011,
+  /** @hidden */
   V_C = 0b101,
+  /** @hidden */
   _CP = 0b110,
+  /** @hidden */
   VPC = 0b111,
 }
 
