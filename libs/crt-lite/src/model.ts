@@ -1,5 +1,5 @@
 // prettier-ignore
-export const VERTEX = Float32Array.of(
+export const VERTEX: Float32Array = Float32Array.of(
   -1.0, -1.0, 0.0,
    1.0, -1.0, 0.0,
    1.0,  1.0, 0.0,
@@ -7,7 +7,7 @@ export const VERTEX = Float32Array.of(
 );
 
 // prettier-ignore
-export const INDICES = Uint8Array.of(
+export const INDICES: Uint8Array = Uint8Array.of(
   0, 1, 2,
   0, 2, 3,
   2, 1, 0,
@@ -15,7 +15,7 @@ export const INDICES = Uint8Array.of(
 );
 
 // prettier-ignore
-export const TEXTURE_COORDS = Float32Array.of(
+export const TEXTURE_COORDS: Float32Array = Float32Array.of(
   0.0, 1.0,
   1.0, 1.0,
   1.0, 0.0,

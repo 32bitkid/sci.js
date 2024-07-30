@@ -1,30 +1,10 @@
 import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
-
-export function makeGaussKernel(sigma: number) {
-  const GAUSSIAN_KERNEL = 6.0;
-  const dim = ~~Math.max(3.0, GAUSSIAN_KERNEL * sigma);
-  const sqrtSigmaPi2 = Math.sqrt(Math.PI * 2.0) * sigma;
-  const s2 = 2.0 * sigma * sigma;
-
-  let sum = 0.0;
-
-  const kernel = new Float32Array(dim - (~dim & 1)); // Make it odd number
-  const half = kernel.length >> 1;
-  for (let j = 0, i = -half; j < kernel.length; i++, j++) {
-    kernel[j] = Math.exp(-(i * i) / s2) / sqrtSigmaPi2;
-    sum += kernel[j];
-  }
-  // Normalize the gaussian kernel to prevent image darkening/brightening
-  for (let i = 0; i < dim; i++) {
-    kernel[i] /= sum;
-  }
-  return kernel;
-}
+import { makeGaussKernel } from './make-gauss-kernel';
 
 function convolute(
   pixels: ImageDataLike,
-  hKernel: Float32Array,
-  vKernel: Float32Array,
+  hKernel: Float64Array,
+  vKernel: Float64Array,
   ch: number,
 ) {
   const data = pixels.data;

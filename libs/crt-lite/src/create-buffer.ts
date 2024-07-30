@@ -4,7 +4,7 @@ export function createBuffer(
   gl: WebGL2RenderingContext,
   type: typeof gl.ARRAY_BUFFER | typeof gl.ELEMENT_ARRAY_BUFFER,
   data: ArrayBufferView,
-) {
+): WebGLBuffer {
   const buffer = gl.createBuffer();
   assertNotNull(buffer);
   gl.bindBuffer(type, buffer);

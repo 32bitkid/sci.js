@@ -4,7 +4,7 @@ export function updateTexture(
   gl: WebGL2RenderingContext,
   texture: WebGLTexture,
   imgData: ImageDataLike,
-) {
+): void {
   gl.bindTexture(gl.TEXTURE_2D, texture);
   gl.texImage2D(
     gl.TEXTURE_2D,

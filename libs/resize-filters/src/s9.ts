@@ -51,7 +51,7 @@ export const s13 = (
   ix: number,
   iy: number,
   dest: S13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-) => {
+): S13 => {
   const e = iy * width + ix;
 
   const [uOk, rOk, lOk, dOk] = [

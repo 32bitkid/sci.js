@@ -1,7 +1,7 @@
 import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
-import { makeGaussKernel } from './gauss-blur';
+import { makeGaussKernel } from './make-gauss-kernel';
 
-function convolute(image: ImageDataLike, kernel: Float32Array) {
+function convolute(image: ImageDataLike, kernel: Float64Array) {
   const kLen = kernel.length;
   const halfKen = (kLen - 1) >> 1;
   const { width, height } = image;

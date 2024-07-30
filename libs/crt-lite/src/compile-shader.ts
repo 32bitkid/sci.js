@@ -5,7 +5,7 @@ export function compileShader(
   gl: WebGL2RenderingContext,
   type: GLenum,
   source: string,
-) {
+): WebGLShader {
   const shader = gl.createShader(type);
   assertNotNull(shader);
   gl.shaderSource(shader, source);
