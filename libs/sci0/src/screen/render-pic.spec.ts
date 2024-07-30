@@ -1,4 +1,5 @@
-import { DrawCommand, DrawMode } from '../models/draw-command';
+import { DrawCommand } from '../models/draw-command';
+import { DrawMode } from '../models/draw-mode';
 import { renderPic } from './render-pic';
 
 describe('edge cases', () => {
