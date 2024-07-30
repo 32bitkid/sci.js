@@ -1,12 +1,12 @@
 {
   "$schema": "https://typedoc.org/schema.json",
-  "extends": ["./typedoc.json"],
+  "plugin": ["typedoc-plugin-mdn-links"],
   "out": "./docs",
   "tsconfig": "./tsconfig.base.json",
   "entryPoints": ["./libs/*"],
   "entryPointStrategy": "packages",
   "exclude": ["./libs/pmachine"],
-  "readme": ["./MODULE.md"],
+  "readme": "./MODULE.md",
   "markdownItOptions": {
     "html": true,
     "linkify": true,

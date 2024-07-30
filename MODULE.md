@@ -1,4 +1,4 @@
-A collection of packages, utilities and apps for encoding and decoding assets from Sierra On-line SCI0-engine games.
+A collection of packages, utilities and apps for encoding and decoding assets from [Sierra On-line][sierra] [SCI-engine][sci0] games.
 
 ### General Purpose
 
@@ -17,3 +17,6 @@ A collection of packages, utilities and apps for encoding and decoding assets fr
 - {@link @4bitlabs/codecs! | @4bitlabs/codecs}: Some common decompression algorithms, _e.g._ `Huffman` and `LZW`.
 - {@link @4bitlabs/sci0! | @4bitlabs/sci0}: Data-structures and methods for decoding and parsing SCI0/SCI01-engine
   resources.
+
+[sierra]: https://en.wikipedia.org/wiki/Sierra_Entertainment
+[sci0]: http://sciwiki.sierrahelp.com/index.php/Sierra_Creative_Interpreter
