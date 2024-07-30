@@ -12,8 +12,6 @@ export {
   getResourceType,
   getResourceIdStr,
   getResourceTypeStr,
-  isResourceType,
-  isResourceNumber,
 } from './models/resource-id';
 export * as ResourceTypes from './models/resource-types';
 

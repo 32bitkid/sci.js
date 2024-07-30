@@ -1,3 +1,4 @@
+import { exhaustive } from '../utils/exhaustive';
 import { ResourceType } from './resource-type';
 import {
   VIEW_TYPE,
@@ -11,7 +12,6 @@ import {
   CURSOR_TYPE,
   PATCH_TYPE,
 } from './resource-types';
-import { exhaustive } from '../utils/exhaustive';
 
 export const getResourceType = (id: number): ResourceType =>
   (id >>> 11) as ResourceType;
@@ -48,15 +48,3 @@ export const getResourceTypeStr = (id: number): string => {
       exhaustive('Unsupported resource type', type);
   }
 };
-
-type ResourceIdPredicate = (it: number) => boolean;
-
-export const isResourceType =
-  (...types: ResourceType[]): ResourceIdPredicate =>
-  (it: number): boolean =>
-    types.includes(getResourceType(it));
-
-export const isResourceNumber =
-  (...numbers: number[]): ResourceIdPredicate =>
-  (it: number): boolean =>
-    numbers.includes(getResourceNumber(it));
