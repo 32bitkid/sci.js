@@ -6,7 +6,6 @@ import type { DrawCommand } from '../models/draw-command';
 import type { Pic } from '../models/pic';
 
 function* picIterable(source: Uint8Array): IterableIterator<DrawCommand> {
-  process.stderr.write('parsing\n');
   const r = createBitReader(source, { mode: 'msb' });
   const state = createPicState();
   while (true) {
