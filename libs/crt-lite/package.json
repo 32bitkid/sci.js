@@ -19,7 +19,7 @@
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/crt-lite#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/32bitkid/sci.js.git"
+    "url": "git+https://github.com/32bitkid/sci.js.git"
   },
   "bugs": {
     "url": "https://github.com/32bitkid/sci.js/issues?q=is%3Aopen+is%3Aissue+label%3A%404bitlabs%2Fcrt-lite"
