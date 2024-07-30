@@ -1,10 +1,11 @@
+import { generatePairs } from '@4bitlabs/color/dithers';
+import { softMixer, mixBy } from '@4bitlabs/color/mixers';
 import {
-  Dithers,
-  IBM5153Contrast,
-  Mixers,
-  Palettes,
-  toGrayscale,
-} from '@4bitlabs/color';
+  CGA_PALETTE,
+  TRUE_CGA_PALETTE,
+  DGA_PALETTE,
+} from '@4bitlabs/color/palettes';
+import { IBM5153Contrast, toGrayscale } from '@4bitlabs/color';
 import {
   createDitherFilter,
   createPaletteFilter,
@@ -84,9 +85,9 @@ export function generatePalette(
   options: Pick<RenderPipelineOptions, 'palette' | 'contrast' | 'grayscale'>,
 ) {
   const basePalette = {
-    cga: Palettes.CGA_PALETTE,
-    'true-cga': Palettes.TRUE_CGA_PALETTE,
-    dga: Palettes.DGA_PALETTE,
+    cga: CGA_PALETTE,
+    'true-cga': TRUE_CGA_PALETTE,
+    dga: DGA_PALETTE,
     depth: DEPTH_PALETTE,
   }[options.palette];
 
@@ -101,17 +102,12 @@ export function generatePalette(
 const mixMode = 'CIE-XYZ';
 
 const DITHER_STYLE = {
-  none: (pal: Uint32Array) => Dithers.generatePairs(pal),
-  '10%': (pal: Uint32Array) =>
-    Dithers.generatePairs(pal, Mixers.mixBy(0.1, { mixMode })),
-  '15%': (pal: Uint32Array) =>
-    Dithers.generatePairs(pal, Mixers.mixBy(0.15, { mixMode })),
-  '25%': (pal: Uint32Array) =>
-    Dithers.generatePairs(pal, Mixers.mixBy(0.25, { mixMode })),
-  '50%': (pal: Uint32Array) =>
-    Dithers.generatePairs(pal, Mixers.mixBy(0.5, { mixMode })),
-  soft: (pal: Uint32Array) =>
-    Dithers.generatePairs(pal, Mixers.softMixer({ mixMode })),
+  none: (pal: Uint32Array) => generatePairs(pal),
+  '10%': (pal: Uint32Array) => generatePairs(pal, mixBy(0.1, { mixMode })),
+  '15%': (pal: Uint32Array) => generatePairs(pal, mixBy(0.15, { mixMode })),
+  '25%': (pal: Uint32Array) => generatePairs(pal, mixBy(0.25, { mixMode })),
+  '50%': (pal: Uint32Array) => generatePairs(pal, mixBy(0.5, { mixMode })),
+  soft: (pal: Uint32Array) => generatePairs(pal, softMixer({ mixMode })),
 };
 
 export function createPicPipeline(

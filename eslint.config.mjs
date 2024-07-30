@@ -43,7 +43,7 @@ export default tseslint.config(
           groups: ['builtin', 'external', ['parent', 'sibling'], 'index'],
           pathGroups: [
             {
-              pattern: '@4bitlabs/*',
+              pattern: '@4bitlabs/**',
               group: 'parent',
               position: 'before',
             },

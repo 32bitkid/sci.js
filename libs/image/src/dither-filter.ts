@@ -1,4 +1,4 @@
-import { Dithers } from '@4bitlabs/color';
+import { DitherPair } from '@4bitlabs/color/dithers';
 import { ImageDataLike, createImageData } from './image-data-like';
 import { IndexedPixelData } from './indexed-pixel-data';
 import { type PaletteFilter } from './image-filter';
@@ -21,7 +21,7 @@ import { type PaletteFilter } from './image-filter';
  * ```
  */
 export const createDitherFilter = (
-  pal: Dithers.DitherPair[],
+  pal: DitherPair[],
   ditherSize: [number, number] = [1, 1],
 ): PaletteFilter =>
   function ditherFilter(

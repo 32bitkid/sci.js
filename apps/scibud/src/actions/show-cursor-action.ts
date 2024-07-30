@@ -1,7 +1,7 @@
 import { type Command } from 'commander';
 import sharp from 'sharp';
-import { CGA_PALETTE } from '@4bitlabs/color/palettes';
 
+import { CGA_PALETTE } from '@4bitlabs/color/palettes';
 import { decompress, parseCursor } from '@4bitlabs/sci0';
 import { createPaletteFilter, renderPixelData } from '@4bitlabs/image';
 import { getRootOptions } from './get-root-options';
