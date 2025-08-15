@@ -28,9 +28,9 @@ export function toXYZ(
   const m$ = L * OKLAB_M2i[3] + a * OKLAB_M2i[4] + b * OKLAB_M2i[5];
   const s$ = L * OKLAB_M2i[6] + a * OKLAB_M2i[7] + b * OKLAB_M2i[8];
 
-  const l = Math.pow(l$, 3);
-  const m = Math.pow(m$, 3);
-  const s = Math.pow(s$, 3);
+  const l = l$ ** 3;
+  const m = m$ ** 3;
+  const s = s$ ** 3;
 
   const x = l * OKLAB_M1i[0] + m * OKLAB_M1i[1] + s * OKLAB_M1i[2];
   const y = l * OKLAB_M1i[3] + m * OKLAB_M1i[4] + s * OKLAB_M1i[5];

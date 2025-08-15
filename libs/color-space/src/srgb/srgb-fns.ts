@@ -11,7 +11,7 @@ import type { ToUint32Options, FromUint32Options } from './uint32-options';
 export { redMeanDiff } from './srgb-red-mean-diff';
 
 const inverseGamma = (c: number) =>
-  c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
 
 /**
  * Convert a color in {@link sRGBTuple} color space into a color in {@link linearRGBTuple} colorspace.
