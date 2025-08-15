@@ -1,6 +1,6 @@
 import { type LabTuple, toString } from '../tuples/lab-tuple';
 import * as LAB from './lab-fns';
-import { XYZTuple } from '../tuples/xyz-tuple';
+import type { XYZTuple } from '../tuples/xyz-tuple';
 
 describe('L*a*b* color space', () => {
   describe('toString()', () => {

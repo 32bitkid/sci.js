@@ -1,8 +1,8 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import { Cel } from './cel';
-import { DrawMode } from './draw-mode';
-import { DrawCodes } from './draw-codes';
-import { PatternCode } from './pattern-code';
+import type { Cel } from './cel';
+import type { DrawMode } from './draw-mode';
+import type { DrawCodes } from './draw-codes';
+import type { PatternCode } from './pattern-code';
 
 export type SetPaletteCommand = ['SET_PALETTE', [pal: number], ...number[]];
 

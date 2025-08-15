@@ -1,4 +1,4 @@
-import { type ImageDataLike } from './image-data-like';
+import type { ImageDataLike } from './image-data-like';
 
 export function updateTexture(
   gl: WebGL2RenderingContext,

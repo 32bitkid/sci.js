@@ -1,5 +1,5 @@
-import { ImageDataLike } from './image-data-like';
-import { IndexedPixelData } from './indexed-pixel-data';
+import type { ImageDataLike } from './image-data-like';
+import type { IndexedPixelData } from './indexed-pixel-data';
 
 export type PixelFilter = (source: IndexedPixelData) => IndexedPixelData;
 export type PaletteFilter = (source: IndexedPixelData) => ImageDataLike;

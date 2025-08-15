@@ -1,5 +1,5 @@
 import { exhaustive } from '../utils/exhaustive';
-import { ResourceType } from './resource-type';
+import type { ResourceType } from './resource-type';
 import {
   VIEW_TYPE,
   PIC_TYPE,

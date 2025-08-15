@@ -1,9 +1,9 @@
-import { BitReader } from '@4bitlabs/readers';
+import type { BitReader } from '@4bitlabs/readers';
 import { type Vec2, vec2, clone, assign } from '@4bitlabs/vec2';
 import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes';
-import { PicState } from './pic-state';
+import type { PicState } from './pic-state';
 import { getPoint16, getPoint24, getPoint8 } from './points';
-import { DrawCommand } from '../../models/draw-command';
+import type { DrawCommand } from '../../models/draw-command';
 import { DrawMode } from '../../models/draw-mode';
 import { repeat } from '../../utils/repeat';
 import { parseCel } from '../parse-cel';

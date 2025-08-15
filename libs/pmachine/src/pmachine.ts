@@ -1,4 +1,4 @@
-import { Instruction, InstructionMatcher, isInstr } from './instructions';
+import { Instruction, type InstructionMatcher, isInstr } from './instructions';
 
 interface Registers {
   acc: number;
@@ -11,9 +11,7 @@ interface Memory {
 
 export interface PMachine extends Registers, Memory {}
 
-interface InstructionHandler {
-  (cpu: PMachine, program: DataView): void;
-}
+type InstructionHandler = (cpu: PMachine, program: DataView) => void;
 
 const ADD_Impl: InstructionHandler = (cpu) => {
   cpu.acc += cpu.stack.pop() ?? 0;

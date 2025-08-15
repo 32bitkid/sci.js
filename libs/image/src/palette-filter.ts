@@ -1,6 +1,6 @@
-import { PaletteFilter } from './image-filter';
-import { IndexedPixelData } from './indexed-pixel-data';
-import { createImageData, ImageDataLike } from './image-data-like';
+import type { PaletteFilter } from './image-filter';
+import type { IndexedPixelData } from './indexed-pixel-data';
+import { createImageData, type ImageDataLike } from './image-data-like';
 
 export interface PaletteFilterOptions {
   ignoreKeyColor?: true;

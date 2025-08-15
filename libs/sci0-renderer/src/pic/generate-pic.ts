@@ -1,7 +1,7 @@
 import type { DrawCommand, Pic } from '@4bitlabs/sci0';
 import type { Vec2 } from '@4bitlabs/vec2';
-import { RenderPicOptions } from './render-pic-options';
-import { RenderResult } from './render-result';
+import type { RenderPicOptions } from './render-pic-options';
+import type { RenderResult } from './render-result';
 import { defaultPalettes } from './default-palettes';
 import { createScreenBuffer } from './screen-buffer';
 import { picStep } from './pic-step';

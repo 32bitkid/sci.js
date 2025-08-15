@@ -6,7 +6,7 @@ import {
 } from '../tuples/linear-rgb-tuple';
 import { lerp } from '../utils/lerp';
 import { assign } from '../utils/assign-values';
-import { ToUint32Options, FromUint32Options } from './uint32-options';
+import type { ToUint32Options, FromUint32Options } from './uint32-options';
 
 export { redMeanDiff } from './srgb-red-mean-diff';
 

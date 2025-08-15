@@ -1,7 +1,7 @@
 import { CGA_PALETTE, TRUE_CGA_PALETTE } from '../palettes';
 import { generatePairs } from './generate-pairs';
 import { softMixer, mixBy } from '../mixers';
-import { DitherPair } from './dither-pair';
+import type { DitherPair } from './dither-pair';
 
 export const CGA: DitherPair[] = generatePairs(CGA_PALETTE);
 export const CGA_MIX: DitherPair[] = generatePairs(CGA_PALETTE, mixBy(0.25));

@@ -1,5 +1,5 @@
-import { DrawMode, DrawCodes } from '@4bitlabs/sci0';
-import { Liner, Plotter } from './screen';
+import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
+import type { Liner, Plotter } from './screen';
 
 export const createLine = (plot: Plotter): Liner =>
   function line(

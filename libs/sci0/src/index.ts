@@ -25,9 +25,9 @@ export { parseFont } from './parsers/parse-font';
 export { parseView } from './parsers/parse-view';
 export { parsePic } from './parsers/parse-pic';
 
-export { type Loop } from './models/view';
-export { type Cel } from './models/cel';
-export { type FontFace } from './models/font-face';
-export { type Cursor } from './models/cursor';
-export { type View } from './models/view';
-export { type Pic } from './models/pic';
+export type { Loop } from './models/view';
+export type { Cel } from './models/cel';
+export type { FontFace } from './models/font-face';
+export type { Cursor } from './models/cursor';
+export type { View } from './models/view';
+export type { Pic } from './models/pic';

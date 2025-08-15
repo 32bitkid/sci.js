@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 
-import { unpack, EOF_MARKER, InitialDictionary } from './lzw';
+import { unpack, EOF_MARKER, type InitialDictionary } from './lzw';
 
 describe('lzw', () => {
   describe('lsb', () => {

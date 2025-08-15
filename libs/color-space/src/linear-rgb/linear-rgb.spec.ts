@@ -1,5 +1,9 @@
-import { sRGBTuple } from '../tuples/srgb-tuple';
-import { linearRGBTuple, create, toString } from '../tuples/linear-rgb-tuple';
+import type { sRGBTuple } from '../tuples/srgb-tuple';
+import {
+  type linearRGBTuple,
+  create,
+  toString,
+} from '../tuples/linear-rgb-tuple';
 import { toSRGB } from './linear-rgb-fns';
 
 describe('linear RGB color-space', () => {

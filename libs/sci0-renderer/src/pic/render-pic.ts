@@ -1,8 +1,8 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { Pic } from '@4bitlabs/sci0';
 import { createScreenBuffer } from './screen-buffer';
-import { RenderResult } from './render-result';
-import { RenderPicOptions } from './render-pic-options';
+import type { RenderResult } from './render-result';
+import type { RenderPicOptions } from './render-pic-options';
 import { picStep } from './pic-step';
 import { defaultPalettes } from './default-palettes';
 

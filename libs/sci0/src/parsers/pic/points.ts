@@ -1,4 +1,4 @@
-import { BitReader } from '@4bitlabs/readers';
+import type { BitReader } from '@4bitlabs/readers';
 import { type Vec2, type MutableVec2, set } from '@4bitlabs/vec2';
 
 // getPoint24 gets reads an absolute position from the

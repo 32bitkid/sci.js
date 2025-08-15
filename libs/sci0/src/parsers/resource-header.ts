@@ -1,4 +1,4 @@
-import { ResourceHeader } from '../models/resource-header';
+import type { ResourceHeader } from '../models/resource-header';
 
 export const parseHeaderFrom = (
   bytes: Uint8Array,

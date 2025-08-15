@@ -1,4 +1,4 @@
-import { type ImageDataLike, type IndexedPixelData } from '@4bitlabs/image';
+import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
 import { prepareScale } from './prepare';
 
 export const scale2x = <T extends ImageDataLike | IndexedPixelData>(

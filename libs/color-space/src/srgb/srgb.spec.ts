@@ -5,8 +5,8 @@ import {
   create,
   toString,
 } from '../tuples/srgb-tuple';
-import { type XYZTuple } from '../tuples/xyz-tuple';
-import { linearRGBTuple } from '../tuples/linear-rgb-tuple';
+import type { XYZTuple } from '../tuples/xyz-tuple';
+import type { linearRGBTuple } from '../tuples/linear-rgb-tuple';
 
 describe('sRGB color-space', () => {
   describe('toString()', () => {

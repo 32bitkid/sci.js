@@ -1,7 +1,7 @@
 import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
 import { clamp } from '../utils/clamp';
 import {
-  linearRGBTuple,
+  type linearRGBTuple,
   create as createLinearRGB,
 } from '../tuples/linear-rgb-tuple';
 import { assign } from '../utils/assign-values';

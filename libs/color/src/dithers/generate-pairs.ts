@@ -1,5 +1,5 @@
-import { DitherPair } from './dither-pair';
-import { DitherTransform } from './dither-transform';
+import type { DitherPair } from './dither-pair';
+import type { DitherTransform } from './dither-transform';
 
 const rawPairs =
   (pal: Uint32Array) =>

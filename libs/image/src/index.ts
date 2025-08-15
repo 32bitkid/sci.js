@@ -6,11 +6,11 @@ export {
   isIndexedPixelData,
 } from './indexed-pixel-data';
 
-export {
-  type GenericFilter,
-  type ImageFilter,
-  type PixelFilter,
-  type PaletteFilter,
+export type {
+  GenericFilter,
+  ImageFilter,
+  PixelFilter,
+  PaletteFilter,
 } from './image-filter';
 
 export { createDitherFilter } from './dither-filter';

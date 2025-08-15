@@ -1,4 +1,4 @@
-import { type XYZTuple } from '../tuples/xyz-tuple';
+import type { XYZTuple } from '../tuples/xyz-tuple';
 import { type LabTuple, create as createLab } from '../tuples/lab-tuple';
 import { D50 } from '../reference-white';
 import { lerp } from '../utils/lerp';

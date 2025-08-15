@@ -1,5 +1,5 @@
 import { type okLabTuple, toString } from '../tuples/oklab-tuple';
-import { type XYZTuple } from '../tuples/xyz-tuple';
+import type { XYZTuple } from '../tuples/xyz-tuple';
 import { toXYZ } from './oklab-fns';
 
 describe('okLab color-space', () => {

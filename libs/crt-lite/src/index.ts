@@ -6,4 +6,4 @@ export {
   type CreateCrtRenderOptions,
 } from './renderer';
 
-export { type CrtUpdateFn, type CrtUpdateOptions } from './update-function';
+export type { CrtUpdateFn, CrtUpdateOptions } from './update-function';
