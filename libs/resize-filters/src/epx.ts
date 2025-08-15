@@ -94,7 +94,7 @@ export const epx9sfx = <T extends Uint32Array | Uint8ClampedArray>(
       (E !== G || E === A || E === I || G === K || G === M)) ||
     (D === H && A === E && A !== K && E !== G) ||
     (D === H && E === I && E !== G && I !== M)
-      ? D == H
+      ? D === H
         ? D
         : H
       : E;
