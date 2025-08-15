@@ -40,8 +40,10 @@ export const create = (
  *
  * @param rgb
  */
-export const toString = ([, r, g, b, alpha]: sRGBTuple) =>
+const stringify = ([, r, g, b, alpha]: sRGBTuple) =>
   `rgb(${fmt(r)} ${fmt(g)} ${fmt(b)}${fmtA(alpha)})`;
+
+export { stringify as toString };
 
 /**
  * Type-predicate that validate and match {@link sRGBTuple}.

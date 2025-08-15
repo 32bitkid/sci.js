@@ -3,7 +3,7 @@ import {
   type sRGBTuple,
   isSRGBTuple,
   create,
-  toString,
+  toString as stringify,
 } from '../tuples/srgb-tuple';
 import type { XYZTuple } from '../tuples/xyz-tuple';
 import type { linearRGBTuple } from '../tuples/linear-rgb-tuple';
@@ -12,12 +12,12 @@ describe('sRGB color-space', () => {
   describe('toString()', () => {
     it('should handle a basic color', () => {
       const color = create(0x95, 0x6a, 0x62);
-      expect(toString(color)).toBe('rgb(149 106 98)');
+      expect(stringify(color)).toBe('rgb(149 106 98)');
     });
 
     it('should handle alpha', () => {
       const color = create(0x95, 0x6a, 0x62, 0.5);
-      expect(toString(color)).toBe('rgb(149 106 98 / 0.5)');
+      expect(stringify(color)).toBe('rgb(149 106 98 / 0.5)');
     });
   });
 

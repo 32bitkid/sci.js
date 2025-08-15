@@ -39,8 +39,10 @@ export const create = (
  *
  * @param lab
  */
-export const toString = ([, L, a, b, alpha]: LabTuple) =>
+const stringify = ([, L, a, b, alpha]: LabTuple) =>
   `lab(${fmt(L)} ${fmt(a)} ${fmt(b)}${fmtA(alpha)})`;
+
+export { stringify as toString };
 
 /**
  * Type-predicate that validate and match {@link LabTuple}.

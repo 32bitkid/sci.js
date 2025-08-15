@@ -159,11 +159,13 @@ export const normalize = (source: Vec2, dest: MutableVec2): MutableVec2 =>
  * @param vec
  * @param angleBrackets
  */
-export const toString = (
+const stringify = (
   [x, y]: MutableVec2,
   { angleBrackets = false }: { angleBrackets?: boolean } = {},
 ) =>
   `${angleBrackets ? '\u27E8' : '('}${x}, ${y}${angleBrackets ? '\u27E9' : ')'}`;
+
+export { stringify as toString };
 
 /** Perform a linear-interpolation from vector A to vector B by `t`. `t` can be either a scalar or a Vec2. */
 export const lerp = (

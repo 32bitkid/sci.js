@@ -1,4 +1,4 @@
-import { type okLabTuple, toString } from '../tuples/oklab-tuple';
+import { type okLabTuple, toString as stringify } from '../tuples/oklab-tuple';
 import type { XYZTuple } from '../tuples/xyz-tuple';
 import { toXYZ } from './oklab-fns';
 
@@ -9,7 +9,7 @@ describe('okLab color-space', () => {
       [['okLab', 0.5, 0, 0, 1.0], 'oklab(0.5 0 0 / 1)'],
       [['okLab', 0.5, 0.1234567, 0], 'oklab(0.5 0.123 0)'],
     ])('should serialize', (color, expected) => {
-      expect(toString(color)).toBe(expected);
+      expect(stringify(color)).toBe(expected);
     });
   });
 
