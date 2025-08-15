@@ -54,7 +54,6 @@ export function boxBlur(radius: number): ImageFilter {
       x: number,
       y: number,
       i: number,
-      p: number,
       p1: number,
       p2: number,
       yp: number,
@@ -79,7 +78,7 @@ export function boxBlur(radius: number): ImageFilter {
       bSum = pixels[yw + 2] * rad1;
 
       for (i = 1; i <= radius; i++) {
-        p = yw + ((i > wm ? wm : i) << 2);
+        let p = yw + ((i > wm ? wm : i) << 2);
         rSum += pixels[p++];
         gSum += pixels[p++];
         bSum += pixels[p++];
@@ -91,8 +90,10 @@ export function boxBlur(radius: number): ImageFilter {
         b[yi] = bSum;
 
         if (y === 0) {
-          vmin[x] = ((p = x + rad1) < wm ? p : wm) << 2;
-          vmax[x] = (p = x - radius) > 0 ? p << 2 : 0;
+          const right = x + rad1;
+          vmin[x] = (right < wm ? right : wm) << 2;
+          const left = x - radius;
+          vmax[x] = left > 0 ? left << 2 : 0;
         }
 
         p1 = yw + vmin[x];
@@ -127,8 +128,10 @@ export function boxBlur(radius: number): ImageFilter {
         pixels[yi + 2] = (bSum * mul) >>> shift;
 
         if (x === 0) {
-          vmin[y] = ((p = y + rad1) < hm ? p : hm) * width;
-          vmax[y] = (p = y - radius) > 0 ? p * width : 0;
+          const bottom = y + rad1;
+          vmin[y] = (bottom < hm ? bottom : hm) * width;
+          const top = y - radius;
+          vmax[y] = top > 0 ? top * width : 0;
         }
 
         p1 = x + vmin[y];

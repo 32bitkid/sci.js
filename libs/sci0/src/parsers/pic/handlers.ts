@@ -177,7 +177,9 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
   *[ExtendedOpCode.SetPalette](r) {
     const pal = r.read32(8);
     const colors: number[] = Array(40).fill(0);
-    repeat(40, (i) => (colors[i] = r.read32(8)));
+    repeat(40, (i) => {
+      colors[i] = r.read32(8);
+    });
     yield ['SET_PALETTE', [pal], ...colors];
   },
   [ExtendedOpCode.x02](r) {
