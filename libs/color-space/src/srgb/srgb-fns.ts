@@ -30,7 +30,7 @@ export function toLinearRGB(
   return assign(out, rL, gL, bL, alpha);
 }
 
-// prettier-ignore
+// biome-ignore format: matrix
 const matrix = Float64Array.of(
   // Lindbloom
   // 0.4124564, 0.3575761, 0.1804375,

@@ -8,7 +8,7 @@ export { deltaE } from './lab-delta-e';
 const ϵ = 216 / 24389; // 6^3/29^3
 const κ = 24389 / 27; // 29^3/3^3
 
-// prettier-ignore
+// biome-ignore format: matrix
 const BRADFORD_Mb = Float64Array.of(
    0.9555766, -0.0230393,  0.0631636,
   -0.0282895,  1.0099416,  0.0210077,

@@ -1,17 +1,16 @@
-// prettier-ignore
-import  { type okLabTuple, create as createOkLab } from "../tuples/oklab-tuple";
+import { type okLabTuple, create as createOkLab } from '../tuples/oklab-tuple';
 import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
 import { lerp } from '../utils/lerp';
 import { assign } from '../utils/assign-values';
 
-// prettier-ignore
+// biome-ignore format: matrix
 const OKLAB_M1i = Float64Array.of(
    1.2268798733741557,  -0.5578149965554813,   0.28139105017721583,
   -0.04057576262431372,  1.1122868293970594,  -0.07171106666151701,
   -0.07637294974672142, -0.4214933239627914,   1.5869240244272418
 );
 
-// prettier-ignore
+// biome-ignore format: matrix
 const OKLAB_M2i = Float64Array.of(
   0.9999999984505198,  0.396337792173767856,  0.21580375806075880,
   1.0000000088817607, -0.10556134232365634,  -0.0638541747717059,

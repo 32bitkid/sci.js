@@ -49,7 +49,7 @@ export const createScreenBuffer = (
     if (DrawMode.isVisualMode(drawMode)) {
       const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
       const palette = palettes[pal];
-      const palIndex = drawCodes[0] % 40 >>> 0;
+      const palIndex = (drawCodes[0] % 40) >>> 0;
       visible.pixels[idx] = palette[palIndex];
       tBuffer[idx] = t;
     }

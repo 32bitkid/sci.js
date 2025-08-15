@@ -5,7 +5,7 @@ export const epx9 = <T extends Uint32Array | Uint8ClampedArray>(
   s9: S9,
   p9: T,
 ): T => {
-  // prettier-ignore
+  // biome-ignore format: readability
   const [
     A, B, C,
     D, E, F,
@@ -46,7 +46,7 @@ export const epx9sfx = <T extends Uint32Array | Uint8ClampedArray>(
   s13: S13,
   p9: T,
 ): T => {
-  // prettier-ignore
+  // biome-ignore format: readability
   const [
           J,
        A, B, C,

@@ -15,10 +15,23 @@ describe('dither-filter', () => {
     );
     const result = filter(img);
     expect(result.data).toEqual(
-      // prettier-ignore
       Uint8ClampedArray.of(
-        0, 0, 0xff, 0xff, 0, 0,    0, 0xff,
-        0, 0,    0, 0xff, 0, 0, 0xff, 0xff,
+        0x00,
+        0x00,
+        0xff,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0xff,
+        0x00,
+        0x00,
+        0x00,
+        0xff,
+        0x00,
+        0x00,
+        0xff,
+        0xff,
       ),
     );
   });

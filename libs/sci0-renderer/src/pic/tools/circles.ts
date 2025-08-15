@@ -1,4 +1,4 @@
-// prettier-ignore
+// biome-ignore format: bitmaps
 const circleBitmaps: number[][] = [
   [
     0b1
