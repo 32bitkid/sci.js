@@ -1,5 +1,5 @@
-import { readdir, readFile as fsReadFile } from 'fs/promises';
-import { join, resolve } from 'path';
+import { readdir, readFile as fsReadFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 
 export function escapeRegex(str: string) {
   return str.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&');
