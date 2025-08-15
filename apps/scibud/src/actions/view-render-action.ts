@@ -1,6 +1,6 @@
 import { createWriteStream } from 'node:fs';
 
-import { Command } from 'commander';
+import type { Command } from 'commander';
 import { GIFEncoder, quantize, applyPalette } from 'gifenc';
 import sharp, { type Sharp } from 'sharp';
 
@@ -19,7 +19,7 @@ import {
   generatePalette,
   getScalerFromOptions,
 } from '../helpers/create-pic-pipeline';
-import { ScalerID } from '../models/render-pic-options';
+import type { ScalerID } from '../models/render-pic-options';
 
 type Padding =
   | [number]

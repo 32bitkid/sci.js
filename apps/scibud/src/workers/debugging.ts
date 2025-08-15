@@ -1,11 +1,11 @@
-import { type Console } from 'node:console';
+import type { Console } from 'node:console';
 
-import {
-  type ImageDataLike,
-  type ImageFilter,
-  type PixelFilter,
-  type IndexedPixelData,
-  type PaletteFilter,
+import type {
+  ImageDataLike,
+  ImageFilter,
+  PixelFilter,
+  IndexedPixelData,
+  PaletteFilter,
 } from '@4bitlabs/image';
 
 export const addImageTiming =

@@ -1,6 +1,6 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
-import { Resource, ResourceType } from '@4bitlabs/sci0';
+import { Resource, type ResourceType } from '@4bitlabs/sci0';
 import { listActionFor } from '../actions';
 import { resourceTypeName as names } from './resource-type-name';
 

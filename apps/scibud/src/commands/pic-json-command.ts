@@ -1,4 +1,4 @@
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 
 import { decompress, parsePic } from '@4bitlabs/sci0';
 import { cmdIntParser } from './cmd-int-parser';

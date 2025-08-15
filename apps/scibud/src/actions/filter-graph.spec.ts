@@ -1,5 +1,5 @@
 import {
-  FilterChain,
+  type FilterChain,
   formatChain,
   formatFilter,
   formatGraph,

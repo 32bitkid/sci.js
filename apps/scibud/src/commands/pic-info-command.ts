@@ -1,4 +1,4 @@
-import { Command } from 'commander';
+import type { Command } from 'commander';
 
 import * as Actions from '../actions';
 import { cmdIntParser } from './cmd-int-parser';

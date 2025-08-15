@@ -5,7 +5,11 @@
       "libs/**/*.js",
       "libs/**/*.ts",
       "!libs/**/dist",
-      "!libs/**/coverage"
+      "!libs/**/coverage",
+      "apps/**/*.js",
+      "apps/**/*.ts",
+      "!apps/**/dist",
+      "!apps/**/coverage"
     ]
   },
   "formatter": {

@@ -4,7 +4,7 @@ import {
   type ResourceMap,
   type ResourceType,
 } from '@4bitlabs/sci0';
-import { type ResourceMapPredicate } from '../actions/load-content-from-map';
+import type { ResourceMapPredicate } from '../actions/load-content-from-map';
 
 export const createMatcherForType =
   (resType: ResourceType) =>
