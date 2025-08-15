@@ -266,7 +266,9 @@ describe('flood fill', () => {
     const expected = load`eJztmtuS4zAIRPn/n/bWbhIH6G5AsmdSWxW9jIUQp0G3PMxxfNu3fdu72aN9kv0pCYbto/BNBTuiFV0KKCA7khOw5Vd1Wa8ZxRV8Z0aHjTUT2Sq+Rb7JwYt8DN7ztzatXGyN93zLY9v8Be/QE2PLAhZ8KX8v/Ut82A2/zT9u4C9MRE/gr+Mv803wx2J+hL99qC7xs+vCttrhv7p2SP487hSP/IfJD9kSf1gAiGgT/n0CIGLgk5HFFVjln52niAv8NQGEb/g0HeONtciP3YPuNnvvibmAHb6zX+Z3jiJ9dto9f4Ln22eb//yep8+rmeciI1z+1/nnPuYSCD8VgPBneOQOBTD+63sj/1qAKkDJH6rYFmCcDyGX+MkSvfIMdjPykGMBPGMhQPAtt7kAsMY+lWyi/F7oUACx0gLwCkeqSKPSQFVxjzF/9sQoRXIFxOMTfpK4S+IWvhKg+Ws/Bij/7El+tLx1mvuzwYe1bR9Lzl96DRTe1TI6wJQDxncKQNc28ElQVh7hOqTnQ5T4bNoNfCv55g2S7+cv8hneX+0qpt3DT3hXw5ofJNsd/KQG+GJe+q73Pw5KfLraxKzUyvRTqaMRo2Y+mbTN59caxPLnQP8cQDzlY/QS7zaA0oz+cz75vSKz4W6P74wc8yGuW7lzgPjlWUdccok/z1CP51JjGpBYl/5hPDroq/mAD8MFXvCxPnv4ER+PUAqk8YKfHYb8p4UOP6NRvk5fXtTJVQy+hcs66K2f6lMiiuI0/IyKsl2/5leXQxLZ45f4bNeBMsKv5iZbUeEDNwvTFYdxq/GQpQ9XIEpbRSD2nFDD7wTwFGpNWIGC3yggAdV1vVmAWoDKqFCwXIDqoffDWi4NF3qNALy36Ouv+FRA6LV88Y6ThJKVCdgpQC/t7KBoLsBX7DZ8+mcTLoAs5VV+La7kX16Aer7kh94AId2a+TgTD8Aqf/6IKr5SM4iRJxiJV9YX/QmQCKj4eAFJfioI41eaoZ7GG6eBhZa/3DKWQ/Z8DM7ubpouui3xz+90LYtQFb/r1/jwWMtUfEiRPhGg6B5vwW/Cr5zotBTcTxT69OnvRBZ81lcFkgKQjyswwucYvEgzfnVr8MQYJjrS6sb4SnbJZ91CGStmFR/nzOo69RQmCwt6D59uwRGfPgNFUKGNSVV74mWGDUGvVsHP0Wd8o3yyTWNS0TTSky3k3Jhv2QQOf024YhFHko1fms9KYqqJ9BmfZSQclPtIwIyf3Lb5aedxviyw1jjmw8kf8utXl8s943vPXPk+btTbSYjms8zykaJRdUgUkPyD5d9XdhrwkwRn4vwDC0wCRw+M32VV8g+fcxNQFLiYMuL3zXgbzDm/fkDAaM4t/B38W8A2X5R9iOdX1TzKVTrlj2OV9Gk1YcY04EWuEFDnVD7Tq+A2k3nbRnfZ/AKcYXp5d9ITY6TwVviJGGu8nz5qH8Y7GZ+D/4/tDx0vKiU=`;
 
     const fill = createFloodFill(
-      (x: number, y: number) => (screen[y * dim[0] + x] = 0x00),
+      (x: number, y: number) => {
+        screen[y * dim[0] + x] = 0x00;
+      },
       (x: number, y: number) => screen[y * dim[0] + x] === 0xff,
       dim,
     );
