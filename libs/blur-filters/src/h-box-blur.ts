@@ -10,7 +10,9 @@ function convolute(image: ImageDataLike, kLen: number, win: NumericDeque) {
 
   const pixels = image.data;
 
-  let rSum, gSum, bSum;
+  let rSum = 0,
+    gSum = 0,
+    bSum = 0;
 
   for (let offset = 0; offset < total; offset += stride) {
     rSum = 0;

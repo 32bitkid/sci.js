@@ -99,10 +99,11 @@ export const rotate = (
 ): MutableVec2 => {
   const sin = Math.sin(theta);
   const cos = Math.cos(theta);
-  return ([out[0], out[1]] = [
+  [out[0], out[1]] = [
     source[0] * cos - source[1] * sin,
     source[0] * sin + source[1] * cos,
-  ]);
+  ];
+  return out;
 };
 
 /** Project point P onto the line-segment AB‾. */
