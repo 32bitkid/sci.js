@@ -1,3 +1,5 @@
+export type { ColorTuple } from './tuples/color-tuple';
+export type { ColorPredicate } from './utils/create-color-predicate';
 export type { sRGBTuple } from './tuples/srgb-tuple';
 export type { linearRGBTuple } from './tuples/linear-rgb-tuple';
 export type { XYZTuple } from './tuples/xyz-tuple';

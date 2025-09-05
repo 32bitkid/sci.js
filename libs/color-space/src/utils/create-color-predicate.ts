@@ -1,13 +1,26 @@
-export type ColorPredicate<T> = (it: unknown) => it is T;
+import { ColorTuple } from '../tuples/color-tuple';
 
-export function createColorPredicate<
-  T extends [string, number, number, number, number?],
->(
+/**
+ * Checks if an `unknown` value is a valid color tuple
+ */
+export type ColorPredicate<T extends ColorTuple> = (
+  value: unknown,
+) => value is T;
+
+/**
+ *
+ * @param NAME The name of the color predicate.
+ * @param ids A list of valid color tuple types.
+ * @param aRange
+ * @param bRange
+ * @param cRange
+ */
+export function createColorPredicate<T extends ColorTuple>(
   NAME: string,
   ids: T[0][],
-  aRange: [number, number] = [-Infinity, Infinity],
-  bRange: [number, number] = [-Infinity, Infinity],
-  cRange: [number, number] = [-Infinity, Infinity],
+  aRange: [number, number] | ((val: number) => boolean) = [-Infinity, Infinity],
+  bRange: [number, number] | ((val: number) => boolean) = [-Infinity, Infinity],
+  cRange: [number, number] | ((val: number) => boolean) = [-Infinity, Infinity],
 ): ColorPredicate<T> {
   return {
     [NAME](it: unknown): it is T {
@@ -26,9 +39,17 @@ export function createColorPredicate<
       if (typeof b !== 'number') return false;
       if (typeof c !== 'number') return false;
 
-      if (a < aRange[0] || a > aRange[1]) return false;
-      if (b < bRange[0] || b > bRange[1]) return false;
-      if (c < cRange[0] || c > cRange[1]) return false;
+      if (Array.isArray(aRange)) {
+        if (a < aRange[0] || a > aRange[1]) return false;
+      } else if (!aRange(a)) return false;
+
+      if (Array.isArray(bRange)) {
+        if (b < bRange[0] || b > bRange[1]) return false;
+      } else if (!bRange(b)) return false;
+
+      if (Array.isArray(cRange)) {
+        if (c < cRange[0] || c > cRange[1]) return false;
+      } else if (!cRange(c)) return false;
 
       const alpha: unknown = it[4];
       if (!(typeof alpha === 'undefined' || typeof alpha === 'number')) {
