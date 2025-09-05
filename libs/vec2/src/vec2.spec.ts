@@ -13,7 +13,7 @@ import {
   squaredLength,
   squaredDistanceBetween,
   distanceBetween,
-  toString,
+  toString as stringify,
 } from './vec2';
 
 describe('vec2', () => {
@@ -118,11 +118,11 @@ describe('vec2', () => {
 
   describe('stringification', () => {
     it('should convert to string', () => {
-      expect(toString(vec2(1.5, 3.9))).toBe(`(1.5, 3.9)`);
+      expect(stringify(vec2(1.5, 3.9))).toBe(`(1.5, 3.9)`);
     });
 
     it(`should use angle-brackets… if you are a madman…`, () => {
-      expect(toString(vec2(1.5, 3.9), { angleBrackets: true })).toBe(
+      expect(stringify(vec2(1.5, 3.9), { angleBrackets: true })).toBe(
         `⟨1.5, 3.9⟩`,
       );
     });

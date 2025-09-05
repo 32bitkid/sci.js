@@ -1,6 +1,6 @@
-import { type LabTuple, toString } from '../tuples/lab-tuple';
+import { type LabTuple, toString as stringify } from '../tuples/lab-tuple';
 import * as LAB from './lab-fns';
-import { XYZTuple } from '../tuples/xyz-tuple';
+import type { XYZTuple } from '../tuples/xyz-tuple';
 
 describe('L*a*b* color space', () => {
   describe('toString()', () => {
@@ -9,7 +9,7 @@ describe('L*a*b* color space', () => {
       [['CIELAB', 50, 0, 0, 1.0], 'lab(50 0 0 / 1)'],
       [['CIELAB', 50, 0.1234567, 0], 'lab(50 0.123 0)'],
     ])('should serialize', (color, expected) => {
-      expect(toString(color)).toBe(expected);
+      expect(stringify(color)).toBe(expected);
     });
   });
 

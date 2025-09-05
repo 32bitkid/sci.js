@@ -46,7 +46,7 @@ describe('dither-filter', () => {
 
     const result = filter(img);
     expect(result.data).toEqual(
-      // prettier-ignore
+      // biome-ignore format: readability
       Uint8ClampedArray.of(
         0x00, 0x00, 0x00, 0xff,
         0x00, 0x00, 0xaa, 0xff,
@@ -116,7 +116,7 @@ describe('dither-filter', () => {
 
     const result = filter(img);
     expect(result.data).toEqual(
-      // prettier-ignore
+      // biome-ignore format: readability
       Uint8ClampedArray.of(
         0x00, 0x00, 0x00, 0x00,
         0xff, 0xff, 0xff, 0xff,

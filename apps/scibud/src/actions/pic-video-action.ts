@@ -1,18 +1,18 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
 import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
 import { generatePic } from '@4bitlabs/sci0-renderer';
-import { createIndexedPixelData, IndexedPixelData } from '@4bitlabs/image';
+import { createIndexedPixelData, type IndexedPixelData } from '@4bitlabs/image';
 import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
 import {
   loadContentFromMap,
-  ResourceMapPredicate,
+  type ResourceMapPredicate,
 } from './load-content-from-map';
-import {
+import type {
   RenderPicOptions,
   RenderPipelineOptions,
 } from '../models/render-pic-options';

@@ -38,9 +38,7 @@ export enum Instruction {
   DUP = 0x3e,
 }
 
-export interface InstructionMatcher {
-  (code: number): boolean;
-}
+export type InstructionMatcher = (code: number) => boolean;
 
 export const isInstr =
   (instr: Instruction, size?: 8 | 16): InstructionMatcher =>

@@ -1,4 +1,4 @@
-import {
+import type {
   VIEW_TYPE,
   PIC_TYPE,
   SCRIPT_TYPE,

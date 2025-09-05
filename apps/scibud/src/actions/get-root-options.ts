@@ -1,4 +1,4 @@
-import { Command, type OptionValues } from 'commander';
+import type { Command, OptionValues } from 'commander';
 
 interface RootOptions extends OptionValues {
   root: string;

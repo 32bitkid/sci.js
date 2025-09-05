@@ -1,4 +1,4 @@
-import { ResourceType, ResourceTypes } from '@4bitlabs/sci0';
+import { type ResourceType, ResourceTypes } from '@4bitlabs/sci0';
 
 export const resourceTypeName: Record<ResourceType, string> = {
   [ResourceTypes.VIEW_TYPE]: 'view',

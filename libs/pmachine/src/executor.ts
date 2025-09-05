@@ -1,8 +1,6 @@
-import { getImpl, PMachine } from './pmachine';
+import { getImpl, type PMachine } from './pmachine';
 
-export interface Executor {
-  (machine: PMachine, program: Uint8Array): void;
-}
+export type Executor = (machine: PMachine, program: Uint8Array) => void;
 
 export const execute: Executor = (cpu: PMachine, machineCode: Uint8Array) => {
   const program = new DataView(

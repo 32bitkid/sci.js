@@ -1,4 +1,4 @@
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 
 import { Resource, parseAllMappings } from '@4bitlabs/sci0';
 import { readFile } from '../helpers/read-file';

@@ -1,4 +1,4 @@
-import { ResourceMap } from '../models/resource-map';
+import type { ResourceMap } from '../models/resource-map';
 
 const HEAD_END_TOKEN = ~0 >>> 16;
 const TAIL_END_TOKEN = ~0 >>> 0;

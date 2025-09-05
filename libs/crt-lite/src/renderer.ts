@@ -5,8 +5,8 @@ import { compileShader } from './compile-shader';
 import { createBuffer } from './create-buffer';
 import { updateTexture } from './update-texture';
 import * as Model from './model';
-import { type ImageDataLike } from './image-data-like';
-import { type CrtUpdateFn, type CrtUpdateOptions } from './update-function';
+import type { ImageDataLike } from './image-data-like';
+import type { CrtUpdateFn, CrtUpdateOptions } from './update-function';
 
 export interface CreateCrtRenderOptions {
   maxHBlur?: number;

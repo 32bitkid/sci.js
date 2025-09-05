@@ -1,4 +1,4 @@
-import { DrawMode, DrawCodes, Cel } from '@4bitlabs/sci0';
+import type { DrawMode, DrawCodes, Cel } from '@4bitlabs/sci0';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;
 

@@ -1,4 +1,4 @@
-import { ImageDataLike } from './image-data-like';
+import type { ImageDataLike } from './image-data-like';
 
 export interface CrtUpdateOptions {
   Fx?: number;

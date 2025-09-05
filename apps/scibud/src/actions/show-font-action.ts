@@ -1,4 +1,4 @@
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 import sharp from 'sharp';
 
 import { CGA_PALETTE } from '@4bitlabs/color/palettes';

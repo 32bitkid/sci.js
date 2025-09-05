@@ -1,14 +1,14 @@
 import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
 import { clamp } from '../utils/clamp';
 import {
-  linearRGBTuple,
+  type linearRGBTuple,
   create as createLinearRGB,
 } from '../tuples/linear-rgb-tuple';
 import { assign } from '../utils/assign-values';
 import { lerp } from '../utils/lerp';
 
 const gamma = (c: number) =>
-  c > 0.0031308 ? 1.055 * Math.pow(c, 1 / 2.4) - 0.055 : 12.92 * c;
+  c > 0.0031308 ? 1.055 * c ** (1 / 2.4) - 0.055 : 12.92 * c;
 
 export function toSRGB(
   [, Lr, Lg, Lb, alpha]: linearRGBTuple,

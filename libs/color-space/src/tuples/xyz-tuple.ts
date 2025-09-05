@@ -34,8 +34,10 @@ export const create = (
  *
  * @param xyz
  */
-export const toString = ([, x, y, z, alpha]: XYZTuple) =>
+const stringify = ([, x, y, z, alpha]: XYZTuple) =>
   `color(xyz ${fmt(x / 100)} ${fmt(y / 100)} ${fmt(z / 100)}${fmtA(alpha)})`;
+
+export { stringify as toString };
 
 /**
  * Type-predicate that validate and match {@link XYZTuple}.

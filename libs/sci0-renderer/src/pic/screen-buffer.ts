@@ -1,13 +1,8 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import { createIndexedPixelData } from '@4bitlabs/image';
 import { DrawMode } from '@4bitlabs/sci0';
-import {
-  IsFillable,
-  type Plotter,
-  RawPlotter,
-  type Screen,
-} from './tools/screen';
-import { type RenderResult } from './render-result';
+import type { IsFillable, Plotter, RawPlotter, Screen } from './tools/screen';
+import type { RenderResult } from './render-result';
 import {
   createBrush,
   createFloodFill,
@@ -49,7 +44,7 @@ export const createScreenBuffer = (
     if (DrawMode.isVisualMode(drawMode)) {
       const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
       const palette = palettes[pal];
-      const palIndex = drawCodes[0] % 40 >>> 0;
+      const palIndex = (drawCodes[0] % 40) >>> 0;
       visible.pixels[idx] = palette[palIndex];
       tBuffer[idx] = t;
     }

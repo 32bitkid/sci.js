@@ -1,6 +1,6 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
-import { type Cursor } from '../models/cursor';
-import { ParseCursorOptions } from './parse-cursor-options';
+import type { Cursor } from '../models/cursor';
+import type { ParseCursorOptions } from './parse-cursor-options';
 
 const DEFAULT_MAPPING = {
   black: 0x00,

@@ -5,7 +5,7 @@
   "private": true,
   "main": "",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "biome check",
     "format:fix": "prettier -w .",
     "build": "lerna run build",
     "rebuild": "nx reset && lerna run clean:wipe && lerna run build",
@@ -40,22 +40,16 @@
     "apps/scibud"
   ],
   "devDependencies": {
-    "@eslint/js": "^9.6.0",
+    "@biomejs/biome": "2.2.0",
     "@types/jest": "^29.5.12",
     "conventional-changelog-eslint": "^5.0.0",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-deprecation": "^3.0.0",
-    "eslint-plugin-import": "^2.29.1",
     "jest": "^29.7.0",
     "lerna": "^8.1.7",
-    "prettier": "^3.3.3",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.3",
     "typedoc": "^0.26.5",
     "typedoc-plugin-mdn-links": "^3.2.5",
     "typedoc-plugin-missing-exports": "^3.0.0",
-    "typescript": "^5.5.4",
-    "typescript-eslint": "^7.18.0"
+    "typescript": "^5.5.4"
   }
 }

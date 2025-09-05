@@ -1,4 +1,4 @@
-import { type ImageDataLike, type ImageFilter } from '@4bitlabs/image';
+import type { ImageDataLike, ImageFilter } from '@4bitlabs/image';
 import { makeGaussKernel } from './make-gauss-kernel';
 
 function convolute(
@@ -36,7 +36,7 @@ function convolute(
         row = row < 0 ? 0 : row >= h ? h - 1 : row;
         sum += buff[row * w + i] * vKernel[k];
       }
-      const off = (j * w + i) * 4;
+      const off = (offset + i) * 4;
       data[off + ch] = sum;
     }
   }

@@ -2,7 +2,7 @@ import { s9 } from './s9';
 
 describe('s9', () => {
   it('should handle the middle', () => {
-    // prettier-ignore
+    // biome-ignore format: readability
     const expected = [
       0, 1, 2,
       3, 4, 5,
@@ -13,7 +13,7 @@ describe('s9', () => {
   });
 
   it('should handle left side', () => {
-    // prettier-ignore
+    // biome-ignore format: readability
     const expected = [
       3, 0, 1,
       3, 3, 4,
@@ -24,7 +24,7 @@ describe('s9', () => {
   });
 
   it('should handle right side', () => {
-    // prettier-ignore
+    // biome-ignore format: readability
     const expected = [
       1, 2, 5,
       4, 5, 5,
@@ -35,7 +35,7 @@ describe('s9', () => {
   });
 
   it('should handle the top side', () => {
-    // prettier-ignore
+    // biome-ignore format: readability
     const expected = [
       1, 1, 1,
       0, 1, 2,
@@ -46,7 +46,7 @@ describe('s9', () => {
   });
 
   it('should handle the bottom side', () => {
-    // prettier-ignore
+    // biome-ignore format: readability
     const expected = [
       3, 4, 5,
       6, 7, 8,

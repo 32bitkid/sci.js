@@ -1,19 +1,18 @@
-// prettier-ignore
-import  { type okLabTuple, create as createOkLab } from "../tuples/oklab-tuple";
+import { type okLabTuple, create as createOkLab } from '../tuples/oklab-tuple';
 import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
 import { lerp } from '../utils/lerp';
 import { assign } from '../utils/assign-values';
 
-// prettier-ignore
+// biome-ignore format: matrix
 const OKLAB_M1i = Float64Array.of(
    1.2268798733741557,  -0.5578149965554813,   0.28139105017721583,
   -0.04057576262431372,  1.1122868293970594,  -0.07171106666151701,
   -0.07637294974672142, -0.4214933239627914,   1.5869240244272418
 );
 
-// prettier-ignore
+// biome-ignore format: matrix
 const OKLAB_M2i = Float64Array.of(
-  0.9999999984505198,  0.396337792173767856,  0.21580375806075880,
+  0.9999999984505198,  0.39633779217376786,   0.21580375806075880,
   1.0000000088817607, -0.10556134232365634,  -0.0638541747717059,
   1.000000054672410,  -0.08948418209496575,  -1.2914855378640917
 );
@@ -29,9 +28,9 @@ export function toXYZ(
   const m$ = L * OKLAB_M2i[3] + a * OKLAB_M2i[4] + b * OKLAB_M2i[5];
   const s$ = L * OKLAB_M2i[6] + a * OKLAB_M2i[7] + b * OKLAB_M2i[8];
 
-  const l = Math.pow(l$, 3);
-  const m = Math.pow(m$, 3);
-  const s = Math.pow(s$, 3);
+  const l = l$ ** 3;
+  const m = m$ ** 3;
+  const s = s$ ** 3;
 
   const x = l * OKLAB_M1i[0] + m * OKLAB_M1i[1] + s * OKLAB_M1i[2];
   const y = l * OKLAB_M1i[3] + m * OKLAB_M1i[4] + s * OKLAB_M1i[5];

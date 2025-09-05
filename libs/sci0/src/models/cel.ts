@@ -1,4 +1,4 @@
-import { IndexedPixelData } from '@4bitlabs/image';
+import type { IndexedPixelData } from '@4bitlabs/image';
 
 export interface Cel extends IndexedPixelData {
   dx: number;

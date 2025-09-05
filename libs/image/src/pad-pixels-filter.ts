@@ -1,4 +1,4 @@
-import { PixelFilter } from './image-filter';
+import type { PixelFilter } from './image-filter';
 import {
   type IndexedPixelData,
   createIndexedPixelData,

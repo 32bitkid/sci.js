@@ -1,5 +1,5 @@
-import { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
-import { type ImageResizer } from './image-resizer';
+import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
+import type { ImageResizer } from './image-resizer';
 import { prepareScale } from './prepare';
 
 export function nearestNeighbor(ratio: [number, number]): ImageResizer {

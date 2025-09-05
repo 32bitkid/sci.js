@@ -1,6 +1,6 @@
-import { type ImageDataLike, type IndexedPixelData } from '@4bitlabs/image';
+import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
 import { epx9 } from './epx';
-import { S9, s9 } from './s9';
+import { type S9, s9 } from './s9';
 import { prepareScale } from './prepare';
 
 export const scale3x = <T extends ImageDataLike | IndexedPixelData>(
@@ -23,7 +23,8 @@ export const scale3x = <T extends ImageDataLike | IndexedPixelData>(
       const oOffset = ix * 3 + iy * 3 * oStride;
 
       s9(input.width, input.height, ix, iy, s);
-      // prettier-ignore
+
+      // biome-ignore format: readability
       const [
         A, B, C,
         D, E, F,

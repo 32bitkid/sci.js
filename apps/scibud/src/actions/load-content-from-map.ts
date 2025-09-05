@@ -1,8 +1,8 @@
 import {
   parseAllMappings,
   parseHeaderWithPayload,
-  ResourceHeader,
-  ResourceMap,
+  type ResourceHeader,
+  type ResourceMap,
 } from '@4bitlabs/sci0';
 import { readFile } from '../helpers/read-file';
 

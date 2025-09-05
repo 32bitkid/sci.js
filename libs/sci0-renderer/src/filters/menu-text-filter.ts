@@ -1,5 +1,5 @@
 import type { FontFace } from '@4bitlabs/sci0';
-import { createIndexedPixelData, PixelFilter } from '@4bitlabs/image';
+import { createIndexedPixelData, type PixelFilter } from '@4bitlabs/image';
 
 export interface MenuTextFilterOptions {
   font: FontFace;

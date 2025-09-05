@@ -1,6 +1,6 @@
-import { IndexedPixelData } from './indexed-pixel-data';
-import { PaletteFilter, ImageFilter, PixelFilter } from './image-filter';
-import { ImageDataLike } from './image-data-like';
+import type { IndexedPixelData } from './indexed-pixel-data';
+import type { PaletteFilter, ImageFilter, PixelFilter } from './image-filter';
+import type { ImageDataLike } from './image-data-like';
 
 export interface RenderPipeline {
   pre?: (PixelFilter | false | undefined)[];

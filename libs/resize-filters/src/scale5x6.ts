@@ -1,6 +1,6 @@
-import { type ImageDataLike, type IndexedPixelData } from '@4bitlabs/image';
+import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
 import { epx9sfx } from './epx';
-import { S13, s13 } from './s9';
+import { type S13, s13 } from './s9';
 import { prepareScale } from './prepare';
 
 const s: S13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -25,7 +25,7 @@ export const scale5x6 = <T extends ImageDataLike | IndexedPixelData>(
 
       s13(input.width, input.height, ix, iy, s);
 
-      // prettier-ignore
+      // biome-ignore format: readability
       const [
         A, B, C,
         D, E, F,

@@ -1,4 +1,4 @@
-// prettier-ignore
+// biome-ignore format: readability
 export type S9 = [
   number, number, number,
   number, number, number,
@@ -36,7 +36,7 @@ export const s9 = (
   return dest;
 };
 
-// prettier-ignore
+// biome-ignore format: readability
 export type S13 = [
                   number,
           number, number, number,

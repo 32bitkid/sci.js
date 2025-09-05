@@ -1,4 +1,4 @@
-import { DrawCommand, DrawMode } from '@4bitlabs/sci0';
+import { type DrawCommand, DrawMode } from '@4bitlabs/sci0';
 import { renderPic } from './render-pic';
 
 describe('edge cases', () => {

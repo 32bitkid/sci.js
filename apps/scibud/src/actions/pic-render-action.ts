@@ -1,4 +1,4 @@
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 import sharp, { type Sharp } from 'sharp';
 
 import { decompress, parsePic } from '@4bitlabs/sci0';
@@ -6,7 +6,7 @@ import { renderPic } from '@4bitlabs/sci0-renderer';
 import { renderPixelData } from '@4bitlabs/image';
 import { picMatcher } from '../helpers/resource-matchers';
 import { loadContentFromMap } from './load-content-from-map';
-import {
+import type {
   RenderPicOptions,
   RenderPipelineOptions,
 } from '../models/render-pic-options';

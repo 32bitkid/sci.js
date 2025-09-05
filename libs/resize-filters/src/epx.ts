@@ -1,11 +1,11 @@
-import { S9, S13 } from './s9';
+import type { S9, S13 } from './s9';
 
 export const epx9 = <T extends Uint32Array | Uint8ClampedArray>(
   src: T,
   s9: S9,
   p9: T,
 ): T => {
-  // prettier-ignore
+  // biome-ignore format: readability
   const [
     A, B, C,
     D, E, F,
@@ -46,7 +46,7 @@ export const epx9sfx = <T extends Uint32Array | Uint8ClampedArray>(
   s13: S13,
   p9: T,
 ): T => {
-  // prettier-ignore
+  // biome-ignore format: readability
   const [
           J,
        A, B, C,
@@ -94,7 +94,7 @@ export const epx9sfx = <T extends Uint32Array | Uint8ClampedArray>(
       (E !== G || E === A || E === I || G === K || G === M)) ||
     (D === H && A === E && A !== K && E !== G) ||
     (D === H && E === I && E !== G && I !== M)
-      ? D == H
+      ? D === H
         ? D
         : H
       : E;

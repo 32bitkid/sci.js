@@ -1,4 +1,4 @@
-import { type View, type Loop } from '../models/view';
+import type { View, Loop } from '../models/view';
 import { parseCel } from './parse-cel';
 import { repeat } from '../utils/repeat';
 

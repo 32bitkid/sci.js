@@ -1,9 +1,9 @@
-import { type Command } from 'commander';
+import type { Command } from 'commander';
 
 import { decompress, Resource } from '@4bitlabs/sci0';
 import {
   loadContentFromMap,
-  ResourceMapPredicate,
+  type ResourceMapPredicate,
 } from './load-content-from-map';
 import { getRootOptions } from './get-root-options';
 
