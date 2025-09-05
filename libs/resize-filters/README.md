@@ -14,7 +14,7 @@ A collection of pixel resize filters for rendering [Sierra On-line][sierra] [SCI
 
 Full documentation for the library can be found [here][docs].
 
-[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_resize_filters.html
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_resize-filters.html
 
 ## Nearest-Neighbor
 

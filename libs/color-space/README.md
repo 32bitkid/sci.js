@@ -17,7 +17,7 @@ $ npm install --save @4bitlabs/color-space
 
 Full documentation for the library can be found [here][docs].
 
-[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_color_space.html
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_color-space.html
 
 ## Quick-start
 

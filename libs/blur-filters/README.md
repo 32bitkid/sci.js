@@ -11,7 +11,7 @@ A collection of blur-filters for rendering [Sierra On-line][sierra] [SCI-engine]
 
 Full documentation for the library can be found [here][docs].
 
-[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_blur_filters.html
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_blur-filters.html
 
 ## Filters
 

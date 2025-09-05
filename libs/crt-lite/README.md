@@ -15,7 +15,7 @@ A tiny, simple CRT-like `webgl2`-based canvas renderer for `ImageData`.
 
 Full documentation for the library can be found [here][docs].
 
-[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_crt_lite.html
+[docs]: https://32bitkid.github.io/sci.js/modules/_4bitlabs_crt-lite.html
 
 ## Getting Started
 
