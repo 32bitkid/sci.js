@@ -17,6 +17,7 @@ const applySubCommands = (
 };
 
 program
+  .version(require('../package.json').version)
   .option('-r, --root <path>', '', cmdPathParser, '.')
   .addOption(
     new Option('-e --engine <version>', 'sci engine version')
