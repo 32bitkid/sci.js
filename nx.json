@@ -8,12 +8,19 @@
     },
     "build": {
       "cache": true,
-      "dependsOn": ["^build", "prebuild"],
-      "outputs": ["{projectRoot}/dist"]
+      "dependsOn": [
+        "^build",
+        "prebuild"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
     },
     "test": {
       "cache": true,
-      "dependsOn": ["build"]
+      "dependsOn": [
+        "build"
+      ]
     }
   }
 }
