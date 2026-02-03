@@ -47,9 +47,9 @@
     "lerna": "^9.0.3",
     "rimraf": "^6.0.1",
     "ts-jest": "^29.2.3",
-    "typedoc": "^0.28.12",
-    "typedoc-plugin-mdn-links": "^5.0.9",
-    "typedoc-plugin-missing-exports": "^4.1.0",
+    "typedoc": "^0.28.16",
+    "typedoc-plugin-mdn-links": "^5.1.1",
+    "typedoc-plugin-missing-exports": "^4.1.2",
     "typescript": "^5.5.4"
   }
 }
