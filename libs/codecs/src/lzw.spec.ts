@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 
 import { unpack, EOF_MARKER, type InitialDictionary } from './lzw';
 
-describe('lzw', () => {
+describe('lzw compression', () => {
   describe('lsb', () => {
     describe('literalWidth=8', () => {
       it.each<[string, string]>([

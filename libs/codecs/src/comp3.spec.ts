@@ -34,7 +34,7 @@ const T = {
   },
 };
 
-describe('comp3', () => {
+describe('comp3 compression', () => {
   it('should unpack a single token', () => {
     const source = T.pack(0x61, 0x101);
     const data = unpack(source);
