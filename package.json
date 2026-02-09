@@ -10,6 +10,7 @@
     "build": "lerna run build",
     "rebuild": "nx reset && lerna run clean:wipe && lerna run build",
     "test": "lerna run test",
+    "test:coverage": "jest --projects libs/* --coverage --coverageReporters=text",
     "docs": "typedoc --options typedoc.all.json",
     "docs:rebuild": "rimraf docs/ && npm run docs",
     "clean": "lerna run clean",
