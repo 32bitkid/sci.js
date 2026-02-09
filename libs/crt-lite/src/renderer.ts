@@ -43,7 +43,7 @@ export function createCrtRenderer(
   );
 
   const program = gl.createProgram();
-  assertNotNull(program);
+  assertNotNull(program, 'program');
   gl.attachShader(program, vertexShader);
   gl.attachShader(program, fragShader);
   gl.linkProgram(program);
@@ -71,7 +71,7 @@ export function createCrtRenderer(
   };
 
   const texture = gl.createTexture();
-  assertNotNull(texture);
+  assertNotNull(texture, 'texture');
   updateTexture(gl, texture, {
     data: Uint8ClampedArray.of(255, 0, 0, 255),
     width: 1,

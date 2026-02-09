@@ -7,7 +7,7 @@ export function compileShader(
   source: string,
 ): WebGLShader {
   const shader = gl.createShader(type);
-  assertNotNull(shader);
+  assertNotNull(shader, 'shader');
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   assertCompilation(gl, shader);

@@ -6,7 +6,7 @@ export function createBuffer(
   data: ArrayBufferView,
 ): WebGLBuffer {
   const buffer = gl.createBuffer();
-  assertNotNull(buffer);
+  assertNotNull(buffer, 'buffer');
   gl.bindBuffer(type, buffer);
   gl.bufferData(type, data, gl.STATIC_DRAW);
   gl.bindBuffer(type, null);
