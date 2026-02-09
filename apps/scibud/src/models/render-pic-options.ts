@@ -23,6 +23,7 @@ export interface RenderPipelineOptions {
   readonly blur: BlurID;
   readonly blurAmount: number | false;
   readonly grayscale: boolean;
+  readonly crt: boolean;
 }
 
 export interface RenderPicOptions {

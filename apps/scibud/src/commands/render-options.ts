@@ -75,3 +75,6 @@ export const grayscaleOption = (): Option =>
     '--grayscale',
     'convert the output palette into grayscale',
   ).default(false);
+
+export const crtOption = (): Option =>
+  new Option('--crt', 'use CRT-Lite filter').default(false);

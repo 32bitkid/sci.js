@@ -16,6 +16,7 @@ import {
 import * as ResizeFilters from '@4bitlabs/resize-filters';
 import * as BlurFilters from '@4bitlabs/blur-filters';
 import type { RenderPipelineOptions } from '../models/render-pic-options';
+import { crtFilter } from './apply-crt-filter';
 
 const DEPTH_PALETTE = Uint32Array.of(
   0xff000000,
@@ -76,6 +77,10 @@ export function createPostPipeline(
     const blurFilter = BLUR_FILTER_MAPPING[options.blur];
     const blur = blurFilter(options.blurAmount);
     post.push(blur);
+  }
+
+  if (options.crt) {
+    post.push(crtFilter);
   }
 
   return post;

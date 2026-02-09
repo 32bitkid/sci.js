@@ -18,28 +18,15 @@ export interface CrtRenderer {
   update: CrtUpdateFn;
 }
 
-export function createCrtRenderer(
-  canvasEl: HTMLCanvasElement,
-  {
-    contextOptions,
-    maxHBlur,
-    renderDefaults: defaults,
-  }: CreateCrtRenderOptions = {},
-): CrtRenderer {
-  const gl = canvasEl.getContext('webgl2', {
-    desynchronized: true,
-    ...contextOptions,
-  });
-
-  if (gl === null) {
-    throw new Error('could not create webgl2 context');
-  }
-
+function setup(
+  gl: WebGL2RenderingContext,
+  options: CreateCrtRenderOptions = {},
+) {
   const vertexShader = compileShader(gl, gl.VERTEX_SHADER, vertexShaderSource);
   const fragShader = compileShader(
     gl,
     gl.FRAGMENT_SHADER,
-    fragShaderSource({ maxHBlur }),
+    fragShaderSource({ maxHBlur: options.maxHBlur }),
   );
 
   const program = gl.createProgram();
@@ -73,31 +60,31 @@ export function createCrtRenderer(
   const texture = gl.createTexture();
   assertNotNull(texture, 'texture');
   updateTexture(gl, texture, {
-    data: Uint8ClampedArray.of(255, 0, 0, 255),
+    data: Uint8ClampedArray.of(255, 255, 255, 255),
     width: 1,
     height: 1,
   });
   gl.bindTexture(gl.TEXTURE_2D, null);
 
+  return { attrs, buffers, texture };
+}
+
+export function createCrtFromContext(
+  gl: WebGL2RenderingContext,
+  width: number,
+  height: number,
+  options: CreateCrtRenderOptions = {},
+): CrtRenderer {
+  const { maxHBlur, renderDefaults: defaults } = options;
+
+  const { attrs, buffers, texture } = setup(gl, { maxHBlur });
+  gl.viewport(0, 0, width, height);
+
   const update = function renderCanvas(
     imageData: ImageDataLike,
     options: CrtUpdateOptions = {},
   ) {
-    let { width, height } = canvasEl.getBoundingClientRect();
-
-    const imageAspectRatio = imageData.width / imageData.height;
-    const canvasAspectRatio = width / height;
-    if (imageAspectRatio > canvasAspectRatio) {
-      width = height * imageAspectRatio;
-    } else {
-      height = width * (1 / imageAspectRatio);
-    }
-
-    canvasEl.width = width;
-    canvasEl.height = height;
-    gl.viewport(0, 0, canvasEl.width, canvasEl.height);
-
-    gl.clearColor(1.0, 0.0, 0.0, 1.0);
+    gl.clearColor(0.5, 0.5, 0.5, 0.0);
     gl.enable(gl.DEPTH_TEST);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -139,7 +126,85 @@ export function createCrtRenderer(
     gl.drawElements(gl.TRIANGLES, Model.INDICES.length, gl.UNSIGNED_BYTE, 0);
   };
 
-  return {
-    update,
+  return { update };
+}
+
+export function createCrtRenderer(
+  canvasEl: HTMLCanvasElement,
+  options: CreateCrtRenderOptions = {},
+): CrtRenderer {
+  const { contextOptions, maxHBlur, renderDefaults: defaults } = options;
+
+  const gl = canvasEl.getContext('webgl2', {
+    desynchronized: true,
+    ...contextOptions,
+  });
+
+  if (gl === null) {
+    throw new Error('could not create webgl2 context');
+  }
+
+  const { attrs, buffers, texture } = setup(gl);
+
+  const update = function renderCanvas(
+    imageData: ImageDataLike,
+    options: CrtUpdateOptions = {},
+  ) {
+    let { width, height } = canvasEl.getBoundingClientRect();
+
+    const imageAspectRatio = imageData.width / imageData.height;
+    const canvasAspectRatio = width / height;
+    if (imageAspectRatio > canvasAspectRatio) {
+      width = height * imageAspectRatio;
+    } else {
+      height = width * (1 / imageAspectRatio);
+    }
+
+    canvasEl.width = width;
+    canvasEl.height = height;
+    gl.viewport(0, 0, canvasEl.width, canvasEl.height);
+
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
+    gl.enable(gl.DEPTH_TEST);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    gl.enableVertexAttribArray(attrs.aVertexPosition);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.vertex);
+    gl.vertexAttribPointer(attrs.aVertexPosition, 3, gl.FLOAT, false, 0, 0);
+
+    gl.enableVertexAttribArray(attrs.aTextureCoord);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.texture);
+    gl.vertexAttribPointer(attrs.aTextureCoord, 2, gl.FLOAT, false, 0, 0);
+
+    gl.activeTexture(gl.TEXTURE0);
+    updateTexture(gl, texture, imageData);
+
+    gl.uniform1i(attrs.uSampler, 0);
+    gl.uniform2fv(attrs.u_resolution, [width, height]);
+    gl.uniform2fv(attrs.u_textureSize, [imageData.width, imageData.height]);
+    gl.uniform2fv(attrs.u_monitorRes, [320, 200]);
+
+    {
+      const {
+        Fx = -0.0,
+        Fy = -0.0,
+        S = 1.0,
+        hBlur = 0.0,
+        grain = 0.0,
+        vignette = 0.0,
+        scanLines = true,
+      } = { ...defaults, ...options };
+
+      gl.uniform3fv(attrs.u_Lens, [Fx, Fy, S]);
+      gl.uniform1f(attrs.u_hBlurSize, hBlur);
+      gl.uniform1f(attrs.u_grainAmount, grain);
+      gl.uniform1f(attrs.u_vignetteAmount, vignette);
+      gl.uniform1i(attrs.u_scanLines, scanLines ? 1.0 : 0.0);
+    }
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.index);
+    gl.drawElements(gl.TRIANGLES, Model.INDICES.length, gl.UNSIGNED_BYTE, 0);
   };
+
+  return { update };
 }

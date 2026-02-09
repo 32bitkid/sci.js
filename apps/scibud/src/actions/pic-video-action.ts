@@ -1,12 +1,13 @@
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import sharp, { type Sharp } from 'sharp';
 
 import type { Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
 import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
-import { generatePic } from '@4bitlabs/sci0-renderer';
-import { createIndexedPixelData, type IndexedPixelData } from '@4bitlabs/image';
+import { generatePic, menuTextFilter } from '@4bitlabs/sci0-renderer';
+import { renderPixelData } from '@4bitlabs/image';
 import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
 import {
   loadContentFromMap,
@@ -18,9 +19,10 @@ import type {
 } from '../models/render-pic-options';
 import { pickRenderOptions } from './pick-render-options';
 import { getRootOptions } from './get-root-options';
-import workers from '../workers';
 import { formatGraph } from './filter-graph';
-import { crtFilterGraph } from './crt-filter-graph';
+import { crtFilterGraph, simpleFilterGraph } from './crt-filter-graph';
+import { createPicPipeline } from '../helpers/create-pic-pipeline';
+import { optionalDeferredCrtFilter } from '../helpers/apply-crt-filter';
 
 interface PicVideoActionOptions {
   readonly output: string;
@@ -28,15 +30,11 @@ interface PicVideoActionOptions {
   readonly fps: number;
 }
 
-const clone = ({
-  width,
-  height,
-  keyColor,
-  pixels,
-}: IndexedPixelData): IndexedPixelData => {
-  const dupe = createIndexedPixelData(width, height, { keyColor });
-  dupe.pixels.set(pixels);
-  return dupe;
+const FORMAT_MAPPING = {
+  png: (source: Sharp) => source.png().toBuffer(),
+  jpg: (source: Sharp) => source.jpeg().toBuffer(),
+  webp: (source: Sharp) => source.webp().toBuffer(),
+  raw: (source: Sharp) => source.raw().toBuffer(),
 };
 
 const mustParse = async <T>(
@@ -65,6 +63,7 @@ export async function picVideoAction(
     forcePal,
     output = `pic.%num.%d.${format}`,
   } = picOptions;
+  const pipeline = createPicPipeline(picOptions.layer, renderOptions);
 
   const pic = await mustParse(root, engine, picMatcher(id), (d) => parsePic(d));
   const font = await mustParse(root, engine, fontMatcher(0), parseFont);
@@ -73,6 +72,7 @@ export async function picVideoAction(
   const padLength = Math.ceil(Math.log10(total));
 
   const { dir, name, ext } = path.parse(output);
+  const crtFilter = optionalDeferredCrtFilter(options.crt);
 
   const frames = Array(total)
     .fill(null)
@@ -88,8 +88,6 @@ export async function picVideoAction(
 
   progress.start(total, 0);
 
-  const done: PromiseLike<void>[] = [];
-
   for (const [idx, , layers] of generatePic(pic, { forcePal })) {
     const outfile = frames[idx];
     const message = {
@@ -100,27 +98,26 @@ export async function picVideoAction(
       right:
         idx === frames.length - 1
           ? ''
-          : `${((idx / frames.length) * 100).toFixed(0)}%`,
+          : `${idx} : ${((idx / frames.length) * 100).toFixed(0)}%`,
     };
 
-    done.push(
-      workers
-        .exec('renderPic', [
-          outfile,
-          clone(layers[picOptions.layer]),
-          picOptions.layer,
-          format,
-          renderOptions,
-          message,
-        ])
-        .then(() => progress.increment()),
-    );
+    const { data, width, height } = renderPixelData(layers[picOptions.layer], {
+      pre: [message && menuTextFilter(1, 1, message), ...(pipeline.pre ?? [])],
+      render: pipeline.render,
+      post: [...(pipeline.post ?? []), crtFilter],
+    });
+
+    const image = sharp(data, { raw: { width, height, channels: 4 } });
+    if (outfile === '-') {
+      process.stdout.write(await FORMAT_MAPPING[format](image));
+    } else {
+      await image.toFile(outfile);
+    }
+
+    progress.increment();
   }
 
-  await Promise.all(done).finally(() => {
-    progress.stop();
-    return workers.terminate();
-  });
+  progress.stop();
 
   const seqFn = path.format({
     dir,
@@ -152,10 +149,6 @@ export async function picVideoAction(
     ext: '.mp4',
   });
 
-  console.log(
-    `\nRender Video:\n  ffmpeg -f concat -i ${seqFn} -vf "${formatGraph(crtFilterGraph({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
-  );
-
   const finalFn = path.format({
     dir,
     name: name
@@ -164,7 +157,12 @@ export async function picVideoAction(
     ext: '.png',
   });
 
+  const graphFn = options.crt ? simpleFilterGraph : crtFilterGraph;
+
   console.log(
-    `\nRender Image:\n  ffmpeg -i ${frames[frames.length - 1]} -vf "${formatGraph(crtFilterGraph({ image: true, resolution: [-2, 1080] }))}" ${finalFn}\n`,
+    `\nRender Video:\n\tffmpeg -f concat -i ${seqFn} -vf "${formatGraph(graphFn({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
+  );
+  console.log(
+    `\nRender Image:\n\tffmpeg -i ${frames[frames.length - 1]} -vf "${formatGraph(graphFn({ image: true, resolution: [-2, 1080] }))}" ${finalFn}\n`,
   );
 }

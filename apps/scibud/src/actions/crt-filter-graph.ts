@@ -10,6 +10,26 @@ interface CrtFilterGraphOptions {
   image?: true;
 }
 
+export const simpleFilterGraph = (
+  options: CrtFilterGraphOptions = {},
+): FilterGraph => {
+  const { resolution = [-2, 720], defaultFps = 25, desiredFps = 60 } = options;
+
+  const fpsChain: FilterChain = [
+    ['format', 'yuv420p'],
+    ['settb', { expr: 'AVTB' }],
+    ['setpts', `${(defaultFps / desiredFps).toFixed(5)}*(PTS-STARTPTS)`],
+    ['fps', desiredFps],
+  ];
+
+  const rescale: FilterChain = [
+    ['scale', [...resolution, 'flags=lanczos']],
+    ['pad', ['iw+24', 'ih+24', '12', '12', 'black']],
+  ];
+
+  return [[[], [...rescale, ...fpsChain], []]];
+};
+
 export const crtFilterGraph = (
   options: CrtFilterGraphOptions = {},
 ): FilterGraph => {

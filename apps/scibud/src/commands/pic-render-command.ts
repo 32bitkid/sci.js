@@ -26,6 +26,7 @@ export function picRenderCommand(root: Command): Command {
     .addOption(RenderOptions.forcePalOption())
     .addOption(RenderOptions.formatOption())
     .addOption(RenderOptions.grayscaleOption())
+    .addOption(RenderOptions.crtOption())
     .addOption(
       new Option('-o, --output <string>', 'output filename, "-" for STDOUT'),
     )

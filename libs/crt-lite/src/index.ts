@@ -1,6 +1,7 @@
 export type { ImageDataLike } from './image-data-like';
 
 export {
+  createCrtFromContext,
   createCrtRenderer,
   type CrtRenderer,
   type CreateCrtRenderOptions,
