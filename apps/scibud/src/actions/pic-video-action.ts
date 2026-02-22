@@ -1,7 +1,8 @@
-import { writeFile } from 'node:fs/promises';
+import { unlink, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import sharp, { type Sharp } from 'sharp';
+import { spawn } from 'node:child_process';
 
+import sharp, { type Sharp } from 'sharp';
 import type { Command } from 'commander';
 import { Presets, SingleBar } from 'cli-progress';
 
@@ -36,6 +37,19 @@ const FORMAT_MAPPING = {
   webp: (source: Sharp) => source.webp().toBuffer(),
   raw: (source: Sharp) => source.raw().toBuffer(),
 };
+
+function ffmpeg(args: string[]): Promise<void> {
+  console.log(`ffmpeg ${args.join(' ')}\n`);
+
+  return new Promise((resolve, reject) => {
+    const proc = spawn('ffmpeg', args, { stdio: 'inherit' });
+    proc.on('error', reject);
+    proc.on('close', (code) => {
+      if (code === 0) resolve();
+      else reject(new Error(`ffmpeg exited with code ${code}`));
+    });
+  });
+}
 
 const mustParse = async <T>(
   root: string,
@@ -159,10 +173,25 @@ export async function picVideoAction(
 
   const graphFn = options.crt ? simpleFilterGraph : crtFilterGraph;
 
-  console.log(
-    `\nRender Video:\n\tffmpeg -f concat -i ${seqFn} -vf "${formatGraph(graphFn({ desiredFps: fps }))}" -movflags +faststart ${mp4Fn}\n`,
-  );
-  console.log(
-    `\nRender Image:\n\tffmpeg -i ${frames[frames.length - 1]} -vf "${formatGraph(graphFn({ image: true, resolution: [-2, 1080] }))}" ${finalFn}\n`,
-  );
+  await ffmpeg([
+    '-f',
+    'concat',
+    '-i',
+    seqFn,
+    '-vf',
+    formatGraph(graphFn({ desiredFps: fps })),
+    '-movflags',
+    '+faststart',
+    mp4Fn,
+  ]);
+
+  await ffmpeg([
+    '-i',
+    frames[frames.length - 1],
+    '-vf',
+    formatGraph(graphFn({ image: true, resolution: [-2, 1080] })),
+    finalFn,
+  ]);
+
+  await Promise.all([...frames, seqFn].map((fn) => unlink(fn)));
 }
