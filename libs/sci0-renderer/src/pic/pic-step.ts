@@ -1,6 +1,6 @@
 import type { DrawCommand } from '@4bitlabs/sci0';
-import type { Screen } from './tools/screen';
-import { exhaustive } from '../utils/exhaustive';
+import type { Screen } from './tools/screen.js';
+import { exhaustive } from '../utils/exhaustive.js';
 
 export function picStep(
   cmd: DrawCommand,

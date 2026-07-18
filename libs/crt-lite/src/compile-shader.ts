@@ -1,5 +1,5 @@
-import { assertNotNull } from './assert-not-null';
-import { assertCompilation } from './assert-compilation';
+import { assertNotNull } from './assert-not-null.js';
+import { assertCompilation } from './assert-compilation.js';
 
 export function compileShader(
   gl: WebGL2RenderingContext,

@@ -1,5 +1,5 @@
-import { exhaustive } from '../utils/exhaustive';
-import type { ResourceType } from './resource-type';
+import { exhaustive } from '../utils/exhaustive.js';
+import type { ResourceType } from './resource-type.js';
 import {
   VIEW_TYPE,
   PIC_TYPE,
@@ -11,7 +11,7 @@ import {
   FONT_TYPE,
   CURSOR_TYPE,
   PATCH_TYPE,
-} from './resource-types';
+} from './resource-types.js';
 
 export const getType = (id: number): ResourceType =>
   (id >>> 11) as ResourceType;

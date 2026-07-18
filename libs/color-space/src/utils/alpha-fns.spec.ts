@@ -1,4 +1,6 @@
-import { alphaPart } from './alpha-fns';
+import { describe, expect, it } from 'vitest';
+
+import { alphaPart } from './alpha-fns.js';
 
 describe('alphaPart()', () => {
   it('should emit nothing if alpha is undefined', () => {

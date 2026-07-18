@@ -4,7 +4,7 @@ import {
   formatFilter,
   formatGraph,
   formatValue,
-} from './filter-graph';
+} from './filter-graph.js';
 
 describe('FilterValue', () => {
   it('should serialize', () => {

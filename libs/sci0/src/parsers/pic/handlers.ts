@@ -1,12 +1,12 @@
 import type { BitReader } from '@4bitlabs/readers';
 import { type Vec2, vec2, clone, assign } from '@4bitlabs/vec2';
-import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes';
-import type { PicState } from './pic-state';
-import { getPoint16, getPoint24, getPoint8 } from './points';
-import type { DrawCommand } from '../../models/draw-command';
-import { DrawMode } from '../../models/draw-mode';
-import { repeat } from '../../utils/repeat';
-import { parseCel } from '../parse-cel';
+import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes.js';
+import type { PicState } from './pic-state.js';
+import { getPoint16, getPoint24, getPoint8 } from './points.js';
+import type { DrawCommand } from '../../models/draw-command.js';
+import { DrawMode } from '../../models/draw-mode.js';
+import { repeat } from '../../utils/repeat.js';
+import { parseCel } from '../parse-cel.js';
 
 type CodeHandler = (r: BitReader, state: PicState) => Iterable<DrawCommand>;
 

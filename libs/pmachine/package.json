@@ -2,14 +2,16 @@
   "name": "@4bitlabs/pmachine",
   "private": true,
   "description": "",
-  "main": "./dist/index.js",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "exports": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "tsdown",
     "clean": "tsc --build --clean",
     "clean:wipe": "rimraf ./dist",
-    "build": "tsc --build",
-    "test": "jest src/"
-  },
-  "author": "",
-  "license": "ISC"
+    "test": "vitest run",
+    "test:dev": "vitest dev"
+  }
 }

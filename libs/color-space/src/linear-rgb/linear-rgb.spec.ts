@@ -1,10 +1,12 @@
-import type { sRGBTuple } from '../tuples/srgb-tuple';
+import { describe, expect, it } from 'vitest';
+
+import type { sRGBTuple } from '../tuples/srgb-tuple.js';
 import {
   type linearRGBTuple,
   create,
   toString as stringify,
-} from '../tuples/linear-rgb-tuple';
-import { toSRGB } from './linear-rgb-fns';
+} from '../tuples/linear-rgb-tuple.js';
+import { toSRGB } from './linear-rgb-fns.js';
 
 describe('linear RGB color-space', () => {
   describe('toString()', () => {

@@ -7,21 +7,22 @@
     "sierra on-line",
     "sci01"
   ],
-  "main": "./dist/index.js",
+  "license": "ISC",
+  "author": "J. Holmes <32bitkid@gmail.com>",
+  "type": "module",
+  "exports": "./dist/index.js",
   "bin": {
     "scibud": "dist/index.js"
-  },
-  "scripts": {
-    "clean": "tsc --build --clean",
-    "clean:wipe": "rimraf ./dist",
-    "build": "tsc --build",
-    "test": "echo 'No tests'"
   },
   "files": [
     "./dist/**/*"
   ],
-  "author": "J. Holmes <32bitkid@gmail.com>",
-  "license": "ISC",
+  "scripts": {
+    "build": "tsdown",
+    "clean": "tsc --build --clean",
+    "clean:wipe": "rimraf ./dist",
+    "test": "echo 'No tests'"
+  },
   "dependencies": {
     "@4bitlabs/blur-filters": "^1.0.18",
     "@4bitlabs/color": "^3.0.0",
@@ -36,14 +37,14 @@
     "commander": "^14.0.0",
     "expand-tilde": "^2.0.2",
     "gifenc": "^1.0.3",
-    "gl": "^9.0.0-rc.9",
+    "gl": "^9.0.0-rc.10",
     "sharp": "^0.33.4"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
-    "@types/gl": "^6.0.5",
     "@types/columnify": "^1.5.4",
     "@types/expand-tilde": "^2.0.2",
+    "@types/gl": "^6.0.5",
     "@types/pngjs": "^6.0.5"
   }
 }

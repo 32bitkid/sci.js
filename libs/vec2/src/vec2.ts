@@ -1,4 +1,4 @@
-import { scalarLerp } from './maths';
+import { scalarLerp } from './maths.js';
 
 /** An immutable two-component vector. */
 export type Vec2 = readonly [number, number];

@@ -1,8 +1,8 @@
 import type { Command } from 'commander';
 
 import { Resource, parseAllMappings } from '@4bitlabs/sci0';
-import { readFile } from '../helpers/read-file';
-import { getRootOptions } from './get-root-options';
+import { readFile } from '../helpers/read-file.js';
+import { getRootOptions } from './get-root-options.js';
 
 export const listActionFor = (matchFn: (id: number) => boolean) =>
   async function listAction(_: unknown, cmd: Command) {

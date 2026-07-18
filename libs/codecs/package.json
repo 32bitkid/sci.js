@@ -2,34 +2,45 @@
   "name": "@4bitlabs/codecs",
   "version": "2.0.3",
   "description": "A collection of codecs for working with SCI-engine assets",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/codecs#readme",
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/32bitkid/sci.js.git"
   },
-  "bugs": {
-    "url": "https://github.com/32bitkid/sci.js/issues"
-  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
   "exports": {
-    ".": "./dist/index.js",
-    "./lzw": "./dist/lzw.js",
-    "./huffman": "./dist/huffman.js",
-    "./comp3": "./dist/comp3.js"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./lzw": {
+      "types": "./dist/lzw.d.ts",
+      "import": "./dist/lzw.js"
+    },
+    "./huffman": {
+      "types": "./dist/huffman.d.ts",
+      "import": "./dist/huffman.js"
+    },
+    "./comp3": {
+      "types": "./dist/comp3.d.ts",
+      "import": "./dist/comp3.js"
+    }
   },
   "files": [
     "./dist/**/*"
   ],
   "scripts": {
-    "clean": "tsc --build --clean",
+    "build": "tsdown",
     "clean:wipe": "rimraf ./dist",
-    "build": "tsc --build",
-    "test": "jest src/"
+    "test": "vitest run",
+    "test:dev": "vitest dev"
   },
   "dependencies": {
-    "@4bitlabs/readers": "^2.0.6"
-  },
-  "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC"
+    "@4bitlabs/readers": "^3.0.0"
+  }
 }

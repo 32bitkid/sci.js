@@ -1,10 +1,10 @@
 import type { Command } from 'commander';
 
 import { decompress, parsePic } from '@4bitlabs/sci0';
-import { cmdIntParser } from './cmd-int-parser';
-import { getRootOptions } from '../actions/get-root-options';
-import { loadContentFromMap } from '../actions/load-content-from-map';
-import { picMatcher } from '../helpers/resource-matchers';
+import { cmdIntParser } from './cmd-int-parser.js';
+import { getRootOptions } from '../actions/get-root-options.js';
+import { loadContentFromMap } from '../actions/load-content-from-map.js';
+import { picMatcher } from '../helpers/resource-matchers.js';
 
 export function picJSONCommand(cmd: Command): Command {
   cmd

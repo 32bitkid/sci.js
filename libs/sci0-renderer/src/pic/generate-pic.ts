@@ -1,10 +1,10 @@
 import type { DrawCommand, Pic } from '@4bitlabs/sci0';
 import type { Vec2 } from '@4bitlabs/vec2';
-import type { RenderPicOptions } from './render-pic-options';
-import type { RenderResult } from './render-result';
-import { defaultPalettes } from './default-palettes';
-import { createScreenBuffer } from './screen-buffer';
-import { picStep } from './pic-step';
+import type { RenderPicOptions } from './render-pic-options.js';
+import type { RenderResult } from './render-result.js';
+import { defaultPalettes } from './default-palettes.js';
+import { createScreenBuffer } from './screen-buffer.js';
+import { picStep } from './pic-step.js';
 
 /**
  * Generate a {@link Pic} iterator that will emit after processing each {@link DrawCommand} is processed.

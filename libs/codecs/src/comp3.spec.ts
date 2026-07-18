@@ -1,4 +1,6 @@
-import { unpack } from './comp3';
+import { describe, expect, it } from 'vitest';
+
+import { unpack } from './comp3.js';
 
 const zip = <T, U>(a: readonly T[], b: readonly U[]): (T | U)[] => {
   const max = Math.max(a.length, b.length);

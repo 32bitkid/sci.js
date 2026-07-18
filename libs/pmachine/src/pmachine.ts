@@ -1,4 +1,8 @@
-import { Instruction, type InstructionMatcher, isInstr } from './instructions';
+import {
+  Instruction,
+  type InstructionMatcher,
+  isInstr,
+} from './instructions.js';
 
 interface Registers {
   acc: number;

@@ -1,6 +1,11 @@
-import { type okLabTuple, toString as stringify } from '../tuples/oklab-tuple';
-import type { XYZTuple } from '../tuples/xyz-tuple';
-import { toXYZ } from './oklab-fns';
+import { describe, expect, it } from 'vitest';
+
+import {
+  type okLabTuple,
+  toString as stringify,
+} from '../tuples/oklab-tuple.js';
+import type { XYZTuple } from '../tuples/xyz-tuple.js';
+import { toXYZ } from './oklab-fns.js';
 
 describe('okLab color-space', () => {
   describe('toString()', () => {

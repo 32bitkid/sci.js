@@ -1,6 +1,8 @@
+import { describe, expect, it } from 'vitest';
+
 import { generatePairs } from '@4bitlabs/color/dithers';
-import { createDitherFilter } from './dither-filter';
-import { createIndexedPixelData } from './indexed-pixel-data';
+import { createDitherFilter } from './dither-filter.js';
+import { createIndexedPixelData } from './indexed-pixel-data.js';
 
 describe('dither-filter', () => {
   it('should dither', () => {

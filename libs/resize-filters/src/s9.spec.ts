@@ -1,4 +1,6 @@
-import { s9 } from './s9';
+import { describe, expect, it } from 'vitest';
+
+import { s9 } from './s9.js';
 
 describe('s9', () => {
   it('should handle the middle', () => {

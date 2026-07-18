@@ -4,15 +4,15 @@ import sharp, { type Sharp } from 'sharp';
 import { decompress, parsePic } from '@4bitlabs/sci0';
 import { renderPic } from '@4bitlabs/sci0-renderer';
 import { renderPixelData } from '@4bitlabs/image';
-import { picMatcher } from '../helpers/resource-matchers';
-import { loadContentFromMap } from './load-content-from-map';
+import { picMatcher } from '../helpers/resource-matchers.js';
+import { loadContentFromMap } from './load-content-from-map.js';
 import type {
   RenderPicOptions,
   RenderPipelineOptions,
-} from '../models/render-pic-options';
-import { pickRenderOptions } from './pick-render-options';
-import { getRootOptions } from './get-root-options';
-import { createPicPipeline } from '../helpers/create-pic-pipeline';
+} from '../models/render-pic-options.js';
+import { pickRenderOptions } from './pick-render-options.js';
+import { getRootOptions } from './get-root-options.js';
+import { createPicPipeline } from '../helpers/create-pic-pipeline.js';
 
 const FORMAT_MAPPING = {
   png: (source: Sharp) => source.png().toBuffer(),

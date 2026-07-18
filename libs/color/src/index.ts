@@ -1,12 +1,12 @@
 /**
  * Common pre-defined palettes for working with CGA/EGA graphics.
  */
-export * as Palettes from './palettes';
+export * as Palettes from './palettes/index.js';
 
 /**
  * Color mixing utilities.
  */
-export * as Mixers from './mixers';
+export * as Mixers from './mixers/index.js';
 
 /**
  * Pre-defined Dither Pairs and dithering functions
@@ -22,7 +22,7 @@ export * as Mixers from './mixers';
  * | {@link Dithers.TRUE_CGA_FLAT} | {@link Palettes.TRUE_CGA_PALETTE } | {@link Mixers.mixBy | 50% mix } |
  * | {@link Dithers.TRUE_CGA_SOFT} | {@link Palettes.TRUE_CGA_PALETTE } | {@link Mixers.softMixer | soft } |
  */
-export * as Dithers from './dithers';
+export * as Dithers from './dithers/index.js';
 
-export { toGrayscale } from './to-grayscale';
-export { IBM5153Contrast } from './IBM-5153-contrast';
+export { toGrayscale } from './to-grayscale.js';
+export { IBM5153Contrast } from './IBM-5153-contrast.js';

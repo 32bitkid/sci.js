@@ -15,8 +15,8 @@ import {
 } from '@4bitlabs/image';
 import * as ResizeFilters from '@4bitlabs/resize-filters';
 import * as BlurFilters from '@4bitlabs/blur-filters';
-import type { RenderPipelineOptions } from '../models/render-pic-options';
-import { crtFilter } from './apply-crt-filter';
+import type { RenderPipelineOptions } from '../models/render-pic-options.js';
+import { crtFilter } from './apply-crt-filter.js';
 
 const DEPTH_PALETTE = Uint32Array.of(
   0xff000000,

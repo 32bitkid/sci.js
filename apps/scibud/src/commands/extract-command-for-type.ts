@@ -1,10 +1,10 @@
 import type { Command } from 'commander';
 
 import type { ResourceType } from '@4bitlabs/sci0';
-import { cmdIntParser } from './cmd-int-parser';
-import * as Actions from '../actions';
-import { createMatcherForType } from '../helpers/resource-matchers';
-import { resourceTypeName as names } from './resource-type-name';
+import { cmdIntParser } from './cmd-int-parser.js';
+import * as Actions from '../actions/index.js';
+import { createMatcherForType } from '../helpers/resource-matchers.js';
+import { resourceTypeName as names } from './resource-type-name.js';
 
 export const extractCommandForType = (type: ResourceType) => {
   const matchById = createMatcherForType(type);

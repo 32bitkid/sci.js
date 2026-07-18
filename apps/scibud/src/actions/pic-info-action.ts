@@ -6,9 +6,9 @@ import {
   parseHeaderWithPayload,
   parsePic,
 } from '@4bitlabs/sci0';
-import { picMatcher } from '../helpers/resource-matchers';
-import { readFile } from '../helpers/read-file';
-import { getRootOptions } from './get-root-options';
+import { picMatcher } from '../helpers/resource-matchers.js';
+import { readFile } from '../helpers/read-file.js';
+import { getRootOptions } from './get-root-options.js';
 
 export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
   const { root, engine } = getRootOptions(cmd);

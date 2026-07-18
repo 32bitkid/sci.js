@@ -1,7 +1,7 @@
 import { NumericDeque } from '@4bitlabs/numeric-deque';
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
-import type { Filler, IsFillable, Plotter } from './screen';
+import type { Filler, IsFillable, Plotter } from './screen.js';
 
 export const createFloodFill = (
   plot: Plotter,

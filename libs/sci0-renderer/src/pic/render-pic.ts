@@ -1,10 +1,10 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { Pic } from '@4bitlabs/sci0';
-import { createScreenBuffer } from './screen-buffer';
-import type { RenderResult } from './render-result';
-import type { RenderPicOptions } from './render-pic-options';
-import { picStep } from './pic-step';
-import { defaultPalettes } from './default-palettes';
+import { createScreenBuffer } from './screen-buffer.js';
+import type { RenderResult } from './render-result.js';
+import type { RenderPicOptions } from './render-pic-options.js';
+import { picStep } from './pic-step.js';
+import { defaultPalettes } from './default-palettes.js';
 
 /**
  * Render a {@link Pic} resource into its composite layers.

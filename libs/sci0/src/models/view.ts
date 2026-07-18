@@ -1,4 +1,4 @@
-import type { Cel } from './cel';
+import type { Cel } from './cel.js';
 
 export interface Loop {
   readonly frames: Cel[];

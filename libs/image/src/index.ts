@@ -1,28 +1,31 @@
-export { type ImageDataLike, createImageData } from './image-data-like';
+export { type ImageDataLike, createImageData } from './image-data-like.js';
 export {
   type IndexedPixelData,
   type CreateIndexPixelDataOptions,
   createIndexedPixelData,
   isIndexedPixelData,
-} from './indexed-pixel-data';
+} from './indexed-pixel-data.js';
 
 export type {
   GenericFilter,
   ImageFilter,
   PixelFilter,
   PaletteFilter,
-} from './image-filter';
+} from './image-filter.js';
 
-export { createDitherFilter } from './dither-filter';
+export { createDitherFilter } from './dither-filter.js';
 export {
   createPaletteFilter,
   type PaletteFilterOptions,
-} from './palette-filter';
-export { type RenderPipeline, renderPixelData } from './render-pixel-data';
+} from './palette-filter.js';
+export { type RenderPipeline, renderPixelData } from './render-pixel-data.js';
 export {
   padPixelsFilter,
   type PadPixelsFilterOptions,
-} from './pad-pixels-filter';
-export { padImageFilter, type PadImageFilterOptions } from './pad-image-filter';
-export type { Padding } from './padding';
-export { padFilter } from './pad-filter';
+} from './pad-pixels-filter.js';
+export {
+  padImageFilter,
+  type PadImageFilterOptions,
+} from './pad-image-filter.js';
+export type { Padding } from './padding.js';
+export { padFilter } from './pad-filter.js';

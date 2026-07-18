@@ -1,5 +1,5 @@
 import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
-import type { Filler, Plotter } from './screen';
+import type { Filler, Plotter } from './screen.js';
 
 export const createMarker = (plot: Plotter): Filler =>
   function marker(

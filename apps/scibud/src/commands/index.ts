@@ -1,13 +1,13 @@
-export { listCommandForType } from './list-command-for-type';
-export { extractCommandForType } from './extract-command-for-type';
+export { listCommandForType } from './list-command-for-type.js';
+export { extractCommandForType } from './extract-command-for-type.js';
 
-export { picRenderCommand } from './pic-render-command';
-export { picVideoCommand } from './pic-video-command';
-export { picInfoCommand } from './pic-info-command';
-export { picJSONCommand } from './pic-json-command';
+export { picRenderCommand } from './pic-render-command.js';
+export { picVideoCommand } from './pic-video-command.js';
+export { picInfoCommand } from './pic-info-command.js';
+export { picJSONCommand } from './pic-json-command.js';
 
-export { viewRenderCommand } from './view-render-command';
-export { viewInfoCommand } from './view-info-command';
+export { viewRenderCommand } from './view-render-command.js';
+export { viewInfoCommand } from './view-info-command.js';
 
-export { showFontCommand } from './show-font-command';
-export { showCursorCommand } from './show-cursor-command';
+export { showFontCommand } from './show-font-command.js';
+export { showCursorCommand } from './show-cursor-command.js';

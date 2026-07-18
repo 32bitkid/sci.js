@@ -1,6 +1,6 @@
-import type { View, Loop } from '../models/view';
-import { parseCel } from './parse-cel';
-import { repeat } from '../utils/repeat';
+import type { View, Loop } from '../models/view.js';
+import { parseCel } from './parse-cel.js';
+import { repeat } from '../utils/repeat.js';
 
 export const parseView = (source: Uint8Array): View => {
   const view = new DataView(

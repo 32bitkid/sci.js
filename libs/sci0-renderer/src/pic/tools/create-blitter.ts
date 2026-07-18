@@ -1,6 +1,6 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import { DrawMode, type Cel } from '@4bitlabs/sci0';
-import type { RawPlotter } from './screen';
+import type { RawPlotter } from './screen.js';
 
 export const createBlitter =
   (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>

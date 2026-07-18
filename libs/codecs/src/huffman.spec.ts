@@ -1,4 +1,6 @@
-import { unpack } from './huffman';
+import { describe, expect, it } from 'vitest';
+
+import { unpack } from './huffman.js';
 
 describe('huffman compression', () => {
   /*

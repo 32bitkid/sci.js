@@ -1,4 +1,4 @@
-import type { RenderPipelineOptions } from '../models/render-pic-options';
+import type { RenderPipelineOptions } from '../models/render-pic-options.js';
 
 export const pickRenderOptions = <T extends RenderPipelineOptions>(
   options: T,

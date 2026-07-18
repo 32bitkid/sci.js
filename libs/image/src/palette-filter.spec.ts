@@ -1,5 +1,7 @@
-import { createPaletteFilter } from './palette-filter';
-import { createIndexedPixelData } from './indexed-pixel-data';
+import { describe, expect, it } from 'vitest';
+
+import { createPaletteFilter } from './palette-filter.js';
+import { createIndexedPixelData } from './indexed-pixel-data.js';
 
 describe('dither-filter', () => {
   it('should deindex colors based on the palette', () => {

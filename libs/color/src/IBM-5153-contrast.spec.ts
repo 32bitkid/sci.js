@@ -1,5 +1,7 @@
-import { IBM5153Contrast as contrast } from './IBM-5153-contrast';
-import { CGA_PALETTE } from './palettes';
+import { describe, expect, it } from 'vitest';
+
+import { IBM5153Contrast as contrast } from './IBM-5153-contrast.js';
+import { CGA_PALETTE } from './palettes/index.js';
 
 describe('IBM-5153 Contrast', () => {
   it('should not change colors at 100%', () => {

@@ -9,10 +9,10 @@ import {
   padPixelsFilter,
   renderPixelData,
 } from '@4bitlabs/image';
-import { getRootOptions } from './get-root-options';
-import { loadContentFromMap } from './load-content-from-map';
-import { fontMatcher } from '../helpers/resource-matchers';
-import { chunk } from '../helpers/chunk';
+import { getRootOptions } from './get-root-options.js';
+import { loadContentFromMap } from './load-content-from-map.js';
+import { fontMatcher } from '../helpers/resource-matchers.js';
+import { chunk } from '../helpers/chunk.js';
 
 export const showFontAction = async (
   fontNum: number,

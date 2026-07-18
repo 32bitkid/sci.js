@@ -1,4 +1,4 @@
-import { assertNotNull } from './assert-not-null';
+import { assertNotNull } from './assert-not-null.js';
 
 export function createBuffer(
   gl: WebGL2RenderingContext,

@@ -1,3 +1,3 @@
-export type { MixOptions, MixMode } from './mix-options';
-export { mixBy } from './mix-by';
-export { softMixer } from './soft-mixer';
+export type { MixOptions, MixMode } from './mix-options.js';
+export { mixBy } from './mix-by.js';
+export { softMixer } from './soft-mixer.js';

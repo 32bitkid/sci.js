@@ -1,7 +1,7 @@
 import { createIndexedPixelData, type IndexedPixelData } from '@4bitlabs/image';
-import type { FontFace } from '../models/font-face';
-import { repeat } from '../utils/repeat';
-import type { ParseFontOptions } from './parse-font-options';
+import type { FontFace } from '../models/font-face.js';
+import { repeat } from '../utils/repeat.js';
+import type { ParseFontOptions } from './parse-font-options.js';
 
 export const parseFont = (
   source: Uint8Array,

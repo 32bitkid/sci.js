@@ -1,5 +1,5 @@
 import { createIndexedPixelData } from '@4bitlabs/image';
-import type { Cel } from '../models/cel';
+import type { Cel } from '../models/cel.js';
 
 export const parseCel = (frameView: DataView): Cel => {
   const [width, height] = [

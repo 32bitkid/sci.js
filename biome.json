@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.4/schema.json",
   "files": {
     "includes": [
       "libs/**/*.js",
@@ -11,6 +11,21 @@
       "!apps/**/dist",
       "!apps/**/coverage"
     ]
+  },
+  "linter": {
+    "rules": {
+      "correctness": {
+        "useImportExtensions": {
+          "level": "error",
+          "options": {
+            "extensionMappings": {
+              "ts": "js",
+              "tsx": "js"
+            }
+          }
+        }
+      }
+    }
   },
   "formatter": {
     "indentStyle": "space"

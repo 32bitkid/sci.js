@@ -1,4 +1,4 @@
-import type { DrawCommand } from './draw-command';
+import type { DrawCommand } from './draw-command.js';
 
 /**
  * A `PIC` resource.

@@ -5,7 +5,7 @@ import type {
   SetPaletteCommand,
   UpdatePaletteCommand,
   EmbeddedCelCommand,
-} from './draw-commands';
+} from './draw-commands.js';
 
 export type DrawCommand =
   | BrushCommand

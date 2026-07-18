@@ -1,9 +1,9 @@
-import { formatFloat as fmt } from '../utils/format-float';
-import { alphaPart as fmtA } from '../utils/alpha-fns';
+import { formatFloat as fmt } from '../utils/format-float.js';
+import { alphaPart as fmtA } from '../utils/alpha-fns.js';
 import {
   type ColorPredicate,
   createColorPredicate,
-} from '../utils/create-color-predicate';
+} from '../utils/create-color-predicate.js';
 
 /**
  * [Oklab](https://bottosson.github.io/posts/oklab/) color space.

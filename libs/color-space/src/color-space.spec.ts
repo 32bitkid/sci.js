@@ -1,7 +1,9 @@
-import * as sRGB from './srgb/srgb-fns';
-import * as XYZ from './xyz/xyz-fns';
-import * as LAB from './lab/lab-fns';
-import * as okLAB from './oklab/oklab-fns';
+import { describe, expect, it } from 'vitest';
+
+import * as sRGB from './srgb/srgb-fns.js';
+import * as XYZ from './xyz/xyz-fns.js';
+import * as LAB from './lab/lab-fns.js';
+import * as okLAB from './oklab/oklab-fns.js';
 
 describe('round trip', () => {
   it('should convert from hex to lab to hex and get the same value', () => {

@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
+import { describe, expect, it } from 'vitest';
 
-import { unpack, EOF_MARKER, type InitialDictionary } from './lzw';
+import { unpack, EOF_MARKER, type InitialDictionary } from './lzw.js';
 
 describe('lzw compression', () => {
   describe('lsb', () => {

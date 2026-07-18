@@ -31,7 +31,7 @@ export {
   create,
   toString,
   isSRGBTuple,
-} from '../tuples/srgb-tuple';
+} from '../tuples/srgb-tuple.js';
 
 export {
   toLinearRGB,
@@ -42,6 +42,6 @@ export {
   fromHex,
   mix,
   redMeanDiff,
-} from './srgb-fns';
+} from './srgb-fns.js';
 
-export type { ToUint32Options, FromUint32Options } from './uint32-options';
+export type { ToUint32Options, FromUint32Options } from './uint32-options.js';

@@ -4,8 +4,8 @@ import { decompress, Resource } from '@4bitlabs/sci0';
 import {
   loadContentFromMap,
   type ResourceMapPredicate,
-} from './load-content-from-map';
-import { getRootOptions } from './get-root-options';
+} from './load-content-from-map.js';
+import { getRootOptions } from './get-root-options.js';
 
 interface PicDecodeOptions {
   raw: boolean;

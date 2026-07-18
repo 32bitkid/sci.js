@@ -1,7 +1,7 @@
-import type { MixOptions } from './mix-options';
-import type { DitherTransform } from '../dithers/dither-transform';
-import { colorMixers } from './color-mixers';
-import type { DitherPair } from '../dithers/dither-pair';
+import type { MixOptions } from './mix-options.js';
+import type { DitherTransform } from '../dithers/dither-transform.js';
+import { colorMixers } from './color-mixers.js';
+import type { DitherPair } from '../dithers/dither-pair.js';
 
 /**
  * Create a {@link DitherTransform} that blends two colors by a constant factor, `bias`.

@@ -1,7 +1,10 @@
 import { linearRGB } from '@4bitlabs/color-space';
-import { uint32_to_linearRGB, linearRGB_to_uint32 } from './utils/conversions';
-import { lerp } from './utils/lerp';
-import { clamp } from './utils/clamp';
+import {
+  uint32_to_linearRGB,
+  linearRGB_to_uint32,
+} from './utils/conversions.js';
+import { lerp } from './utils/lerp.js';
+import { clamp } from './utils/clamp.js';
 
 const BLACK = linearRGB.create(0, 0, 0);
 

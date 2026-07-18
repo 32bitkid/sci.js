@@ -1,4 +1,4 @@
-import { ColorTuple } from '../tuples/color-tuple';
+import type { ColorTuple } from '../tuples/color-tuple.js';
 
 /**
  * Checks if an `unknown` value is a valid color tuple

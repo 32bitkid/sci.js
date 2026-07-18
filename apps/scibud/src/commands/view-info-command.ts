@@ -1,7 +1,7 @@
 import type { Command } from 'commander';
 
-import { viewInfoAction } from '../actions';
-import { cmdIntParser } from './cmd-int-parser';
+import { viewInfoAction } from '../actions/index.js';
+import { cmdIntParser } from './cmd-int-parser.js';
 
 export function viewInfoCommand(cmd: Command): Command {
   cmd

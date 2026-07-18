@@ -8,9 +8,9 @@ import {
   uint32_to_okLab,
   uint32_to_XYZ,
   XYZ_to_uint32,
-} from '../utils/conversions';
-import type { DitherPair } from '../dithers/dither-pair';
-import type { MixMode } from './mix-options';
+} from '../utils/conversions.js';
+import type { DitherPair } from '../dithers/dither-pair.js';
+import type { MixMode } from './mix-options.js';
 
 type MixFn = (a: number, b: number, bias?: number) => DitherPair;
 

@@ -20,5 +20,5 @@ export {
   create,
   toString,
   isOkLabTuple,
-} from '../tuples/oklab-tuple';
-export { toXYZ, lighten, darken, mix } from './oklab-fns';
+} from '../tuples/oklab-tuple.js';
+export { toXYZ, lighten, darken, mix } from './oklab-fns.js';

@@ -1,9 +1,9 @@
-import { alphaPart as fmtA } from '../utils/alpha-fns';
-import { formatFloat as fmt } from '../utils/format-float';
+import { alphaPart as fmtA } from '../utils/alpha-fns.js';
+import { formatFloat as fmt } from '../utils/format-float.js';
 import {
   type ColorPredicate,
   createColorPredicate,
-} from '../utils/create-color-predicate';
+} from '../utils/create-color-predicate.js';
 
 /**
  * 8-bit gamma-compressed [sRGB](https://en.wikipedia.org/wiki/SRGB) color space.

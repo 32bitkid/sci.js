@@ -4,9 +4,9 @@ import sharp from 'sharp';
 import { CGA_PALETTE } from '@4bitlabs/color/palettes';
 import { decompress, parseCursor } from '@4bitlabs/sci0';
 import { createPaletteFilter, renderPixelData } from '@4bitlabs/image';
-import { getRootOptions } from './get-root-options';
-import { loadContentFromMap } from './load-content-from-map';
-import { cursorMatcher } from '../helpers/resource-matchers';
+import { getRootOptions } from './get-root-options.js';
+import { loadContentFromMap } from './load-content-from-map.js';
+import { cursorMatcher } from '../helpers/resource-matchers.js';
 
 export const showCursorAction = async (
   cursorNum: number,

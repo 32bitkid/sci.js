@@ -1,7 +1,7 @@
 import type { Command } from 'commander';
 
-import * as Actions from '../actions';
-import { cmdIntParser } from './cmd-int-parser';
+import * as Actions from '../actions/index.js';
+import { cmdIntParser } from './cmd-int-parser.js';
 
 export function picInfoCommand(cmd: Command): Command {
   cmd

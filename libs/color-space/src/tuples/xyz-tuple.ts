@@ -1,10 +1,10 @@
-import { formatFloat as fmt } from '../utils/format-float';
-import { alphaPart as fmtA } from '../utils/alpha-fns';
+import { formatFloat as fmt } from '../utils/format-float.js';
+import { alphaPart as fmtA } from '../utils/alpha-fns.js';
 import {
   type ColorPredicate,
   createColorPredicate,
-} from '../utils/create-color-predicate';
-import { D65 } from '../reference-white';
+} from '../utils/create-color-predicate.js';
+import { D65 } from '../reference-white.js';
 
 /**
  * [CIE-XYZ](https://en.wikipedia.org/wiki/CIE_1931_color_space) color space.

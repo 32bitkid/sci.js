@@ -1,9 +1,9 @@
 import { Lab } from '@4bitlabs/color-space';
-import { Lab_to_uint32, uint32_to_Lab } from '../utils/conversions';
-import type { DitherPair } from '../dithers/dither-pair';
-import type { DitherTransform } from '../dithers/dither-transform';
-import type { MixOptions } from './mix-options';
-import { colorMixers } from './color-mixers';
+import { Lab_to_uint32, uint32_to_Lab } from '../utils/conversions.js';
+import type { DitherPair } from '../dithers/dither-pair.js';
+import type { DitherTransform } from '../dithers/dither-transform.js';
+import type { MixOptions } from './mix-options.js';
+import { colorMixers } from './color-mixers.js';
 
 /**
  * Create a {@link DitherTransform} that dynamically blends two colors, based on their perceptual difference.

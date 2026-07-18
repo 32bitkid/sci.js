@@ -1,4 +1,4 @@
-import { DEFAULT_PALETTE } from './default-palette';
+import { DEFAULT_PALETTE } from './default-palette.js';
 
 export type PaletteSet = [Uint8Array, Uint8Array, Uint8Array, Uint8Array];
 

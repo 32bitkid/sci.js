@@ -1,6 +1,8 @@
-import { type LabTuple, toString as stringify } from '../tuples/lab-tuple';
-import * as LAB from './lab-fns';
-import type { XYZTuple } from '../tuples/xyz-tuple';
+import { describe, expect, it } from 'vitest';
+
+import { type LabTuple, toString as stringify } from '../tuples/lab-tuple.js';
+import * as LAB from './lab-fns.js';
+import type { XYZTuple } from '../tuples/xyz-tuple.js';
 
 describe('L*a*b* color space', () => {
   describe('toString()', () => {

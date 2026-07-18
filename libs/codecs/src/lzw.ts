@@ -1,5 +1,5 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { concat } from './concat';
+import { concat } from './concat.js';
 
 /**
  * The EOF/STOP marker. When encountered, stops processing the input stream and return the uncompressed data.

@@ -1,6 +1,6 @@
 import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
-import type { ImageResizer } from './image-resizer';
-import { prepareScale } from './prepare';
+import type { ImageResizer } from './image-resizer.js';
+import { prepareScale } from './prepare.js';
 
 export function nearestNeighbor(ratio: [number, number]): ImageResizer {
   const [sx, sy] = [ratio[0] >>> 0, ratio[1] >>> 0];

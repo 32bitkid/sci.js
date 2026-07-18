@@ -2,29 +2,30 @@
   "name": "@4bitlabs/sci0-renderer",
   "version": "0.1.1",
   "description": "Image processing filters and rendering functions for Sierra On-line SCI0 graphical assets.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0#readme",
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/32bitkid/sci.js.git"
   },
-  "bugs": {
-    "url": "https://github.com/32bitkid/sci.js/issues"
-  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "./dist/**/*"
   ],
   "scripts": {
+    "build": "tsdown",
     "clean": "tsc --build --clean",
-    "clean:wipe": "rimraf ./dist",
-    "build": "tsc --build"
+    "clean:wipe": "rimraf ./dist"
   },
-  "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC",
   "dependencies": {
     "@4bitlabs/image": "^4.0.0",
-    "@4bitlabs/numeric-deque": "^1.1.6",
+    "@4bitlabs/numeric-deque": "^2.0.0",
     "@4bitlabs/sci0": "^5.0.1",
     "@4bitlabs/vec2": "^2.0.0"
   }

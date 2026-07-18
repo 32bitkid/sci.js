@@ -1,14 +1,14 @@
-import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
-import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
+import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple.js';
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple.js';
 import {
   type linearRGBTuple,
   create as createLinearRGB,
-} from '../tuples/linear-rgb-tuple';
-import { lerp } from '../utils/lerp';
-import { assign } from '../utils/assign-values';
-import type { ToUint32Options, FromUint32Options } from './uint32-options';
+} from '../tuples/linear-rgb-tuple.js';
+import { lerp } from '../utils/lerp.js';
+import { assign } from '../utils/assign-values.js';
+import type { ToUint32Options, FromUint32Options } from './uint32-options.js';
 
-export { redMeanDiff } from './srgb-red-mean-diff';
+export { redMeanDiff } from './srgb-red-mean-diff.js';
 
 const inverseGamma = (c: number) =>
   c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;

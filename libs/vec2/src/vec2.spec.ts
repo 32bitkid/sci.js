@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import {
   type Vec2,
   vec2,
@@ -14,7 +16,7 @@ import {
   squaredDistanceBetween,
   distanceBetween,
   toString as stringify,
-} from './vec2';
+} from './vec2.js';
 
 describe('vec2', () => {
   describe('cloning', () => {

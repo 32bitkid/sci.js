@@ -2,8 +2,8 @@
 import { Command, Option } from 'commander';
 
 import { ResourceTypes } from '@4bitlabs/sci0';
-import * as Commands from './commands';
-import { cmdPathParser } from './commands/cmd-path-parser';
+import * as Commands from './commands/index.js';
+import { cmdPathParser } from './commands/cmd-path-parser.js';
 
 const program = new Command();
 

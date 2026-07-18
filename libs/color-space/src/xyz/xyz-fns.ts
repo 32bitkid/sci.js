@@ -1,11 +1,14 @@
-import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
-import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple';
-import { type LabTuple, create as createLab } from '../tuples/lab-tuple';
-import { type okLabTuple, create as createOkLab } from '../tuples/oklab-tuple';
-import { D50 } from '../reference-white';
-import { clamp } from '../utils/clamp';
-import { lerp } from '../utils/lerp';
-import { assign } from '../utils/assign-values';
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple.js';
+import { type sRGBTuple, create as createSRGB } from '../tuples/srgb-tuple.js';
+import { type LabTuple, create as createLab } from '../tuples/lab-tuple.js';
+import {
+  type okLabTuple,
+  create as createOkLab,
+} from '../tuples/oklab-tuple.js';
+import { D50 } from '../reference-white.js';
+import { clamp } from '../utils/clamp.js';
+import { lerp } from '../utils/lerp.js';
+import { assign } from '../utils/assign-values.js';
 
 // biome-ignore format: matrix
 const matrix = Float64Array.of(

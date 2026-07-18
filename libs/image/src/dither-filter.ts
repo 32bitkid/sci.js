@@ -1,7 +1,7 @@
 import type { DitherPair } from '@4bitlabs/color/dithers';
-import { type ImageDataLike, createImageData } from './image-data-like';
-import type { IndexedPixelData } from './indexed-pixel-data';
-import type { PaletteFilter } from './image-filter';
+import { type ImageDataLike, createImageData } from './image-data-like.js';
+import type { IndexedPixelData } from './indexed-pixel-data.js';
+import type { PaletteFilter } from './image-filter.js';
 
 /**
  * Generates a {@link PaletteFilter} for processing 8-bit dither-pairs from raw render data

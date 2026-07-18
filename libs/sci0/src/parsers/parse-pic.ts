@@ -1,9 +1,9 @@
 import { createBitReader } from '@4bitlabs/readers';
-import { CodeHandlers } from './pic/handlers';
-import { OpCode, isOpCode } from './pic/op-codes';
-import { createPicState } from './pic/pic-state';
-import type { DrawCommand } from '../models/draw-command';
-import type { Pic } from '../models/pic';
+import { CodeHandlers } from './pic/handlers.js';
+import { OpCode, isOpCode } from './pic/op-codes.js';
+import { createPicState } from './pic/pic-state.js';
+import type { DrawCommand } from '../models/draw-command.js';
+import type { Pic } from '../models/pic.js';
 
 function* picIterable(source: Uint8Array): IterableIterator<DrawCommand> {
   const r = createBitReader(source, { mode: 'msb' });

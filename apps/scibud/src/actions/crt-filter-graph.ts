@@ -1,4 +1,4 @@
-import type { FilterChain, FilterGraph } from './filter-graph';
+import type { FilterChain, FilterGraph } from './filter-graph.js';
 
 interface CrtFilterGraphOptions {
   defaultFps?: number;

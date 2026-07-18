@@ -1,12 +1,20 @@
-import { toXYZ, toLinearRGB, fromHex, fromUint32, toUint32 } from './srgb-fns';
+import { describe, expect, it } from 'vitest';
+
+import {
+  toXYZ,
+  toLinearRGB,
+  fromHex,
+  fromUint32,
+  toUint32,
+} from './srgb-fns.js';
 import {
   type sRGBTuple,
   isSRGBTuple,
   create,
   toString as stringify,
-} from '../tuples/srgb-tuple';
-import type { XYZTuple } from '../tuples/xyz-tuple';
-import type { linearRGBTuple } from '../tuples/linear-rgb-tuple';
+} from '../tuples/srgb-tuple.js';
+import type { XYZTuple } from '../tuples/xyz-tuple.js';
+import type { linearRGBTuple } from '../tuples/linear-rgb-tuple.js';
 
 describe('sRGB color-space', () => {
   describe('toString()', () => {

@@ -1,8 +1,8 @@
 import type { Command } from 'commander';
 
 import { Resource, type ResourceType } from '@4bitlabs/sci0';
-import { listActionFor } from '../actions';
-import { resourceTypeName as names } from './resource-type-name';
+import { listActionFor } from '../actions/index.js';
+import { resourceTypeName as names } from './resource-type-name.js';
 
 export const filterByResourceTypes =
   (...types: ResourceType[]) =>

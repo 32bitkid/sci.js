@@ -1,4 +1,6 @@
-import { assign } from './assign-values';
+import { describe, expect, it } from 'vitest';
+
+import { assign } from './assign-values.js';
 
 describe('setValues()', () => {
   type UnknownColor = ['unknown', number, number, number, number?];

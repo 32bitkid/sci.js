@@ -1,5 +1,8 @@
-import { execute } from './executor';
-import type { PMachine } from './pmachine';
+import { Buffer } from 'node:buffer';
+import { describe, expect, it } from 'vitest';
+
+import { execute } from './executor.js';
+import type { PMachine } from './pmachine.js';
 
 describe('SCI0 PMachine', () => {
   it('should execute a simple program', () => {

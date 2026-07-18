@@ -4,7 +4,7 @@ import {
   type ResourceHeader,
   type ResourceMap,
 } from '@4bitlabs/sci0';
-import { readFile } from '../helpers/read-file';
+import { readFile } from '../helpers/read-file.js';
 
 export type ResourceMapPredicate = ({ id }: ResourceMap) => boolean;
 

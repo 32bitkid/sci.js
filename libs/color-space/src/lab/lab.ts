@@ -25,5 +25,5 @@ export {
   create,
   toString,
   isLabTuple,
-} from '../tuples/lab-tuple';
-export { toXYZ, lighten, darken, mix, deltaE } from './lab-fns';
+} from '../tuples/lab-tuple.js';
+export { toXYZ, lighten, darken, mix, deltaE } from './lab-fns.js';

@@ -1,6 +1,8 @@
+import { describe, expect, it } from 'vitest';
+
 import { createBitReader } from '@4bitlabs/readers';
 import { type Vec2, vec2 } from '@4bitlabs/vec2';
-import { getPoint8, getPoint16, getPoint24 } from './points';
+import { getPoint8, getPoint16, getPoint24 } from './points.js';
 
 describe('point readers', () => {
   describe('getPoint8', () => {

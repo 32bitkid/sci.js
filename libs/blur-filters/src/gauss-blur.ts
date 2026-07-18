@@ -1,5 +1,5 @@
 import type { ImageDataLike, ImageFilter } from '@4bitlabs/image';
-import { makeGaussKernel } from './make-gauss-kernel';
+import { makeGaussKernel } from './make-gauss-kernel.js';
 
 function convolute(
   pixels: ImageDataLike,

@@ -1,7 +1,7 @@
 import type { Command } from 'commander';
 
-import { cmdIntParser } from './cmd-int-parser';
-import { showCursorAction } from '../actions';
+import { cmdIntParser } from './cmd-int-parser.js';
+import { showCursorAction } from '../actions/index.js';
 
 export const showCursorCommand = (fontCmd: Command) => {
   fontCmd

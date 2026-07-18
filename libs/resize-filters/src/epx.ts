@@ -1,4 +1,4 @@
-import type { S9, S13 } from './s9';
+import type { S9, S13 } from './s9.js';
 
 export const epx9 = <T extends Uint32Array | Uint8ClampedArray>(
   src: T,

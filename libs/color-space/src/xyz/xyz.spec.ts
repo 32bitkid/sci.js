@@ -1,8 +1,10 @@
-import { toLab, toOkLab, toSRGB } from './xyz-fns';
-import type { XYZTuple } from '../tuples/xyz-tuple';
-import type { LabTuple } from '../tuples/lab-tuple';
-import type { okLabTuple } from '../tuples/oklab-tuple';
-import type { sRGBTuple } from '../tuples/srgb-tuple';
+import { describe, expect, it } from 'vitest';
+
+import { toLab, toOkLab, toSRGB } from './xyz-fns.js';
+import type { XYZTuple } from '../tuples/xyz-tuple.js';
+import type { LabTuple } from '../tuples/lab-tuple.js';
+import type { okLabTuple } from '../tuples/oklab-tuple.js';
+import type { sRGBTuple } from '../tuples/srgb-tuple.js';
 
 describe('CIE-XYZ color-space', () => {
   describe('toSRGB()', () => {

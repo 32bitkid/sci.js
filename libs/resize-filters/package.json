@@ -8,28 +8,30 @@
     "epx",
     "nearest-neighbor"
   ],
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/resize-filters#readme",
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/32bitkid/sci.js.git"
   },
-  "bugs": {
-    "url": "https://github.com/32bitkid/sci.js/issues"
-  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "files": [
     "./dist/**/*"
   ],
   "scripts": {
+    "build": "tsdown",
     "clean": "tsc --build --clean",
     "clean:wipe": "rimraf ./dist",
-    "build": "tsc --build",
-    "test": "jest src/"
+    "test": "vitest run",
+    "test:dev": "vitest dev"
   },
   "dependencies": {
     "@4bitlabs/image": "^4.0.0"
-  },
-  "author": "J. Holmes <j@holmes.codes>",
-  "license": "ISC"
+  }
 }

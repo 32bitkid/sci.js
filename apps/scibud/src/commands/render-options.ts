@@ -1,8 +1,8 @@
 import { Option } from 'commander';
 
-import { cmdDimensionsParser } from './cmd-dimensions-parser';
-import { cmdFloatParser } from './cmd-float-parser';
-import { cmdIntParser } from './cmd-int-parser';
+import { cmdDimensionsParser } from './cmd-dimensions-parser.js';
+import { cmdFloatParser } from './cmd-float-parser.js';
+import { cmdIntParser } from './cmd-int-parser.js';
 
 export const ditherOption = () =>
   new Option('-d, --dither <dither>', 'dither sizing.')

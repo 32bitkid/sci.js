@@ -1,9 +1,9 @@
-import type { XYZTuple } from '../tuples/xyz-tuple';
-import { type LabTuple, create as createLab } from '../tuples/lab-tuple';
-import { D50 } from '../reference-white';
-import { lerp } from '../utils/lerp';
-import { assign } from '../utils/assign-values';
-export { deltaE } from './lab-delta-e';
+import type { XYZTuple } from '../tuples/xyz-tuple.js';
+import { type LabTuple, create as createLab } from '../tuples/lab-tuple.js';
+import { D50 } from '../reference-white.js';
+import { lerp } from '../utils/lerp.js';
+import { assign } from '../utils/assign-values.js';
+export { deltaE } from './lab-delta-e.js';
 
 const ϵ = 216 / 24389; // 6^3/29^3
 const κ = 24389 / 27; // 29^3/3^3

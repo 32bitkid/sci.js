@@ -1,12 +1,12 @@
-import { assertNotNull } from './assert-not-null';
-import { vertexShaderSource } from './vertex-shader-source';
-import { fragShaderSource } from './frag-shader-source';
-import { compileShader } from './compile-shader';
-import { createBuffer } from './create-buffer';
-import { updateTexture } from './update-texture';
-import * as Model from './model';
-import type { ImageDataLike } from './image-data-like';
-import type { CrtUpdateFn, CrtUpdateOptions } from './update-function';
+import { assertNotNull } from './assert-not-null.js';
+import { vertexShaderSource } from './vertex-shader-source.js';
+import { fragShaderSource } from './frag-shader-source.js';
+import { compileShader } from './compile-shader.js';
+import { createBuffer } from './create-buffer.js';
+import { updateTexture } from './update-texture.js';
+import * as Model from './model.js';
+import type { ImageDataLike } from './image-data-like.js';
+import type { CrtUpdateFn, CrtUpdateOptions } from './update-function.js';
 
 export interface CreateCrtRenderOptions {
   maxHBlur?: number;
@@ -144,7 +144,10 @@ export function createCrtRenderer(
     throw new Error('could not create webgl2 context');
   }
 
-  const { attrs, buffers, texture } = setup(gl);
+  const { attrs, buffers, texture } = setup(gl, {
+    maxHBlur,
+    renderDefaults: defaults,
+  });
 
   const update = function renderCanvas(
     imageData: ImageDataLike,

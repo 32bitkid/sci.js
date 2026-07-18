@@ -1,8 +1,8 @@
 import { type Command, Option } from 'commander';
 
-import * as Actions from '../actions';
-import { cmdIntParser } from './cmd-int-parser';
-import * as RenderOptions from './render-options';
+import * as Actions from '../actions/index.js';
+import { cmdIntParser } from './cmd-int-parser.js';
+import * as RenderOptions from './render-options.js';
 
 const layerOption = () =>
   new Option('-l, --layer <layer>')

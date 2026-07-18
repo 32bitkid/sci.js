@@ -7,9 +7,9 @@ import {
   parseHeaderWithPayload,
   parseView,
 } from '@4bitlabs/sci0';
-import { viewMatcher } from '../helpers/resource-matchers';
-import { readFile } from '../helpers/read-file';
-import { getRootOptions } from './get-root-options';
+import { viewMatcher } from '../helpers/resource-matchers.js';
+import { readFile } from '../helpers/read-file.js';
+import { getRootOptions } from './get-root-options.js';
 
 export async function viewInfoAction(
   viewNum: number,

@@ -1,5 +1,5 @@
 import { type DrawCommand, DrawMode } from '@4bitlabs/sci0';
-import { renderPic } from './render-pic';
+import { renderPic } from './render-pic.js';
 
 describe('edge cases', () => {
   it.each<[number, boolean]>([

@@ -1,6 +1,6 @@
 import { inflateSync } from 'node:zlib';
 
-import { createFloodFill } from './create-flood-fill';
+import { createFloodFill } from './create-flood-fill.js';
 
 const toBuffer = ([width, height]: [number, number], ...rows: string[]) => {
   const pixels = new Uint8ClampedArray(width * height);

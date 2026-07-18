@@ -1,7 +1,7 @@
 import { createWriteStream } from 'node:fs';
 
 import type { Command } from 'commander';
-import { GIFEncoder, quantize, applyPalette } from 'gifenc';
+import gifenc from 'gifenc';
 import sharp, { type Sharp } from 'sharp';
 
 import { decompress, parseView } from '@4bitlabs/sci0';
@@ -12,14 +12,16 @@ import {
   renderPixelData,
 } from '@4bitlabs/image';
 import { loopPaddingFilter } from '@4bitlabs/sci0-renderer';
-import { loadContentFromMap } from './load-content-from-map';
-import { viewMatcher } from '../helpers/resource-matchers';
-import { getRootOptions } from './get-root-options';
+import { loadContentFromMap } from './load-content-from-map.js';
+import { viewMatcher } from '../helpers/resource-matchers.js';
+import { getRootOptions } from './get-root-options.js';
 import {
   generatePalette,
   getScalerFromOptions,
-} from '../helpers/create-pic-pipeline';
-import type { ScalerID } from '../models/render-pic-options';
+} from '../helpers/create-pic-pipeline.js';
+import type { ScalerID } from '../models/render-pic-options.js';
+
+const { GIFEncoder, quantize, applyPalette } = gifenc;
 
 type Padding =
   | [number]

@@ -9,21 +9,21 @@ import { Presets, SingleBar } from 'cli-progress';
 import { decompress, parseFont, parsePic } from '@4bitlabs/sci0';
 import { generatePic, menuTextFilter } from '@4bitlabs/sci0-renderer';
 import { renderPixelData } from '@4bitlabs/image';
-import { picMatcher, fontMatcher } from '../helpers/resource-matchers';
+import { picMatcher, fontMatcher } from '../helpers/resource-matchers.js';
 import {
   loadContentFromMap,
   type ResourceMapPredicate,
-} from './load-content-from-map';
+} from './load-content-from-map.js';
 import type {
   RenderPicOptions,
   RenderPipelineOptions,
-} from '../models/render-pic-options';
-import { pickRenderOptions } from './pick-render-options';
-import { getRootOptions } from './get-root-options';
-import { formatGraph } from './filter-graph';
-import { crtFilterGraph, simpleFilterGraph } from './crt-filter-graph';
-import { createPicPipeline } from '../helpers/create-pic-pipeline';
-import { optionalDeferredCrtFilter } from '../helpers/apply-crt-filter';
+} from '../models/render-pic-options.js';
+import { pickRenderOptions } from './pick-render-options.js';
+import { getRootOptions } from './get-root-options.js';
+import { formatGraph } from './filter-graph.js';
+import { crtFilterGraph, simpleFilterGraph } from './crt-filter-graph.js';
+import { createPicPipeline } from '../helpers/create-pic-pipeline.js';
+import { optionalDeferredCrtFilter } from '../helpers/apply-crt-filter.js';
 
 interface PicVideoActionOptions {
   readonly output: string;

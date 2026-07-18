@@ -1,4 +1,4 @@
-import { getImpl, type PMachine } from './pmachine';
+import { getImpl, type PMachine } from './pmachine.js';
 
 export type Executor = (machine: PMachine, program: Uint8Array) => void;
 

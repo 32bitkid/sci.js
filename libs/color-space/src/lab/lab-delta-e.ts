@@ -1,4 +1,4 @@
-import type { LabTuple } from '../tuples/lab-tuple';
+import type { LabTuple } from '../tuples/lab-tuple.js';
 
 /**
  * Calculate the [CIELAB &Delta;E*](https://en.wikipedia.org/wiki/Color_difference#CIELAB_%CE%94E*) between two

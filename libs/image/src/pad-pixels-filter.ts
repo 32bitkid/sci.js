@@ -1,9 +1,9 @@
-import type { PixelFilter } from './image-filter';
+import type { PixelFilter } from './image-filter.js';
 import {
   type IndexedPixelData,
   createIndexedPixelData,
-} from './indexed-pixel-data';
-import { type Padding, type Padding4, toPadding4 } from './padding';
+} from './indexed-pixel-data.js';
+import { type Padding, type Padding4, toPadding4 } from './padding.js';
 
 export interface PadPixelsFilterOptions {
   keyColor?: number;

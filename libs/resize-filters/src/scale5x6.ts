@@ -1,7 +1,7 @@
 import type { ImageDataLike, IndexedPixelData } from '@4bitlabs/image';
-import { epx9sfx } from './epx';
-import { type S13, s13 } from './s9';
-import { prepareScale } from './prepare';
+import { epx9sfx } from './epx.js';
+import { type S13, s13 } from './s9.js';
+import { prepareScale } from './prepare.js';
 
 const s: S13 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 

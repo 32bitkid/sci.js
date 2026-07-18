@@ -1,7 +1,7 @@
 import { unpack as unpackHuffman } from '@4bitlabs/codecs/huffman';
 import { unpack as unpackLzw } from '@4bitlabs/codecs/lzw';
 import { unpack as unpackComp3 } from '@4bitlabs/codecs/comp3';
-import { exhaustive } from '../utils/exhaustive';
+import { exhaustive } from '../utils/exhaustive.js';
 
 type Sci0Algorithms = 0 | 1 | 2;
 type Sci01Algorithms = 0 | 1 | 2;

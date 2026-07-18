@@ -9,7 +9,7 @@ import type {
   FONT_TYPE,
   CURSOR_TYPE,
   PATCH_TYPE,
-} from './resource-types';
+} from './resource-types.js';
 
 export type ResourceType =
   | typeof VIEW_TYPE

@@ -1,13 +1,13 @@
 import { type Command, InvalidOptionArgumentError, Option } from 'commander';
 
-import { cmdIntParser } from './cmd-int-parser';
-import * as Actions from '../actions';
+import { cmdIntParser } from './cmd-int-parser.js';
+import * as Actions from '../actions/index.js';
 import {
   contrastOption,
   formatOption,
   paletteOption,
   scalerOption,
-} from './render-options';
+} from './render-options.js';
 
 function parsePadding(
   val: string,

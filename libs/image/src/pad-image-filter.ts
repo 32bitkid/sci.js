@@ -1,6 +1,6 @@
-import { createImageData, type ImageDataLike } from './image-data-like';
-import { type Padding, type Padding4, toPadding4 } from './padding';
-import type { ImageFilter } from './image-filter';
+import { createImageData, type ImageDataLike } from './image-data-like.js';
+import { type Padding, type Padding4, toPadding4 } from './padding.js';
+import type { ImageFilter } from './image-filter.js';
 
 export interface PadImageFilterOptions {
   backgroundColor?: number;

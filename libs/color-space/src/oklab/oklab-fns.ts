@@ -1,7 +1,10 @@
-import { type okLabTuple, create as createOkLab } from '../tuples/oklab-tuple';
-import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple';
-import { lerp } from '../utils/lerp';
-import { assign } from '../utils/assign-values';
+import {
+  type okLabTuple,
+  create as createOkLab,
+} from '../tuples/oklab-tuple.js';
+import { type XYZTuple, create as createXYZ } from '../tuples/xyz-tuple.js';
+import { lerp } from '../utils/lerp.js';
+import { assign } from '../utils/assign-values.js';
 
 // biome-ignore format: matrix
 const OKLAB_M1i = Float64Array.of(
