@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.18...@4bitlabs/resize-filters@2.0.0) (2026-07-19)
+
+### ⚠ BREAKING CHANGES
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Features
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Bug Fixes
+
+* use strict equality
+
+
 ## [1.0.18](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@1.0.17...@4bitlabs/resize-filters@1.0.18) (2024-07-30)
 
 ### Chore

@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/blur-filters",
-  "version": "1.0.18",
+  "version": "2.0.0",
   "description": "A collection of blur-filters for rendering Sierra On-line SCI-engine assets.",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/blur-filters#readme",
   "bugs": {
@@ -23,7 +23,7 @@
     "clean:wipe": "rimraf ./dist"
   },
   "dependencies": {
-    "@4bitlabs/image": "^4.0.0",
+    "@4bitlabs/image": "^5.0.0",
     "@4bitlabs/numeric-deque": "^2.0.0"
   }
 }

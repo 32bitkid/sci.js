@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@0.1.1...@4bitlabs/sci0-renderer@1.0.0) (2026-07-19)
+
+### ⚠ BREAKING CHANGES
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Features
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+
 ## [0.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@0.1.0...@4bitlabs/sci0-renderer@0.1.1) (2024-07-30)
 
 **Note:** Version bump only for package @4bitlabs/sci0-renderer

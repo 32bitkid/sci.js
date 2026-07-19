@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@2.0.1...@4bitlabs/scibud@3.0.0) (2026-07-19)
+
+### ⚠ BREAKING CHANGES
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Features
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+* **scibud:** add --crt option to `pic video` command
+* **scibud:** render pic video with ffmpeg automatically
+* **scibud:** scibud gets --version command
+
+### Bug Fixes
+
+* use Number.isNaN
+
+
 ## [2.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@2.0.0...@4bitlabs/scibud@2.0.1) (2024-07-30)
 
 **Note:** Version bump only for package @4bitlabs/scibud

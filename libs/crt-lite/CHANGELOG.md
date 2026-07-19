@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.6...@4bitlabs/crt-lite@2.0.0) (2026-07-19)
+
+### ⚠ BREAKING CHANGES
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Features
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+* **scibud:** add --crt option to `pic video` command
+
+### Bug Fixes
+
+* **crt-lite:** improve assert-not-null messaging on failure
+
+
 ## [1.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@1.0.5...@4bitlabs/crt-lite@1.0.6) (2024-07-30)
 
 ### Chore

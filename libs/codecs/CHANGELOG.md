@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.3...@4bitlabs/codecs@3.0.0) (2026-07-19)
+
+### ⚠ BREAKING CHANGES
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+### Features
+
+* **esm:** Migrate build to pure ESM and TypeScript with tsdown
+
+
 ## [2.0.3](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.2...@4bitlabs/codecs@2.0.3) (2024-07-30)
 
 ### Chore
