@@ -13,7 +13,12 @@
     ]
   },
   "linter": {
+    "enabled": true,
     "rules": {
+      "preset": "recommended",
+      "suspicious": {
+        "noDeprecatedImports": "error"
+      },
       "correctness": {
         "useImportExtensions": {
           "level": "error",
