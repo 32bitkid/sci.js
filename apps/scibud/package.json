@@ -21,6 +21,7 @@
     "build": "tsdown",
     "clean": "tsc --build --clean",
     "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build",
     "test": "echo 'No tests'"
   },
   "dependencies": {

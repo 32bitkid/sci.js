@@ -20,7 +20,8 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "clean:wipe": "rimraf ./dist"
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@4bitlabs/image": "^5.0.0",

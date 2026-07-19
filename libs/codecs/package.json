@@ -37,6 +37,7 @@
   "scripts": {
     "build": "tsdown",
     "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build",
     "test": "vitest run",
     "test:dev": "vitest dev"
   },

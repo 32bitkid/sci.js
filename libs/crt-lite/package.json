@@ -33,6 +33,7 @@
   "scripts": {
     "build": "tsdown",
     "clean": "tsc --build --clean",
-    "clean:wipe": "rimraf ./dist"
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
   }
 }
