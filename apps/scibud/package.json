@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/scibud",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Nodejs-based tool for decoding and rendering Sierra On-line SCI0 Adventure game resources",
   "keywords": [
     "sci0",
@@ -31,8 +31,8 @@
     "@4bitlabs/crt-lite": "^2.0.1",
     "@4bitlabs/image": "^5.0.1",
     "@4bitlabs/resize-filters": "^2.0.1",
-    "@4bitlabs/sci0": "^6.0.0",
-    "@4bitlabs/sci0-renderer": "^1.1.0",
+    "@4bitlabs/sci0": "^6.1.1",
+    "@4bitlabs/sci0-renderer": "^1.1.1",
     "@types/gif-encoder": "^0.7.4",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",

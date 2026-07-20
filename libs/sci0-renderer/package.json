@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0-renderer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Image processing filters and rendering functions for Sierra On-line SCI0 graphical assets.",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0#readme",
   "bugs": {
@@ -29,7 +29,7 @@
   "dependencies": {
     "@4bitlabs/image": "^5.0.1",
     "@4bitlabs/numeric-deque": "^2.0.0",
-    "@4bitlabs/sci0": "^6.0.0",
+    "@4bitlabs/sci0": "^6.1.1",
     "@4bitlabs/vec2": "^3.0.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "description": "Library for decoding and parsing assets from Sierra On-line's SCI-engine.",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0#readme",
   "bugs": {

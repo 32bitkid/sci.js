@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.1.0...@4bitlabs/sci0-renderer@1.1.1) (2026-07-20)
+
+**Note:** Version bump only for package @4bitlabs/sci0-renderer
+
+
+
+
+
 ## [1.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.0.0...@4bitlabs/sci0-renderer@1.1.0) (2026-07-20)
 
 ### Features
