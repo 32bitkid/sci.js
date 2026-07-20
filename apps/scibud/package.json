@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/scibud",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Nodejs-based tool for decoding and rendering Sierra On-line SCI0 Adventure game resources",
   "keywords": [
     "sci0",
