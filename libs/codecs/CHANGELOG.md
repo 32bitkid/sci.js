@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@3.0.0...@4bitlabs/codecs@3.0.1) (2026-07-20)
+
+**Note:** Version bump only for package @4bitlabs/codecs
+
+
+
+
+
 ## [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/codecs@2.0.3...@4bitlabs/codecs@3.0.0) (2026-07-19)
 
 ### ⚠ BREAKING CHANGES

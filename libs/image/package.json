@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/image",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A collection of scalers, image-filters and palette manipulation functions for rendering Sierra On-line SCI-engine assets.",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/image#readme",
   "bugs": {
@@ -27,6 +27,6 @@
     "test:dev": "vitest dev"
   },
   "dependencies": {
-    "@4bitlabs/color": "^4.0.0"
+    "@4bitlabs/color": "^4.0.1"
   }
 }

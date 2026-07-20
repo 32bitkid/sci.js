@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/color",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A collection color manipulation functions and predefined palettes for working with EGA/CGA images",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/color#readme",
   "bugs": {
@@ -31,6 +31,6 @@
     "test:dev": "vitest dev"
   },
   "dependencies": {
-    "@4bitlabs/color-space": "^3.0.0"
+    "@4bitlabs/color-space": "^3.0.1"
   }
 }

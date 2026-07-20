@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@6.0.0...@4bitlabs/sci0@6.1.0) (2026-07-20)
+
+### Features
+
+* add ResourceMatchers helper predicates
+
+
 ## [6.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@5.0.1...@4bitlabs/sci0@6.0.0) (2026-07-19)
 
 ### ⚠ BREAKING CHANGES
