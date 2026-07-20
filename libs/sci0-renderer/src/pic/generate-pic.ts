@@ -2,9 +2,17 @@ import type { DrawCommand, Pic } from '@4bitlabs/sci0';
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { RenderPicOptions } from './render-pic-options.js';
 import type { RenderResult } from './render-result.js';
-import { defaultPalettes } from './default-palettes.js';
+import { defaultPalettes, type PaletteSet } from './default-palettes.js';
 import { createScreenBuffer } from './screen-buffer.js';
 import { picStep } from './pic-step.js';
+import type { Screen } from './tools/screen.js';
+
+export type IntermediatePicState = [
+  idx: number,
+  command: DrawCommand,
+  layers: RenderResult,
+  meta: { palettes: PaletteSet; screen: Screen },
+];
 
 /**
  * Generate a {@link Pic} iterator that will emit after processing each {@link DrawCommand} is processed.
@@ -32,7 +40,7 @@ import { picStep } from './pic-step.js';
 export function* generatePic(
   pic: Pic,
   options: RenderPicOptions = {},
-): Generator<[idx: number, command: DrawCommand, layers: RenderResult]> {
+): Generator<IntermediatePicState> {
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
@@ -43,7 +51,7 @@ export function* generatePic(
   for (const cmd of pic) {
     tick(step);
     picStep(cmd, screen, palettes);
-    yield [step, cmd, result];
+    yield [step, cmd, result, { screen, palettes }];
     step += 1;
   }
 }

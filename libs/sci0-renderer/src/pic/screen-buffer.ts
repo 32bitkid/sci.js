@@ -15,7 +15,7 @@ import {
   createBlitter,
 } from './tools/index.js';
 
-type SetTValueFn = (n: number) => void;
+export type SetTValueFn = (n: number) => void;
 
 export const createScreenBuffer = (
   forcePal: 0 | 1 | 2 | 3 | undefined,
