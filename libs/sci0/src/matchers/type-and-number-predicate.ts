@@ -2,6 +2,7 @@ import type { ResourceType } from '../models/resource-type.js';
 import type { ResourceMapPredicate } from './resource-map-predicate.js';
 import { joinResourcePredicates } from './utils.js';
 import { matchResourceNumber } from './number-predicate.js';
+import { matchResourceType } from './type-predicates.js';
 
 export const match = (
   criteria: {
@@ -19,7 +20,7 @@ export const match = (
 
   if (criteria.type !== undefined) {
     const set = Array.isArray(criteria.type) ? criteria.type : [criteria.type];
-    predicates.push(matchResourceNumber(...set));
+    predicates.push(matchResourceType(...set));
   }
 
   return joinResourcePredicates(...predicates);
