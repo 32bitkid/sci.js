@@ -22,7 +22,8 @@
     "clean": "tsc --build --clean",
     "clean:wipe": "rimraf ./dist",
     "prepublishOnly": "npm run build",
-    "test": "echo 'No tests'"
+    "test": "vitest run",
+    "test:dev": "vitest dev"
   },
   "dependencies": {
     "@4bitlabs/blur-filters": "^2.0.0",

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { type DrawCommand, DrawMode } from '@4bitlabs/sci0';
 import { renderPic } from './render-pic.js';
 
