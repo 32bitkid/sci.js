@@ -10,6 +10,7 @@ export { DrawMode } from './models/draw-mode.js';
 
 export * as Resource from './models/resource-id.js';
 export * as ResourceTypes from './models/resource-types.js';
+export * as ResourceMatchers from './matchers/index.js';
 
 export { parseAllMappings } from './parsers/mapping.js';
 export {

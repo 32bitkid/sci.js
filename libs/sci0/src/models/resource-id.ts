@@ -18,9 +18,6 @@ export const getType = (id: number): ResourceType =>
 
 export const getNumber = (id: number): number => id & 0b111_1111_1111;
 
-export const getIdStr = (id: number) =>
-  `(${getTypeStr(id)}:${getNumber(id).toString(10)})`;
-
 export const getTypeStr = (id: number): string => {
   const type = getType(id);
   switch (type) {
@@ -48,3 +45,6 @@ export const getTypeStr = (id: number): string => {
       exhaustive('Unsupported resource type', type);
   }
 };
+
+export const getIdStr = (id: number) =>
+  `(${getTypeStr(id)}:${getNumber(id).toString(10)})`;
