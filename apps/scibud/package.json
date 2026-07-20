@@ -10,9 +10,9 @@
   "license": "ISC",
   "author": "J. Holmes <32bitkid@gmail.com>",
   "type": "module",
-  "exports": "./dist/index.js",
+  "exports": "./dist/index.mjs",
   "bin": {
-    "scibud": "dist/index.js"
+    "scibud": "./dist/index.mjs"
   },
   "files": [
     "./dist/**/*"
