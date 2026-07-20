@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { matchResourceNumber } from './number-predicate';
+import { matchResourceNumber } from './number-predicate.js';
 
 describe('number matchers', () => {
   it('should match a single number', () => {
