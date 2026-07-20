@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown/config';
 
 export default defineConfig({
   entry: ['./src/index.ts'],
-  platform: 'neutral',
+  platform: 'node',
   format: ['esm'],
   target: ['node20'],
   unbundle: true,
