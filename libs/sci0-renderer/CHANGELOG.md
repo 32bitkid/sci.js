@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.1.2...@4bitlabs/sci0-renderer@1.2.0) (2026-07-28)
+
+### Features
+
+* **sci0-renderer:** Export IntermediatePicState type
+
+
 ## [1.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.1.1...@4bitlabs/sci0-renderer@1.1.2) (2026-07-28)
 
 ### Bug Fixes
