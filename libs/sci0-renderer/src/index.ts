@@ -4,5 +4,6 @@ export { menuTextFilter } from './filters/menu-text-filter.js';
 
 export type { RenderResult } from './pic/render-result.js';
 export type { RenderPicOptions } from './pic/render-pic-options.js';
+export type { IntermediatePicState } from './pic/generate-pic.js';
 export { renderPic } from './pic/render-pic.js';
 export { generatePic } from './pic/generate-pic.js';
