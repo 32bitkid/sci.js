@@ -9,6 +9,7 @@ import {
 import { picMatcher } from '../helpers/resource-matchers.js';
 import { readFile } from '../helpers/read-file.js';
 import { getRootOptions } from './get-root-options.js';
+import columnify from 'columnify';
 
 export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
   const { root, engine } = getRootOptions(cmd);
@@ -52,17 +53,6 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
   console.log(`Commands: ${picData.length.toLocaleString()}`);
   console.log(`Size: ${header.actualSize.toLocaleString()} bytes`);
 
-  console.log('\n\u{1F5DC} Compression:');
-  console.log(
-    `Type: ${compressionTypes[engine][header.compression]} (${header.compression})`,
-  );
-  if (header.compression !== 0) {
-    console.log(`Size: ${(header.packedSize - 4).toLocaleString()} bytes`);
-    console.log(
-      `Ratio: ${((160 * 190) / (header.packedSize - 4)).toFixed(1)}\u22361 | \u{1F4C9} \u{2212}${((1 - (header.packedSize - 4) / (160 * 190)) * 100).toFixed(1)}%`,
-    );
-  }
-
   const modeTotals = picData.reduce<Record<string, number>>((map, [mode]) => {
     map[mode] = (map[mode] ?? 0) + 1;
     return map;
@@ -74,16 +64,35 @@ export async function picInfoAction(pic: number, _: unknown, cmd: Command) {
     brush: '\u{1F58C}',
     fill: '\u{1FAA3}',
     set_palette: '\u{1F3A8}',
+    update_palette: '\u{1F3A8}',
   };
 
-  Object.entries(modeTotals)
+  const tools = Object.entries(modeTotals)
     .sort((a, b) => b[1] - a[1])
     .map(([key, val]) => ({
+      icon: toolIcons[key.toLowerCase()] ?? '\u{1F9F0}',
       tool: key.toLowerCase(),
       count: val.toLocaleString(),
       percent: `${((val / picData.length) * 100).toFixed(0)}%`,
-    }))
-    .forEach(({ tool, count, percent }) => {
-      console.log(`${toolIcons[tool]} ${tool}: ${count} (${percent})`);
-    });
+    }));
+
+  console.log(
+    columnify(tools, {
+      showHeaders: false,
+      config: {
+        count: { align: 'right' },
+        percent: { align: 'right' },
+      },
+    }),
+  );
+
+  console.log(
+    `\n\u{1F5DC} Compression: ${compressionTypes[engine][header.compression]} [${header.compression}]`,
+  );
+  if (header.compression !== 0) {
+    console.log(`Size: ${(header.packedSize - 4).toLocaleString()} bytes`);
+    console.log(
+      `Ratio: ${((160 * 190) / (header.packedSize - 4)).toFixed(1)}\u22361 | \u{1F4C9} \u{2212}${((1 - (header.packedSize - 4) / (160 * 190)) * 100).toFixed(1)}%`,
+    );
+  }
 }

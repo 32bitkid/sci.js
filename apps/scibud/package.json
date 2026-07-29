@@ -36,11 +36,11 @@
     "@types/gif-encoder": "^0.7.4",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",
-    "commander": "^14.0.0",
+    "commander": "^15.0.0",
     "expand-tilde": "^2.0.2",
     "gifenc": "^1.0.3",
     "gl": "^9.0.0-rc.10",
-    "sharp": "^0.33.4"
+    "sharp": "^0.35.3"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.6",
