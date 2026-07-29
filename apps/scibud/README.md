@@ -1,9 +1,16 @@
-# scibud [![License][license]][npm] [![NPM Version][version]][npm] <!-- [![NPM Downloads][dl]][npm] -->
+# scibud 
+
+[![License][license]][npm] 
+[![NPM Version][version]][npm] 
+[![NPM Downloads][dl]][npm]
+[![Ko-fi][kofibadge]][kofi]
 
 [npm]: https://www.npmjs.com/package/@4bitlabs/scibud
 [version]: https://img.shields.io/npm/v/%404bitlabs%2Fscibud
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fscibud
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fscibud
+[kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
+[kofi]: https://ko-fi.com/32bitkid
 
 `scibud` is a CLI utility to assist in inspecting and extracting assets form Sierra `SCI0` and `SCI01`-engine adventure games.
 
