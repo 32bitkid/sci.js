@@ -1,9 +1,16 @@
-# @4bitlabs/image [![License][license]][npm] [![NPM Version][version]][npm] [![NPM Downloads][dl]][npm]
+# @4bitlabs/image 
+
+[![License][license]][npm] 
+[![NPM Version][version]][npm] 
+[![NPM Downloads][dl]][npm]
+[![Ko-fi][kofibadge]][kofi]
 
 [npm]: https://www.npmjs.com/package/@4bitlabs/image
 [version]: https://img.shields.io/npm/v/%404bitlabs%2Fimage
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fimage
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fimage
+[kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
+[kofi]: https://ko-fi.com/32bitkid
 
 A collection of image primitives and manipulation functions for rendering [Sierra On-line's][sierra] [<abbr title="Sierra Creative Interpreter">SCI</abbr>-engine][sci0] assets.
 
