@@ -1,9 +1,14 @@
-[![License][license]][npm] [![NPM Version][version]][npm] [![NPM Downloads][dl]][npm]
+[![License][license]][npm] 
+[![NPM Version][version]][npm] 
+[![NPM Downloads][dl]][npm]
+[![Ko-fi][kofibadge]][kofi]
 
 [npm]: https://www.npmjs.com/package/@4bitlabs/resize-filters
 [version]: https://img.shields.io/npm/v/%404bitlabs%2Fresize-filters
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fresize-filters
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fresize-filters
+[kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
+[kofi]: https://ko-fi.com/32bitkid
 
 A collection of pixel resize filters for rendering [Sierra On-line][sierra] [SCI-engine][sci0] assets.
 

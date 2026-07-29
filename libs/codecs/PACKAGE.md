@@ -1,4 +1,7 @@
-[![License][license]][npm] [![NPM Version][version]][npm] [![NPM Downloads][dl]][npm]
+[![License][license]][npm] 
+[![NPM Version][version]][npm] 
+[![NPM Downloads][dl]][npm]
+[![Ko-fi][kofibadge]][kofi]
 
 A collection of decoders (and eventually encoders) for working with [Sierra On-line][sierra] [SCI-engine][sci0] assets.
 
@@ -8,3 +11,5 @@ A collection of decoders (and eventually encoders) for working with [Sierra On-l
 [version]: https://img.shields.io/npm/v/%404bitlabs%2Fcodecs
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fcodecs
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fcodecs
+[kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
+[kofi]: https://ko-fi.com/32bitkid
