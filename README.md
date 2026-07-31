@@ -1,5 +1,10 @@
 # SCI.js
 
+[![Ko-fi][kofibadge]][kofi]
+
+[kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
+[kofi]: https://ko-fi.com/thirtytwo
+
 A collection of packages, utilities and apps for encoding and decoding assets from [Sierra On-line][sierra] [SCI-engine][sci0] games.
 
 > Warning: This monorepo is a work-in-progress.

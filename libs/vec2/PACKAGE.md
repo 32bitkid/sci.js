@@ -8,7 +8,7 @@
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fvec2
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fvec2
 [kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
-[kofi]: https://ko-fi.com/32bitkid
+[kofi]: https://ko-fi.com/thirtytwo
 
 A simple collection of functions for working with two-component vectors.
 

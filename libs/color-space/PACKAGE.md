@@ -8,7 +8,7 @@
 [license]: https://img.shields.io/npm/l/%404bitlabs%2Fcolor-space
 [dl]: https://img.shields.io/npm/dy/%404bitlabs%2Fcolor-space
 [kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
-[kofi]: https://ko-fi.com/32bitkid
+[kofi]: https://ko-fi.com/thirtytwo
 
 Utility functions for parsing, converting and mixing colors in sRGB, CIE-XYZ, CIE-L\*a\*b\*, and okLab color spaces
 
