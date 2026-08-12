@@ -25,6 +25,6 @@
   },
   "dependencies": {
     "@4bitlabs/image": "^5.0.2",
-    "@4bitlabs/numeric-deque": "^2.0.0"
+    "@4bitlabs/numeric-deque": "^2.0.1"
   }
 }

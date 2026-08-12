@@ -26,7 +26,8 @@
     "libs/sci0-renderer",
     "libs/vec2",
     "libs/crt-lite",
-    "apps/scibud"
+    "apps/scibud",
+    "apps/sciotf"
   ],
   "scripts": {
     "build": "lerna run build",
@@ -41,7 +42,7 @@
     "test:coverage": "jest --projects libs/* --coverage --coverageReporters=text"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.6",
+    "@biomejs/biome": "^2.5.8",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "lerna": "^9.0.7",
     "rimraf": "^6.1.3",

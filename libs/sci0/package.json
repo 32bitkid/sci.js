@@ -33,7 +33,7 @@
   "dependencies": {
     "@4bitlabs/codecs": "^3.0.2",
     "@4bitlabs/image": "^5.0.2",
-    "@4bitlabs/readers": "^3.0.0",
+    "@4bitlabs/readers": "^3.0.1",
     "@4bitlabs/vec2": "^3.0.2"
   }
 }
