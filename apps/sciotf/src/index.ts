@@ -1,23 +1,14 @@
 #!/usr/bin/env node
 import sade from 'sade';
 import { findAndParseFont } from './utils/find-and-parse.js';
-import { trace } from '@watercolorizer/tracer';
 import opentype from 'opentype.js';
 import { writeFile } from 'node:fs/promises';
 import * as m from 'transformation-matrix';
 
-import type { FontFace } from '@4bitlabs/sci0';
-import type { IndexedPixelData } from '@4bitlabs/image';
-import { chamfer } from './utils/chamfer.js';
-import { mapRange, range } from './utils/range.js';
+import { mapRange } from './utils/range.js';
 import { parseAspectRatio, parseEngine, parseId } from './opt-parsers.js';
-import type { Matrix } from 'transformation-matrix';
-
-const applyToPoints = (
-  { a, b, c, d, e, f }: m.Matrix,
-  ps: (readonly [number, number])[],
-): [number, number][] =>
-  ps.map(([x, y]) => [a * x + c * y + e, b * x + d * y + f]);
+import { guessBaseline } from './utils/measure.js';
+import { charToGlyph } from './pixel-to-glyph.js';
 
 const prog = sade('@4bitlabs/scifont');
 
@@ -25,56 +16,6 @@ prog
   .version(process.env.__VERSION__ ?? 'unknown')
   .option('--root, -r', 'SCI0/SCI01 root directory')
   .option('--engine, -e', 'engine');
-
-function actualBottom(char: IndexedPixelData): number {
-  for (let dy = 0; dy < char.height; dy++) {
-    const y = char.height - dy - 1;
-    const empty = [...range(0, char.width - 1)].every(
-      (x) => char.pixels[x + y * char.width] === char.keyColor,
-    );
-    if (!empty) return y + 1;
-  }
-
-  return char.height - 1;
-}
-
-function guessBaseline(font: FontFace): number {
-  const xChar = font.characters['x'.charCodeAt(0)];
-  return actualBottom(xChar);
-}
-
-function charToGlyph(
-  unicode: number,
-  name: string,
-  char: IndexedPixelData,
-  mat2d: Readonly<Matrix>,
-  widthScalar: number,
-): opentype.Glyph {
-  const loops = trace(char.pixels, [char.width, char.height], {
-    polygonify: false,
-    simplifyRuns: true,
-    despeckle: false,
-    windingRule: 'nonzero',
-  });
-
-  const path = new opentype.Path();
-  for (const loop of loops) {
-    const points = applyToPoints(mat2d, loop);
-    const [first, ...rest] = chamfer(points, 1);
-    path.moveTo(first[0], first[1]);
-    for (const [x, y] of rest) {
-      path.lineTo(Math.round(x), Math.round(y));
-    }
-    path.closePath();
-  }
-
-  return new opentype.Glyph({
-    name,
-    unicode,
-    advanceWidth: char.width * widthScalar,
-    path,
-  });
-}
 
 prog
   .command('otf <id>', 'create a ttf of selected font')
@@ -160,13 +101,13 @@ prog
             [0x12, 0x2195, 'vertical-pointing arrow'],
             [0x1d, 0x2194, 'horizontal-pointing arrow'],
             [0x16, 0x25ac, 'black rectangle'],
-            [0x17, 0x21A8, 'up down arrow with base'],
+            [0x17, 0x21a8, 'up down arrow with base'],
 
             [0x01, 0x26f0, 'mountain'],
             [0x13, 0x203c, 'double exclamation mark'],
             [0x14, 0x00b6, 'pilcrow sign'],
             [0x15, 0x00a7, 'section sign'],
-            [0x1c, 0x221F, 'right angle'],
+            [0x1c, 0x221f, 'right angle'],
             [0x0f, 0x263c, 'solar symbol'],
             [0x03, 0x2388, 'helm symbol'],
             [0x02, 0x2387, 'alternative key symbol'],

@@ -4,7 +4,6 @@ export function* range(start: number, end: number, step = 1) {
   }
 }
 
-
 export function* mapRange<T>(
   start: number,
   end: number,
