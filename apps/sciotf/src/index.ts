@@ -44,13 +44,10 @@ prog
 
       const font = await findAndParseFont(opts.root ?? './', id, engine);
 
-      const unitsPerEm = 1000;
+      const unitsPerEm = 1024;
       const screenScale = m.compose(
-        m.scale(
-          unitsPerEm / 16 / aspectRatio[0],
-          unitsPerEm / 16 / aspectRatio[0],
-        ),
         m.scale(...aspectRatio),
+        m.scale(64, 64),
       );
 
       const baseline = opts.baseline

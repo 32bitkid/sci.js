@@ -18,10 +18,10 @@ export const parseId = (val: string): number => {
 export const parseAspectRatio = (
   val: unknown,
 ): [[number, number], 'AC' | 'PX'] => {
-  if (val === undefined || val === null || val === '') return [[5, 6], 'AC'];
+  if (val === undefined || val === null || val === '') return [[1, 1.2], 'AC'];
   if (typeof val === 'string') {
-    if (val.toLocaleLowerCase() === '1:1') return [[5, 5], 'PX'];
-    if (val.toLocaleLowerCase() === '5:6') return [[5, 6], 'AC'];
+    if (val.toLocaleLowerCase() === '1:1') return [[1, 1], 'PX'];
+    if (val.toLocaleLowerCase() === '5:6') return [[1, 1.2], 'AC'];
   }
   panic('--aspect-ratio must be "1:1" or "5:6"');
 };

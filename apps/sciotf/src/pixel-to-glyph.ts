@@ -30,7 +30,7 @@ export function charToGlyph(
   for (const loop of loops) {
     const points = applyToPoints(mat2d, loop);
     const [first, ...rest] = chamfer(points, 1);
-    path.moveTo(first[0], first[1]);
+    path.moveTo(Math.round(first[0]), Math.round(first[1]));
     for (const [x, y] of rest) {
       path.lineTo(Math.round(x), Math.round(y));
     }
