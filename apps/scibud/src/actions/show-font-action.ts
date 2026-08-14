@@ -15,11 +15,11 @@ import { getRootOptions } from './get-root-options.js';
 import { loadContentFromMap } from './load-content-from-map.js';
 import { fontMatcher } from '../helpers/resource-matchers.js';
 import { chunk } from '../helpers/chunk.js';
-import { nearestNeighbor } from "@4bitlabs/resize-filters";
+import { nearestNeighbor } from '@4bitlabs/resize-filters';
 
 export const showFontAction = async (
   fontNum: number,
-  options: { output?: string, ar?: boolean },
+  options: { output?: string; ar?: boolean },
   thisCmd: Command,
 ) => {
   const { root, engine } = getRootOptions(thisCmd);
@@ -32,7 +32,7 @@ export const showFontAction = async (
     renderPixelData(ch, {
       pre: [padPixelsFilter([0, 0, 1, 0])],
       render: createPaletteFilter(CGA_PALETTE),
-      post: [options.ar ? nearestNeighbor([5,6]) : undefined]
+      post: [options.ar ? nearestNeighbor([5, 6]) : undefined],
     }),
   );
 
@@ -73,7 +73,8 @@ export const showFontAction = async (
   });
 
   const output = (
-    options.output ?? `font.${fontNum.toString(10).padStart(3, '0')}.${basename(root)}.png`
+    options.output ??
+    `font.${fontNum.toString(10).padStart(3, '0')}.${basename(root)}.png`
   ).trim();
 
   if (output === '-') {

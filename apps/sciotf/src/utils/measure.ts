@@ -14,7 +14,7 @@ export function actualBottom(char: IndexedPixelData): number {
   return char.height - 1;
 }
 
-export function guessBaseline(font: FontFace): number {
-  const xChar = font.characters['x'.charCodeAt(0)];
+export function guessBaseline(font: FontFace, char = 'x'): number {
+  const xChar = font.characters[char.charCodeAt(0)];
   return actualBottom(xChar);
 }

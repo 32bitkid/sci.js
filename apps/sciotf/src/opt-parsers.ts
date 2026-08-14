@@ -25,3 +25,17 @@ export const parseAspectRatio = (
   }
   panic('--aspect-ratio must be "1:1" or "5:6"');
 };
+
+export const parseChamfer = (
+  val: unknown,
+  defaultVal: 'none' | 'inside' | 'outside' | 'both' = 'both',
+): 'none' | 'inside' | 'outside' | 'both' => {
+  if (val === undefined || val === null || val === '') return defaultVal;
+  if (typeof val === 'string') {
+    if (val === 'inside') return val;
+    if (val === 'outside') return val;
+    if (val === 'both') return val;
+    if (val === 'none') return val;
+  }
+  panic('--chamfer must be "none", "inside", "outside", or "both"');
+};
