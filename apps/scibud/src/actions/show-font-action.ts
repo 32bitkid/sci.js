@@ -1,5 +1,7 @@
 import type { Command } from 'commander';
 import sharp from 'sharp';
+import { writeFile } from 'node:fs/promises';
+import { basename } from 'node:path';
 
 import { CGA_PALETTE } from '@4bitlabs/color/palettes';
 import { decompress, parseFont } from '@4bitlabs/sci0';
@@ -13,10 +15,11 @@ import { getRootOptions } from './get-root-options.js';
 import { loadContentFromMap } from './load-content-from-map.js';
 import { fontMatcher } from '../helpers/resource-matchers.js';
 import { chunk } from '../helpers/chunk.js';
+import { nearestNeighbor } from "@4bitlabs/resize-filters";
 
 export const showFontAction = async (
   fontNum: number,
-  _: unknown,
+  options: { output?: string, ar?: boolean },
   thisCmd: Command,
 ) => {
   const { root, engine } = getRootOptions(thisCmd);
@@ -29,6 +32,7 @@ export const showFontAction = async (
     renderPixelData(ch, {
       pre: [padPixelsFilter([0, 0, 1, 0])],
       render: createPaletteFilter(CGA_PALETTE),
+      post: [options.ar ? nearestNeighbor([5,6]) : undefined]
     }),
   );
 
@@ -68,5 +72,13 @@ export const showFontAction = async (
     },
   });
 
-  process.stdout.write(await image.png().toBuffer());
+  const output = (
+    options.output ?? `font.${fontNum.toString(10).padStart(3, '0')}.${basename(root)}.png`
+  ).trim();
+
+  if (output === '-') {
+    process.stdout.write(await image.png().toBuffer());
+  } else {
+    await writeFile(output, await image.png().toBuffer());
+  }
 };
