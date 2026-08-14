@@ -10,6 +10,6 @@ export const showFontCommand = (fontCmd: Command) => {
     .addOption(
       new Option('-o, --output <fn>', 'output filename, "-" for STDOUT'),
     )
-    .addOption(new Option('--ar', 'aspect ratio correction, scale to 5:6'))
+    .addOption(new Option('--aspect-ratio', 'aspect ratio correction, scale to 5:6'))
     .action(showFontAction);
 };

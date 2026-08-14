@@ -19,7 +19,7 @@ import { nearestNeighbor } from '@4bitlabs/resize-filters';
 
 export const showFontAction = async (
   fontNum: number,
-  options: { output?: string; ar?: boolean },
+  options: { output?: string; aspectRatio?: boolean },
   thisCmd: Command,
 ) => {
   const { root, engine } = getRootOptions(thisCmd);
@@ -32,7 +32,7 @@ export const showFontAction = async (
     renderPixelData(ch, {
       pre: [padPixelsFilter([0, 0, 1, 0])],
       render: createPaletteFilter(CGA_PALETTE),
-      post: [options.ar ? nearestNeighbor([5, 6]) : undefined],
+      post: [options.aspectRatio ? nearestNeighbor([5, 6]) : undefined],
     }),
   );
 

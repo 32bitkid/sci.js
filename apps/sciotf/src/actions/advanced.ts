@@ -46,7 +46,7 @@ const SourceSchema = z.object({
       z.union([
         z.literal('ascii'),
         z.literal('ascii-symbols'),
-        z.literal('ascii-numbers'),
+        z.literal('ascii-digits'),
         z.literal('ascii-uppercase'),
         z.literal('ascii-lowercase'),
         z.tuple([z.hex(), z.hex(), z.string()]),
@@ -210,7 +210,7 @@ export function advancedAction(prog: Sade) {
                 visit(i);
               }
             }
-            if (mapping === 'ascii' || mapping === 'ascii-numbers') {
+            if (mapping === 'ascii' || mapping === 'ascii-digits') {
               for (const i of range(0x30, 0x3f)) {
                 const char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
