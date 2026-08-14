@@ -21,5 +21,5 @@ export function windingOrderOf(points: Vec2[]): WindingOrder {
   for (const [[x0, y0], [x1, y1]] of segments(points, 'loop')) {
     sum += (x1 - x0) * (y1 + y0);
   }
-  return sum >= 0 ? 'cw' : 'ccw';
+  return sum >= 0 ? 'ccw' : 'cw';
 }

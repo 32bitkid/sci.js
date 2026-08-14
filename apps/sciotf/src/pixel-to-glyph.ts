@@ -19,8 +19,8 @@ const applyChamfer = (
 ): [number, number][] => {
   const winding = windingOrderOf(points);
   return chamferMode === 'both' ||
-    (chamferMode === 'inside' && winding === 'ccw') ||
-    (chamferMode === 'outside' && winding === 'cw')
+    (chamferMode === 'inside' && winding === 'cw') ||
+    (chamferMode === 'outside' && winding === 'ccw')
     ? chamfer(points, 1)
     : points.map(([x, y]) => [x, y]);
 };

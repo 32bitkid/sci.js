@@ -21,9 +21,10 @@ export const parseAspectRatio = (
   if (val === undefined || val === null || val === '') return [[1, 1.2], 'AC'];
   if (typeof val === 'string') {
     if (val.toLocaleLowerCase() === '1:1') return [[1, 1], 'PX'];
+    if (val.toLocaleLowerCase() === '1:1.2') return [[1, 1.2], 'AC'];
     if (val.toLocaleLowerCase() === '5:6') return [[1, 1.2], 'AC'];
   }
-  panic('--aspect-ratio must be "1:1" or "5:6"');
+  panic('--aspect-ratio must be "1:1", "1:1.2" or "5:6"');
 };
 
 export const parseChamfer = (
