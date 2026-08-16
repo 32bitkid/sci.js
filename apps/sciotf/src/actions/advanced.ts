@@ -246,6 +246,7 @@ export function advancedAction(prog: Sade) {
               const [inputChar, unicode, name, options] = mapping;
               let char = font.characters[Number.parseInt(inputChar, 16)];
               char = padGlyph(char, payload.pad);
+              if (options?.pad) char = padGlyph(char, options.pad);
               if (options?.xor) {
                 char = xorPixels(char, options.xor);
               }
