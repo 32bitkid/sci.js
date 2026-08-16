@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "A CLI utility to convert SCI0/SCI01 fonts into TTF files",
   "type": "module",
-  "private": "true",
   "exports": {
     ".": {
       "types": "./dist/main.d.ts",
