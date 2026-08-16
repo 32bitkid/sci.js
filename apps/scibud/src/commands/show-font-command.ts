@@ -7,9 +7,12 @@ export const showFontCommand = (fontCmd: Command) => {
   fontCmd
     .command('show')
     .argument('<num>', 'font number', cmdIntParser)
+    .addOption(new Option('-i, --input <fn>', 'input FONT.xxx file'))
     .addOption(
       new Option('-o, --output <fn>', 'output filename, "-" for STDOUT'),
     )
-    .addOption(new Option('--aspect-ratio', 'aspect ratio correction, scale to 5:6'))
+    .addOption(
+      new Option('--aspect-ratio', 'aspect ratio correction, scale to 5:6'),
+    )
     .action(showFontAction);
 };

@@ -1,10 +1,10 @@
 import type { Command } from 'commander';
 import sharp from 'sharp';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, readFile } from 'node:fs/promises';
 import { basename } from 'node:path';
 
 import { CGA_PALETTE } from '@4bitlabs/color/palettes';
-import { decompress, parseFont } from '@4bitlabs/sci0';
+import { decompress, parseFont, ResourceTypes } from '@4bitlabs/sci0';
 import {
   createImageData,
   createPaletteFilter,
@@ -17,15 +17,32 @@ import { fontMatcher } from '../helpers/resource-matchers.js';
 import { chunk } from '../helpers/chunk.js';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
 
-export const showFontAction = async (
+const getFontData = async (
   fontNum: number,
-  options: { output?: string; aspectRatio?: boolean },
+  options: { output?: string; aspectRatio?: boolean; input?: string },
   thisCmd: Command,
-) => {
+): Promise<Uint8Array> => {
+  if (options?.input) {
+    const bytes = await readFile(options.input);
+    if (bytes[0] !== (ResourceTypes.FONT_TYPE | 0x80)) {
+      console.error(`warn: unexpected resource type ${bytes[0] ^ 0x80}`);
+    }
+    return bytes.subarray(2);
+  }
+
   const { root, engine } = getRootOptions(thisCmd);
   const [header, bytes] = await loadContentFromMap(root, fontMatcher(fontNum));
 
-  const payload = decompress(engine, header.compression, bytes);
+  return decompress(engine, header.compression, bytes);
+};
+
+export const showFontAction = async (
+  fontNum: number,
+  options: { output?: string; aspectRatio?: boolean; input?: string },
+  thisCmd: Command,
+) => {
+  const { root } = getRootOptions(thisCmd);
+  const payload = await getFontData(fontNum, options, thisCmd);
   const { characters } = parseFont(payload);
 
   const glyphs = characters.map((ch) =>
