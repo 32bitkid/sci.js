@@ -4,6 +4,7 @@
     "includes": [
       "libs/**/*.js",
       "libs/**/*.ts",
+      "libs/**/*.json",
       "!libs/**/dist",
       "!libs/**/coverage",
       "apps/**/*.js",
