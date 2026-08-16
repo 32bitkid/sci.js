@@ -1,6 +1,8 @@
 import type { Sade } from 'sade';
 import { readFile, writeFile } from 'node:fs/promises';
 import opentype from 'opentype.js';
+import { join as pathJoin } from 'node:path';
+
 import { findAndParseFont } from '../utils/find-and-parse.js';
 import { range } from '../utils/range.js';
 import { charToGlyph } from '../pixel-to-glyph.js';
@@ -141,10 +143,11 @@ export function advancedAction(prog: Sade) {
       '--chamfer',
       'set corner chamfer mode from "none", "inside", "outside", "both" (default "both")',
     )
+    .option('--output, -o <dir>', 'output folder (deafult: ".")')
     .action(
       async (
         file: string,
-        opts: { 'aspect-ratio'?: string; chamfer?: string },
+        opts: { 'aspect-ratio'?: string; chamfer?: string; output?: string },
       ) => {
         const json = await readFile(file);
         const payload = tryParse(JSON.parse(new TextDecoder().decode(json)));
@@ -282,7 +285,11 @@ export function advancedAction(prog: Sade) {
         });
 
         const fileName = `sci${arStr}-${payload.name.replace(/\./g, '-').toLowerCase()}.otf`;
-        await writeFile(fileName, Buffer.from(sciOTF.toArrayBuffer()));
+        const outputPath = opts.output ?? '.';
+        await writeFile(
+          pathJoin(outputPath, fileName),
+          Buffer.from(sciOTF.toArrayBuffer()),
+        );
         console.log(fileName);
       },
     );

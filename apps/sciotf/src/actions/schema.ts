@@ -63,17 +63,19 @@ export const CustomMappingSchema = () =>
     z.hex(),
     z.hex(),
     z.string(),
-    z.object({
-      pad: z
-        .object({
-          top: z.number().positive().optional(),
-          right: z.number().positive().optional(),
-          bottom: z.number().positive().optional(),
-          left: z.number().positive().optional(),
-        })
-        .optional(),
-      xor: z.array(z.string()).optional()
-    }).optional(),
+    z
+      .object({
+        pad: z
+          .object({
+            top: z.number().positive().optional(),
+            right: z.number().positive().optional(),
+            bottom: z.number().positive().optional(),
+            left: z.number().positive().optional(),
+          })
+          .optional(),
+        xor: z.array(z.string()).optional(),
+      })
+      .optional(),
   ]);
 
 export const MappingSchema = () =>
