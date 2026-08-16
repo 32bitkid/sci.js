@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@6.1.2...@4bitlabs/sci0@6.2.0) (2026-08-16)
+
+### Features
+
+* **sci0:** create specific type for Glyph in FontFace
+* **sciotf:** Adding sciotf app for rendering sci0/01 fonts as OTF fonts
+
+
 ## [6.1.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@6.1.1...@4bitlabs/sci0@6.1.2) (2026-07-29)
 
 **Note:** Version bump only for package @4bitlabs/sci0

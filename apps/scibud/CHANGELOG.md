@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.0.6...@4bitlabs/scibud@3.1.0) (2026-08-16)
+
+### Features
+
+* **scibud:** add support for reading directly from patch file
+* **scibud:** allow font show to write to file, add scaling option
+* **sciotf:** add advanced export command and chamfer control
+
+### Bug Fixes
+
+* **scibud:** normalize aspect ratio option on font show
+
+
 ## [3.0.6](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.0.5...@4bitlabs/scibud@3.0.6) (2026-07-29)
 
 **Note:** Version bump only for package @4bitlabs/scibud

@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.2.1...@4bitlabs/sci0-renderer@1.3.0) (2026-08-16)
+
+### Features
+
+* **sciotf:** Adding sciotf app for rendering sci0/01 fonts as OTF fonts
+
+
 ## [1.2.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.2.0...@4bitlabs/sci0-renderer@1.2.1) (2026-07-29)
 
 **Note:** Version bump only for package @4bitlabs/sci0-renderer
