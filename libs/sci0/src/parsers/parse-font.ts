@@ -1,5 +1,5 @@
-import { createIndexedPixelData, type IndexedPixelData } from '@4bitlabs/image';
-import type { FontFace } from '../models/font-face.js';
+import { createIndexedPixelData } from '@4bitlabs/image';
+import type { FontFace, Glyph } from '../models/font-face.js';
 import { repeat } from '../utils/repeat.js';
 import type { ParseFontOptions } from './parse-font-options.js';
 
@@ -20,12 +20,16 @@ export const parseFont = (
   );
   const pointers = repeat(count, (i) => pointersView.getUint16(i * 2, true));
 
-  const characters = pointers.map<IndexedPixelData>((offset) => {
+  const characters = pointers.map<Glyph>((offset) => {
     const [width, height] = [source[offset], source[offset + 1]];
 
     const widthBytes = (width + 7) >>> 3;
 
-    const image = createIndexedPixelData(width, height, { keyColor });
+    const image = {
+      ...createIndexedPixelData(width, height),
+      color,
+      keyColor,
+    };
 
     for (let y = 0; y < height; y++) {
       const yOffset = offset + 2 + y * widthBytes;

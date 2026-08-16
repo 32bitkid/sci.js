@@ -28,7 +28,7 @@ export { parsePic } from './parsers/parse-pic.js';
 
 export type { Loop } from './models/view.js';
 export type { Cel } from './models/cel.js';
-export type { FontFace } from './models/font-face.js';
+export type { FontFace, Glyph } from './models/font-face.js';
 export type { Cursor } from './models/cursor.js';
 export type { View } from './models/view.js';
 export type { Pic } from './models/pic.js';
