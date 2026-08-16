@@ -5,12 +5,12 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mts"
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.mts"
     }
   },
   "bin": {
-    "sciotf": "./dist/index.mjs"
+    "sciotf": "./dist/main.mjs"
   },
   "scripts": {
     "build": "tsdown",
@@ -21,7 +21,6 @@
     "test:dev": "vitest dev"
   },
   "dependencies": {
-    "@4bitlabs/image": "^5.0.2",
     "@4bitlabs/sci0": "^6.1.2",
     "@watercolorizer/tracer": "^3.2.1",
     "opentype.js": "^2.0.0",

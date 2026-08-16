@@ -1,8 +1,8 @@
 import { trace } from '@watercolorizer/tracer';
 import opentype from 'opentype.js';
 import type * as m from 'transformation-matrix';
+import type { Glyph } from '@4bitlabs/sci0';
 
-import type { IndexedPixelData } from '@4bitlabs/image';
 import { chamfer } from './utils/chamfer.js';
 import type { Matrix } from 'transformation-matrix';
 import { windingOrderOf } from './utils/winding-order.js';
@@ -28,7 +28,7 @@ const applyChamfer = (
 export function charToGlyph(
   unicode: number,
   name: string,
-  char: IndexedPixelData,
+  char: Glyph,
   mat2d: Readonly<Matrix>,
   widthScalar: number,
   chamferMode: 'inside' | 'outside' | 'none' | 'both',
@@ -39,6 +39,7 @@ export function charToGlyph(
     despeckle: false,
     windingOrder: 'ccw',
     windingRule: 'nonzero',
+    emptyValue: char.keyColor,
   });
 
   const path = new opentype.Path();

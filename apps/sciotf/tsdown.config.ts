@@ -2,7 +2,7 @@ import { defineConfig } from 'tsdown/config';
 import packageJSON from './package.json' with { type: 'json' };
 
 export default defineConfig({
-  entry: ['./src/index.ts'],
+  entry: ['./src/main.ts'],
   platform: 'node',
   format: ['esm'],
   target: ['node24'],

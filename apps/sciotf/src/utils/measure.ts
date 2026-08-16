@@ -1,8 +1,7 @@
-import type { IndexedPixelData } from '@4bitlabs/image';
-import type { FontFace } from '@4bitlabs/sci0';
+import type { FontFace, Glyph } from '@4bitlabs/sci0';
 import { range } from './range.js';
 
-export function actualBottom(char: IndexedPixelData): number {
+export function actualBottom(char: Glyph): number {
   for (let dy = 0; dy < char.height; dy++) {
     const y = char.height - dy - 1;
     const empty = [...range(0, char.width - 1)].every(

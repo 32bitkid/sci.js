@@ -1,5 +1,4 @@
 import type { Sade } from 'sade';
-import * as z from 'zod';
 import { readFile, writeFile } from 'node:fs/promises';
 import opentype from 'opentype.js';
 import { findAndParseFont } from '../utils/find-and-parse.js';
@@ -8,132 +7,128 @@ import { charToGlyph } from '../pixel-to-glyph.js';
 import m from 'transformation-matrix';
 import { parseAspectRatio, parseChamfer } from '../opt-parsers.js';
 import { guessBaseline } from '../utils/measure.js';
+import {
+  type BaselineSchemaType,
+  type LineHeightSchemaType,
+  type SourceSchemaType,
+  tryParse,
+} from './schema.js';
+import {
+  parseFont,
+  ResourceTypes,
+  type Glyph,
+  type FontFace,
+} from '@4bitlabs/sci0';
 
-const BaselineSchema = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('constant'),
-    value: z.number().gt(0),
-  }),
-  z.object({
-    type: z.literal('source'),
-    root: z.string(),
-    engine: z.enum(['sci0', 'sci01']).optional(),
-    id: z.number(),
-    char: z.string().length(1).optional(),
-  }),
-]);
-
-const LineHeightSchema = z.discriminatedUnion('type', [
-  z.object({
-    type: z.literal('constant'),
-    value: z.number().gt(0),
-  }),
-  z.object({
-    type: z.literal('source'),
-    root: z.string(),
-    engine: z.enum(['sci0', 'sci01']).optional(),
-    id: z.number(),
-  }),
-]);
-
-const SourceSchema = z.object({
-  type: z.literal('source'),
-  root: z.string(),
-  engine: z.enum(['sci0', 'sci01']).optional(),
-  id: z.number(),
-  mappings: z
-    .array(
-      z.union([
-        z.literal('ascii'),
-        z.literal('ascii-symbols'),
-        z.literal('ascii-digits'),
-        z.literal('ascii-uppercase'),
-        z.literal('ascii-lowercase'),
-        z.tuple([z.hex(), z.hex(), z.string()]),
-      ]),
-    )
-    .min(1),
-});
-
-const Batch = z.object({
-  name: z.string(),
-  aspectRatio: z.enum(['1:1', '5:6']).optional(),
-  version: z.string().optional(),
-  baseline: BaselineSchema.optional(),
-  lineHeight: LineHeightSchema.optional(),
-  sources: z.array(SourceSchema),
-  chamfer: z
-    .enum(['both', 'inside', 'outside', 'none'])
-    .optional()
-    .default('both'),
-});
+async function loadSource(source: SourceSchemaType): Promise<FontFace> {
+  switch (source.type) {
+    case 'resource': {
+      return await findAndParseFont(
+        source.root,
+        source.id,
+        source.engine ?? 'sci0',
+      );
+    }
+    case 'patch': {
+      const bytes = await readFile(source.path);
+      if (bytes[0] !== (ResourceTypes.FONT_TYPE | 0x80)) {
+        console.error(`warn: unexpected resource type ${bytes[0] ^ 0x80}`);
+      }
+      const payload = bytes.subarray(2);
+      return parseFont(payload, { keyColor: 0x00, color: 0xff });
+    }
+  }
+}
 
 async function getBaseline(
-  defaultSource: z.TypeOf<typeof SourceSchema>,
-  option?: z.TypeOf<typeof BaselineSchema>,
+  defaultSource: SourceSchemaType,
+  option?: BaselineSchemaType,
 ) {
   if (option === undefined) {
-    const font = await findAndParseFont(
-      defaultSource.root,
-      defaultSource.id,
-      defaultSource.engine ?? 'sci0',
-    );
+    const font = await loadSource(defaultSource);
     return guessBaseline(font);
   }
 
   switch (option.type) {
     case 'constant':
       return option.value;
-    case 'source': {
-      const font = await findAndParseFont(
-        option.root,
-        option.id,
-        option.engine ?? 'sci0',
-      );
+    case 'patch':
+    case 'resource': {
+      const font = await loadSource(defaultSource);
       return guessBaseline(font, option.char);
     }
   }
 }
 
 async function getLineHeight(
-  defaultSource: z.TypeOf<typeof SourceSchema>,
-  option?: z.TypeOf<typeof LineHeightSchema>,
+  defaultSource: SourceSchemaType,
+  option?: LineHeightSchemaType,
 ) {
   if (option === undefined) {
-    const font = await findAndParseFont(
-      defaultSource.root,
-      defaultSource.id,
-      defaultSource.engine ?? 'sci0',
-    );
-    return font.lineHeight + 1;
+    const font = await loadSource(defaultSource);
+    return font.lineHeight;
   }
 
   switch (option.type) {
     case 'constant':
       return option.value;
-    case 'source': {
-      const font = await findAndParseFont(
-        option.root,
-        option.id,
-        option.engine ?? 'sci0',
-      );
-      return font.lineHeight + 1;
+    case 'patch':
+    case 'resource': {
+      const font = await loadSource(defaultSource);
+      return font.lineHeight;
     }
   }
 }
 
-function tryParse(json: unknown) {
-  try {
-    return Batch.parse(json);
-  } catch (ex: unknown) {
-    if (ex instanceof z.ZodError) {
-      console.error(z.prettifyError(ex));
-    } else {
-      console.error('Something went wrong');
+function xorPixels(char: Glyph, xor: string[]): Glyph {
+  const updated = {
+    ...char,
+    pixels: Uint8ClampedArray.from(char.pixels),
+  };
+  for (let y = 0; y < Math.min(char.height, xor.length); y += 1) {
+    const line = xor[y] ?? '';
+    for (let x = 0; x < Math.min(char.width, line.length); x += 1) {
+      const idx = y * char.width + x;
+      const left = updated.pixels[idx] !== char.keyColor ? 0xff : 0x00;
+      const right = (line[x] ?? ' ') !== ' ' ? 0xff : 0x00;
+      updated.pixels[idx] = left ^ right ? char.color : char.keyColor;
     }
-    process.exit(-1);
   }
+  return updated;
 }
+
+const padGlyph = (
+  glyph: Glyph,
+  padding: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  } = {},
+): Glyph => {
+  const { top = 0, right = 0, bottom = 0, left = 0 } = padding;
+  if (top === 0 && right === 0 && bottom === 0 && left === 0) return glyph;
+
+  const [width, height] = [
+    glyph.width + left + right,
+    glyph.height + top + bottom,
+  ];
+  const paddedGlyph: Glyph = {
+    color: glyph.color,
+    height: glyph.height + top + bottom,
+    keyColor: glyph.keyColor,
+    pixels: new Uint8ClampedArray(width * height),
+    width: glyph.width + left + right,
+  };
+
+  paddedGlyph.pixels.fill(glyph.keyColor);
+  for (let y = 0; y < glyph.height; y += 1) {
+    const row = glyph.pixels.subarray(y * glyph.width, (y + 1) * glyph.width);
+    paddedGlyph.pixels.set(row, (y + top) * width + left);
+  }
+
+  return paddedGlyph;
+};
 
 export function advancedAction(prog: Sade) {
   prog
@@ -159,11 +154,13 @@ export function advancedAction(prog: Sade) {
         );
 
         const defaultSource = payload.sources[0];
-        const baseline = await getBaseline(defaultSource, payload.baseline);
-        const lineHeight = await getLineHeight(
-          defaultSource,
-          payload.lineHeight,
-        );
+        const baseline =
+          (await getBaseline(defaultSource, payload.baseline)) +
+          (payload.pad?.top ?? 0);
+        const lineHeight =
+          (await getLineHeight(defaultSource, payload.lineHeight)) +
+          (payload.pad?.top ?? 0) +
+          (payload.pad?.bottom ?? 0);
         const chamferMode = parseChamfer(opts.chamfer, payload.chamfer);
 
         const unitsPerEm = 1024;
@@ -191,19 +188,17 @@ export function advancedAction(prog: Sade) {
             path: new opentype.Path(),
           }),
         ];
+
         for (const source of payload.sources) {
-          const font = await findAndParseFont(
-            source.root,
-            source.id,
-            source.engine ?? 'sci0',
-          );
+          const font = await loadSource(source);
 
           for (const mapping of source.mappings) {
             if (mapping === 'ascii' || mapping === 'ascii-symbols') {
               for (const i of range(0x20, 0x2f)) {
-                const char = font.characters[i];
+                let char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = i === 0x20 ? 'SPACE' : String.fromCodePoint(i);
+                char = padGlyph(char, payload.pad);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -212,9 +207,10 @@ export function advancedAction(prog: Sade) {
             }
             if (mapping === 'ascii' || mapping === 'ascii-digits') {
               for (const i of range(0x30, 0x3f)) {
-                const char = font.characters[i];
+                let char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
+                char = padGlyph(char, payload.pad);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -223,9 +219,10 @@ export function advancedAction(prog: Sade) {
             }
             if (mapping === 'ascii' || mapping === 'ascii-uppercase') {
               for (const i of range(0x40, 0x5f)) {
-                const char = font.characters[i];
+                let char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
+                char = padGlyph(char, payload.pad);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -234,9 +231,10 @@ export function advancedAction(prog: Sade) {
             }
             if (mapping === 'ascii' || mapping === 'ascii-lowercase') {
               for (const i of range(0x60, 0x7f)) {
-                const char = font.characters[i];
+                let char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
+                char = padGlyph(char, payload.pad);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -245,8 +243,12 @@ export function advancedAction(prog: Sade) {
             }
 
             if (Array.isArray(mapping)) {
-              const [inputChar, unicode, name] = mapping;
-              const char = font.characters[Number.parseInt(inputChar, 16)];
+              const [inputChar, unicode, name, options] = mapping;
+              let char = font.characters[Number.parseInt(inputChar, 16)];
+              char = padGlyph(char, payload.pad);
+              if (options?.xor) {
+                char = xorPixels(char, options.xor);
+              }
               glyphs.push(
                 charToGlyph(
                   Number.parseInt(unicode, 16),
