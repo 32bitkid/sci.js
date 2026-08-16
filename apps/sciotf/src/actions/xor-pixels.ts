@@ -1,4 +1,4 @@
-import type { Glyph } from "@4bitlabs/sci0";
+import type { Glyph } from '@4bitlabs/sci0';
 
 export function xorPixels(char: Glyph, xor: string[]): Glyph {
   const updated = {

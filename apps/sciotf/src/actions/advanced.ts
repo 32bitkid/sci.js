@@ -9,10 +9,15 @@ import { charToGlyph } from '../pixel-to-glyph.js';
 import m from 'transformation-matrix';
 import { parseAspectRatio, parseChamfer } from '../opt-parsers.js';
 import { guessBaseline } from '../utils/measure.js';
-import { type BaselineSchemaType, type LineHeightSchemaType, type SourceSchemaType, tryParse, } from './schema.js';
-import { type FontFace, parseFont, ResourceTypes, } from '@4bitlabs/sci0';
-import { padGlyph } from "./pad-glyph.js";
-import { xorPixels } from "./xor-pixels.js";
+import {
+  type BaselineSchemaType,
+  type LineHeightSchemaType,
+  type SourceSchemaType,
+  tryParse,
+} from './schema.js';
+import { type FontFace, parseFont, ResourceTypes } from '@4bitlabs/sci0';
+import { padGlyph } from './pad-glyph.js';
+import { xorPixels } from './xor-pixels.js';
 
 async function loadSource(source: SourceSchemaType): Promise<FontFace> {
   switch (source.type) {
