@@ -1,17 +1,29 @@
 {
   "name": "@4bitlabs/sciotf",
   "version": "1.0.0",
-  "description": "A CLI utility to convert SCI0/SCI01 fonts into TTF files",
+  "description": "A CLI utility to convert SCI0/SCI01 fonts into OTF fonts",
+  "keywords": [
+    "sci0",
+    "sierra on-line",
+    "sci01",
+    "fonts",
+    "otf"
+  ],
+  "license": "ISC",
+  "author": "J. Holmes <32bitkid@gmail.com>",
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/main.d.ts",
-      "import": "./dist/main.mts"
+      "types": "./dist/main.d.mts",
+      "import": "./dist/main.mjs"
     }
   },
   "bin": {
     "sciotf": "./dist/main.mjs"
   },
+  "files": [
+    "./dist/**/*"
+  ],
   "scripts": {
     "build": "tsdown",
     "clean": "tsc --build --clean",

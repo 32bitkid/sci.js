@@ -9,18 +9,10 @@ import { charToGlyph } from '../pixel-to-glyph.js';
 import m from 'transformation-matrix';
 import { parseAspectRatio, parseChamfer } from '../opt-parsers.js';
 import { guessBaseline } from '../utils/measure.js';
-import {
-  type BaselineSchemaType,
-  type LineHeightSchemaType,
-  type SourceSchemaType,
-  tryParse,
-} from './schema.js';
-import {
-  parseFont,
-  ResourceTypes,
-  type Glyph,
-  type FontFace,
-} from '@4bitlabs/sci0';
+import { type BaselineSchemaType, type LineHeightSchemaType, type SourceSchemaType, tryParse, } from './schema.js';
+import { type FontFace, parseFont, ResourceTypes, } from '@4bitlabs/sci0';
+import { padGlyph } from "./pad-glyph.js";
+import { xorPixels } from "./xor-pixels.js";
 
 async function loadSource(source: SourceSchemaType): Promise<FontFace> {
   switch (source.type) {
@@ -81,56 +73,6 @@ async function getLineHeight(
     }
   }
 }
-
-function xorPixels(char: Glyph, xor: string[]): Glyph {
-  const updated = {
-    ...char,
-    pixels: Uint8ClampedArray.from(char.pixels),
-  };
-  for (let y = 0; y < Math.min(char.height, xor.length); y += 1) {
-    const line = xor[y] ?? '';
-    for (let x = 0; x < Math.min(char.width, line.length); x += 1) {
-      const idx = y * char.width + x;
-      const left = updated.pixels[idx] !== char.keyColor ? 0xff : 0x00;
-      const right = (line[x] ?? ' ') !== ' ' ? 0xff : 0x00;
-      updated.pixels[idx] = left ^ right ? char.color : char.keyColor;
-    }
-  }
-  return updated;
-}
-
-const padGlyph = (
-  glyph: Glyph,
-  padding: {
-    top?: number;
-    right?: number;
-    bottom?: number;
-    left?: number;
-  } = {},
-): Glyph => {
-  const { top = 0, right = 0, bottom = 0, left = 0 } = padding;
-  if (top === 0 && right === 0 && bottom === 0 && left === 0) return glyph;
-
-  const [width, height] = [
-    glyph.width + left + right,
-    glyph.height + top + bottom,
-  ];
-  const paddedGlyph: Glyph = {
-    color: glyph.color,
-    height: glyph.height + top + bottom,
-    keyColor: glyph.keyColor,
-    pixels: new Uint8ClampedArray(width * height),
-    width: glyph.width + left + right,
-  };
-
-  paddedGlyph.pixels.fill(glyph.keyColor);
-  for (let y = 0; y < glyph.height; y += 1) {
-    const row = glyph.pixels.subarray(y * glyph.width, (y + 1) * glyph.width);
-    paddedGlyph.pixels.set(row, (y + top) * width + left);
-  }
-
-  return paddedGlyph;
-};
 
 export function advancedAction(prog: Sade) {
   prog
