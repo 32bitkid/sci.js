@@ -28,8 +28,8 @@ anti-aliasing is off and where font-size of multiples of `16px`.
 The EGA modes that these fonts were originally displayed on did not have square 1&ratio;1 aspect-ratio pixels, instead had 
 a display aspect-ratio of 1&ratio;1.2 (or the closest integer scaling of 5&ratio;6).  
 
-- `sciAC` prefixed fonts are "aspect-ratio correct"
-- `sciPX` prefixed fonts are "square-pixel fonts"
+- `SciAC` prefixed fonts are "aspect-ratio correct"
+- `SciPX` prefixed fonts are "square-pixel fonts"
 
 
 ## How to know what fonts exist?
