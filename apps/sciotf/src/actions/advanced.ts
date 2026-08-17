@@ -90,11 +90,17 @@ export function advancedAction(prog: Sade) {
       '--chamfer',
       'set corner chamfer mode from "none", "inside", "outside", "both" (default "both")',
     )
-    .option('--output, -o <dir>', 'output folder (deafult: ".")')
+    .option('--output, -o', 'output folder (deafult: ".")')
+    .option('--verbose, -v', 'verbose output')
     .action(
       async (
         file: string,
-        opts: { 'aspect-ratio'?: string; chamfer?: string; output?: string },
+        opts: {
+          'aspect-ratio'?: string;
+          chamfer?: string;
+          output?: string;
+          verbose?: boolean;
+        },
       ) => {
         const json = await readFile(file);
         const payload = tryParse(JSON.parse(new TextDecoder().decode(json)));
@@ -121,13 +127,13 @@ export function advancedAction(prog: Sade) {
           m.translate(0, -baseline),
         );
 
-        const mapped = new Map<number, true>();
-        const visit = (unicode: number) => {
-          if (mapped.has(unicode))
+        const visited = new Map<number, string>();
+        const visit = (unicode: number, name: string = '') => {
+          if (visited.has(unicode))
             console.error(
               `warning: U+${unicode.toString(16).padStart(4, '0')} has been mapped multiple times`,
             );
-          mapped.set(unicode, true);
+          visited.set(unicode, name);
         };
 
         // Gather glyphs
@@ -210,7 +216,7 @@ export function advancedAction(prog: Sade) {
                   chamferMode,
                 ),
               );
-              visit(Number.parseInt(unicode, 16));
+              visit(Number.parseInt(unicode, 16), name.toUpperCase());
             }
           }
         }
@@ -231,13 +237,28 @@ export function advancedAction(prog: Sade) {
           version: payload.version ?? '1.0.0',
         });
 
-        const fileName = `sci${arStr}-${payload.name.replace(/\./g, '-').toLowerCase()}.otf`;
+        const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.otf`;
         const outputPath = opts.output ?? '.';
         await writeFile(
           pathJoin(outputPath, fileName),
           Buffer.from(sciOTF.toArrayBuffer()),
         );
-        console.log(fileName);
+
+        if (opts.verbose) {
+          console.log(`Total Glyphs: ${visited.size}\n`);
+          console.log('| Code point | Symbol | Name |');
+          console.log('|--:|:--:|--|');
+          for (const [codepoint, name] of [...visited.entries()].sort(
+            (a, b) => a[0] - b[0],
+          )) {
+            console.log(
+              `| U+${codepoint.toString(16).padStart(4, '0').toUpperCase()} | \`${String.fromCodePoint(codepoint)}\` | ${name} |`,
+            );
+          }
+          console.log('\n');
+        }
+
+        console.log(pathJoin(outputPath, fileName));
       },
     );
 }
