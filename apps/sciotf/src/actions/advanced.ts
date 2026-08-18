@@ -186,7 +186,7 @@ export function advancedAction(prog: Sade) {
               }
             }
             if (mapping === 'ascii' || mapping === 'ascii-lowercase') {
-              for (const i of range(0x60, 0x7f)) {
+              for (const i of range(0x60, 0x7d)) {
                 let char = font.characters[i];
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
@@ -203,6 +203,7 @@ export function advancedAction(prog: Sade) {
               let char = font.characters[Number.parseInt(inputChar, 16)];
               char = padGlyph(char, payload.pad);
               if (options?.pad) char = padGlyph(char, options.pad);
+              if (options?.shift) char = shiftGlyph(char, options.shift);
               if (options?.xor) {
                 char = xorPixels(char, options.xor);
               }
