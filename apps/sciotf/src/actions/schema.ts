@@ -6,6 +6,12 @@ export const ResourceSchema = () =>
     root: z.string(),
     engine: z.enum(['sci0', 'sci01']).optional(),
     id: z.number(),
+    shift: z
+      .object({
+        dx: z.number().optional(),
+        dy: z.number().optional(),
+      })
+      .optional(),
     mappings: MappingSchema(),
   });
 
@@ -13,6 +19,12 @@ export const PatchSchema = () =>
   z.object({
     type: z.literal('patch'),
     path: z.string(),
+    shift: z
+      .object({
+        dx: z.number().optional(),
+        dy: z.number().optional(),
+      })
+      .optional(),
     mappings: MappingSchema(),
   });
 
@@ -71,6 +83,12 @@ export const CustomMappingSchema = () =>
             right: z.number().positive().optional(),
             bottom: z.number().positive().optional(),
             left: z.number().positive().optional(),
+          })
+          .optional(),
+        shift: z
+          .object({
+            dx: z.number().optional(),
+            dy: z.number().optional(),
           })
           .optional(),
         xor: z.array(z.string()).optional(),

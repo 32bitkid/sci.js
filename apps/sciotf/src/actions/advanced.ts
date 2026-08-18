@@ -16,7 +16,7 @@ import {
   tryParse,
 } from './schema.js';
 import { type FontFace, parseFont, ResourceTypes } from '@4bitlabs/sci0';
-import { padGlyph } from './pad-glyph.js';
+import { padGlyph, shiftGlyph, sumShifts } from './pad-glyph.js';
 import { xorPixels } from './xor-pixels.js';
 
 async function loadSource(source: SourceSchemaType): Promise<FontFace> {
@@ -155,6 +155,7 @@ export function advancedAction(prog: Sade) {
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = i === 0x20 ? 'SPACE' : String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
+                char = shiftGlyph(char, source.shift);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -167,6 +168,7 @@ export function advancedAction(prog: Sade) {
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
+                char = shiftGlyph(char, source.shift);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -179,6 +181,7 @@ export function advancedAction(prog: Sade) {
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
+                char = shiftGlyph(char, source.shift);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -191,6 +194,7 @@ export function advancedAction(prog: Sade) {
                 if (char.width <= 1 && char.height <= 1) continue;
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
+                char = shiftGlyph(char, source.shift);
                 glyphs.push(
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
@@ -202,8 +206,8 @@ export function advancedAction(prog: Sade) {
               const [inputChar, unicode, name, options] = mapping;
               let char = font.characters[Number.parseInt(inputChar, 16)];
               char = padGlyph(char, payload.pad);
-              if (options?.pad) char = padGlyph(char, options.pad);
-              if (options?.shift) char = shiftGlyph(char, options.shift);
+              char = padGlyph(char, options?.pad);
+              char = shiftGlyph(char, sumShifts(options?.shift, source.shift));
               if (options?.xor) {
                 char = xorPixels(char, options.xor);
               }
