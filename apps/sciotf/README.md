@@ -21,7 +21,7 @@ npx @4bitlabs/sciotf otf -r /path/to/sci/game 0 --aspect-ratio 1:1
 ```
 
 This will create `sciPX-font-000.otf` which ignores aspect-ratio correction, will map to display pixels with a when
-anti-aliasing is off and where font-size of multiples of `16px`.
+antialiasing is off and where font-size of multiples of `16px`.
 
 ### Aspect Ratio Correction
 
