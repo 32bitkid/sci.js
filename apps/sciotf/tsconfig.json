@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "target": "es2024",
-    "module": "esnext",
+    "module": "NodeNext",
     "outDir": "./dist/",
     "types": ["node"]
   },
