@@ -206,12 +206,17 @@ export function advancedAction(prog: Sade) {
               if (options?.xor) {
                 char = xorPixels(char, options.xor);
               }
+
+              const chMat2d = options?.pad?.top
+                ? m.compose(mat2d, m.translate(0, -options.pad.top))
+                : mat2d;
+
               glyphs.push(
                 charToGlyph(
                   Number.parseInt(unicode, 16),
                   name.toUpperCase(),
                   char,
-                  mat2d,
+                  chMat2d,
                   screenScale.a,
                   chamferMode,
                 ),
