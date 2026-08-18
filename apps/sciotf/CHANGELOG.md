@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.2.0...@4bitlabs/sciotf@1.3.0) (2026-08-18)
+
+### Features
+
+* **sciotf:** add shift support
+
+### Bug Fixes
+
+* ignore 0x7f in the ascii and ascii-lowercase range
+
+
 ## [1.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.1.0...@4bitlabs/sciotf@1.2.0) (2026-08-18)
 
 ### Features
