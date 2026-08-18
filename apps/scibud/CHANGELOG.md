@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.1.0...@4bitlabs/scibud@3.2.0) (2026-08-18)
+
+### Features
+
+* **scibud:** allow font show to load patches from root dir
+
+
 ## [3.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.0.6...@4bitlabs/scibud@3.1.0) (2026-08-16)
 
 ### Features
