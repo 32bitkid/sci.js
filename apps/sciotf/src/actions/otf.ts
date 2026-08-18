@@ -1,6 +1,7 @@
 import opentype from 'opentype.js';
 import { writeFile } from 'node:fs/promises';
 import * as m from 'transformation-matrix';
+import wawoff from 'wawoff2';
 
 import { findAndParseFont } from '../utils/find-and-parse.js';
 import { mapRange } from '../utils/range.js';
@@ -16,20 +17,24 @@ import type { Sade } from 'sade';
 
 export function otfAction(prog: Sade) {
   prog
-    .command('otf <id>', 'create a ttf of selected font')
-    .option('--root, -r', 'SCI0/SCI01 root directory')
-    .option('--engine, -e', 'engine')
+    .command('font <id>', 'create a ttf of selected font')
+    .alias('otf', 'woff2')
+    .option('--root, -r', 'SCI0/SCI01 root directory', '.')
+    .option('--engine, -e', 'engine', 'sci0')
+    .option('--format, -f', 'output format. "otf" or "woff2"', 'otf')
     .option(
       '--baseline, -b',
       'override the automatic baseline detection (number of pixels)',
     )
     .option(
-      '--aspect-ratio',
-      'set aspect-ratio to "5:6" or "1:1" (default: "5:6")',
+      '--aspect-ratio, -a',
+      'set pixel aspect-ratio to "1:1", "1:1.2", or "5:6"',
+      '1:1.2',
     )
     .option(
       '--chamfer, -c',
-      'set corner chamfer mode from "none", "inside", "outside", "both" (default "both")',
+      'set corner chamfer mode from "none", "inside", "outside", "both"',
+      'both',
     )
     .action(
       async (
@@ -40,6 +45,7 @@ export function otfAction(prog: Sade) {
           engine?: string;
           root?: string;
           chamfer?: string;
+          format?: string | string[];
         },
       ) => {
         const id = parseId(idArg);
@@ -101,10 +107,25 @@ export function otfAction(prog: Sade) {
           version: '1.0.0',
         });
 
-        await writeFile(
-          `sci${arStr}-font-${fontExt}.otf`,
-          Buffer.from(sciOTF.toArrayBuffer()),
-        );
+        const formats = Array.isArray(opts.format)
+          ? opts.format.map((it) => it.toLowerCase())
+          : typeof opts.format === 'string'
+            ? [opts.format.toLowerCase()]
+            : 'otf';
+
+        const otfBytes = Buffer.from(sciOTF.toArrayBuffer());
+        if (formats.includes('otf')) {
+          const fn = `sci${arStr}-font-${fontExt}.otf`;
+          await writeFile(fn, otfBytes);
+          console.log(fn);
+        }
+
+        if (formats.includes('woff2')) {
+          const payload = await wawoff.compress(otfBytes);
+          const fn = `sci${arStr}-font-${fontExt}.woff2`;
+          await writeFile(fn, payload);
+          console.log(fn);
+        }
       },
     );
 }

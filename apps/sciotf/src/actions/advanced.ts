@@ -18,6 +18,7 @@ import {
 import { type FontFace, parseFont, ResourceTypes } from '@4bitlabs/sci0';
 import { padGlyph, shiftGlyph, sumShifts } from './pad-glyph.js';
 import { xorPixels } from './xor-pixels.js';
+import wawoff from 'wawoff2';
 
 async function loadSource(source: SourceSchemaType): Promise<FontFace> {
   switch (source.type) {
@@ -81,25 +82,37 @@ async function getLineHeight(
 
 export function advancedAction(prog: Sade) {
   prog
-    .command('advanced <file>', 'input file to generate')
-    .option(
-      '--aspect-ratio',
-      'set aspect-ratio to "5:6" or "1:1" (default: "5:6")',
+    .command('advanced <file>')
+    .alias('adv')
+    .describe(
+      'Uses a font definition JSON file to compile and modify glyphs from multiple sources',
     )
     .option(
-      '--chamfer',
-      'set corner chamfer mode from "none", "inside", "outside", "both" (default "both")',
+      '--format, -f',
+      'output format from "otf" or "woff2". can be used multiple times (default: "otf")',
+      'otf',
     )
-    .option('--output, -o', 'output folder (deafult: ".")')
-    .option('--verbose, -v', 'verbose output')
+    .option(
+      '--aspect-ratio, -a',
+      'set pixel aspect-ratio to "1:1", "1:1.2", or "5:6"',
+      '1:1.2',
+    )
+    .option(
+      '--chamfer, -c',
+      'set corner chamfer mode from "none", "inside", "outside", "both"',
+      'both',
+    )
+    .option('--output, -o', 'output folder', '.')
+    .option('--verbose, -v', 'verbose output', false)
     .action(
       async (
         file: string,
         opts: {
-          'aspect-ratio'?: string;
-          chamfer?: string;
-          output?: string;
-          verbose?: boolean;
+          'aspect-ratio': string;
+          chamfer: string;
+          output: string;
+          verbose: boolean;
+          format: string | string[];
         },
       ) => {
         const json = await readFile(file);
@@ -247,13 +260,6 @@ export function advancedAction(prog: Sade) {
           version: payload.version ?? '1.0.0',
         });
 
-        const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.otf`;
-        const outputPath = opts.output ?? '.';
-        await writeFile(
-          pathJoin(outputPath, fileName),
-          Buffer.from(sciOTF.toArrayBuffer()),
-        );
-
         if (opts.verbose) {
           console.log(`Total Glyphs: ${visited.size}\n`);
           console.log('| Code point | Symbol | Name |');
@@ -268,7 +274,27 @@ export function advancedAction(prog: Sade) {
           console.log('\n');
         }
 
-        console.log(pathJoin(outputPath, fileName));
+        const outputPath = opts.output ?? '.';
+        const formats = Array.isArray(opts.format)
+          ? opts.format.map((it) => it.toLowerCase())
+          : typeof opts.format === 'string'
+            ? [opts.format.toLowerCase()]
+            : 'otf';
+
+        const otfBytes = Buffer.from(sciOTF.toArrayBuffer());
+        if (formats.includes('otf')) {
+          const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.otf`;
+          const fn = pathJoin(outputPath, fileName);
+          await writeFile(fn, otfBytes);
+          console.log(fn);
+        }
+
+        if (formats.includes('woff2')) {
+          const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.woff2`;
+          const fn = pathJoin(outputPath, fileName);
+          await writeFile(fn, await wawoff.compress(otfBytes));
+          console.log(fn);
+        }
       },
     );
 }

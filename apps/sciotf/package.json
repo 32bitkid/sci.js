@@ -7,7 +7,8 @@
     "sierra on-line",
     "sci01",
     "fonts",
-    "otf"
+    "otf",
+    "woff2"
   ],
   "license": "ISC",
   "author": "J. Holmes <32bitkid@gmail.com>",
@@ -37,11 +38,13 @@
     "opentype.js": "^2.0.0",
     "sade": "^1.8.1",
     "transformation-matrix": "^3.1.0",
+    "wawoff2": "^2.0.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^24.11.0",
-    "@types/opentype.js": "^1.3.10"
+    "@types/opentype.js": "^1.3.10",
+    "@types/wawoff2": "^1.0.2"
   },
   "engines": {
     "node": ">=24.11.0"
