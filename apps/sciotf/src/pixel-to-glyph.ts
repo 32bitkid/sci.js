@@ -1,10 +1,9 @@
+import type { Glyph } from '@4bitlabs/sci0';
 import { trace } from '@watercolorizer/tracer';
 import opentype from 'opentype.js';
 import type * as m from 'transformation-matrix';
-import type { Glyph } from '@4bitlabs/sci0';
-
-import { chamfer } from './utils/chamfer.js';
 import type { Matrix } from 'transformation-matrix';
+import { chamfer } from './utils/chamfer.js';
 import { windingOrderOf } from './utils/winding-order.js';
 
 const applyToPoints = (

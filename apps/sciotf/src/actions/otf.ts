@@ -1,19 +1,18 @@
-import opentype from 'opentype.js';
 import { writeFile } from 'node:fs/promises';
+import opentype from 'opentype.js';
+import type { Sade } from 'sade';
 import * as m from 'transformation-matrix';
 import wawoff from 'wawoff2';
-
-import { findAndParseFont } from '../utils/find-and-parse.js';
-import { mapRange } from '../utils/range.js';
 import {
   parseAspectRatio,
   parseChamfer,
   parseEngine,
   parseId,
 } from '../opt-parsers.js';
-import { guessBaseline } from '../utils/measure.js';
 import { charToGlyph } from '../pixel-to-glyph.js';
-import type { Sade } from 'sade';
+import { findAndParseFont } from '../utils/find-and-parse.js';
+import { guessBaseline } from '../utils/measure.js';
+import { mapRange } from '../utils/range.js';
 
 export function otfAction(prog: Sade) {
   prog

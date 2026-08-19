@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import sade from 'sade';
-import { otfAction } from './actions/otf.js';
 import { advancedAction } from './actions/advanced.js';
+import { otfAction } from './actions/otf.js';
 
 const prog = sade('@4bitlabs/scifont');
 

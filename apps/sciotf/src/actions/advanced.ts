@@ -1,24 +1,23 @@
-import type { Sade } from 'sade';
 import { readFile, writeFile } from 'node:fs/promises';
-import opentype from 'opentype.js';
 import { join as pathJoin } from 'node:path';
-
-import { findAndParseFont } from '../utils/find-and-parse.js';
-import { range } from '../utils/range.js';
-import { charToGlyph } from '../pixel-to-glyph.js';
+import { type FontFace, parseFont, ResourceTypes } from '@4bitlabs/sci0';
+import opentype from 'opentype.js';
+import type { Sade } from 'sade';
 import m from 'transformation-matrix';
+import wawoff from 'wawoff2';
 import { parseAspectRatio, parseChamfer } from '../opt-parsers.js';
+import { charToGlyph } from '../pixel-to-glyph.js';
+import { findAndParseFont } from '../utils/find-and-parse.js';
 import { guessBaseline } from '../utils/measure.js';
+import { range } from '../utils/range.js';
+import { padGlyph, shiftGlyph, sumShifts } from './pad-glyph.js';
 import {
   type BaselineSchemaType,
   type LineHeightSchemaType,
   type SourceSchemaType,
   tryParse,
 } from './schema.js';
-import { type FontFace, parseFont, ResourceTypes } from '@4bitlabs/sci0';
-import { padGlyph, shiftGlyph, sumShifts } from './pad-glyph.js';
 import { xorPixels } from './xor-pixels.js';
-import wawoff from 'wawoff2';
 
 async function loadSource(source: SourceSchemaType): Promise<FontFace> {
   switch (source.type) {
@@ -140,23 +139,29 @@ export function advancedAction(prog: Sade) {
           m.translate(0, -baseline),
         );
 
-        const visited = new Map<number, string>();
-        const visit = (unicode: number, name: string = '') => {
-          if (visited.has(unicode))
+        // Gather glyphs
+        const glyphs: Map<number, opentype.Glyph> = new Map([
+          [
+            0,
+            new opentype.Glyph({
+              name: '.notdef',
+              advanceWidth: 8 * screenScale.a,
+              path: new opentype.Path(),
+            }),
+          ],
+        ]);
+
+        const addGlyph = (
+          unicode: number,
+          glyph: opentype.Glyph,
+        ): opentype.Glyph => {
+          if (glyphs.has(unicode))
             console.error(
               `warning: U+${unicode.toString(16).padStart(4, '0')} has been mapped multiple times`,
             );
-          visited.set(unicode, name);
+          glyphs.set(unicode, glyph);
+          return glyph;
         };
-
-        // Gather glyphs
-        const glyphs: opentype.Glyph[] = [
-          new opentype.Glyph({
-            name: '.notdef',
-            advanceWidth: 8 * screenScale.a,
-            path: new opentype.Path(),
-          }),
-        ];
 
         for (const source of payload.sources) {
           const font = await loadSource(source);
@@ -169,10 +174,10 @@ export function advancedAction(prog: Sade) {
                 const name = i === 0x20 ? 'SPACE' : String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
                 char = shiftGlyph(char, source.shift);
-                glyphs.push(
+                addGlyph(
+                  i,
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
-                visit(i);
               }
             }
             if (mapping === 'ascii' || mapping === 'ascii-digits') {
@@ -182,10 +187,10 @@ export function advancedAction(prog: Sade) {
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
                 char = shiftGlyph(char, source.shift);
-                glyphs.push(
+                addGlyph(
+                  i,
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
-                visit(i);
               }
             }
             if (mapping === 'ascii' || mapping === 'ascii-uppercase') {
@@ -195,10 +200,10 @@ export function advancedAction(prog: Sade) {
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
                 char = shiftGlyph(char, source.shift);
-                glyphs.push(
+                addGlyph(
+                  i,
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
-                visit(i);
               }
             }
             if (mapping === 'ascii' || mapping === 'ascii-lowercase') {
@@ -208,10 +213,10 @@ export function advancedAction(prog: Sade) {
                 const name = String.fromCodePoint(i);
                 char = padGlyph(char, payload.pad);
                 char = shiftGlyph(char, source.shift);
-                glyphs.push(
+                addGlyph(
+                  i,
                   charToGlyph(i, name, char, mat2d, screenScale.a, chamferMode),
                 );
-                visit(i);
               }
             }
 
@@ -229,7 +234,8 @@ export function advancedAction(prog: Sade) {
                 ? m.compose(mat2d, m.translate(0, -options.pad.top))
                 : mat2d;
 
-              glyphs.push(
+              addGlyph(
+                Number.parseInt(unicode, 16),
                 charToGlyph(
                   Number.parseInt(unicode, 16),
                   name.toUpperCase(),
@@ -239,7 +245,6 @@ export function advancedAction(prog: Sade) {
                   chamferMode,
                 ),
               );
-              visit(Number.parseInt(unicode, 16), name.toUpperCase());
             }
           }
         }
@@ -256,19 +261,19 @@ export function advancedAction(prog: Sade) {
             'https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt',
           ascender: baseline * screenScale.d,
           descender: (baseline - lineHeight) * screenScale.d,
-          glyphs,
+          glyphs: [...glyphs.values()],
           version: payload.version ?? '1.0.0',
         });
 
         if (opts.verbose) {
-          console.log(`Total Glyphs: ${visited.size}\n`);
+          console.log(`Total Glyphs: ${glyphs.size}\n`);
           console.log('| Code point | Symbol | Name |');
           console.log('|--:|:--:|--|');
-          for (const [codepoint, name] of [...visited.entries()].sort(
+          for (const [codepoint, gly] of [...glyphs.entries()].sort(
             (a, b) => a[0] - b[0],
           )) {
             console.log(
-              `| U+${codepoint.toString(16).padStart(4, '0').toUpperCase()} | \`${String.fromCodePoint(codepoint)}\` | ${name} |`,
+              `| U+${codepoint.toString(16).padStart(4, '0').toUpperCase()} | \`${String.fromCodePoint(codepoint)}\` | ${gly.name} |`,
             );
           }
           console.log('\n');
