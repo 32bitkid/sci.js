@@ -5,11 +5,11 @@ export const ResourceSchema = () =>
     type: z.literal('resource'),
     root: z.string(),
     engine: z.enum(['sci0', 'sci01']).optional(),
-    id: z.number(),
+    id: z.number().int().gte(0),
     shift: z
       .object({
-        dx: z.number().optional(),
-        dy: z.number().optional(),
+        dx: z.number().int().optional(),
+        dy: z.number().int().optional(),
       })
       .optional(),
     mappings: MappingSchema(),
@@ -21,8 +21,8 @@ export const PatchSchema = () =>
     path: z.string(),
     shift: z
       .object({
-        dx: z.number().optional(),
-        dy: z.number().optional(),
+        dx: z.number().int().optional(),
+        dy: z.number().int().optional(),
       })
       .optional(),
     mappings: MappingSchema(),
@@ -41,7 +41,7 @@ export const BaselineSchema = () =>
       type: z.literal('resource'),
       root: z.string(),
       engine: z.enum(['sci0', 'sci01']).optional(),
-      id: z.number(),
+      id: z.number().int().gte(0),
       char: z.string().length(1).optional(),
     }),
     z.object({
@@ -61,7 +61,7 @@ export const LineHeightSchema = () =>
       type: z.literal('resource'),
       root: z.string(),
       engine: z.enum(['sci0', 'sci01']).optional(),
-      id: z.number(),
+      id: z.number().int().gte(0),
     }),
     z.object({
       type: z.literal('patch'),
@@ -78,18 +78,26 @@ export const CustomMappingSchema = () =>
     z
       .object({
         force: z.boolean().optional(),
+        trim: z
+          .object({
+            top: z.number().int().positive().optional(),
+            right: z.number().int().positive().optional(),
+            bottom: z.number().int().positive().optional(),
+            left: z.number().int().positive().optional(),
+          })
+          .optional(),
         pad: z
           .object({
-            top: z.number().positive().optional(),
-            right: z.number().positive().optional(),
-            bottom: z.number().positive().optional(),
-            left: z.number().positive().optional(),
+            top: z.number().int().positive().optional(),
+            right: z.number().int().positive().optional(),
+            bottom: z.number().int().positive().optional(),
+            left: z.number().int().positive().optional(),
           })
           .optional(),
         shift: z
           .object({
-            dx: z.number().optional(),
-            dy: z.number().optional(),
+            dx: z.number().int().optional(),
+            dy: z.number().int().optional(),
           })
           .optional(),
         xor: z.array(z.string()).optional(),
@@ -124,10 +132,10 @@ export const BatchShema = z.object({
     .default('both'),
   pad: z
     .object({
-      top: z.number().positive().optional(),
-      right: z.number().positive().optional(),
-      bottom: z.number().positive().optional(),
-      left: z.number().positive().optional(),
+      top: z.number().int().positive().optional(),
+      right: z.number().int().positive().optional(),
+      bottom: z.number().int().positive().optional(),
+      left: z.number().int().positive().optional(),
     })
     .optional(),
 });

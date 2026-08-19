@@ -10,7 +10,13 @@ import { charToGlyph } from '../pixel-to-glyph.js';
 import { findAndParseFont } from '../utils/find-and-parse.js';
 import { guessBaseline } from '../utils/measure.js';
 import { range } from '../utils/range.js';
-import { padGlyph, shiftGlyph, sumShifts } from './pad-glyph.js';
+import {
+  padGlyph,
+  shiftGlyph,
+  sumPadding,
+  sumShifts,
+  trimGlyph,
+} from './pad-glyph.js';
 import {
   type BaselineSchemaType,
   type LineHeightSchemaType,
@@ -224,8 +230,8 @@ export function advancedAction(prog: Sade) {
             if (Array.isArray(mapping)) {
               const [inputChar, unicode, name, options] = mapping;
               let char = font.characters[Number.parseInt(inputChar, 16)];
-              char = padGlyph(char, payload.pad);
-              char = padGlyph(char, options?.pad);
+              char = trimGlyph(char, options?.trim);
+              char = padGlyph(char, sumPadding(payload.pad, options?.pad));
               char = shiftGlyph(char, sumShifts(options?.shift, source.shift));
               if (options?.xor) {
                 char = xorPixels(char, options.xor);

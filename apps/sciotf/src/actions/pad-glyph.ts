@@ -1,5 +1,26 @@
 import type { Glyph } from '@4bitlabs/sci0';
 
+export const sumPadding = (
+  ...pads: (
+    | {
+        top?: number;
+        right?: number;
+        bottom?: number;
+        left?: number;
+      }
+    | undefined
+  )[]
+) =>
+  pads.reduce<{ top: number; right: number; bottom: number; left: number }>(
+    (prev, next = {}) => ({
+      top: prev.top + (next.top ?? 0),
+      right: prev.right + (next.right ?? 0),
+      bottom: prev.bottom + (next.bottom ?? 0),
+      left: prev.left + (next.left ?? 0),
+    }),
+    { top: 0, right: 0, bottom: 0, left: 0 },
+  );
+
 export const padGlyph = (
   glyph: Glyph,
   padding: {
@@ -43,6 +64,39 @@ export const sumShifts = (
     }),
     { dx: 0, dy: 0 },
   );
+
+export const trimGlyph = (
+  glyph: Glyph,
+  trim: {
+    top?: number;
+    right?: number;
+    bottom?: number;
+    left?: number;
+  } = {},
+) => {
+  const { top = 0, right = 0, bottom = 0, left = 0 } = trim;
+  if (top === 0 && right === 0 && bottom === 0 && left === 0) return glyph;
+
+  const width = glyph.width - left - right;
+  const height = glyph.height - top - bottom;
+
+  const trimmedGlyph: Glyph = {
+    color: glyph.color,
+    height,
+    keyColor: glyph.keyColor,
+    pixels: new Uint8ClampedArray(width * height),
+    width,
+  };
+
+  trimmedGlyph.pixels.fill(glyph.keyColor);
+  for (let y = 0; y < height; y += 1) {
+    const idx = (y + top) * glyph.width + left;
+    const row = glyph.pixels.subarray(idx, idx + width);
+    trimmedGlyph.pixels.set(row, y * width);
+  }
+
+  return trimmedGlyph;
+};
 
 export const shiftGlyph = (
   glyph: Glyph,
