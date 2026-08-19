@@ -77,6 +77,7 @@ export const CustomMappingSchema = () =>
     z.string(),
     z
       .object({
+        force: z.boolean().optional(),
         pad: z
           .object({
             top: z.number().positive().optional(),

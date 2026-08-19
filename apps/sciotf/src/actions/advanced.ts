@@ -154,8 +154,9 @@ export function advancedAction(prog: Sade) {
         const addGlyph = (
           unicode: number,
           glyph: opentype.Glyph,
+          force: boolean = false,
         ): opentype.Glyph => {
-          if (glyphs.has(unicode))
+          if (glyphs.has(unicode) && !force)
             console.error(
               `warning: U+${unicode.toString(16).padStart(4, '0')} has been mapped multiple times`,
             );
@@ -244,6 +245,7 @@ export function advancedAction(prog: Sade) {
                   screenScale.a,
                   chamferMode,
                 ),
+                options?.force,
               );
             }
           }
