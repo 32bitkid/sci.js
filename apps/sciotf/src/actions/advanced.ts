@@ -163,7 +163,7 @@ function advancedAction(prog: Sade) {
           return glyph;
         };
 
-        switch (payload.$version) {
+        switch (payload.$schemaVersion) {
           case 'v1': {
             await handleSources_v1(payload, { addGlyph, addLigature });
             break;

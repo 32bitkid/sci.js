@@ -193,7 +193,7 @@ export const RootSchema = <
   sourceSchema: TSource,
 ) =>
   z.object({
-    $version: versionSchema,
+    $schemaVersion: versionSchema,
     name: z.string(),
     aspectRatio: z.enum(['1:1', '5:6']).optional(),
     version: z.string().optional(),
@@ -220,7 +220,7 @@ const Root_V0 = RootSchema(
 );
 const Root_V1 = RootSchema(z.literal('v1'), SourceSchema(MappingSchema_v1));
 
-const BatchShema = z.discriminatedUnion('$version', [Root_V0, Root_V1]);
+const BatchShema = z.discriminatedUnion('$schemaVersion', [Root_V0, Root_V1]);
 
 export type RootSchemaType_v0 = z.TypeOf<typeof Root_V0>;
 export type RootSchemaType_v1 = z.TypeOf<typeof Root_V1>;
