@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.7.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.6.0...@4bitlabs/sciotf@1.7.0) (2026-08-20)
+
+### Features
+
+* **sciotf:** Add support for v1 format with stackable glyph action
+
+
 ## [1.6.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.5.0...@4bitlabs/sciotf@1.6.0) (2026-08-19)
 
 ### Features
