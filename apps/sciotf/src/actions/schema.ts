@@ -1,6 +1,110 @@
 import * as z from 'zod';
 
-export const ResourceSchema = () =>
+export const MappingSchema_v0 = () =>
+  z
+    .array(
+      z.union([
+        z.literal('ascii'),
+        z.literal('ascii-symbols'),
+        z.literal('ascii-digits'),
+        z.literal('ascii-uppercase'),
+        z.literal('ascii-lowercase'),
+        z.tuple([
+          z.hex(),
+          z.hex(),
+          z.string(),
+          z
+            .object({
+              force: z.boolean().optional(),
+              trim: z
+                .object({
+                  top: z.number().int().positive().optional(),
+                  right: z.number().int().positive().optional(),
+                  bottom: z.number().int().positive().optional(),
+                  left: z.number().int().positive().optional(),
+                })
+                .optional(),
+              pad: z
+                .object({
+                  top: z.number().int().positive().optional(),
+                  right: z.number().int().positive().optional(),
+                  bottom: z.number().int().positive().optional(),
+                  left: z.number().int().positive().optional(),
+                })
+                .optional(),
+              shift: z
+                .object({
+                  dx: z.number().int().optional(),
+                  dy: z.number().int().optional(),
+                })
+                .optional(),
+              xor: z.array(z.string()).optional(),
+              rlig: z.array(z.string()).min(2).optional(),
+              liga: z.array(z.string()).min(2).optional(),
+              dlig: z.array(z.string()).min(2).optional(),
+            })
+            .optional(),
+        ]),
+      ]),
+    )
+    .min(1);
+
+export const MappingSchema_v1 = () =>
+  z
+    .array(
+      z.union([
+        z.literal('ascii'),
+        z.literal('ascii-symbols'),
+        z.literal('ascii-digits'),
+        z.literal('ascii-uppercase'),
+        z.literal('ascii-lowercase'),
+        z.tuple([
+          z.hex(),
+          z.hex(),
+          z
+            .object({
+              name: z.string().optional(),
+              overwrite: z.boolean().optional(),
+              actions: z
+                .array(
+                  z.union([
+                    z.object({
+                      trim: z.object({
+                        top: z.number().int().positive().optional(),
+                        right: z.number().int().positive().optional(),
+                        bottom: z.number().int().positive().optional(),
+                        left: z.number().int().positive().optional(),
+                      }),
+                    }),
+                    z.object({
+                      pad: z.object({
+                        top: z.number().int().positive().optional(),
+                        right: z.number().int().positive().optional(),
+                        bottom: z.number().int().positive().optional(),
+                        left: z.number().int().positive().optional(),
+                      }),
+                    }),
+                    z.object({
+                      shift: z.object({
+                        dx: z.number().int().optional(),
+                        dy: z.number().int().optional(),
+                      }),
+                    }),
+                    z.object({ xor: z.array(z.string()).min(1) }),
+                    z.object({ rlig: z.array(z.string()).min(2) }),
+                    z.object({ liga: z.array(z.string()).min(2) }),
+                    z.object({ dlig: z.array(z.string()).min(2) }),
+                  ]),
+                )
+                .optional(),
+            })
+            .optional(),
+        ]),
+      ]),
+    )
+    .min(1);
+
+export const ResourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
   z.object({
     type: z.literal('resource'),
     root: z.string(),
@@ -12,10 +116,10 @@ export const ResourceSchema = () =>
         dy: z.number().int().optional(),
       })
       .optional(),
-    mappings: MappingSchema(),
+    mappings: mappingSchema(),
   });
 
-export const PatchSchema = () =>
+export const PatchSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
   z.object({
     type: z.literal('patch'),
     path: z.string(),
@@ -25,11 +129,14 @@ export const PatchSchema = () =>
         dy: z.number().int().optional(),
       })
       .optional(),
-    mappings: MappingSchema(),
+    mappings: mappingSchema(),
   });
 
-export const SourceSchema = () =>
-  z.discriminatedUnion('type', [ResourceSchema(), PatchSchema()]);
+export const SourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
+  z.discriminatedUnion('type', [
+    ResourceSchema(mappingSchema),
+    PatchSchema(mappingSchema),
+  ]);
 
 export const BaselineSchema = () =>
   z.discriminatedUnion('type', [
@@ -70,75 +177,53 @@ export const LineHeightSchema = () =>
     }),
   ]);
 
-export const CustomMappingSchema = () =>
-  z.tuple([
-    z.hex(),
-    z.hex(),
-    z.string(),
-    z
+export type SourceSchemaType = z.TypeOf<
+  ReturnType<typeof SourceSchema<z.ZodUnknown>>
+>;
+export type BaselineSchemaType = z.TypeOf<ReturnType<typeof BaselineSchema>>;
+export type LineHeightSchemaType = z.TypeOf<
+  ReturnType<typeof LineHeightSchema>
+>;
+
+export const RootSchema = <
+  TVersion extends z.ZodType,
+  TSource extends z.ZodType,
+>(
+  versionSchema: TVersion,
+  sourceSchema: TSource,
+) =>
+  z.object({
+    $version: versionSchema,
+    name: z.string(),
+    aspectRatio: z.enum(['1:1', '5:6']).optional(),
+    version: z.string().optional(),
+    baseline: BaselineSchema().optional(),
+    lineHeight: LineHeightSchema().optional(),
+    sources: z.array(sourceSchema),
+    chamfer: z
+      .enum(['both', 'inside', 'outside', 'none'])
+      .optional()
+      .default('both'),
+    pad: z
       .object({
-        force: z.boolean().optional(),
-        trim: z
-          .object({
-            top: z.number().int().positive().optional(),
-            right: z.number().int().positive().optional(),
-            bottom: z.number().int().positive().optional(),
-            left: z.number().int().positive().optional(),
-          })
-          .optional(),
-        pad: z
-          .object({
-            top: z.number().int().positive().optional(),
-            right: z.number().int().positive().optional(),
-            bottom: z.number().int().positive().optional(),
-            left: z.number().int().positive().optional(),
-          })
-          .optional(),
-        shift: z
-          .object({
-            dx: z.number().int().optional(),
-            dy: z.number().int().optional(),
-          })
-          .optional(),
-        xor: z.array(z.string()).optional(),
+        top: z.number().int().positive().optional(),
+        right: z.number().int().positive().optional(),
+        bottom: z.number().int().positive().optional(),
+        left: z.number().int().positive().optional(),
       })
       .optional(),
-  ]);
+  });
 
-export const MappingSchema = () =>
-  z
-    .array(
-      z.union([
-        z.literal('ascii'),
-        z.literal('ascii-symbols'),
-        z.literal('ascii-digits'),
-        z.literal('ascii-uppercase'),
-        z.literal('ascii-lowercase'),
-        CustomMappingSchema(),
-      ]),
-    )
-    .min(1);
+const Root_V0 = RootSchema(
+  z.undefined().optional(),
+  SourceSchema(MappingSchema_v0),
+);
+const Root_V1 = RootSchema(z.literal('v1'), SourceSchema(MappingSchema_v1));
 
-export const BatchShema = z.object({
-  name: z.string(),
-  aspectRatio: z.enum(['1:1', '5:6']).optional(),
-  version: z.string().optional(),
-  baseline: BaselineSchema().optional(),
-  lineHeight: LineHeightSchema().optional(),
-  sources: z.array(SourceSchema()),
-  chamfer: z
-    .enum(['both', 'inside', 'outside', 'none'])
-    .optional()
-    .default('both'),
-  pad: z
-    .object({
-      top: z.number().int().positive().optional(),
-      right: z.number().int().positive().optional(),
-      bottom: z.number().int().positive().optional(),
-      left: z.number().int().positive().optional(),
-    })
-    .optional(),
-});
+const BatchShema = z.discriminatedUnion('$version', [Root_V0, Root_V1]);
+
+export type RootSchemaType_v0 = z.TypeOf<typeof Root_V0>;
+export type RootSchemaType_v1 = z.TypeOf<typeof Root_V1>;
 
 export function tryParse(json: unknown) {
   try {
@@ -152,9 +237,3 @@ export function tryParse(json: unknown) {
     process.exit(-1);
   }
 }
-
-export type SourceSchemaType = z.TypeOf<ReturnType<typeof SourceSchema>>;
-export type BaselineSchemaType = z.TypeOf<ReturnType<typeof BaselineSchema>>;
-export type LineHeightSchemaType = z.TypeOf<
-  ReturnType<typeof LineHeightSchema>
->;
