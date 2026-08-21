@@ -196,8 +196,10 @@ function advancedAction(prog: Sade) {
           ),
         ];
 
+        const familyName = `Sci${arStr} ${payload.name}`;
+
         const sciOTF = new opentype.Font({
-          familyName: `Sci${arStr} ${payload.name}`,
+          familyName: familyName,
           fullName: `Sci${arStr} ${payload.name} Regular`,
           styleName: `Regular`,
           weightClass: '400',
@@ -223,7 +225,11 @@ function advancedAction(prog: Sade) {
           });
         }
 
-        console.log('');
+        if (opts.verbose) console.log(`# \`${familyName}\`\n`);
+        if (opts.verbose)
+          console.log(
+            `Type: ${file.endsWith('.free.json') ? 'Free' : file.endsWith('.free.json') ? 'Free + Retail' : 'Free + Retail + Custom Glyphs'}<br>`,
+          );
 
         const outputPath = opts.output ?? '.';
         const formats = Array.isArray(opts.format)
@@ -252,6 +258,7 @@ function advancedAction(prog: Sade) {
             .sort(([a], [b]) => a - b)
             .reduce<string>((prev, [codepoint]) => {
               if (isUnicodePUA(codepoint)) return prev;
+              if (/^\s+$/.test(String.fromCodePoint(codepoint))) return prev;
               return `${prev}${String.fromCodePoint(codepoint)}`;
             }, '');
 
@@ -265,7 +272,7 @@ function advancedAction(prog: Sade) {
             });
 
           console.log(`Pixel Aspect-Ratio: ${aspectRatio[0]}&ratio;${aspectRatio[1]}<br>
-Recommended Size: 16px/12pt. _Enable anti-aliasing_.<br>
+Recommended Size: 16px/12pt. _${aspectRatio[1] === aspectRatio[0] ? 'Enable' : 'Disable'} anti-aliasing_.<br>
 Total Glyphs: ${glyphMap.size}
 
 
@@ -279,6 +286,8 @@ ${charSet}
 | Unicode | Name |
 |---------|------|
 ${customGlyphs.join('\n')}
+
+_Built ${new Intl.DateTimeFormat('en-US').format(new Date())}_
 `);
         }
       },
