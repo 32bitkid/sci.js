@@ -58,6 +58,11 @@ async function getLineHeight(
   }
 }
 
+const isUnicodePUA = (unicode: number) =>
+  (unicode >= 0xe000 && unicode <= 0xf8ff) ||
+  (unicode >= 0xf_0000 && unicode <= 0xf_ffffd) ||
+  (unicode >= 0x10_0000 && unicode <= 0x10_fffd);
+
 function advancedAction(prog: Sade) {
   prog
     .command('advanced <file>')
@@ -218,19 +223,7 @@ function advancedAction(prog: Sade) {
           });
         }
 
-        if (opts.verbose) {
-          console.log(`Total Glyphs: ${glyphMap.size}\n`);
-          console.log('| Code point | Symbol | Name |');
-          console.log('|--:|:--:|--|');
-          for (const [codepoint, gly] of [...glyphMap.entries()].sort(
-            (a, b) => a[0] - b[0],
-          )) {
-            console.log(
-              `| U+${codepoint.toString(16).padStart(4, '0').toUpperCase()} | \`${String.fromCodePoint(codepoint)}\` | ${gly.name} |`,
-            );
-          }
-          console.log('\n');
-        }
+        console.log('');
 
         const outputPath = opts.output ?? '.';
         const formats = Array.isArray(opts.format)
@@ -244,14 +237,49 @@ function advancedAction(prog: Sade) {
           const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.otf`;
           const fn = pathJoin(outputPath, fileName);
           await writeFile(fn, otfBytes);
-          console.log(fn);
+          console.log(opts.verbose ? `OTF file: \`${fileName}\`<br>` : fn);
         }
 
         if (formats.includes('woff2')) {
           const fileName = `sci${arStr}-${payload.name.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase()}.woff2`;
           const fn = pathJoin(outputPath, fileName);
           await writeFile(fn, await wawoff.compress(otfBytes));
-          console.log(fn);
+          console.log(opts.verbose ? `WOFF2 file: \`${fileName}\`<br>` : fn);
+        }
+
+        if (opts.verbose) {
+          const charSet = [...glyphMap.entries()]
+            .sort(([a], [b]) => a - b)
+            .reduce<string>((prev, [codepoint]) => {
+              if (isUnicodePUA(codepoint)) return prev;
+              return `${prev}${String.fromCodePoint(codepoint)}`;
+            }, '');
+
+          const customGlyphs = [...glyphMap.entries()]
+            .sort(([a], [b]) => a - b)
+            .flatMap(([codepoint, glyph]) => {
+              if (!isUnicodePUA(codepoint)) return [];
+              return [
+                `| U+${codepoint.toString(16).padStart(4, '0').toUpperCase()} | ${glyph.name} |`,
+              ];
+            });
+
+          console.log(`Pixel Aspect-Ratio: ${aspectRatio[0]}&ratio;${aspectRatio[1]}<br>
+Recommended Size: 16px/12pt. _Enable anti-aliasing_.<br>
+Total Glyphs: ${glyphMap.size}
+
+
+### Full Character Set
+<code style="word-break: break-all;">
+${charSet}
+</code>
+
+### Custom Glyphs
+
+| Unicode | Name |
+|---------|------|
+${customGlyphs.join('\n')}
+`);
         }
       },
     );
