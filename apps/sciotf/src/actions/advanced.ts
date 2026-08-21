@@ -138,6 +138,7 @@ function advancedAction(prog: Sade) {
           char: Glyph,
           glyMat: m.Matrix = m.identity(),
           overwrite: boolean = false,
+          advanceWidth?: number,
         ): opentype.Glyph => {
           if (glyphMap.has(unicode) && !overwrite) {
             console.error(
@@ -157,6 +158,7 @@ function advancedAction(prog: Sade) {
             chMat2d,
             screenScale.a,
             chamferMode,
+            advanceWidth,
           );
 
           glyphMap.set(unicode, glyph);
@@ -165,11 +167,17 @@ function advancedAction(prog: Sade) {
 
         switch (payload.$schemaVersion) {
           case 'v1': {
-            await handleSources_v1(payload, { addGlyph, addLigature });
+            await handleSources_v1(payload, {
+              addGlyph,
+              addLigature,
+            });
             break;
           }
           default:
-            await handleSources_v0(payload, { addGlyph, addLigature });
+            await handleSources_v0(payload, {
+              addGlyph,
+              addLigature,
+            });
         }
 
         const glyphs = [

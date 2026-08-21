@@ -9,7 +9,7 @@ import {
   sumShifts,
   trimGlyph,
 } from './pad-glyph.js';
-import { xorPixels } from './xor-pixels.js';
+import { compositeGlyph, xorPixels } from './xor-pixels.js';
 import { getUnicodeName } from '../utils/unicode-names.js';
 import { loadSource } from './load-source.js';
 
@@ -20,6 +20,7 @@ export type HandleSourcesActions = {
     char: Glyph,
     matrix?: m.Matrix,
     overwrite?: boolean,
+    advanceWidth?: number,
   ): void;
 
   addLigature(
@@ -175,6 +176,15 @@ export async function handleSources_v1(
           else if ('rlig' in action) addLigature('rlig', unicode, action.rlig);
           else if ('liga' in action) addLigature('liga', unicode, action.liga);
           else if ('dlig' in action) addLigature('dlig', unicode, action.dlig);
+          else if ('comp' in action)
+            char = compositeGlyph(
+              char,
+              padGlyph(
+                font.characters[parseInt(action.comp[0], 16)],
+                payload.pad,
+              ),
+              action.comp[1],
+            );
           else if ('pad' in action) {
             char = padGlyph(char, action.pad);
             chMat2d = m.compose(
@@ -184,7 +194,14 @@ export async function handleSources_v1(
           }
         }
 
-        addGlyph(unicode, name, char, chMat2d, options?.overwrite);
+        addGlyph(
+          unicode,
+          name,
+          char,
+          chMat2d,
+          options?.overwrite,
+          options?.advanceWidth,
+        );
       }
     }
   }

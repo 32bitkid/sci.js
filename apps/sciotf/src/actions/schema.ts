@@ -18,24 +18,24 @@ export const MappingSchema_v0 = () =>
               force: z.boolean().optional(),
               trim: z
                 .object({
-                  top: z.number().int().positive().optional(),
-                  right: z.number().int().positive().optional(),
-                  bottom: z.number().int().positive().optional(),
-                  left: z.number().int().positive().optional(),
+                  top: z.int().positive().optional(),
+                  right: z.int().positive().optional(),
+                  bottom: z.int().positive().optional(),
+                  left: z.int().positive().optional(),
                 })
                 .optional(),
               pad: z
                 .object({
-                  top: z.number().int().positive().optional(),
-                  right: z.number().int().positive().optional(),
-                  bottom: z.number().int().positive().optional(),
-                  left: z.number().int().positive().optional(),
+                  top: z.int().positive().optional(),
+                  right: z.int().positive().optional(),
+                  bottom: z.int().positive().optional(),
+                  left: z.int().positive().optional(),
                 })
                 .optional(),
               shift: z
                 .object({
-                  dx: z.number().int().optional(),
-                  dy: z.number().int().optional(),
+                  dx: z.int().optional(),
+                  dy: z.int().optional(),
                 })
                 .optional(),
               xor: z.array(z.string()).optional(),
@@ -65,35 +65,42 @@ export const MappingSchema_v1 = () =>
             .object({
               name: z.string().optional(),
               overwrite: z.boolean().optional(),
+              advanceWidth: z.int().positive().optional(),
               actions: z
                 .array(
                   z.union([
                     z.object({
                       trim: z.object({
-                        top: z.number().int().positive().optional(),
-                        right: z.number().int().positive().optional(),
-                        bottom: z.number().int().positive().optional(),
-                        left: z.number().int().positive().optional(),
+                        top: z.int().positive().optional(),
+                        right: z.int().positive().optional(),
+                        bottom: z.int().positive().optional(),
+                        left: z.int().positive().optional(),
                       }),
                     }),
                     z.object({
                       pad: z.object({
-                        top: z.number().int().positive().optional(),
-                        right: z.number().int().positive().optional(),
-                        bottom: z.number().int().positive().optional(),
-                        left: z.number().int().positive().optional(),
+                        top: z.int().positive().optional(),
+                        right: z.int().positive().optional(),
+                        bottom: z.int().positive().optional(),
+                        left: z.int().positive().optional(),
                       }),
                     }),
                     z.object({
                       shift: z.object({
-                        dx: z.number().int().optional(),
-                        dy: z.number().int().optional(),
+                        dx: z.int().optional(),
+                        dy: z.int().optional(),
                       }),
                     }),
                     z.object({ xor: z.array(z.string()).min(1) }),
                     z.object({ rlig: z.array(z.string()).min(2) }),
                     z.object({ liga: z.array(z.string()).min(2) }),
                     z.object({ dlig: z.array(z.string()).min(2) }),
+                    z.object({
+                      comp: z.tuple([
+                        z.hex(),
+                        z.tuple([z.int(), z.int()]).optional(),
+                      ]),
+                    }),
                   ]),
                 )
                 .optional(),
@@ -109,11 +116,11 @@ export const ResourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
     type: z.literal('resource'),
     root: z.string(),
     engine: z.enum(['sci0', 'sci01']).optional(),
-    id: z.number().int().gte(0),
+    id: z.int().gte(0),
     shift: z
       .object({
-        dx: z.number().int().optional(),
-        dy: z.number().int().optional(),
+        dx: z.int().optional(),
+        dy: z.int().optional(),
       })
       .optional(),
     mappings: mappingSchema(),
@@ -125,8 +132,8 @@ export const PatchSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
     path: z.string(),
     shift: z
       .object({
-        dx: z.number().int().optional(),
-        dy: z.number().int().optional(),
+        dx: z.int().optional(),
+        dy: z.int().optional(),
       })
       .optional(),
     mappings: mappingSchema(),
@@ -148,7 +155,7 @@ export const BaselineSchema = () =>
       type: z.literal('resource'),
       root: z.string(),
       engine: z.enum(['sci0', 'sci01']).optional(),
-      id: z.number().int().gte(0),
+      id: z.int().gte(0),
       char: z.string().length(1).optional(),
     }),
     z.object({
@@ -168,7 +175,7 @@ export const LineHeightSchema = () =>
       type: z.literal('resource'),
       root: z.string(),
       engine: z.enum(['sci0', 'sci01']).optional(),
-      id: z.number().int().gte(0),
+      id: z.int().gte(0),
     }),
     z.object({
       type: z.literal('patch'),
@@ -206,10 +213,10 @@ export const RootSchema = <
       .default('both'),
     pad: z
       .object({
-        top: z.number().int().positive().optional(),
-        right: z.number().int().positive().optional(),
-        bottom: z.number().int().positive().optional(),
-        left: z.number().int().positive().optional(),
+        top: z.int().positive().optional(),
+        right: z.int().positive().optional(),
+        bottom: z.int().positive().optional(),
+        left: z.int().positive().optional(),
       })
       .optional(),
   });

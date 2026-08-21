@@ -16,3 +16,37 @@ export function xorPixels(char: Glyph, xor: string[]): Glyph {
   }
   return updated;
 }
+
+export function compositeGlyph(
+  gl: Glyph,
+  other: Glyph | undefined,
+  coords: [number, number] = [0, 0],
+): Glyph {
+  if (!other) return gl;
+
+  const [dx = 0, dy = 0] = coords;
+  const { width, height, color, keyColor } = gl;
+  const nextGlyph: Glyph = {
+    width,
+    height,
+    color,
+    keyColor,
+    pixels: Uint8ClampedArray.from(gl.pixels),
+  };
+
+  if (other) {
+    for (let iy = 0; iy < other.height; iy += 1) {
+      const oy = iy + dy;
+      if (oy >= nextGlyph.height) break;
+      for (let ix = 0; ix < other.width; ix += 1) {
+        const ox = ix + dx;
+        if (ox >= nextGlyph.width) break;
+        if (other.pixels[iy * other.width + ix] === other.keyColor) continue;
+
+        nextGlyph.pixels[oy * nextGlyph.width + ox] = nextGlyph.color;
+      }
+    }
+  }
+
+  return nextGlyph;
+}

@@ -5,6 +5,7 @@ import type * as m from 'transformation-matrix';
 import type { Matrix } from 'transformation-matrix';
 import { chamfer } from './utils/chamfer.js';
 import { windingOrderOf } from './utils/winding-order.js';
+import advanced from './actions/advanced.js';
 
 const applyToPoints = (
   { a, b, c, d, e, f }: m.Matrix,
@@ -31,6 +32,7 @@ export function charToGlyph(
   mat2d: Readonly<Matrix>,
   widthScalar: number,
   chamferMode: 'inside' | 'outside' | 'none' | 'both',
+  advanceWidth = char.width,
 ): opentype.Glyph {
   const loops = trace(char.pixels, [char.width, char.height], {
     polygonify: false,
@@ -55,7 +57,7 @@ export function charToGlyph(
   return new opentype.Glyph({
     name,
     unicode,
-    advanceWidth: char.width * widthScalar,
+    advanceWidth: advanceWidth * widthScalar,
     path,
   });
 }
