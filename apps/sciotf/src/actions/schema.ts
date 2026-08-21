@@ -101,6 +101,9 @@ export const MappingSchema_v1 = () =>
                         z.tuple([z.int(), z.int()]).optional(),
                       ]),
                     }),
+                    z.object({
+                      base: z.int(),
+                    }),
                   ]),
                 )
                 .optional(),

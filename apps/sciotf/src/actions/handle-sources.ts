@@ -191,6 +191,8 @@ export async function handleSources_v1(
               chMat2d,
               m.translate(0, -(action.pad.top ?? 0)),
             );
+          } else if ('base' in action) {
+            chMat2d = m.compose(chMat2d, m.translate(0, action.base));
           }
         }
 
