@@ -271,6 +271,13 @@ function advancedAction(prog: Sade) {
               ];
             });
 
+          const customGlyphsMd = customGlyphs.length ? `### Custom Glyphs
+
+| Unicode | Name |
+|---------|------|
+${customGlyphs.join('\n')}
+` : '';
+
           console.log(`Pixel Aspect-Ratio: ${aspectRatio[0]}&ratio;${aspectRatio[1]}<br>
 Recommended Size: 16px/12pt. _${aspectRatio[1] === aspectRatio[0] ? 'Enable' : 'Disable'} anti-aliasing_.<br>
 Total Glyphs: ${glyphMap.size}
@@ -281,12 +288,7 @@ Total Glyphs: ${glyphMap.size}
 ${charSet}
 </code>
 
-### Custom Glyphs
-
-| Unicode | Name |
-|---------|------|
-${customGlyphs.join('\n')}
-
+${customGlyphsMd}
 _Built ${new Intl.DateTimeFormat('en-US').format(new Date())}_
 `);
         }
