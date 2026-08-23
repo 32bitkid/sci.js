@@ -28,6 +28,8 @@ export type HandleSourcesActions = {
     unicode: number,
     def: string[] | undefined,
   ): void;
+
+  addAlternate(type: string, target: number, source: string): void;
 };
 
 export async function handleSources_v0(
@@ -111,7 +113,7 @@ export async function handleSources_v0(
 
 export async function handleSources_v1(
   payload: RootSchemaType_v1,
-  { addGlyph, addLigature }: HandleSourcesActions,
+  { addGlyph, addLigature, addAlternate }: HandleSourcesActions,
 ) {
   for (const source of payload.sources) {
     const font = await loadSource(source);
@@ -147,7 +149,7 @@ export async function handleSources_v1(
         }
       }
       if (mapping === 'ascii' || mapping === 'ascii-lowercase') {
-        for (const i of range(0x60, 0x7d)) {
+        for (const i of range(0x60, 0x7e)) {
           let char = font.characters[i];
           if (char.width <= 1 && char.height <= 1) continue;
           const name = getUnicodeName(i);
@@ -176,7 +178,10 @@ export async function handleSources_v1(
           else if ('rlig' in action) addLigature('rlig', unicode, action.rlig);
           else if ('liga' in action) addLigature('liga', unicode, action.liga);
           else if ('dlig' in action) addLigature('dlig', unicode, action.dlig);
-          else if ('comp' in action)
+          else if ('alt' in action) {
+            const [type, other] = action.alt;
+            addAlternate(type, unicode, other);
+          } else if ('comp' in action)
             char = compositeGlyph(
               char,
               padGlyph(

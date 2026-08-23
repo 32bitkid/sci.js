@@ -5,7 +5,6 @@ import type * as m from 'transformation-matrix';
 import type { Matrix } from 'transformation-matrix';
 import { chamfer } from './utils/chamfer.js';
 import { windingOrderOf } from './utils/winding-order.js';
-import advanced from './actions/advanced.js';
 
 const applyToPoints = (
   { a, b, c, d, e, f }: m.Matrix,

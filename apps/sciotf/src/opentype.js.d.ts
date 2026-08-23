@@ -1,3 +1,6 @@
+// biome-ignore-all format: type goo
+// biome-ignore-all lint: type goo
+
 declare module 'opentype.js' {
   export class Font {
     names: FontNames;
@@ -16,8 +19,11 @@ declare module 'opentype.js' {
     constructor(options: FontConstructorOptions);
 
     charToGlyph(c: string): Glyph;
+
     charToGlyphIndex(s: string): number;
+
     download(fileName?: string): void;
+
     draw(
       ctx: CanvasRenderingContext2D,
       text: string,
@@ -26,6 +32,7 @@ declare module 'opentype.js' {
       fontSize?: number,
       options?: RenderOptions,
     ): void;
+
     drawMetrics(
       ctx: CanvasRenderingContext2D,
       text: string,
@@ -34,6 +41,7 @@ declare module 'opentype.js' {
       fontSize?: number,
       options?: RenderOptions,
     ): void;
+
     drawPoints(
       ctx: CanvasRenderingContext2D,
       text: string,
@@ -42,6 +50,7 @@ declare module 'opentype.js' {
       fontSize?: number,
       options?: RenderOptions,
     ): void;
+
     forEachGlyph(
       text: string,
       x: number | undefined,
@@ -56,16 +65,20 @@ declare module 'opentype.js' {
         options?: RenderOptions,
       ) => void,
     ): number;
+
     getAdvanceWidth(
       text: string,
       fontSize?: number,
       options?: RenderOptions,
     ): number;
+
     getEnglishName(name: string): string;
+
     getKerningValue(
       leftGlyph: Glyph | number,
       rightGlyph: Glyph | number,
     ): number;
+
     getPath(
       text: string,
       x: number,
@@ -73,6 +86,7 @@ declare module 'opentype.js' {
       fontSize: number,
       options?: RenderOptions,
     ): Path;
+
     getPaths(
       text: string,
       x: number,
@@ -80,19 +94,31 @@ declare module 'opentype.js' {
       fontSize: number,
       options?: RenderOptions,
     ): Path[];
+
     glyphIndexToName(gid: number): string;
+
     glyphNames: GlyphNames;
+
     hasChar(c: string): boolean;
+
     kerningPairs: KerningPairs;
+
     nameToGlyph(name: string): Glyph;
+
     nameToGlyphIndex(name: string): number;
+
     numberOfHMetrics: number;
     numGlyphs: number;
     outlinesFormat: string;
+
     stringToGlyphs(s: string): Glyph[];
+
     toArrayBuffer(): ArrayBuffer;
+
     toBuffer(): ArrayBuffer;
+
     toTables(): Table;
+
     validate(): void;
   }
 
@@ -153,9 +179,13 @@ declare module 'opentype.js' {
 
   export interface Table {
     [propName: string]: any;
+
     encode(): number[];
+
     fields: Field[];
+
     sizeOf(): number;
+
     tables: Table[];
     tableName: string;
   }
@@ -193,10 +223,13 @@ declare module 'opentype.js' {
     path: Path;
 
     private bindConstructorValues(options: GlyphOptions): void;
+
     constructor(options: GlyphOptions);
 
     addUnicode(unicode: number): void;
+
     getBoundingBox(): BoundingBox;
+
     getPath(
       x?: number,
       y?: number,
@@ -204,8 +237,11 @@ declare module 'opentype.js' {
       options?: RenderOptions,
       font?: Font,
     ): Path;
+
     getContours(): Contour;
+
     getMetrics(): Metrics;
+
     draw(
       ctx: CanvasRenderingContext2D,
       x?: number,
@@ -213,6 +249,7 @@ declare module 'opentype.js' {
       fontSize?: number,
       options?: RenderOptions,
     ): void;
+
     drawPoints(
       ctx: CanvasRenderingContext2D,
       x?: number,
@@ -220,6 +257,7 @@ declare module 'opentype.js' {
       fontSize?: number,
       options?: RenderOptions,
     ): void;
+
     drawMetrics(
       ctx: CanvasRenderingContext2D,
       x?: number,
@@ -245,17 +283,24 @@ declare module 'opentype.js' {
 
   export class GlyphNames {
     private names;
+
     constructor(post: Post);
+
     glyphIndexToName(gid: number): string;
+
     nameToGlyphIndex(name: string): number;
   }
 
   export class GlyphSet {
     private font;
     private glyphs;
+
     constructor(font: Font, glyphs: Glyph[] | Array<() => Glyph>);
+
     get(index: number): Glyph;
+
     length: number;
+
     push(index: number, loader: () => Glyph): void;
   }
 
@@ -313,7 +358,9 @@ declare module 'opentype.js' {
     fill: string | null;
     stroke: string | null;
     strokeWidth: number;
+
     constructor();
+
     bezierCurveTo(
       x1: number,
       y1: number,
@@ -322,8 +369,11 @@ declare module 'opentype.js' {
       x: number,
       y: number,
     ): void;
+
     close: () => void;
+
     closePath(): void;
+
     commands: PathCommand[];
     curveTo: (
       x1: number,
@@ -333,16 +383,27 @@ declare module 'opentype.js' {
       x: number,
       y: number,
     ) => void;
+
     draw(ctx: CanvasRenderingContext2D): void;
+
     extend(pathOrCommands: Path | PathCommand[] | BoundingBox): void;
+
     getBoundingBox(): BoundingBox;
+
     lineTo(x: number, y: number): void;
+
     moveTo(x: number, y: number): void;
+
     quadraticCurveTo(x1: number, y1: number, x: number, y: number): void;
+
     quadTo: (x1: number, y1: number, x: number, y: number) => void;
+
     toDOMElement(decimalPlaces: number): SVGPathElement;
+
     toPathData(decimalPlaces: number): string;
+
     toSVG(decimalPlaces: number): string;
+
     unitsPerEm: number;
   }
 
@@ -388,9 +449,13 @@ declare module 'opentype.js' {
     y2: number;
 
     isEmpty(): boolean;
+
     addPoint(x: number, y: number): void;
+
     addX(x: number): void;
+
     addY(y: number): void;
+
     addBezier(
       x0: number,
       y0: number,
@@ -401,6 +466,7 @@ declare module 'opentype.js' {
       x: number,
       y: number,
     ): void;
+
     addQuad(
       x0: number,
       y0: number,
@@ -413,7 +479,9 @@ declare module 'opentype.js' {
 
   export interface Encoding {
     charset: string;
+
     charToGlyphIndex(c: string): number;
+
     font: Font;
   }
 
@@ -431,56 +499,88 @@ declare module 'opentype.js' {
     sub: [number, number, ...number[]];
     by: number;
   };
+  export type FeatureStylisticSets =
+    | 'ss01'
+    | 'ss02'
+    | 'ss03'
+    | 'ss04'
+    | 'ss05'
+    | 'ss06'
+    | 'ss07'
+    | 'ss08'
+    | 'ss09'
+    | 'ss10'
+    | 'ss11'
+    | 'ss12'
+    | 'ss13'
+    | 'ss14'
+    | 'ss15'
+    | 'ss16'
+    | 'ss17'
+    | 'ss18'
+    | 'ss19'
+    | 'ss20';
+  export type FeatureAlternates = StylisticSets | 'salt' | 'aalt';
 
   export class Substitution {
     constructor(font: Font);
+
     createDefaultTable(): unknown;
+
     getSingle(
-      feature: string,
+      feature: StylisticSets | 'salt' | 'aalt',
       script: string = 'DFLT',
       language: string = 'dflt',
     ): SingleSubstitution[];
+
     getMultiple(
       feature: string,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): MultipleSubstitution[];
+
     getAlternates(
       feature: string,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): AlternatesSubstitution[];
+
     getLigatures(
       feature: string,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): LigatureSubstitution[];
+
     addSingle(
       feature: string,
       substitution: SingleSubstitution,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): void;
+
     addMultiple(
       feature: string,
       substitution: MultipleSubstitution,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): void;
+
     addAlternate(
-      feature: string,
+      feature: FeatureAlternates,
       substitution: AlternatesSubstitution,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): void;
+
     addLigature(
       feature: 'dlig' | 'liga' | 'rlig',
       ligature: LigatureSubstitution,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): void;
+
     getFeature(
-      feature: 'aalt' | 'salt',
+      feature: FeatureAlternates,
       script: string = 'DFLT',
       language: string = 'dflt',
     ): SingleSubstitution[];
@@ -503,6 +603,7 @@ declare module 'opentype.js' {
       | MultipleSubstitution[]
       | LigatureSubstitutionp[]
       | undefined;
+
     add(
       feature: string,
       sub,
@@ -510,6 +611,7 @@ declare module 'opentype.js' {
       language: string = 'dflt',
     ): void;
   }
+
   /** DONE */
 
   /******************************************

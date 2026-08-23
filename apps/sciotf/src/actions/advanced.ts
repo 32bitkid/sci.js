@@ -132,8 +132,17 @@ function advancedAction(prog: Sade) {
           unicode: number,
           def: string[] | undefined,
         ) => {
-          if (!def) return;
+          if (!def || def.length <= 1) return;
           ligatures.push([type, unicode, def.map((it) => parseInt(it, 16))]);
+        };
+
+        const alternates: [type: string, number, number][] = [];
+        const addAlternate = (
+          type: opentype.FeatureAlternates,
+          target: number,
+          other: string,
+        ) => {
+          alternates.push([type, target, parseInt(other, 16)]);
         };
 
         const glyphMap: Map<number, opentype.Glyph> = new Map();
@@ -175,6 +184,7 @@ function advancedAction(prog: Sade) {
             await handleSources_v1(payload, {
               addGlyph,
               addLigature,
+              addAlternate,
             });
             break;
           }
@@ -182,6 +192,7 @@ function advancedAction(prog: Sade) {
             await handleSources_v0(payload, {
               addGlyph,
               addLigature,
+              addAlternate,
             });
         }
 
@@ -222,6 +233,13 @@ function advancedAction(prog: Sade) {
           sciOTF.substitution.addLigature(type, {
             sub: [subA, subB, ...subRest],
             by: sciOTF.charToGlyphIndex(String.fromCodePoint(byChar)),
+          });
+        }
+
+        for (const [type, target, other] of alternates) {
+          sciOTF.substitution.addSingle(type, {
+            sub: sciOTF.charToGlyphIndex(String.fromCodePoint(other)),
+            by: sciOTF.charToGlyphIndex(String.fromCodePoint(target)),
           });
         }
 
@@ -271,12 +289,14 @@ function advancedAction(prog: Sade) {
               ];
             });
 
-          const customGlyphsMd = customGlyphs.length ? `### Custom Glyphs
+          const customGlyphsMd = customGlyphs.length
+            ? `### Custom Glyphs
 
 | Unicode | Name |
 |---------|------|
 ${customGlyphs.join('\n')}
-` : '';
+`
+            : '';
 
           console.log(`Pixel Aspect-Ratio: ${aspectRatio[0]}&ratio;${aspectRatio[1]}<br>
 Recommended Size: 16px/12pt. _${aspectRatio[1] === aspectRatio[0] ? 'Enable' : 'Disable'} anti-aliasing_.<br>

@@ -62,46 +62,49 @@ export const MappingSchema_v1 = () =>
           z.hex(),
           z.hex(),
           z
-            .object({
+            .strictObject({
               name: z.string().optional(),
               overwrite: z.boolean().optional(),
               advanceWidth: z.int().positive().optional(),
               actions: z
                 .array(
                   z.union([
-                    z.object({
-                      trim: z.object({
+                    z.strictObject({
+                      trim: z.strictObject({
                         top: z.int().positive().optional(),
                         right: z.int().positive().optional(),
                         bottom: z.int().positive().optional(),
                         left: z.int().positive().optional(),
                       }),
                     }),
-                    z.object({
-                      pad: z.object({
+                    z.strictObject({
+                      pad: z.strictObject({
                         top: z.int().positive().optional(),
                         right: z.int().positive().optional(),
                         bottom: z.int().positive().optional(),
                         left: z.int().positive().optional(),
                       }),
                     }),
-                    z.object({
-                      shift: z.object({
+                    z.strictObject({
+                      shift: z.strictObject({
                         dx: z.int().optional(),
                         dy: z.int().optional(),
                       }),
                     }),
-                    z.object({ xor: z.array(z.string()).min(1) }),
-                    z.object({ rlig: z.array(z.string()).min(2) }),
-                    z.object({ liga: z.array(z.string()).min(2) }),
-                    z.object({ dlig: z.array(z.string()).min(2) }),
-                    z.object({
+                    z.strictObject({ xor: z.array(z.string()).min(1) }),
+                    z.strictObject({ rlig: z.array(z.string()).min(2) }),
+                    z.strictObject({ liga: z.array(z.string()).min(2) }),
+                    z.strictObject({ dlig: z.array(z.string()).min(2) }),
+                    z.strictObject({
+                      alt: z.tuple([z.string().length(4), z.hex()]),
+                    }),
+                    z.strictObject({
                       comp: z.tuple([
                         z.hex(),
                         z.tuple([z.int(), z.int()]).optional(),
                       ]),
                     }),
-                    z.object({
+                    z.strictObject({
                       base: z.int(),
                     }),
                   ]),
