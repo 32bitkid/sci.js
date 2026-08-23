@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-export const MappingSchema_v0 = () =>
+const MappingSchema_v0 = () =>
   z
     .array(
       z.union([
@@ -49,7 +49,7 @@ export const MappingSchema_v0 = () =>
     )
     .min(1);
 
-export const MappingSchema_v1 = () =>
+const MappingSchema_v1 = () =>
   z
     .array(
       z.union([
@@ -117,7 +117,7 @@ export const MappingSchema_v1 = () =>
     )
     .min(1);
 
-export const ResourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
+const ResourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
   z.object({
     type: z.literal('resource'),
     root: z.string(),
@@ -132,7 +132,7 @@ export const ResourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
     mappings: mappingSchema(),
   });
 
-export const PatchSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
+const PatchSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
   z.object({
     type: z.literal('patch'),
     path: z.string(),
@@ -145,13 +145,13 @@ export const PatchSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
     mappings: mappingSchema(),
   });
 
-export const SourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
+const SourceSchema = <T extends z.ZodType>(mappingSchema: () => T) =>
   z.discriminatedUnion('type', [
     ResourceSchema(mappingSchema),
     PatchSchema(mappingSchema),
   ]);
 
-export const BaselineSchema = () =>
+const BaselineSchema = () =>
   z.discriminatedUnion('type', [
     z.object({
       type: z.literal('constant'),
@@ -171,7 +171,7 @@ export const BaselineSchema = () =>
     }),
   ]);
 
-export const LineHeightSchema = () =>
+const LineHeightSchema = () =>
   z.discriminatedUnion('type', [
     z.object({
       type: z.literal('constant'),
@@ -198,10 +198,7 @@ export type LineHeightSchemaType = z.TypeOf<
   ReturnType<typeof LineHeightSchema>
 >;
 
-export const RootSchema = <
-  TVersion extends z.ZodType,
-  TSource extends z.ZodType,
->(
+const RootSchema = <TVersion extends z.ZodType, TSource extends z.ZodType>(
   versionSchema: TVersion,
   sourceSchema: TSource,
 ) =>
@@ -235,8 +232,15 @@ const Root_V1 = RootSchema(z.literal('v1'), SourceSchema(MappingSchema_v1));
 
 const BatchShema = z.discriminatedUnion('$schemaVersion', [Root_V0, Root_V1]);
 
+export type MappingSchemaType_v0 = z.TypeOf<
+  ReturnType<typeof MappingSchema_v0>
+>;
+export type MappingSchemaType_v1 = z.TypeOf<
+  ReturnType<typeof MappingSchema_v1>
+>;
 export type RootSchemaType_v0 = z.TypeOf<typeof Root_V0>;
 export type RootSchemaType_v1 = z.TypeOf<typeof Root_V1>;
+export type BatchSchemaType = z.TypeOf<typeof BatchShema>;
 
 export function tryParse(json: unknown) {
   try {

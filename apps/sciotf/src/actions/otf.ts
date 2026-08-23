@@ -4,12 +4,13 @@ import type { Sade } from 'sade';
 import * as m from 'transformation-matrix';
 import wawoff from 'wawoff2';
 import {
+  getAspectRatioString,
   parseAspectRatio,
   parseChamfer,
   parseEngine,
   parseId,
 } from '../opt-parsers.js';
-import { charToGlyph } from '../pixel-to-glyph.js';
+import { charToGlyph } from '../process/pixel-to-glyph.js';
 import { findAndParseFont } from '../utils/find-and-parse.js';
 import { guessBaseline } from '../utils/measure.js';
 import { mapRange } from '../utils/range.js';
@@ -51,7 +52,8 @@ export function otfAction(prog: Sade) {
         const engine = parseEngine(opts.engine);
         const chamferMode = parseChamfer(opts.chamfer);
 
-        const [aspectRatio, arStr] = parseAspectRatio(opts['aspect-ratio']);
+        const aspectRatio = parseAspectRatio(opts['aspect-ratio']);
+        const arStr = getAspectRatioString(aspectRatio);
 
         const font = await findAndParseFont(opts.root ?? './', id, engine);
 

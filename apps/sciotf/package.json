@@ -17,6 +17,10 @@
     ".": {
       "types": "./dist/main.d.mts",
       "import": "./dist/main.mjs"
+    },
+    "./process": {
+      "types": "./dist/process.d.mts",
+      "import": "./dist/process.mjs"
     }
   },
   "bin": {

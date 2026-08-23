@@ -15,16 +15,19 @@ export const parseId = (val: string): number => {
   return num;
 };
 
-export const parseAspectRatio = (
-  val: unknown,
-): [[number, number], 'AC' | 'PX'] => {
-  if (val === undefined || val === null || val === '') return [[1, 1.2], 'AC'];
+export const parseAspectRatio = (val: unknown): [number, number] => {
+  if (val === undefined || val === null || val === '') return [1, 1.2];
   if (typeof val === 'string') {
-    if (val.toLocaleLowerCase() === '1:1') return [[1, 1], 'PX'];
-    if (val.toLocaleLowerCase() === '1:1.2') return [[1, 1.2], 'AC'];
-    if (val.toLocaleLowerCase() === '5:6') return [[1, 1.2], 'AC'];
+    if (val.toLocaleLowerCase() === '1:1') return [1, 1];
+    if (val.toLocaleLowerCase() === '1:1.2') return [1, 1.2];
+    if (val.toLocaleLowerCase() === '5:6') return [1, 1.2];
   }
   panic('--aspect-ratio must be "1:1", "1:1.2" or "5:6"');
+};
+
+export const getAspectRatioString = (aspectRatio: [number, number]): string => {
+  if (aspectRatio[0] !== 1) return '??';
+  return aspectRatio[1] === 1 ? 'PX' : aspectRatio[1] === 1.2 ? 'AC' : '??';
 };
 
 export const parseChamfer = (
