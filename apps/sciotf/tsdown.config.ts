@@ -7,6 +7,7 @@ export default defineConfig({
   format: ['esm'],
   target: ['node24'],
   unbundle: false,
+  tsconfig: './tsconfig.app.json',
   env: {
     __VERSION__: packageJSON.version,
   },
