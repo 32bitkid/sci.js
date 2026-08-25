@@ -18,6 +18,34 @@ import {
 import { loadSource } from './load-source.js';
 import { guessBaseline } from '../utils/measure.js';
 
+const isAlt = (
+  feat: string,
+): feat is
+  | 'salt'
+  | 'ss01'
+  | 'ss02'
+  | 'ss03'
+  | 'ss04'
+  | 'ss05'
+  | 'ss06'
+  | 'ss07'
+  | 'ss08'
+  | 'ss09'
+  | 'ss10'
+  | 'ss11'
+  | 'ss12'
+  | 'ss13'
+  | 'ss14'
+  | 'ss15'
+  | 'ss16'
+  | 'ss17'
+  | 'ss18'
+  | 'ss19'
+  | 'ss20' => {
+  if (feat === 'salt') return true;
+  return /^ss\d{2}$/.test(feat);
+};
+
 async function getBaseline(
   defaultSource: SourceSchemaType,
   option?: BaselineSchemaType,
@@ -88,7 +116,7 @@ export async function processFont(
   );
 
   // Gather glyphs
-  const ligatures: [type: 'rlig' | 'liga' | 'dlig', number, number[]][] = [];
+  const features: [type: string, number[], number[]][] = [];
 
   const addLigature = (
     type: 'rlig' | 'liga' | 'dlig',
@@ -96,16 +124,15 @@ export async function processFont(
     def: string[] | undefined,
   ) => {
     if (!def || def.length <= 1) return;
-    ligatures.push([type, unicode, def.map((it) => parseInt(it, 16))]);
+    features.push([type, [unicode], def.map((it) => parseInt(it, 16))]);
   };
 
-  const alternates: [type: string, number, number][] = [];
   const addAlternate = (
     type: opentype.FeatureAlternates,
     target: number,
     other: string,
   ) => {
-    alternates.push([type, target, parseInt(other, 16)]);
+    features.push([type, [target], [parseInt(other, 16)]]);
   };
 
   const glyphMap: Map<number, opentype.Glyph> = new Map();
@@ -189,22 +216,36 @@ export async function processFont(
     version: payload.version ?? '1.0.0',
   });
 
-  for (const [type, byChar, subChars] of ligatures) {
-    const [subA, subB, ...subRest] = subChars.map((it) =>
-      sciOTF.charToGlyphIndex(String.fromCodePoint(it)),
-    );
+  features.sort(([featureA], [featureB]) => featureA.localeCompare(featureB));
 
-    sciOTF.substitution.addLigature(type, {
-      sub: [subA, subB, ...subRest],
-      by: sciOTF.charToGlyphIndex(String.fromCodePoint(byChar)),
-    });
-  }
+  for (const [feat, ...rest] of features) {
+    switch (feat) {
+      case 'rlig':
+      case 'liga':
+      case 'dlig': {
+        const [[byChar], subChars] = rest;
+        const [subA, subB, ...subRest] = subChars.map((it) =>
+          sciOTF.charToGlyphIndex(String.fromCodePoint(it)),
+        );
 
-  for (const [type, target, other] of alternates) {
-    sciOTF.substitution.addSingle(type, {
-      sub: sciOTF.charToGlyphIndex(String.fromCodePoint(other)),
-      by: sciOTF.charToGlyphIndex(String.fromCodePoint(target)),
-    });
+        sciOTF.substitution.addLigature(feat, {
+          sub: [subA, subB, ...subRest],
+          by: sciOTF.charToGlyphIndex(String.fromCodePoint(byChar)),
+        });
+        continue;
+      }
+    }
+
+    if (isAlt(feat) || feat === 'smcp') {
+      const [[target], [other]] = rest;
+      sciOTF.substitution.addSingle(feat, {
+        sub: sciOTF.charToGlyphIndex(String.fromCodePoint(other)),
+        by: sciOTF.charToGlyphIndex(String.fromCodePoint(target)),
+      });
+      continue;
+    }
+
+    console.error(`warning: feature not implemented ${feat}`);
   }
 
   return [sciOTF, aspectRatio, glyphMap];
