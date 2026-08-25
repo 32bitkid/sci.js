@@ -1,7 +1,18 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es2024",
+    "module": "NodeNext",
+    "outDir": "./dist/",
+    "types": ["node"]
+  },
+  "include": [
+    "src/**/*",
+    "tsdown.config.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts",
+    "src/__tests__/**/*.ts"
   ]
 }
