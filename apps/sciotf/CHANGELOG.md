@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.11.0...@4bitlabs/sciotf@1.11.1) (2026-08-25)
+
+### Bug Fixes
+
+* **sciotf:** apply all font features in order
+
+### Reverts
+
+* **sciotf:** revert tsconfig tweaks
+
+
 ## [1.11.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.10.0...@4bitlabs/sciotf@1.11.0) (2026-08-25)
 
 ### Features
