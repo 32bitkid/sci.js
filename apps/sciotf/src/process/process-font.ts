@@ -14,7 +14,8 @@ import {
   getAspectRatioString,
   parseAspectRatio,
   parseChamfer,
-} from '../opt-parsers.js';
+  parseSideBearing,
+} from '../actions/opt-parsers.js';
 import { loadSource } from './load-source.js';
 import { guessBaseline } from '../utils/measure.js';
 
@@ -90,11 +91,17 @@ export async function processFont(
   payload: BatchSchemaType,
   opts: {
     'aspect-ratio': string;
+    'side-bearing'?: 'lsb' | 'rsb' | 'none';
     chamfer: string;
   },
 ): Promise<[opentype.Font, [number, number], Map<number, opentype.Glyph>]> {
   const aspectRatio = parseAspectRatio(
     opts['aspect-ratio'] ?? payload.aspectRatio,
+  );
+
+  const sideBearing = parseSideBearing(
+    opts['side-bearing'],
+    payload.adjustSideBearing,
   );
 
   const defaultSource = payload.sources[0];
@@ -154,7 +161,12 @@ export async function processFont(
       );
     }
 
-    const chMat2d = m.compose(mat2d, glyMat);
+    const sbAdjust =
+      sideBearing !== 'none'
+        ? m.translate(sideBearing === 'rsb' ? 0.5 : -0.5, 0)
+        : m.identity();
+
+    const chMat2d = m.compose(mat2d, glyMat, sbAdjust);
     const glyph = charToGlyph(
       unicode,
       name,

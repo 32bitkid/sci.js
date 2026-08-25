@@ -5,7 +5,7 @@ import wawoff from 'wawoff2';
 
 import { tryParse } from '../process/schema.js';
 import { processFont } from '../process/process-font.js';
-import { getAspectRatioString } from '../opt-parsers.js';
+import { getAspectRatioString } from './opt-parsers.js';
 
 const isUnicodePUA = (unicode: number) =>
   (unicode >= 0xe000 && unicode <= 0xf8ff) ||
@@ -33,6 +33,10 @@ function advancedAction(prog: Sade) {
       '--chamfer, -c',
       'set corner chamfer mode from "none", "inside", "outside", "both"',
       'both',
+    )
+    .option(
+      '--side-bearing, -s',
+      'set side-bearing adjusting "lsb", "rsb", or "none"',
     )
     .option('--output, -o', 'output folder', '.')
     .option('--verbose, -v', 'verbose output', false)

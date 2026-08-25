@@ -210,6 +210,10 @@ const RootSchema = <TVersion extends z.ZodType, TSource extends z.ZodType>(
     baseline: BaselineSchema().optional(),
     lineHeight: LineHeightSchema().optional(),
     sources: z.array(sourceSchema),
+    adjustSideBearing: z
+      .enum(['lsb', 'rsb', 'none'])
+      .optional()
+      .default('none'),
     chamfer: z
       .enum(['both', 'inside', 'outside', 'none'])
       .optional()

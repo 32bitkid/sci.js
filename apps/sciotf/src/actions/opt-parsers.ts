@@ -1,4 +1,4 @@
-import { panic } from './utils/ensure-exists.js';
+import { panic } from '../utils/ensure-exists.js';
 
 export const parseEngine = (val: unknown): 'sci0' | 'sci01' => {
   if (val === undefined || val === null || val === '') return 'sci0';
@@ -42,4 +42,14 @@ export const parseChamfer = (
     if (val === 'none') return val;
   }
   panic('--chamfer must be "none", "inside", "outside", or "both"');
+};
+
+export const parseSideBearing = (
+  val: unknown,
+  defaultVal: 'lsb' | 'rsb' | 'none' = 'none',
+): 'lsb' | 'rsb' | 'none' => {
+  if (typeof val === 'string' && val === 'lsb') return 'lsb';
+  if (typeof val === 'string' && val === 'rsb') return 'rsb';
+  if (typeof val === 'string' && val === 'none') return 'none';
+  return defaultVal;
 };

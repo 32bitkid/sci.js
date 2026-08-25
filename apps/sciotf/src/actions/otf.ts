@@ -9,7 +9,8 @@ import {
   parseChamfer,
   parseEngine,
   parseId,
-} from '../opt-parsers.js';
+  parseSideBearing,
+} from './opt-parsers.js';
 import { charToGlyph } from '../process/pixel-to-glyph.js';
 import { findAndParseFont } from '../utils/find-and-parse.js';
 import { guessBaseline } from '../utils/measure.js';
@@ -32,6 +33,10 @@ export function otfAction(prog: Sade) {
       '1:1.2',
     )
     .option(
+      '--side-bearing, -s',
+      'set side-bearing adjusting "lsb", "rsb", or "none"',
+    )
+    .option(
       '--chamfer, -c',
       'set corner chamfer mode from "none", "inside", "outside", "both"',
       'both',
@@ -45,6 +50,7 @@ export function otfAction(prog: Sade) {
           engine?: string;
           root?: string;
           chamfer?: string;
+          'side-bearing'?: string;
           format?: string | string[];
         },
       ) => {
@@ -54,6 +60,7 @@ export function otfAction(prog: Sade) {
 
         const aspectRatio = parseAspectRatio(opts['aspect-ratio']);
         const arStr = getAspectRatioString(aspectRatio);
+        const sideBearing = parseSideBearing(opts['side-bearing']);
 
         const font = await findAndParseFont(opts.root ?? './', id, engine);
 
@@ -64,10 +71,16 @@ export function otfAction(prog: Sade) {
           ? parseInt(opts.baseline, 10)
           : guessBaseline(font);
 
+        const sbAdjust =
+          sideBearing !== 'none'
+            ? m.translate(sideBearing === 'rsb' ? 0.5 : -0.5, 0)
+            : m.identity();
+
         const mat2d = m.compose(
           screenScale,
           m.scale(1, -1),
           m.translate(0, -baseline),
+          sbAdjust,
         );
 
         const glyphs = [
