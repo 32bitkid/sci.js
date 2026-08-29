@@ -172,7 +172,7 @@ export function useInputMachine(
       currentCursor = 'grab';
     } else if (selectedTool === 'select') {
       currentCursor = 'crosshair';
-    } else if (selectedTool == 'line') {
+    } else if (selectedTool === 'line') {
       const isOverCanvas = unref(cursorPosition.isOver);
       if (isOverCanvas) {
         if (unref(currentRef)) {

@@ -30,7 +30,10 @@ export const pathPoly = (
   points: Readonly<Vec2>[],
 ) => {
   ctx.beginPath();
-  points.forEach(([x, y], i) => ctx[i === 0 ? 'moveTo' : 'lineTo'](x, y));
+  for (let i = 0; i < points.length; i++) {
+    const [x, y] = points[i];
+    ctx[i === 0 ? 'moveTo' : 'lineTo'](x, y);
+  }
   ctx.closePath();
 };
 

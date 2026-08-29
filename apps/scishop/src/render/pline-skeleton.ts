@@ -18,7 +18,10 @@ export function plineSkeleton(
 
   ctx.lineWidth = 1;
   ctx.beginPath();
-  points.forEach(([x, y], idx) => ctx[idx ? 'lineTo' : 'moveTo'](x, y));
+  for (let idx = 0; idx < points.length; idx++) {
+    const [x, y] = points[idx];
+    ctx[idx ? 'lineTo' : 'moveTo'](x, y);
+  }
   ctx.stroke();
 
   ctx.lineWidth = 1.5;
