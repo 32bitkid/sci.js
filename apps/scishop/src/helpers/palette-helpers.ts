@@ -45,13 +45,13 @@ export function reduceMutations(
       }
       case 'UPDATE_PALETTE': {
         const [, , ...entries] = cmd;
-        const next = entries.reduce((prevSet_, [palIdx, clrIdx, color]) => {
-          const nextSet: PaletteSet = [...prevSet_];
-          const nextPal = [...nextSet[palIdx]];
-          nextPal[clrIdx] = color;
-          nextSet[palIdx] = nextPal;
-          return nextSet;
-        }, prevSet);
+        const next = entries.reduce<PaletteSet>(
+          (palSet, [palIdx, clrIdx, color]) => {
+            palSet[palIdx][clrIdx] = color;
+            return palSet;
+          },
+          [[...prevSet[0]], [...prevSet[1]], [...prevSet[2]], [...prevSet[3]]],
+        );
         sets.push([idx, next]);
         prevSet = next;
         break;
