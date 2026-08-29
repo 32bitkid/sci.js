@@ -1,16 +1,16 @@
-import { computed, Ref, shallowRef, triggerRef, unref, watch } from 'vue';
-import { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
+import { computed, type Ref, shallowRef, triggerRef, unref, watch } from 'vue';
+import type { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
 
-import { DrawCommand, renderPic } from '@4bitlabs/sci0';
+import { type DrawCommand, renderPic } from '@4bitlabs/sci0';
 import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
 import { generateSciDitherPairs, Mixers } from '@4bitlabs/color';
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
-import { isEqual, vec2, Vec2 } from '@4bitlabs/vec2';
-import { get2dContext } from '../helpers/getContext';
-import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
-import { clamp } from '../helpers/clamp.ts';
-import { mustInject } from '../data/mustInject.ts';
-import { paletteKey, stageOptionsKey, viewKey } from '../data/keys.ts';
+import { isEqual, vec2, type Vec2 } from '@4bitlabs/vec2';
+import { get2dContext } from '../helpers/getContext.js';
+import { setCanvasDimensions } from '../helpers/setCanvasDimensions.js';
+import { clamp } from '../helpers/clamp.js';
+import { mustInject } from '../data/mustInject.js';
+import { paletteKey, stageOptionsKey, viewKey } from '../data/keys.js';
 
 export function useRenderedPixels(picDataRef: Ref<DrawCommand[]>) {
   const { canvasSize } = mustInject(stageOptionsKey);

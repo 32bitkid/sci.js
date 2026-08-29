@@ -1,12 +1,12 @@
-import { computed, ComputedRef, Ref, ShallowRef } from 'vue';
+import { computed, type ComputedRef, type Ref, type ShallowRef } from 'vue';
 import { onMounted, onUnmounted, unref } from 'vue';
-import { applyToPoint, inverse, Matrix } from 'transformation-matrix';
+import { applyToPoint, inverse, type Matrix } from 'transformation-matrix';
 
 import { isEqual, round, vec2 } from '@4bitlabs/vec2';
-import { useRafRef } from './useRafRef.ts';
-import { isInsideBounds } from '../helpers/polygons.ts';
-import { mustInject } from '../data/mustInject.ts';
-import { stageOptionsKey } from '../data/keys.ts';
+import { useRafRef } from './useRafRef.js';
+import { isInsideBounds } from '../helpers/polygons.js';
+import { mustInject } from '../data/mustInject.js';
+import { stageOptionsKey } from '../data/keys.js';
 
 export interface CursorPosition {
   screen: Readonly<Ref<[number, number]>>;

@@ -1,7 +1,7 @@
-import { computed, provide, Ref, ref, unref } from 'vue';
+import { computed, provide, type Ref, ref, unref } from 'vue';
 
-import { DrawCodes, DrawMode } from '@4bitlabs/sci0';
-import * as Keys from './keys.ts';
+import { type DrawCodes, DrawMode } from '@4bitlabs/sci0';
+import * as Keys from './keys.js';
 
 const changeDrawMode = (mode: DrawMode, flag: DrawMode, enabled: boolean) =>
   enabled ? mode | flag : mode & ~flag;

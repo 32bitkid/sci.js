@@ -1,9 +1,9 @@
-import { computed, onMounted, onUnmounted, Ref, unref } from 'vue';
+import { computed, onMounted, onUnmounted, type Ref, unref } from 'vue';
 
-import { RenderResult } from '@4bitlabs/sci0';
-import { mustInject } from '../data/mustInject.ts';
-import { pointersKey, stageOptionsKey, toolKey } from '../data/keys.ts';
-import { CursorPosition } from './useCursorWatcher.ts';
+import type { RenderResult } from '@4bitlabs/sci0';
+import { mustInject } from '../data/mustInject.js';
+import { pointersKey, stageOptionsKey, toolKey } from '../data/keys.js';
+import type { CursorPosition } from './useCursorWatcher.js';
 
 const MAX = ~0 >>> 0;
 

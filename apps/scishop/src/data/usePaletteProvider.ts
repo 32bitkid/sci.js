@@ -2,15 +2,15 @@ import { type ShallowRef, type Ref, computed, ref, unref, provide } from 'vue';
 import deepEqual from 'fast-deep-equal';
 
 import { IBM5153Contrast, Palettes } from '@4bitlabs/color';
-import { DrawCommand } from '@4bitlabs/sci0';
+import type { DrawCommand } from '@4bitlabs/sci0';
 import {
   DEFAULT_PALETTE_SET,
-  IndexedPaletteSet,
-  PaletteSet,
+  type IndexedPaletteSet,
+  type PaletteSet,
   reduceMutations,
-} from '../helpers/palette-helpers.ts';
-import { EditorCommand } from '../models/EditorCommand.ts';
-import { paletteKey } from './keys.ts';
+} from '../helpers/palette-helpers.js';
+import type { EditorCommand } from '../models/EditorCommand.js';
+import { paletteKey } from './keys.js';
 
 export function usePaletteProvider(deps: {
   layersRef: ShallowRef<EditorCommand[]>;

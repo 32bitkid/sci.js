@@ -1,15 +1,21 @@
-import { Ref, ShallowRef, DeepReadonly, unref, computed } from 'vue';
+import {
+  type Ref,
+  type ShallowRef,
+  type DeepReadonly,
+  unref,
+  computed,
+} from 'vue';
 import { watch } from 'vue';
-import { applyToPoints, Matrix } from 'transformation-matrix';
+import { applyToPoints, type Matrix } from 'transformation-matrix';
 
-import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
-import { get2dContext } from '../helpers/getContext.ts';
-import { isInsideBounds, pixel } from '../helpers/polygons.ts';
-import { pixelBorder } from '../render/pixel-border.ts';
-import { cursorDot } from '../render/cursor-dot.ts';
-import { mustInject } from '../data/mustInject.ts';
-import { stageOptionsKey, toolKey } from '../data/keys.ts';
-import { CursorPosition } from './useCursorWatcher.ts';
+import { setCanvasDimensions } from '../helpers/setCanvasDimensions.js';
+import { get2dContext } from '../helpers/getContext.js';
+import { isInsideBounds, pixel } from '../helpers/polygons.js';
+import { pixelBorder } from '../render/pixel-border.js';
+import { cursorDot } from '../render/cursor-dot.js';
+import { mustInject } from '../data/mustInject.js';
+import { stageOptionsKey, toolKey } from '../data/keys.js';
+import type { CursorPosition } from './useCursorWatcher.js';
 
 export function usePrecisionCursorEffect(
   matrixRef: DeepReadonly<Ref<Matrix>>,

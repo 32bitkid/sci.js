@@ -1,6 +1,6 @@
-import { watch, onUnmounted, triggerRef, ShallowRef } from 'vue';
+import { watch, onUnmounted, triggerRef, type ShallowRef } from 'vue';
 
-import { useRafRef } from './useRafRef.ts';
+import { useRafRef } from './useRafRef.js';
 
 export function useResizeWatcher<T extends HTMLElement>(
   refEl: ShallowRef<T | null>,

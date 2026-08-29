@@ -1,6 +1,6 @@
-import { applyToPoints, Matrix } from 'transformation-matrix';
+import { applyToPoints, type Matrix } from 'transformation-matrix';
 
-import { FillCommand } from '@4bitlabs/sci0';
+import type { FillCommand } from '@4bitlabs/sci0';
 
 export function fillSkeleton(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,

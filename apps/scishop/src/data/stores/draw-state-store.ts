@@ -1,6 +1,6 @@
-import { Ref, WritableComputedRef } from 'vue';
+import type { Ref, WritableComputedRef } from 'vue';
 
-import { DrawCodes, DrawMode } from '@4bitlabs/sci0';
+import type { DrawCodes, DrawMode } from '@4bitlabs/sci0';
 
 export interface DrawStateStore {
   readonly raw: Ref<[DrawMode, ...DrawCodes]>;

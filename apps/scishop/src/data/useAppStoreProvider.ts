@@ -2,12 +2,12 @@ import { computed, provide, ref, shallowRef, unref } from 'vue';
 import { decomposeTSR, identity, scale } from 'transformation-matrix';
 
 import { vec2 } from '@4bitlabs/vec2';
-import * as Keys from './keys.ts';
-import data from './initial-pic-data.ts';
-import { Tool } from '../models/tool.ts';
-import { useDrawStateProvider } from './useDrawStateProvider.ts';
-import { usePaletteProvider } from './usePaletteProvider.ts';
-import { EditorCommand } from '../models/EditorCommand.ts';
+import * as Keys from './keys.js';
+import data from './initial-pic-data.js';
+import type { Tool } from '../models/tool.js';
+import { useDrawStateProvider } from './useDrawStateProvider.js';
+import { usePaletteProvider } from './usePaletteProvider.js';
+import type { EditorCommand } from '../models/EditorCommand.js';
 
 export function useAppStoreProvider() {
   // Layers

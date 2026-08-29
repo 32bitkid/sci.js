@@ -1,4 +1,4 @@
-import { Vec2 } from '@4bitlabs/vec2';
+import type { Vec2 } from '@4bitlabs/vec2';
 
 export function cursorDot(
   ctx: CanvasRenderingContext2D,

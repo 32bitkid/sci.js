@@ -1,5 +1,5 @@
-import { DrawCommand } from '@4bitlabs/sci0';
-import { EditorCommand } from '../models/EditorCommand.ts';
+import type { DrawCommand } from '@4bitlabs/sci0';
+import type { EditorCommand } from '../models/EditorCommand.js';
 import d from './tmp3.json';
 
 const nextId = () => Math.random().toString(36).substring(2);

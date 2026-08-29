@@ -1,7 +1,7 @@
-import { Ref, type ShallowRef, unref } from 'vue';
+import { type Ref, type ShallowRef, unref } from 'vue';
 
-import { EditorCommand } from '../models/EditorCommand.ts';
-import { insert, remove } from '../helpers/array-helpers.ts';
+import type { EditorCommand } from '../models/EditorCommand.js';
+import { insert, remove } from '../helpers/array-helpers.js';
 
 export function useUpdateSelectionFn(deps: {
   layers: ShallowRef<EditorCommand[]>;

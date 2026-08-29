@@ -1,4 +1,4 @@
-import { clamp } from './clamp.ts';
+import { clamp } from './clamp.js';
 
 export const s0 = (left: number, right: number, val: number) =>
   clamp((val - left) / (right - left));

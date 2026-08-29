@@ -1,6 +1,6 @@
 import type { ComputedRef, Ref } from 'vue';
 
-import type { PaletteSet } from '../../helpers/palette-helpers.ts';
+import type { PaletteSet } from '../../helpers/palette-helpers.js';
 
 export interface PaletteStore {
   readonly contrast: Ref<number | false>;

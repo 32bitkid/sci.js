@@ -1,6 +1,6 @@
-import { applyToPoint, Matrix } from 'transformation-matrix';
+import { applyToPoint, type Matrix } from 'transformation-matrix';
 
-import { Vec2 } from '@4bitlabs/vec2';
+import type { Vec2 } from '@4bitlabs/vec2';
 
 export function pointSkeleton(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,

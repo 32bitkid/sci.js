@@ -1,4 +1,4 @@
-import { InjectionKey } from '@vue/runtime-core';
+import type { InjectionKey } from '@vue/runtime-core';
 import { inject } from 'vue';
 
 export const mustInject = <T>(

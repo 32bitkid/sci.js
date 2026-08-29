@@ -1,6 +1,6 @@
-import { applyToPoints, Matrix } from 'transformation-matrix';
+import { applyToPoints, type Matrix } from 'transformation-matrix';
 
-import { PolylineCommand } from '@4bitlabs/sci0';
+import type { PolylineCommand } from '@4bitlabs/sci0';
 
 export function plineSkeleton(
   ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D,

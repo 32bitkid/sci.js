@@ -1,4 +1,4 @@
-import {
+import type {
   DrawCommandStruct,
   DrawCommand,
   FillCommand,
@@ -8,10 +8,10 @@ import {
   distanceBetween,
   project,
   squaredDistanceBetween,
-  Vec2,
+  type Vec2,
 } from '@4bitlabs/vec2';
-import { insert } from './array-helpers.ts';
-import { getSegments } from './polygons.ts';
+import { insert } from './array-helpers.js';
+import { getSegments } from './polygons.js';
 
 export const extractVertices = (
   cmd: DrawCommandStruct<string, unknown, Vec2[]>,

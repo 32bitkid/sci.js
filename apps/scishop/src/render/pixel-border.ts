@@ -1,6 +1,6 @@
-import { type Vec2 } from '@4bitlabs/vec2';
-import { areaOfPolygon, pathPoly } from '../helpers/polygons.ts';
-import * as SmoothStep from '../helpers/smoothstep.ts';
+import type { Vec2 } from '@4bitlabs/vec2';
+import { areaOfPolygon, pathPoly } from '../helpers/polygons.js';
+import * as SmoothStep from '../helpers/smoothstep.js';
 
 export function pixelBorder(
   ctx: CanvasRenderingContext2D,

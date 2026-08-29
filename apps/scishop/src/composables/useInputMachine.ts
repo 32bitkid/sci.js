@@ -13,40 +13,40 @@ import {
   applyToPoints,
   compose,
   inverse,
-  Matrix,
+  type Matrix,
   rotateDEG,
   scale,
   translate,
 } from 'transformation-matrix';
 import deepEqual from 'fast-deep-equal';
 
-import { round, vec2, Vec2, sub, add } from '@4bitlabs/vec2';
-import { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
-import { get2dContext } from '../helpers/getContext.ts';
-import { isInsidePolygon, pathPoly, rect } from '../helpers/polygons.ts';
-import { fillSkeleton } from '../render/fill-skeleton.ts';
-import { plineSkeleton } from '../render/pline-skeleton.ts';
+import { round, vec2, type Vec2, sub, add } from '@4bitlabs/vec2';
+import type { FillCommand, PolylineCommand } from '@4bitlabs/sci0';
+import { get2dContext } from '../helpers/getContext.js';
+import { isInsidePolygon, pathPoly, rect } from '../helpers/polygons.js';
+import { fillSkeleton } from '../render/fill-skeleton.js';
+import { plineSkeleton } from '../render/pline-skeleton.js';
 import {
   anyPointCloseTo,
   extractVertices,
-  FindResult,
+  type FindResult,
   moveFillVertex,
   moveLineVertex,
   mustGetVertexFrom,
   nearestPointWithRange,
-  PointAlongPathResult,
+  type PointAlongPathResult,
   pointAlongPaths,
-} from '../helpers/command-helpers.ts';
-import { insert, remove } from '../helpers/array-helpers.ts';
-import { BasicEditorCommand } from '../models/EditorCommand.ts';
+} from '../helpers/command-helpers.js';
+import { insert, remove } from '../helpers/array-helpers.js';
+import type { BasicEditorCommand } from '../models/EditorCommand.js';
 import cursorPenSvg from '../assets/cursor-pen.svg';
 import cursorPenStarSvg from '../assets/cursor-pen-star.svg';
 import cursorPenPlusSvg from '../assets/cursor-pen-plus.svg';
 import cursorPenMinusSvg from '../assets/cursor-pen-minus.svg';
-import { setCanvasDimensions } from '../helpers/setCanvasDimensions.ts';
-import { pointSkeleton } from '../render/point-skeleton.ts';
-import { useUpdateSelectionFn } from '../data/useUpdateSelectionFn.ts';
-import { useCurrentCommandActions } from '../data/useCurrentCommandActions.ts';
+import { setCanvasDimensions } from '../helpers/setCanvasDimensions.js';
+import { pointSkeleton } from '../render/point-skeleton.js';
+import { useUpdateSelectionFn } from '../data/useUpdateSelectionFn.js';
+import { useCurrentCommandActions } from '../data/useCurrentCommandActions.js';
 import {
   currentKey,
   drawStateKey,
@@ -54,9 +54,9 @@ import {
   pointersKey,
   toolKey,
   viewKey,
-} from '../data/keys.ts';
-import { mustInject } from '../data/mustInject.ts';
-import { CursorPosition } from './useCursorWatcher.ts';
+} from '../data/keys.js';
+import { mustInject } from '../data/mustInject.js';
+import type { CursorPosition } from './useCursorWatcher.js';
 
 const clampZoom = (current: number, next: number, min: number, max: number) => {
   if (current * next < min) return min / current;

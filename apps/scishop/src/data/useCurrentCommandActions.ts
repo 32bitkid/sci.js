@@ -1,7 +1,7 @@
-import { ShallowRef, Ref, unref } from 'vue';
+import { type ShallowRef, type Ref, unref } from 'vue';
 
-import { EditorCommand } from '../models/EditorCommand.ts';
-import { insert } from '../helpers/array-helpers.ts';
+import type { EditorCommand } from '../models/EditorCommand.js';
+import { insert } from '../helpers/array-helpers.js';
 
 export function useCurrentCommandActions(deps: {
   layers: ShallowRef<EditorCommand[]>;

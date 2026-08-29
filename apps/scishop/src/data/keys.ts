@@ -1,12 +1,12 @@
-import { InjectionKey, Ref, ShallowRef } from 'vue';
+import type { InjectionKey, Ref, ShallowRef } from 'vue';
 
-import type { EditorCommand } from '../models/EditorCommand.ts';
-import type { DrawStateStore } from './stores/draw-state-store.ts';
-import type { Tool } from '../models/tool.ts';
-import { LayerPointerStore } from './stores/layer-pointer-store.ts';
-import { ViewStore } from './stores/view-store.ts';
-import { PaletteStore } from './stores/palette-store.ts';
-import { StageOptionStore } from './stores/stage-option-store.ts';
+import type { EditorCommand } from '../models/EditorCommand.js';
+import type { DrawStateStore } from './stores/draw-state-store.js';
+import type { Tool } from '../models/tool.js';
+import type { LayerPointerStore } from './stores/layer-pointer-store.js';
+import type { ViewStore } from './stores/view-store.js';
+import type { PaletteStore } from './stores/palette-store.js';
+import type { StageOptionStore } from './stores/stage-option-store.js';
 
 const keyOf = <T>(name: string = '') => Symbol(name) as InjectionKey<T>;
 
