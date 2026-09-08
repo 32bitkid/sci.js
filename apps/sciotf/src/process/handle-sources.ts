@@ -13,7 +13,24 @@ import { compositeGlyph, xorPixels } from './xor-pixels.js';
 import { getUnicodeName } from '../utils/unicode-names.js';
 import { loadSource } from './load-source.js';
 
-export type HandleSourcesActions = {
+export type HandleSourcesActions_V0 = {
+  addGlyph(
+    unicode: number,
+    name: string,
+    char: Glyph,
+    matrix?: m.Matrix,
+    overwrite?: boolean,
+    advanceWidth?: number,
+  ): void;
+
+  addLigature(
+    type: 'rlig' | 'liga' | 'dlig',
+    unicode: number,
+    def: string[] | undefined,
+  ): void;
+};
+
+export type HandleSourcesActions_V1 = {
   addGlyph(
     unicode: number,
     name: string,
@@ -30,11 +47,13 @@ export type HandleSourcesActions = {
   ): void;
 
   addAlternate(type: string, target: number, source: string): void;
+
+  nextSPU(area: 'A' | 'B'): number;
 };
 
 export async function handleSources_v0(
   payload: RootSchemaType_v0,
-  { addGlyph, addLigature }: HandleSourcesActions,
+  { addGlyph, addLigature }: HandleSourcesActions_V0,
 ) {
   for (const source of payload.sources) {
     const font = await loadSource(source);
@@ -113,7 +132,7 @@ export async function handleSources_v0(
 
 export async function handleSources_v1(
   payload: RootSchemaType_v1,
-  { addGlyph, addLigature, addAlternate }: HandleSourcesActions,
+  { addGlyph, addLigature, addAlternate, nextSPU }: HandleSourcesActions_V1,
 ) {
   for (const source of payload.sources) {
     const font = await loadSource(source);
@@ -161,7 +180,12 @@ export async function handleSources_v1(
 
       if (Array.isArray(mapping)) {
         const [inputChar, unicodeStr, options] = mapping;
-        const unicode = Number.parseInt(unicodeStr, 16);
+        const unicode =
+          unicodeStr === 'Fxxxx'
+            ? nextSPU('A')
+            : unicodeStr === '10xxxx'
+              ? nextSPU('B')
+              : Number.parseInt(unicodeStr, 16);
         const name =
           options?.name?.trim()?.toUpperCase() || getUnicodeName(unicode);
 

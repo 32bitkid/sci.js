@@ -60,7 +60,7 @@ const MappingSchema_v1 = () =>
         z.literal('ascii-lowercase'),
         z.tuple([
           z.hex(),
-          z.hex(),
+          z.union([z.hex(), z.literal('Fxxxx')]),
           z
             .strictObject({
               name: z.string().optional(),

@@ -59,11 +59,13 @@ function advancedAction(prog: Sade) {
           opts,
         );
 
-        if (opts.verbose) console.log(`# \`${sciOTF}\`\n`);
-        if (opts.verbose)
+        if (opts.verbose) {
+          console.log(`# \`${sciOTF.getEnglishName('fontFamily')}\`\n`);
           console.log(
             `Type: ${file.endsWith('.free.json') ? 'Free' : file.endsWith('.free.json') ? 'Free + Retail' : 'Free + Retail + Custom Glyphs'}<br>`,
           );
+          console.log(`Version: ${payload.version}<br>`);
+        }
 
         const outputPath = opts.output ?? '.';
         const formats = Array.isArray(opts.format)

@@ -181,12 +181,31 @@ export async function processFont(
     return glyph;
   };
 
+  const nextSPU = (() => {
+    let spuA = 0xf0000;
+    let spuB = 0x100000;
+    return (area: 'A' | 'B'): number => {
+      if (area === 'A') {
+        const nextCode = spuA;
+        spuA += 1;
+        return nextCode;
+      }
+      if (area === 'B') {
+        const nextCode = spuB;
+        spuB += 1;
+        return nextCode;
+      }
+      throw new Error('not supported!');
+    };
+  })();
+
   switch (payload.$schemaVersion) {
     case 'v1': {
       await handleSources_v1(payload, {
         addGlyph,
         addLigature,
         addAlternate,
+        nextSPU,
       });
       break;
     }
@@ -194,7 +213,6 @@ export async function processFont(
       await handleSources_v0(payload, {
         addGlyph,
         addLigature,
-        addAlternate,
       });
   }
 
