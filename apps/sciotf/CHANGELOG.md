@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.13.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.12.0...@4bitlabs/sciotf@1.13.0) (2026-09-09)
+
+### Features
+
+* **sciotf:** adding dynamic SPU code allocation
+* **sciotf:** update license to CC BY-SA 4.0 for dervived fonts
+
+
 ## [1.12.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.11.1...@4bitlabs/sciotf@1.12.0) (2026-08-25)
 
 ### Features
