@@ -237,7 +237,7 @@ export async function processFont(
     weightClass: '400',
     widthClass: '5',
     unitsPerEm: unitsPerEm,
-    license: 'CC0 1.0 Universal',
+    license: 'CC BY-SA 4.0',
     licenseURL:
       'https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt',
     ascender: baseline * screenScale.d,
