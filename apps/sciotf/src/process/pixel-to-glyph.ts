@@ -53,9 +53,19 @@ export function charToGlyph(
     path.closePath();
   }
 
+  let lsb: number;
+  done: for (lsb = 0; lsb < char.width; lsb++) {
+    for (let y = 0; y < char.height; y++) {
+      if (char.pixels[lsb + y * char.width] !== char.keyColor) {
+        break done;
+      }
+    }
+  }
+
   return new opentype.Glyph({
     name,
     unicode,
+    leftSideBearing: lsb * widthScalar,
     advanceWidth: advanceWidth * widthScalar,
     path,
   });
