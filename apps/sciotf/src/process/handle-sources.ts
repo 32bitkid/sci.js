@@ -193,6 +193,7 @@ export async function handleSources_v1(
         let char = font.characters[Number.parseInt(inputChar, 16)];
 
         char = padGlyph(char, payload.pad);
+        char = shiftGlyph(char, source.shift);
 
         // Process action stack
         for (const action of options?.actions ?? []) {
