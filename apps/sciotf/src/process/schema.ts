@@ -65,7 +65,7 @@ const MappingSchema_v1 = () =>
             .strictObject({
               name: z.string().optional(),
               overwrite: z.boolean().optional(),
-              advanceWidth: z.int().positive().optional(),
+              advanceWidth: z.int().optional(),
               actions: z
                 .array(
                   z.union([
