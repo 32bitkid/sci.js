@@ -194,10 +194,33 @@ const LATIN_1_SUPPLEMENT = new Map([
   [0x00ff, 'LATIN SMALL LETTER Y WITH DIAERESIS'],
 ]);
 
+const OTHER = new Map<number, string>([
+  [0x2010, 'HYPHEN'],
+  [0x2012, 'FIGURE DASH'],
+  [0x2013, 'EN DASH'],
+  [0x2014, 'EM DASH'],
+  [0x2018, 'LEFT SINGLE QUOTATION MARK'],
+  [0x2019, 'RIGHT SINGLE QUOTATION MARK'],
+  [0x201c, 'LEFT DOUBLE QUOTATION MARK'],
+  [0x201d, 'RIGHT DOUBLE QUOTATION MARK'],
+  [0x2020, 'DAGGER'],
+  [0x2021, 'DOUBLE DAGGER'],
+  [0x2022, 'BULLET'],
+  [0x2026, 'HORIZONTAL ELLIPSIS'],
+  [0xfb00, 'LATIN SMALL LIGATURE FF'],
+  [0xfb01, 'LATIN SMALL LIGATURE FI'],
+  [0xfb02, 'LATIN SMALL LIGATURE FL'],
+  [0xfb03, 'LATIN SMALL LIGATURE FFI'],
+  [0xfb04, 'LATIN SMALL LIGATURE FFL'],
+  [0xfb05, 'LATIN SMALL LIGATURE LONG S T'],
+  [0xfb06, 'LATIN SMALL LIGATURE ST'],
+]);
+
 export const getUnicodeName = (codepoint: number): string => {
   return (
     BASIC_LATIN.get(codepoint) ??
     LATIN_1_SUPPLEMENT.get(codepoint) ??
-    `uni${codepoint.toString(16).padStart(4, '0')}`
+    OTHER.get(codepoint) ??
+    `uni${codepoint.toString(16).padStart(4, '0').toUpperCase()}`
   );
 };
