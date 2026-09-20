@@ -95,6 +95,7 @@ const MappingSchema_v1 = () =>
                     z.strictObject({ rlig: z.array(z.string()).min(2) }),
                     z.strictObject({ liga: z.array(z.string()).min(2) }),
                     z.strictObject({ dlig: z.array(z.string()).min(2) }),
+                    z.strictObject({ calt: z.array(z.string()).min(2) }),
                     z.strictObject({
                       alt: z.tuple([z.string().length(4), z.hex()]),
                     }),

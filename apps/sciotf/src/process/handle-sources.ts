@@ -41,7 +41,7 @@ export type HandleSourcesActions_V1 = {
   ): void;
 
   addLigature(
-    type: 'rlig' | 'liga' | 'dlig',
+    type: 'rlig' | 'liga' | 'dlig' | 'calt',
     unicode: number,
     def: string[] | undefined,
   ): void;
@@ -203,6 +203,7 @@ export async function handleSources_v1(
           else if ('rlig' in action) addLigature('rlig', unicode, action.rlig);
           else if ('liga' in action) addLigature('liga', unicode, action.liga);
           else if ('dlig' in action) addLigature('dlig', unicode, action.dlig);
+          else if ('calt' in action) addLigature('calt', unicode, action.calt);
           else if ('alt' in action) {
             const [type, other] = action.alt;
             addAlternate(type, unicode, other);

@@ -19,32 +19,13 @@ import {
 import { loadSource } from './load-source.js';
 import { guessBaseline } from '../utils/measure.js';
 
-const isAlt = (
-  feat: string,
-): feat is
-  | 'salt'
-  | 'ss01'
-  | 'ss02'
-  | 'ss03'
-  | 'ss04'
-  | 'ss05'
-  | 'ss06'
-  | 'ss07'
-  | 'ss08'
-  | 'ss09'
-  | 'ss10'
-  | 'ss11'
-  | 'ss12'
-  | 'ss13'
-  | 'ss14'
-  | 'ss15'
-  | 'ss16'
-  | 'ss17'
-  | 'ss18'
-  | 'ss19'
-  | 'ss20' => {
+const isAlt = (feat: string): feat is opentype.FeatureAlternates => {
+  if (/^ss([01][0-9]|20)$/.test(feat)) return true;
+  if (/^cv\d{2}$/.test(feat)) return true;
   if (feat === 'salt') return true;
-  return /^ss\d{2}$/.test(feat);
+  if (feat === 'aalt') return true;
+
+  return false;
 };
 
 async function getBaseline(
@@ -126,7 +107,7 @@ export async function processFont(
   const features: [type: string, number[], number[]][] = [];
 
   const addLigature = (
-    type: 'rlig' | 'liga' | 'dlig',
+    type: 'rlig' | 'liga' | 'dlig' | 'calt',
     unicode: number,
     def: string[] | undefined,
   ) => {
@@ -252,7 +233,8 @@ export async function processFont(
     switch (feat) {
       case 'rlig':
       case 'liga':
-      case 'dlig': {
+      case 'dlig':
+      case 'calt': {
         const [[byChar], subChars] = rest;
         const [subA, subB, ...subRest] = subChars.map((it) =>
           sciOTF.charToGlyphIndex(String.fromCodePoint(it)),

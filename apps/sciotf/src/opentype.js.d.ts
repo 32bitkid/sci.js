@@ -485,7 +485,7 @@ declare module 'opentype.js' {
     font: Font;
   }
 
-  /** Substituion Additions */
+  /** Substitution Additions */
   export type SingleSubstitution = { sub: number; by: number };
   export type MultipleSubstitution = {
     sub: number;
@@ -500,27 +500,11 @@ declare module 'opentype.js' {
     by: number;
   };
   export type FeatureStylisticSets =
-    | 'ss01'
-    | 'ss02'
-    | 'ss03'
-    | 'ss04'
-    | 'ss05'
-    | 'ss06'
-    | 'ss07'
-    | 'ss08'
-    | 'ss09'
-    | 'ss10'
-    | 'ss11'
-    | 'ss12'
-    | 'ss13'
-    | 'ss14'
-    | 'ss15'
-    | 'ss16'
-    | 'ss17'
-    | 'ss18'
-    | 'ss19'
+    | `ss${'0'|'1'}${'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'}`
     | 'ss20';
-  export type FeatureAlternates = StylisticSets | 'salt' | 'aalt';
+  export type CharacterVariantSets =
+    | `cv{'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'}${'0'|'1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'}`
+  export type FeatureAlternates = CharacterVariantSets | StylisticSets | 'salt' | 'aalt';
 
   export class Substitution {
     constructor(font: Font);
@@ -573,7 +557,7 @@ declare module 'opentype.js' {
     ): void;
 
     addLigature(
-      feature: 'dlig' | 'liga' | 'rlig',
+      feature: 'dlig' | 'liga' | 'rlig' | 'calt',
       ligature: LigatureSubstitution,
       script: string = 'DFLT',
       language: string = 'dflt',
