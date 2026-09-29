@@ -248,7 +248,7 @@ export async function processFont(
       }
     }
 
-    if (isAlt(feat) || feat === 'smcp') {
+    if (isAlt(feat) || feat === 'smcp' || feat === 'tnum' || feat === 'pnum') {
       const [[target], [other]] = rest;
       sciOTF.substitution.addSingle(feat, {
         sub: sciOTF.charToGlyphIndex(String.fromCodePoint(other)),
