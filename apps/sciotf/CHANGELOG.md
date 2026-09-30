@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.15.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.14.0...@4bitlabs/sciotf@1.15.0) (2026-09-30)
+
+### Features
+
+* **sciotf:** add mapping support for tnum and pnum
+* **sciotf:** support character variants (cvXX) contextual alternates (calt) support
+
+
 ## [1.14.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sciotf@1.13.0...@4bitlabs/sciotf@1.14.0) (2026-09-16)
 
 ### Features
