@@ -15,7 +15,6 @@ export enum DrawMode {
   VPC = 0b111,
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace DrawMode {
   export const isVisualMode = (mode: DrawMode): boolean =>
     ((mode & DrawMode.Visual) as DrawMode) === DrawMode.Visual;

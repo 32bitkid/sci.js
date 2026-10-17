@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { windingOrderOf } from './winding-order';
+import { windingOrderOf } from './winding-order.js';
 
 describe('winding-order', () => {
   it('should detect mathematical winding order', () => {

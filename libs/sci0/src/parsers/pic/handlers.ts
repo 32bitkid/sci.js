@@ -184,12 +184,9 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
   },
   [ExtendedOpCode.x02](r) {
     // Looks like a palette, but I'm not sure what this chunk is for
+    // in Colonels Bequest Demo, PIC.991 this opcode appears to have a 141 byte payload.
     r.skip(8);
     r.skip(8 * 40);
-
-    // in Colonels Bequest Demo, PIC.991 this opcode appears to have a 141 byte payload.
-    // Looks like another palette, but I'm not sure what this chunk is for
-    // br.skip(141 * 8);
     return [];
   },
   [ExtendedOpCode.x03](r) {
