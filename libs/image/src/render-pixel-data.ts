@@ -35,7 +35,7 @@ export interface RenderPipeline {
  *   // First, scale the image using the scale5x6 algorithm
  *   pre: [scale5x6],
  *   // Dither with CGA pairs, using a 5 by 6 pattern
- *   dither: createDitherFilter(Dithers.CGA, [5, 6]),
+ *   render: createDitherFilter(Dithers.CGA, [5, 6]),
  *   // Finally, apply a horizontal box blur to the image
  *   post: [hBoxBlur(3)], //
  * });
