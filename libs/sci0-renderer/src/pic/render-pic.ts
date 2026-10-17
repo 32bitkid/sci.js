@@ -4,7 +4,6 @@ import { createScreenBuffer } from './screen-buffer.js';
 import type { RenderResult } from './render-result.js';
 import type { RenderPicOptions } from './render-pic-options.js';
 import { picStep } from './pic-step.js';
-import { defaultPalettes } from './default-palettes.js';
 
 /**
  * Render a {@link Pic} resource into its composite layers.
@@ -35,14 +34,12 @@ export const renderPic = (
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const palettes = defaultPalettes();
-  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
+  const [result, screen, palettes, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
   for (const cmd of pic) {
-    tick(step);
+    tick(step++);
     picStep(cmd, screen, palettes);
-    step += 1;
   }
 
   return result;

@@ -2,16 +2,25 @@ import type { DrawCommand, Pic } from '@4bitlabs/sci0';
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { RenderPicOptions } from './render-pic-options.js';
 import type { RenderResult } from './render-result.js';
-import { defaultPalettes, type PaletteSet } from './default-palettes.js';
+import type { PaletteSet } from './default-palettes.js';
 import { createScreenBuffer } from './screen-buffer.js';
 import { picStep } from './pic-step.js';
 import type { Screen } from './tools/screen.js';
+import { resolveColors } from '../helpers/resolve-colors.js';
 
 export type IntermediatePicState = [
   idx: number,
   command: DrawCommand,
   layers: RenderResult,
-  meta: { palettes: PaletteSet; screen: Screen },
+  meta: {
+    visualPair: [number, number] | undefined;
+    priority: number | undefined;
+    control: number | undefined;
+
+    /** @deprecated use visualPair instead */
+    palettes: PaletteSet;
+    screen: Screen;
+  },
 ];
 
 /**
@@ -44,14 +53,19 @@ export function* generatePic(
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const palettes = defaultPalettes();
-  const [result, screen, tick] = createScreenBuffer(forcePal, palettes, size);
+  const [result, screen, palettes, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
   for (const cmd of pic) {
     tick(step);
     picStep(cmd, screen, palettes);
-    yield [step, cmd, result, { screen, palettes }];
+
+    yield [
+      step,
+      cmd,
+      result,
+      { ...resolveColors(cmd, palettes, forcePal), screen, palettes },
+    ];
     step += 1;
   }
 }

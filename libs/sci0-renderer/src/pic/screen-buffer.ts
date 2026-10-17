@@ -14,18 +14,19 @@ import {
   createLine,
   createBlitter,
 } from './tools/index.js';
+import { defaultPalettes, type PaletteSet } from './default-palettes.js';
 
 export type SetTValueFn = (n: number) => void;
 
 export const createScreenBuffer = (
-  forcePal: 0 | 1 | 2 | 3 | undefined,
-  palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array],
   [width, height]: Vec2,
-): [RenderResult, Screen, SetTValueFn] => {
+  forcePal?: 0 | 1 | 2 | 3,
+): [RenderResult, Screen, PaletteSet, SetTValueFn] => {
   const visible = createIndexedPixelData(width, height);
   const priority = createIndexedPixelData(width, height);
   const control = createIndexedPixelData(width, height);
   const tBuffer = new Uint32Array(width * height).fill(-1);
+  const palettes = defaultPalettes();
 
   let t = 0;
   const setTValue = (next: number) => {
@@ -35,11 +36,6 @@ export const createScreenBuffer = (
   visible.pixels.fill(0xff);
   priority.pixels.fill(0x00);
   control.pixels.fill(0x00);
-
-  const setPixel: RawPlotter = (x: number, y: number, color: number) => {
-    const idx = width * y + x;
-    visible.pixels[idx] = (color & 0b1111) | (color << 4);
-  };
 
   const plot: Plotter = (x: number, y: number, drawMode, drawCodes) => {
     if (x < 0 || x >= width || y < 0 || y >= height) return;
@@ -84,6 +80,11 @@ export const createScreenBuffer = (
     );
   };
 
+  const setPixel: RawPlotter = (x: number, y: number, color: number) => {
+    const idx = width * y + x;
+    visible.pixels[idx] = (color & 0b1111) | (color << 4);
+  };
+
   return [
     { visible, priority, control, tBuffer },
     {
@@ -92,6 +93,7 @@ export const createScreenBuffer = (
       line: createLine(plot),
       blit: createBlitter(setPixel, [width, height]),
     },
+    palettes,
     setTValue,
   ];
 };
