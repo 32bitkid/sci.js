@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [5.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@5.0.4...@4bitlabs/image@5.0.5) (2026-10-17)
+
+### Bug Fixes
+
+* **image:** update documentation
+
+
 ## [5.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@5.0.3...@4bitlabs/image@5.0.4) (2026-08-18)
 
 **Note:** Version bump only for package @4bitlabs/image
