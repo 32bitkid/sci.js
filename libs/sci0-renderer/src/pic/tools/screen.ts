@@ -49,6 +49,5 @@ export interface Screen {
   brush: Brusher;
   fill: Filler;
   line: Liner;
-  setPixel: RawPlotter;
   blit: Blitter;
 }

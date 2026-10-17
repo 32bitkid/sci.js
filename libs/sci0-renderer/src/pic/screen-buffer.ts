@@ -87,7 +87,6 @@ export const createScreenBuffer = (
   return [
     { visible, priority, control, tBuffer },
     {
-      setPixel,
       brush: createBrush(plot, [width, height]),
       fill: createFloodFill(plot, isFillable, [width, height]),
       line: createLine(plot),
