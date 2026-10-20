@@ -15,10 +15,7 @@ import {
   createBlitter,
 } from './tools/index.js';
 import { defaultPalettes } from './default-palettes.js';
-import { defaultPatterns } from './default-patterns.js';
 import { resolveColors } from '../helpers/resolve-colors.js';
-
-const DEFAULT_DITHER = 0x0000_0000;
 
 export type SetTValueFn = (n: number) => void;
 
@@ -29,10 +26,8 @@ export const createScreenBuffer = (
   const visible = createIndexedPixelData(width, height);
   const priority = createIndexedPixelData(width, height);
   const control = createIndexedPixelData(width, height);
-  const pBuffer = new Uint8Array(width * height).fill(DEFAULT_DITHER);
   const tBuffer = new Uint32Array(width * height).fill(-1);
   const palettes = defaultPalettes();
-  const patterns = defaultPatterns();
 
   let t = 0;
   const setTValue = (next: number) => {
@@ -53,7 +48,6 @@ export const createScreenBuffer = (
       const palette = palettes[pal];
       const palIndex = (drawCodes[0] % 40) >>> 0;
       visible.pixels[idx] = palette[palIndex];
-      pBuffer[idx] = patterns[pal][palIndex];
       tBuffer[idx] = t;
     }
 
@@ -93,7 +87,7 @@ export const createScreenBuffer = (
   };
 
   return [
-    { visible, priority, control, tBuffer, pBuffer: pBuffer },
+    { visible, priority, control, tBuffer },
     {
       brush: createBrush(plot, [width, height]),
       fill: createFloodFill(plot, isFillable, [width, height]),
