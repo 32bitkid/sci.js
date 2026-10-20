@@ -12,7 +12,6 @@ export function resolveVisualPair(
   }
 
   const [, [drawMode, drawCodes]] = cmd;
-
   if (!DrawMode.isVisualMode(drawMode)) return undefined;
 
   const pal = forcePal ?? (drawCodes[0] / 40) >>> 0;
@@ -21,6 +20,7 @@ export function resolveVisualPair(
   const color = palette[palIndex];
   if (color === undefined)
     throw new Error(`palIndex(${palette}) is out of range`);
+
   const [leftIdx, rightIdx] = [color & 0b1111, (color >>> 4) & 0b1111];
   return [leftIdx, rightIdx];
 }
@@ -49,15 +49,17 @@ export function resolveControlVal(cmd: DrawCommand): number | undefined {
   return drawCodes[2];
 }
 
+export interface ResolvedColors {
+  visualPair: [number, number] | undefined;
+  priority: number | undefined;
+  control: number | undefined;
+}
+
 export function resolveColors(
   cmd: DrawCommand,
   palettes: PaletteSet,
   forcePal?: 0 | 1 | 2 | 3 | undefined,
-): {
-  visualPair: [number, number] | undefined;
-  priority: number | undefined;
-  control: number | undefined;
-} {
+): ResolvedColors {
   return {
     visualPair: resolveVisualPair(cmd, palettes, forcePal),
     priority: resolvePriorityVal(cmd),

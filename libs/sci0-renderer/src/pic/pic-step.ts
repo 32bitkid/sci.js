@@ -2,23 +2,18 @@ import type { DrawCommand } from '@4bitlabs/sci0';
 import type { Screen } from './tools/screen.js';
 import { exhaustive } from '../utils/exhaustive.js';
 
-export function picStep(
-  cmd: DrawCommand,
-  { fill, line, brush, blit }: Screen,
-  palettes: [Uint8Array, Uint8Array, Uint8Array, Uint8Array],
-): void {
+export function picStep(cmd: DrawCommand, screen: Screen): void {
+  const { fill, line, brush, blit, setPalette, updatePalette } = screen;
   const [mode] = cmd;
   switch (mode) {
     case 'SET_PALETTE': {
       const [, [idx], ...palette] = cmd;
-      palettes[idx].set(palette);
+      setPalette(idx, palette);
       break;
     }
     case 'UPDATE_PALETTE': {
       const [, , ...entries] = cmd;
-      entries.forEach(([pal, idx, color]) => {
-        palettes[pal][idx] = color;
-      });
+      updatePalette(entries);
       break;
     }
     case 'FILL': {

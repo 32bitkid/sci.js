@@ -14,19 +14,25 @@ import {
   createLine,
   createBlitter,
 } from './tools/index.js';
-import { defaultPalettes, type PaletteSet } from './default-palettes.js';
+import { defaultPalettes } from './default-palettes.js';
+import { defaultPatterns } from './default-patterns.js';
+import { resolveColors } from '../helpers/resolve-colors.js';
+
+const DEFAULT_DITHER = 0x0000_0000;
 
 export type SetTValueFn = (n: number) => void;
 
 export const createScreenBuffer = (
   [width, height]: Vec2,
   forcePal?: 0 | 1 | 2 | 3,
-): [RenderResult, Screen, PaletteSet, SetTValueFn] => {
+): [RenderResult, Screen, SetTValueFn] => {
   const visible = createIndexedPixelData(width, height);
   const priority = createIndexedPixelData(width, height);
   const control = createIndexedPixelData(width, height);
+  const pBuffer = new Uint8Array(width * height).fill(DEFAULT_DITHER);
   const tBuffer = new Uint32Array(width * height).fill(-1);
   const palettes = defaultPalettes();
+  const patterns = defaultPatterns();
 
   let t = 0;
   const setTValue = (next: number) => {
@@ -47,6 +53,7 @@ export const createScreenBuffer = (
       const palette = palettes[pal];
       const palIndex = (drawCodes[0] % 40) >>> 0;
       visible.pixels[idx] = palette[palIndex];
+      pBuffer[idx] = patterns[pal][palIndex];
       tBuffer[idx] = t;
     }
 
@@ -86,14 +93,26 @@ export const createScreenBuffer = (
   };
 
   return [
-    { visible, priority, control, tBuffer },
+    { visible, priority, control, tBuffer, pBuffer: pBuffer },
     {
       brush: createBrush(plot, [width, height]),
       fill: createFloodFill(plot, isFillable, [width, height]),
       line: createLine(plot),
       blit: createBlitter(setPixel, [width, height]),
+      setPalette: (pal: number, values: number[]) => {
+        palettes[pal].set(values);
+      },
+      updatePalette: (entries: [pal: number, idx: number, value: number][]) => {
+        entries.forEach(([pal, idx, value]) => {
+          palettes[pal][idx] = value;
+        });
+      },
+      resolveColor: (cmd, forcePal) => resolveColors(cmd, palettes, forcePal),
+
+      get palettes() {
+        return palettes;
+      },
     },
-    palettes,
     setTValue,
   ];
 };

@@ -6,7 +6,6 @@ import type { PaletteSet } from './default-palettes.js';
 import { createScreenBuffer } from './screen-buffer.js';
 import { picStep } from './pic-step.js';
 import type { Screen } from './tools/screen.js';
-import { resolveColors } from '../helpers/resolve-colors.js';
 
 export type IntermediatePicState = [
   idx: number,
@@ -17,8 +16,9 @@ export type IntermediatePicState = [
     priority: number | undefined;
     control: number | undefined;
 
-    /** @deprecated use visualPair instead */
+    /** @deprecated use visualPair instead. will be removed in the next major version */
     palettes: PaletteSet;
+    /** @deprecated do not use. will be removed in the next major version */
     screen: Screen;
   },
 ];
@@ -53,18 +53,22 @@ export function* generatePic(
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const [result, screen, palettes, tick] = createScreenBuffer(size, forcePal);
+  const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
   for (const cmd of pic) {
     tick(step);
-    picStep(cmd, screen, palettes);
+    picStep(cmd, screen);
 
     yield [
       step,
       cmd,
       result,
-      { ...resolveColors(cmd, palettes, forcePal), screen, palettes },
+      {
+        ...screen.resolveColor(cmd, forcePal),
+        palettes: screen.palettes,
+        screen,
+      },
     ];
     step += 1;
   }

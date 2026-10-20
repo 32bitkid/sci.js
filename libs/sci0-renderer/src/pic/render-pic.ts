@@ -34,12 +34,12 @@ export const renderPic = (
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const [result, screen, palettes, tick] = createScreenBuffer(size, forcePal);
+  const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
   for (const cmd of pic) {
     tick(step++);
-    picStep(cmd, screen, palettes);
+    picStep(cmd, screen);
   }
 
   return result;

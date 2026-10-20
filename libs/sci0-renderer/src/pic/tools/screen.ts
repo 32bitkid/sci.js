@@ -1,4 +1,6 @@
-import type { DrawMode, DrawCodes, Cel } from '@4bitlabs/sci0';
+import type { DrawMode, DrawCodes, Cel, DrawCommand } from '@4bitlabs/sci0';
+import type { ResolvedColors } from '../../helpers/resolve-colors.js';
+import type { PaletteSet } from '../default-palettes.js';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;
 
@@ -50,4 +52,13 @@ export interface Screen {
   fill: Filler;
   line: Liner;
   blit: Blitter;
+  setPalette(pal: number, values: number[]): void;
+  updatePalette(entries: [pal: number, idx: number, value: number][]): void;
+  resolveColor(
+    cmd: DrawCommand,
+    forcePal?: 0 | 1 | 2 | 3 | undefined,
+  ): ResolvedColors;
+
+  /** @deprecated do not use */
+  get palettes(): PaletteSet;
 }

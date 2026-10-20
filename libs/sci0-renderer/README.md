@@ -1,4 +1,4 @@
-# @4bitlabs/sci0 
+# @4bitlabs/sci0-renderer 
 
 [![License][license]][npm] 
 [![NPM Version][version]][npm] 
