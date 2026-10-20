@@ -46,7 +46,8 @@ export function renderPixelData(
   pipeline: RenderPipeline,
 ): ImageDataLike {
   const { pre = [], render, post = [] } = pipeline;
-  const img1 = pre.reduce((it, filter) => (filter ? filter(it) : it), source);
-  const img2 = render(img1);
-  return post.reduce((it, filter) => (filter ? filter(it) : it), img2);
+
+  const pixels = pre.reduce((it, filter) => (filter ? filter(it) : it), source);
+  const image = render(pixels);
+  return post.reduce((it, filter) => (filter ? filter(it) : it), image);
 }

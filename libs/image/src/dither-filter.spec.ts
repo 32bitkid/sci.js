@@ -13,28 +13,22 @@ describe('dither-filter', () => {
     img.pixels[3] = 0x01;
 
     const filter = createDitherFilter(
-      generatePairs(Uint32Array.of(0xff_00_00_00, 0xff_ff_00_00)),
+      generatePairs(Uint32Array.of(0xff_00_00_00, 0xff_ff_ff_ff)),
     );
     const result = filter(img);
-    expect(result.data).toEqual(
-      Uint8ClampedArray.of(
-        0x00,
-        0x00,
-        0xff,
-        0xff,
-        0x00,
-        0x00,
-        0x00,
-        0xff,
-        0x00,
-        0x00,
-        0x00,
-        0xff,
-        0x00,
-        0x00,
-        0xff,
-        0xff,
+    expect(
+      new Uint32Array(
+        result.data.buffer,
+        result.data.byteOffset,
+        result.data.byteLength / 4,
       ),
-    );
+    ).toMatchInlineSnapshot(`
+      Uint32Array [
+        4294967295,
+        4278190080,
+        4278190080,
+        4294967295,
+      ]
+    `);
   });
 });
