@@ -5,6 +5,12 @@ import type {
   SetPaletteCommand,
   UpdatePaletteCommand,
   EmbeddedCelCommand,
+  SetMonoPalette,
+  SetMono1,
+  SetMono2,
+  ClearMono1,
+  ClearMono2,
+  SetPriorityBands,
 } from './draw-commands.js';
 
 export type DrawCommand =
@@ -13,4 +19,10 @@ export type DrawCommand =
   | PolylineCommand
   | SetPaletteCommand
   | UpdatePaletteCommand
-  | EmbeddedCelCommand;
+  | EmbeddedCelCommand
+  | SetMonoPalette
+  | SetMono1
+  | SetMono2
+  | ClearMono1
+  | ClearMono2
+  | SetPriorityBands;

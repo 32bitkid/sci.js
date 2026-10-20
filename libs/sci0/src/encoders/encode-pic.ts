@@ -67,7 +67,37 @@ export function encodePic(pic: Pic): Uint8Array {
         break;
       }
       case 'CEL': {
-        /** unsupported */
+        /** TODO unsupported */
+        break;
+      }
+      case 'SET_MONO_PALETTE': {
+        const [, [pal], ...entries] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMonoPalette, pal));
+        append(Uint8Array.from(entries));
+        break;
+      }
+      case 'SET_MONO_1': {
+        const [, [value]] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMono1, value));
+        break;
+      }
+      case 'SET_MONO_2': {
+        const [, [value]] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMono2, value));
+        break;
+      }
+      case 'CLEAR_MONO_1': {
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMono1));
+        break;
+      }
+      case 'CLEAR_MONO_2': {
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMono2));
+        break;
+      }
+      case 'SET_PRIORITY_BANDS': {
+        const [, , ...entries] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetPriorityBands));
+        append(Uint8Array.from(entries));
         break;
       }
       default:

@@ -182,34 +182,22 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
     });
     yield ['SET_PALETTE', [pal], ...colors];
   },
-  [ExtendedOpCode.x02](r) {
-    // Looks like a palette, but I'm not sure what this chunk is for
-    // in Colonels Bequest Demo, PIC.991 this opcode appears to have a 141 byte payload.
-    r.skip(8);
-    r.skip(8 * 40);
-    return [];
+  *[ExtendedOpCode.SetMonoPalette](r) {
+    yield ['SET_MONO_PALETTE', [r.read32(8)], ...repeat(40, () => r.read32(8))];
   },
-  [ExtendedOpCode.x03](r) {
-    // Not sure what byte this is for
-    r.skip(8);
-    return [];
+  *[ExtendedOpCode.SetMono1](r) {
+    yield ['SET_MONO_1', [r.read32(8)]];
   },
-  [ExtendedOpCode.x04]() {
-    // Not sure what this code means
-    // NOOP
-    return [];
+  *[ExtendedOpCode.ClearMono1]() {
+    yield ['CLEAR_MONO_1'];
   },
-  [ExtendedOpCode.x05](r) {
-    // Not sure what byte this is for
-    r.skip(8);
-    return [];
+  *[ExtendedOpCode.SetMono2](r) {
+    yield ['SET_MONO_2', [r.read32(8)]];
   },
-  [ExtendedOpCode.x06]() {
-    // Not sure what this code means
-    // NOOP
-    return [];
+  *[ExtendedOpCode.ClearMono2]() {
+    yield ['CLEAR_MONO_2'];
   },
-  *[ExtendedOpCode.x07](r, state) {
+  *[ExtendedOpCode.Cel](r, state) {
     const pos = getPoint24(r, vec2());
     const size = r.read32(8) | (r.read32(8) << 8);
 
@@ -223,8 +211,7 @@ const ExtendedHandlers: Record<ExtendedOpCode, CodeHandler> = {
 
     yield ['CEL', [state.drawMode], pos, cel];
   },
-  [ExtendedOpCode.x08](r) {
-    repeat(14, () => r.read32(8));
-    return [];
+  *[ExtendedOpCode.SetPriorityBands](r) {
+    yield ['SET_PRIORITY_BANDS', [], ...repeat(14, () => r.read32(8))];
   },
 };

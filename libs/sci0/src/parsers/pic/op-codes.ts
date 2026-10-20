@@ -34,13 +34,13 @@ export const isOpCode = (it: unknown): it is OpCode =>
 export enum ExtendedOpCode {
   UpdatePalette = 0x00,
   SetPalette = 0x01,
-  x02 = 0x02,
-  x03 = 0x03,
-  x04 = 0x04,
-  x05 = 0x05,
-  x06 = 0x06,
-  x07 = 0x07,
-  x08 = 0x08,
+  SetMonoPalette = 0x02,
+  SetMono1 = 0x03,
+  ClearMono1 = 0x04,
+  SetMono2 = 0x05,
+  ClearMono2 = 0x06,
+  Cel = 0x07,
+  SetPriorityBands = 0x08,
 }
 
 const allExtendedOpCodes = Object.values(ExtendedOpCode);

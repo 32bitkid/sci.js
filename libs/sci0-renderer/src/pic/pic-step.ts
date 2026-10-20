@@ -45,6 +45,15 @@ export function picStep(cmd: DrawCommand, screen: Screen): void {
       blit(x, y, drawMode, cel);
       break;
     }
+    case 'SET_MONO_PALETTE':
+    case 'SET_MONO_1':
+    case 'SET_MONO_2':
+    case 'CLEAR_MONO_1':
+    case 'CLEAR_MONO_2':
+    case 'SET_PRIORITY_BANDS':
+      /** noop */
+      break;
+
     default:
       exhaustive('unhandled opcode', mode);
   }

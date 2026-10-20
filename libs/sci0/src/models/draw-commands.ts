@@ -41,3 +41,10 @@ export type EmbeddedCelCommand = [
   pos: Vec2,
   cel: Cel,
 ];
+
+export type SetMonoPalette = ['SET_MONO_PALETTE', [pal: number], ...number[]];
+export type SetMono1 = ['SET_MONO_1', [value: number]];
+export type SetMono2 = ['SET_MONO_2', [value: number]];
+export type ClearMono1 = ['CLEAR_MONO_1'];
+export type ClearMono2 = ['CLEAR_MONO_2'];
+export type SetPriorityBands = ['SET_PRIORITY_BANDS', [], ...number[]];
