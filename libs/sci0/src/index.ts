@@ -32,3 +32,5 @@ export type { FontFace, Glyph } from './models/font-face.js';
 export type { Cursor } from './models/cursor.js';
 export type { View } from './models/view.js';
 export type { Pic } from './models/pic.js';
+
+export { encodePic } from './encoders/encode-pic.js';

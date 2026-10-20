@@ -17,11 +17,11 @@ export enum DrawMode {
 
 export namespace DrawMode {
   export const isVisualMode = (mode: DrawMode): boolean =>
-    ((mode & DrawMode.Visual) as DrawMode) === DrawMode.Visual;
+    (mode & DrawMode.Visual) === DrawMode.Visual;
 
   export const isPriorityMode = (mode: DrawMode): boolean =>
-    ((mode & DrawMode.Priority) as DrawMode) === DrawMode.Priority;
+    (mode & DrawMode.Priority) === DrawMode.Priority;
 
   export const isControlMode = (mode: DrawMode): boolean =>
-    ((mode & DrawMode.Control) as DrawMode) === DrawMode.Control;
+    (mode & DrawMode.Control) === DrawMode.Control;
 }
