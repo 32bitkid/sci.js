@@ -1,10 +1,11 @@
 import type { Command } from 'commander';
 
-import { decompress, parsePic } from '@4bitlabs/sci0';
+import { decompress, encodePic, parsePic, ResourceTypes } from '@4bitlabs/sci0';
 import { cmdIntParser } from './cmd-int-parser.js';
 import { getRootOptions } from '../actions/get-root-options.js';
 import { loadContentFromMap } from '../actions/load-content-from-map.js';
 import { picMatcher } from '../helpers/resource-matchers.js';
+import { readFile } from '../helpers/read-file.js';
 
 export function picJSONCommand(cmd: Command): Command {
   cmd
@@ -22,6 +23,17 @@ export function picJSONCommand(cmd: Command): Command {
       console.log(JSON.stringify(pic));
     })
     .description('dump the pic data as JSON');
+
+  cmd
+    .command('from-json', { hidden: true })
+    .argument('<file>')
+    .action(async (file: string, _: unknown, command: Command) => {
+      const { root } = getRootOptions(command);
+      const content = await readFile(root, file);
+      const pic = JSON.parse(content.toString('utf-8'));
+      process.stdout.write(Uint8Array.of(ResourceTypes.PIC_TYPE | 0x80, 0x00));
+      process.stdout.write(encodePic(pic));
+    });
 
   return cmd;
 }
