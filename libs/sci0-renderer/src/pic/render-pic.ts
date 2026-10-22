@@ -1,5 +1,5 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import type { Pic } from '@4bitlabs/sci0';
+import { type Pic, picStateWatcher } from '@4bitlabs/sci0';
 import { createScreenBuffer } from './screen-buffer.js';
 import type { RenderResult } from './render-result.js';
 import type { RenderPicOptions } from './render-pic-options.js';
@@ -34,12 +34,13 @@ export const renderPic = (
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
+  const { state, observe } = picStateWatcher();
   const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
-  for (const cmd of pic) {
+  for (const cmd of observe(pic)) {
     tick(step++);
-    picStep(cmd, screen);
+    picStep(cmd, screen, state);
   }
 
   return result;

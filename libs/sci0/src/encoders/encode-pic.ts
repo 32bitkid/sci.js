@@ -1,7 +1,6 @@
 import type { Pic } from '../models/pic.js';
 import { exhaustive } from '../utils/exhaustive.js';
 import { ExtendedOpCode, OpCode } from '../parsers/pic/op-codes.js';
-import { createState } from './pic-state.js';
 import {
   plineMaxDelta,
   p16,
@@ -9,6 +8,7 @@ import {
   relativePoints,
   absolutePoints,
 } from './point-encoders.js';
+import { picStateWatcher } from '../utils/pic-state-watcher.js';
 
 export function encodePic(pic: Pic): Uint8Array {
   const chunks: Uint8Array[] = [];
@@ -19,14 +19,40 @@ export function encodePic(pic: Pic): Uint8Array {
     }
   };
 
-  const updateState = createState();
+  const { state, observe } = picStateWatcher();
 
-  for (const cmd of pic) {
+  for (const cmd of observe(pic)) {
     const [mode] = cmd;
     switch (mode) {
+      case 'SET_VISUAL': {
+        const [, code] = cmd;
+        append(Uint8Array.of(OpCode.SetVisual, code));
+        break;
+      }
+      case 'SET_PRIORITY': {
+        const [, code] = cmd;
+        append(Uint8Array.of(OpCode.SetPriority, code));
+        break;
+      }
+      case 'SET_CONTROL': {
+        const [, code] = cmd;
+        append(Uint8Array.of(OpCode.SetControl, code));
+        break;
+      }
+      case 'CLEAR_VISUAL': {
+        append(Uint8Array.of(OpCode.ClearVisual));
+        break;
+      }
+      case 'CLEAR_PRIORITY': {
+        append(Uint8Array.of(OpCode.ClearPriority));
+        break;
+      }
+      case 'CLEAR_CONTROL': {
+        append(Uint8Array.of(OpCode.ClearControl));
+        break;
+      }
       case 'PLINE': {
-        const [, [drawMode, drawCodes], ...points] = cmd;
-        appendAll(updateState({ mode: drawMode, codes: drawCodes }));
+        const [, ...points] = cmd;
         const delta = plineMaxDelta(points);
         /* TODO double check these max deltas. they need to not put 0xF in the highest nybble. */
         if (delta <= 6) {
@@ -42,21 +68,28 @@ export function encodePic(pic: Pic): Uint8Array {
         break;
       }
       case 'FILL': {
-        const [, [drawMode, drawCodes], ...points] = cmd;
-        appendAll(updateState({ mode: drawMode, codes: drawCodes }));
+        const [, ...points] = cmd;
         append(Uint8Array.of(OpCode.Fills));
         appendAll(absolutePoints(points));
         break;
       }
+      case 'SET_PATTERN': {
+        const [, size, rect, spray] = cmd;
+        const code =
+          ((spray ? 1 : 0) << 5) | ((rect ? 1 : 0) << 4) | (size & 0b111);
+        append(Uint8Array.of(OpCode.SetPattern, code));
+        break;
+      }
       case 'BRUSH': {
-        const [, [drawMode, drawCodes]] = cmd;
-        appendAll(updateState({ mode: drawMode, codes: drawCodes }));
+        /** TODO */
         break;
       }
       case 'SET_PALETTE': {
-        const [, [pal], ...entries] = cmd;
+        const [, pal, ...entries] = cmd;
         append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetPalette, pal));
-        append(Uint8Array.from(entries));
+        const palData = new Uint8Array(40);
+        palData.set(entries);
+        append(palData);
         break;
       }
       case 'UPDATE_PALETTE': {
@@ -71,27 +104,29 @@ export function encodePic(pic: Pic): Uint8Array {
         break;
       }
       case 'SET_MONO_PALETTE': {
-        const [, [pal], ...entries] = cmd;
+        const [, pal, ...entries] = cmd;
         append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMonoPalette, pal));
-        append(Uint8Array.from(entries));
+        const palData = new Uint8Array(40);
+        palData.set(entries);
+        append(palData);
         break;
       }
-      case 'SET_MONO_1': {
-        const [, [value]] = cmd;
-        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMono1, value));
+      case 'SET_MONO': {
+        const [, value] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMono, value));
         break;
       }
-      case 'SET_MONO_2': {
-        const [, [value]] = cmd;
-        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMono2, value));
+      case 'SET_MONO_DIRECT': {
+        const [, value] = cmd;
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.SetMonoDirect, value));
         break;
       }
-      case 'CLEAR_MONO_1': {
-        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMono1));
+      case 'CLEAR_MONO': {
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMono));
         break;
       }
-      case 'CLEAR_MONO_2': {
-        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMono2));
+      case 'CLEAR_MONO_DIRECT': {
+        append(Uint8Array.of(OpCode.XOp, ExtendedOpCode.ClearMonoDirect));
         break;
       }
       case 'SET_PRIORITY_BANDS': {

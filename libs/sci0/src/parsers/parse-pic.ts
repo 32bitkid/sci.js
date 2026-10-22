@@ -1,13 +1,13 @@
 import { createBitReader } from '@4bitlabs/readers';
 import { CodeHandlers } from './pic/handlers.js';
 import { OpCode, isOpCode } from './pic/op-codes.js';
-import { createPicState } from './pic/pic-state.js';
+import { picStateWatcher } from '../utils/pic-state-watcher.js';
 import type { DrawCommand } from '../models/draw-command.js';
 import type { Pic } from '../models/pic.js';
 
 function* picIterable(source: Uint8Array): IterableIterator<DrawCommand> {
   const r = createBitReader(source, { mode: 'msb' });
-  const state = createPicState();
+  const { state, observe } = picStateWatcher();
   while (true) {
     const op = r.read32(8);
 
@@ -19,7 +19,7 @@ function* picIterable(source: Uint8Array): IterableIterator<DrawCommand> {
     const handler = CodeHandlers[op];
     if (!handler) throw new Error(`Unhandled opcode: 0x${op.toString(16)}`);
 
-    yield* handler(r, state);
+    yield* observe(handler(r, state));
   }
 }
 

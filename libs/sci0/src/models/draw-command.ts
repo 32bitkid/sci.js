@@ -5,12 +5,19 @@ import type {
   SetPaletteCommand,
   UpdatePaletteCommand,
   EmbeddedCelCommand,
-  SetMonoPalette,
-  SetMono1,
-  SetMono2,
-  ClearMono1,
-  ClearMono2,
-  SetPriorityBands,
+  SetMonoPaletteCommand,
+  SetMonoCommand,
+  SetMonoDirectCommand,
+  ClearMonoCommand,
+  ClearMonoDirectCommand,
+  SetPriorityBandsCommand,
+  SetVisualCommand,
+  SetControl,
+  SetPriorityCommand,
+  ClearVisualCommand,
+  ClearControlCommand,
+  ClearPriorityCommand,
+  SetPatternCommand,
 } from './draw-commands.js';
 
 export type DrawCommand =
@@ -20,9 +27,16 @@ export type DrawCommand =
   | SetPaletteCommand
   | UpdatePaletteCommand
   | EmbeddedCelCommand
-  | SetMonoPalette
-  | SetMono1
-  | SetMono2
-  | ClearMono1
-  | ClearMono2
-  | SetPriorityBands;
+  | SetMonoPaletteCommand
+  | SetMonoCommand
+  | SetMonoDirectCommand
+  | ClearMonoCommand
+  | ClearMonoDirectCommand
+  | SetPriorityBandsCommand
+  | SetVisualCommand
+  | SetControl
+  | SetPriorityCommand
+  | ClearVisualCommand
+  | ClearControlCommand
+  | ClearPriorityCommand
+  | SetPatternCommand;

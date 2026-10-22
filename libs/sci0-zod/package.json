@@ -1,0 +1,37 @@
+{
+  "name": "@4bitlabs/sci0-zod",
+  "version": "0.0.0",
+  "description": "Zod schema for verifying data-structures for @4bitlabs/sci0 and related packages",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0-zod#readme",
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/32bitkid/sci.js.git"
+  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit && tsdown",
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {},
+  "peerDependencies": {
+    "zod": "^4.5.0"
+  },
+  "devDependencies": {
+    "zod": "^4.5.0"
+  }
+}

@@ -1,13 +1,17 @@
-import type { DrawCommand } from '@4bitlabs/sci0';
+import type { DrawCommand, PicState } from '@4bitlabs/sci0';
 import type { Screen } from './tools/screen.js';
 import { exhaustive } from '../utils/exhaustive.js';
 
-export function picStep(cmd: DrawCommand, screen: Screen): void {
+export function picStep(
+  cmd: DrawCommand,
+  screen: Screen,
+  state: PicState,
+): void {
   const { fill, line, brush, blit, setPalette, updatePalette } = screen;
   const [mode] = cmd;
   switch (mode) {
     case 'SET_PALETTE': {
-      const [, [idx], ...palette] = cmd;
+      const [, idx, ...palette] = cmd;
       setPalette(idx, palette);
       break;
     }
@@ -17,40 +21,55 @@ export function picStep(cmd: DrawCommand, screen: Screen): void {
       break;
     }
     case 'FILL': {
-      const [, [drawMode, drawCodes], pos] = cmd;
+      const [, pos] = cmd;
       const [x, y] = pos;
-      fill(x, y, drawMode, drawCodes);
+      fill(x, y, state.drawMode, state.drawCodes);
       break;
     }
     case 'PLINE': {
-      const [, [drawMode, drawCodes], ...points] = cmd;
+      const [, ...points] = cmd;
       for (let p = 0; p < points.length - 1; p++)
         line(
           points[p][0],
           points[p][1],
           points[p + 1][0],
           points[p + 1][1],
-          drawMode,
-          drawCodes,
+          state.drawMode,
+          state.drawCodes,
         );
       break;
     }
     case 'BRUSH': {
-      const [, brushOptions, [cx, cy]] = cmd;
-      brush(cx, cy, ...brushOptions);
+      const [, texture, [cx, cy]] = cmd;
+      brush(
+        cx,
+        cy,
+        state.drawMode,
+        state.drawCodes,
+        state.patternCode,
+        texture,
+      );
       break;
     }
     case 'CEL': {
-      const [, [drawMode], [x, y], cel] = cmd;
-      blit(x, y, drawMode, cel);
+      const [, [x, y], cel] = cmd;
+      blit(x, y, state.drawMode, cel);
       break;
     }
+
     case 'SET_MONO_PALETTE':
-    case 'SET_MONO_1':
-    case 'SET_MONO_2':
-    case 'CLEAR_MONO_1':
-    case 'CLEAR_MONO_2':
+    case 'SET_MONO':
+    case 'SET_MONO_DIRECT':
+    case 'CLEAR_MONO':
+    case 'CLEAR_MONO_DIRECT':
     case 'SET_PRIORITY_BANDS':
+    case 'SET_VISUAL':
+    case 'SET_CONTROL':
+    case 'SET_PRIORITY':
+    case 'CLEAR_VISUAL':
+    case 'CLEAR_CONTROL':
+    case 'CLEAR_PRIORITY':
+    case 'SET_PATTERN':
       /** noop */
       break;
 

@@ -1,50 +1,43 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { Cel } from './cel.js';
-import type { DrawMode } from './draw-mode.js';
-import type { DrawCodes } from './draw-codes.js';
-import type { PatternCode } from './pattern-code.js';
 
-export type SetPaletteCommand = ['SET_PALETTE', [pal: number], ...number[]];
+export type SetPaletteCommand = ['SET_PALETTE', pal: number, ...number[]];
 
 export type UpdatePaletteCommand = [
   'UPDATE_PALETTE',
-  [],
   ...[pal: number, idx: number, color: number][],
 ];
 
-export type BrushCommand = [
-  'BRUSH',
-  [
-    drawMode: DrawMode,
-    drawCodes: DrawCodes,
-    ...patternCode: PatternCode,
-    textureCode: number,
-  ],
-  Vec2,
+export type SetPatternCommand = [
+  'SET_PATTERN',
+  size: number,
+  rect: boolean,
+  spray: boolean,
 ];
 
-export type FillCommand = [
-  'FILL',
-  [drawMode: DrawMode, drawCodes: DrawCodes],
-  Vec2,
-];
+export type BrushCommand = ['BRUSH', textureCode: number, Vec2];
 
-export type PolylineCommand = [
-  'PLINE',
-  [drawMode: DrawMode, drawCodes: DrawCodes],
-  ...Vec2[],
-];
+export type FillCommand = ['FILL', Vec2];
 
-export type EmbeddedCelCommand = [
-  'CEL',
-  [drawMode: DrawMode],
-  pos: Vec2,
-  cel: Cel,
-];
+export type PolylineCommand = ['PLINE', ...Vec2[]];
 
-export type SetMonoPalette = ['SET_MONO_PALETTE', [pal: number], ...number[]];
-export type SetMono1 = ['SET_MONO_1', [value: number]];
-export type SetMono2 = ['SET_MONO_2', [value: number]];
-export type ClearMono1 = ['CLEAR_MONO_1'];
-export type ClearMono2 = ['CLEAR_MONO_2'];
-export type SetPriorityBands = ['SET_PRIORITY_BANDS', [], ...number[]];
+export type EmbeddedCelCommand = ['CEL', pos: Vec2, cel: Cel];
+
+export type SetMonoPaletteCommand = [
+  'SET_MONO_PALETTE',
+  pal: number,
+  ...number[],
+];
+export type SetMonoCommand = ['SET_MONO', value: number];
+export type SetMonoDirectCommand = ['SET_MONO_DIRECT', value: number];
+export type ClearMonoCommand = ['CLEAR_MONO'];
+export type ClearMonoDirectCommand = ['CLEAR_MONO_DIRECT'];
+export type SetPriorityBandsCommand = ['SET_PRIORITY_BANDS', ...number[]];
+
+export type SetVisualCommand = ['SET_VISUAL', code: number];
+export type SetControl = ['SET_CONTROL', code: number];
+export type SetPriorityCommand = ['SET_PRIORITY', code: number];
+
+export type ClearVisualCommand = ['CLEAR_VISUAL'];
+export type ClearControlCommand = ['CLEAR_CONTROL'];
+export type ClearPriorityCommand = ['CLEAR_PRIORITY'];

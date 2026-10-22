@@ -15,7 +15,7 @@ import {
   createBlitter,
 } from './tools/index.js';
 import { defaultPalettes } from './default-palettes.js';
-import { resolveColors } from '../helpers/resolve-colors.js';
+import { resolveDither } from './resolve-dither.js';
 
 export type SetTValueFn = (n: number) => void;
 
@@ -101,11 +101,7 @@ export const createScreenBuffer = (
           palettes[pal][idx] = value;
         });
       },
-      resolveColor: (cmd, forcePal) => resolveColors(cmd, palettes, forcePal),
-
-      get palettes() {
-        return palettes;
-      },
+      resolveDither: (state) => resolveDither(state, palettes, forcePal),
     },
     setTValue,
   ];

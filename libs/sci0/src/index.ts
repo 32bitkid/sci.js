@@ -12,6 +12,8 @@ export * as Resource from './models/resource-id.js';
 export * as ResourceTypes from './models/resource-types.js';
 export * as ResourceMatchers from './matchers/index.js';
 
+export { type PicState, picStateWatcher } from './utils/pic-state-watcher.js';
+
 export { parseAllMappings } from './parsers/mapping.js';
 export {
   parseHeaderFrom,

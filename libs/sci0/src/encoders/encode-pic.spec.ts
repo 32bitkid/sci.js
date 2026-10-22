@@ -9,7 +9,10 @@ const toHex = (source: Uint8Array): string =>
     .join('');
 
 it('should encode', () => {
-  const data = [['FILL', [3, [1, 0, 0]], [172, 113]]] satisfies Pic;
+  const data = [
+    ['SET_VISUAL', 1],
+    ['FILL', [172, 113]],
+  ] satisfies Pic;
   const bytes = encodePic(data);
   expect(toHex(bytes)).toMatchInlineSnapshot(`"f001f800ac71ff"`);
 });
@@ -17,8 +20,9 @@ it('should encode', () => {
 describe('roundtrips', () => {
   it('lines and fills', () => {
     const data = [
-      ['PLINE', [1, [0, 0, 0]], [0, 64], [15, 64], [15, 79], [0, 79], [0, 64]],
-      ['FILL', [1, [0, 0, 0]], [8, 72]],
+      ['CLEAR_VISUAL'],
+      ['PLINE', [0, 64], [15, 64], [15, 79], [0, 79], [0, 64]],
+      ['FILL', [8, 72]],
     ] satisfies Pic;
     const bytes = encodePic(data);
     const result = parsePic(bytes);
@@ -33,9 +37,10 @@ describe('roundtrips', () => {
       0x4c, 0x5d, 0x6e, 0x88,
     ];
     const data = [
-      ['SET_PALETTE', [0], ...pal],
-      ['PLINE', [1, [0, 0, 0]], [0, 64], [15, 64], [15, 79], [0, 79], [0, 64]],
-      ['FILL', [1, [0, 0, 0]], [8, 72]],
+      ['CLEAR_VISUAL'],
+      ['SET_PALETTE', 0, ...pal],
+      ['PLINE', [0, 64], [15, 64], [15, 79], [0, 79], [0, 64]],
+      ['FILL', [8, 72]],
     ] satisfies Pic;
     const bytes = encodePic(data);
     const result = parsePic(bytes);

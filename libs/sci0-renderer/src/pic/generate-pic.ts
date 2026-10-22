@@ -1,25 +1,24 @@
-import type { DrawCommand, Pic } from '@4bitlabs/sci0';
+import {
+  type DrawCommand,
+  type DrawMode,
+  type Pic,
+  picStateWatcher,
+} from '@4bitlabs/sci0';
 import type { Vec2 } from '@4bitlabs/vec2';
 import type { RenderPicOptions } from './render-pic-options.js';
 import type { RenderResult } from './render-result.js';
-import type { PaletteSet } from './default-palettes.js';
 import { createScreenBuffer } from './screen-buffer.js';
 import { picStep } from './pic-step.js';
-import type { Screen } from './tools/screen.js';
 
 export type IntermediatePicState = [
   idx: number,
   command: DrawCommand,
   layers: RenderResult,
   meta: {
-    visualPair: [number, number] | undefined;
-    priority: number | undefined;
-    control: number | undefined;
-
-    /** @deprecated use visualPair instead. will be removed in the next major version */
-    palettes: PaletteSet;
-    /** @deprecated do not use. will be removed in the next major version */
-    screen: Screen;
+    readonly drawMode: DrawMode;
+    readonly visual: [number, number];
+    readonly priority: number;
+    readonly control: number;
   },
 ];
 
@@ -53,21 +52,23 @@ export function* generatePic(
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
+  const { state, observe } = picStateWatcher();
   const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
-  for (const cmd of pic) {
+  for (const cmd of observe(pic)) {
     tick(step);
-    picStep(cmd, screen);
+    picStep(cmd, screen, state);
 
     yield [
       step,
       cmd,
       result,
       {
-        ...screen.resolveColor(cmd, forcePal),
-        palettes: screen.palettes,
-        screen,
+        drawMode: state.drawMode,
+        visual: screen.resolveDither(state.drawCodes),
+        priority: state.drawCodes[1],
+        control: state.drawCodes[2],
       },
     ];
     step += 1;

@@ -1,5 +1,5 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
+import type { DrawMode, DrawCodes, PatternCode } from '@4bitlabs/sci0';
 import type { Brusher, Plotter } from './screen.js';
 import { NOISE, NOISE_OFFSETS } from './noise.js';
 import CIRCLES from './circles.js';
@@ -9,13 +9,11 @@ export const createBrush = (
   [stageWidth, stageHeight]: Readonly<Vec2>,
 ): Brusher =>
   function brush(
-    cx,
-    cy,
+    cx: number,
+    cy: number,
     drawMode: DrawMode,
     drawCodes: DrawCodes,
-    size,
-    isRect,
-    isSpray,
+    [size, isRect, isSpray]: PatternCode,
     textureCode,
   ): void {
     const baseWidth = isRect ? 2 : 1;

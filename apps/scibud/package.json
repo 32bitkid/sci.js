@@ -33,6 +33,7 @@
     "@4bitlabs/resize-filters": "^2.0.5",
     "@4bitlabs/sci0": "^6.2.2",
     "@4bitlabs/sci0-renderer": "^1.4.0",
+    "@4bitlabs/sci0-zod": "0.0.0",
     "@types/gif-encoder": "^0.7.4",
     "cli-progress": "^3.12.0",
     "columnify": "^1.6.0",

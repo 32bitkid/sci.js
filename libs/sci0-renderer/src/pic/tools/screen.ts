@@ -1,6 +1,5 @@
-import type { DrawMode, DrawCodes, Cel, DrawCommand } from '@4bitlabs/sci0';
-import type { ResolvedColors } from '../../helpers/resolve-colors.js';
-import type { PaletteSet } from '../default-palettes.js';
+import type { DrawMode, DrawCodes, Cel, PatternCode } from '@4bitlabs/sci0';
+import type { ResolvedColors } from '../resolve-dither.js';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;
 
@@ -34,9 +33,7 @@ export type Brusher = (
   cy: number,
   drawMode: DrawMode,
   drawCodes: DrawCodes,
-  size: number,
-  isRect: boolean,
-  isSpray: boolean,
+  patternCode: PatternCode,
   textureCode: number,
 ) => void;
 
@@ -54,11 +51,5 @@ export interface Screen {
   blit: Blitter;
   setPalette(pal: number, values: number[]): void;
   updatePalette(entries: [pal: number, idx: number, value: number][]): void;
-  resolveColor(
-    cmd: DrawCommand,
-    forcePal?: 0 | 1 | 2 | 3 | undefined,
-  ): ResolvedColors;
-
-  /** @deprecated do not use */
-  get palettes(): PaletteSet;
+  resolveDither(codes: DrawCodes): ResolvedColors;
 }
