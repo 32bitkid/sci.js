@@ -4,7 +4,6 @@ import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes.js';
 import type { PicState } from '../../utils/pic-state-watcher.js';
 import { getPoint16, getPoint24, getPoint8 } from './points.js';
 import type { DrawCommand } from '../../models/draw-command.js';
-import { DrawMode } from '../../models/draw-mode.js';
 import { repeat } from '../../utils/repeat.js';
 import { parseCel } from '../parse-cel.js';
 import type { SetPaletteCommand } from '../../models/draw-commands.js';

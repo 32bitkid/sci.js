@@ -19,7 +19,7 @@ export function encodePic(pic: Pic): Uint8Array {
     }
   };
 
-  const { state, observe } = picStateWatcher();
+  const { observe } = picStateWatcher();
 
   for (const cmd of observe(pic)) {
     const [mode] = cmd;
