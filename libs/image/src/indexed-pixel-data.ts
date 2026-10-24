@@ -18,16 +18,23 @@ export function createIndexedPixelData(
   height >>>= 0;
 
   const pixels = new Uint8ClampedArray(width * height);
-
   const { keyColor } = options;
-  if (keyColor !== undefined) pixels.fill(keyColor);
 
-  return {
-    keyColor,
-    pixels,
-    width,
-    height,
-  };
+  if (keyColor !== undefined) {
+    pixels.fill(keyColor);
+    return {
+      keyColor,
+      pixels,
+      width,
+      height,
+    };
+  } else {
+    return {
+      pixels,
+      width,
+      height,
+    };
+  }
 }
 
 export function isIndexedPixelData(it: unknown): it is IndexedPixelData {
@@ -39,6 +46,7 @@ export function isIndexedPixelData(it: unknown): it is IndexedPixelData {
     'width' in it &&
     typeof it.width === 'number' &&
     'height' in it &&
-    typeof it.height === 'number'
+    typeof it.height === 'number' &&
+    it.pixels.length === it.width * it.height
   );
 }

@@ -1,9 +1,9 @@
 import type { BitReader } from '@4bitlabs/readers';
 import { type Vec2, vec2, clone, assign } from '@4bitlabs/vec2';
 import { ExtendedOpCode, isExtendedOpCode, OpCode } from './op-codes.js';
-import type { PicState } from '../../utils/pic-state-watcher.js';
+import type { PicState } from '../../state/pic-state.js';
 import { getPoint16, getPoint24, getPoint8 } from './points.js';
-import type { DrawCommand } from '../../models/draw-command.js';
+import type { PicCommand } from '../../models/pic-command.js';
 import { repeat } from '../../utils/repeat.js';
 import { parseCel } from '../parse-cel.js';
 import type { SetPaletteCommand } from '../../models/draw-commands.js';
@@ -11,7 +11,7 @@ import type { SetPaletteCommand } from '../../models/draw-commands.js';
 type CodeHandler = (
   r: BitReader,
   state: Readonly<PicState>,
-) => Generator<DrawCommand>;
+) => Generator<PicCommand>;
 
 export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
   *[OpCode.SetVisual](r) {
@@ -75,6 +75,7 @@ export const CodeHandlers: Record<Exclude<OpCode, OpCode.Done>, CodeHandler> = {
       code & 0b0111,
       (code & 0b01_0000) !== 0,
       (code & 0b10_0000) !== 0,
+      (code & 0b00_1000) !== 0,
     ];
   },
   *[OpCode.ShortBrushes](r, state) {

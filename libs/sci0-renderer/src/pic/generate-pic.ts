@@ -1,6 +1,7 @@
 import {
   type DrawCommand,
   type DrawMode,
+  type PatternCode,
   type Pic,
   picStateWatcher,
 } from '@4bitlabs/sci0';
@@ -19,6 +20,7 @@ export type IntermediatePicState = [
     readonly visual: [number, number];
     readonly priority: number;
     readonly control: number;
+    readonly pattern: PatternCode;
   },
 ];
 
@@ -52,11 +54,11 @@ export function* generatePic(
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const { state, observe } = picStateWatcher();
+  const { state, observeDraws } = picStateWatcher();
   const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
-  for (const cmd of observe(pic)) {
+  for (const cmd of observeDraws(pic)) {
     tick(step);
     picStep(cmd, screen, state);
 
@@ -66,9 +68,10 @@ export function* generatePic(
       result,
       {
         drawMode: state.drawMode,
-        visual: screen.resolveDither(state.drawCodes),
+        visual: screen.resolveDither(state),
         priority: state.drawCodes[1],
         control: state.drawCodes[2],
+        pattern: state.patternCode,
       },
     ];
     step += 1;

@@ -20,23 +20,27 @@ import type {
   SetPatternCommand,
 } from './draw-commands.js';
 
-export type DrawCommand =
-  | BrushCommand
-  | FillCommand
-  | PolylineCommand
-  | SetPaletteCommand
-  | UpdatePaletteCommand
-  | EmbeddedCelCommand
-  | SetMonoPaletteCommand
-  | SetMonoCommand
-  | SetMonoDirectCommand
+export type PicStateCommand =
+  | ClearControlCommand
   | ClearMonoCommand
   | ClearMonoDirectCommand
-  | SetPriorityBandsCommand
-  | SetVisualCommand
-  | SetControl
-  | SetPriorityCommand
-  | ClearVisualCommand
-  | ClearControlCommand
   | ClearPriorityCommand
-  | SetPatternCommand;
+  | ClearVisualCommand
+  | SetControl
+  | SetMonoCommand
+  | SetMonoDirectCommand
+  | SetMonoPaletteCommand
+  | SetPaletteCommand
+  | SetPatternCommand
+  | SetPriorityBandsCommand
+  | SetPriorityCommand
+  | SetVisualCommand
+  | UpdatePaletteCommand;
+
+export type DrawCommand =
+  | PolylineCommand
+  | FillCommand
+  | BrushCommand
+  | EmbeddedCelCommand;
+
+export type PicCommand = DrawCommand | PicStateCommand;

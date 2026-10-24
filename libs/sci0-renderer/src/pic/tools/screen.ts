@@ -1,46 +1,43 @@
-import type { DrawMode, DrawCodes, Cel, PatternCode } from '@4bitlabs/sci0';
+import type {
+  DrawMode,
+  DrawCodes,
+  Cel,
+  PatternCode,
+  PicState,
+} from '@4bitlabs/sci0';
 import type { ResolvedColors } from '../resolve-dither.js';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;
 
-export type Plotter = (
+export type Plotter = (state: Readonly<PicState>, x: number, y: number) => void;
+
+export type IsFillable = (
+  state: Readonly<PicState>,
   x: number,
   y: number,
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-) => void;
+) => boolean;
 
-export type IsFillable = (x: number, y: number, drawMode: DrawMode) => boolean;
-
-export type Filler = (
-  x: number,
-  y: number,
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-) => void;
+export type Filler = (state: Readonly<PicState>, x: number, y: number) => void;
 
 export type Liner = (
+  state: Readonly<PicState>,
   x0: number,
   y0: number,
   x1: number,
   y1: number,
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
 ) => void;
 
 export type Brusher = (
+  state: Readonly<PicState>,
   cx: number,
   cy: number,
-  drawMode: DrawMode,
-  drawCodes: DrawCodes,
-  patternCode: PatternCode,
   textureCode: number,
 ) => void;
 
 export type Blitter = (
+  state: Readonly<PicState>,
   x: number,
   y: number,
-  drawMode: DrawMode,
   cel: Cel,
 ) => void;
 
@@ -49,7 +46,5 @@ export interface Screen {
   fill: Filler;
   line: Liner;
   blit: Blitter;
-  setPalette(pal: number, values: number[]): void;
-  updatePalette(entries: [pal: number, idx: number, value: number][]): void;
-  resolveDither(codes: DrawCodes): ResolvedColors;
+  resolveDither(state: PicState): ResolvedColors;
 }

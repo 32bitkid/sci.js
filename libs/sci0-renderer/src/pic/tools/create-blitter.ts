@@ -1,10 +1,10 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import { DrawMode, type Cel } from '@4bitlabs/sci0';
+import { DrawMode, type Cel, type PicState } from '@4bitlabs/sci0';
 import type { RawPlotter } from './screen.js';
 
 export const createBlitter =
   (plot: RawPlotter, [stageWidth, stageHeight]: Readonly<Vec2>) =>
-  (x0: number, y0: number, drawMode: DrawMode, cel: Cel): void => {
+  ({ drawMode }: PicState, x0: number, y0: number, cel: Cel): void => {
     if (DrawMode.isControlMode(drawMode) || DrawMode.isPriorityMode(drawMode))
       console.warn('unhandled CEL command on Control/Priority layer');
 

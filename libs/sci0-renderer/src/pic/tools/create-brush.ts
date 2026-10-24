@@ -1,5 +1,10 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import type { DrawMode, DrawCodes, PatternCode } from '@4bitlabs/sci0';
+import type {
+  DrawMode,
+  DrawCodes,
+  PatternCode,
+  PicState,
+} from '@4bitlabs/sci0';
 import type { Brusher, Plotter } from './screen.js';
 import { NOISE, NOISE_OFFSETS } from './noise.js';
 import CIRCLES from './circles.js';
@@ -8,14 +13,9 @@ export const createBrush = (
   plot: Plotter,
   [stageWidth, stageHeight]: Readonly<Vec2>,
 ): Brusher =>
-  function brush(
-    cx: number,
-    cy: number,
-    drawMode: DrawMode,
-    drawCodes: DrawCodes,
-    [size, isRect, isSpray]: PatternCode,
-    textureCode,
-  ): void {
+  function brush(state: PicState, cx: number, cy: number, textureCode): void {
+    const [size, isRect, isSpray] = state.patternCode;
+
     const baseWidth = isRect ? 2 : 1;
     const width = baseWidth + size * 2;
     const height = 1 + size * 2;
@@ -38,6 +38,6 @@ export const createBrush = (
           if (((row >>> shift) & 0b1) === 0) continue;
         }
         if (isSpray && !NOISE[noiseIdx++ & 0xff]) continue;
-        plot(px, py, drawMode, drawCodes);
+        plot(state, px, py);
       }
   };

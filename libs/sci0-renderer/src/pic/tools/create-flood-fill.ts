@@ -1,6 +1,6 @@
 import { NumericDeque } from '@4bitlabs/numeric-deque';
 import type { Vec2 } from '@4bitlabs/vec2';
-import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
+import type { DrawMode, DrawCodes, PicState } from '@4bitlabs/sci0';
 import type { Filler, IsFillable, Plotter } from './screen.js';
 
 export const createFloodFill = (
@@ -11,12 +11,7 @@ export const createFloodFill = (
   const visited = new Uint8ClampedArray(width * height);
   const stack = new NumericDeque(width * height, Uint32Array);
 
-  return function floodFill(
-    ix: number,
-    iy: number,
-    drawMode: DrawMode,
-    drawCodes: DrawCodes,
-  ): void {
+  return function floodFill(state: PicState, ix: number, iy: number): void {
     visited.fill(0);
     stack.clear();
 
@@ -32,13 +27,13 @@ export const createFloodFill = (
       const x = i % width;
       const y = (i / width) >>> 0;
 
-      if (!isLegal(x, y, drawMode)) continue;
-      plot(x, y, drawMode, drawCodes);
+      if (!isLegal(state, x, y)) continue;
+      plot(state, x, y);
 
       const initialAbove =
-        y - 1 >= 0 && !visited[i - width] && isLegal(x, y - 1, drawMode);
+        y - 1 >= 0 && !visited[i - width] && isLegal(state, x, y - 1);
       const initialBelow =
-        y + 1 < height && !visited[i + width] && isLegal(x, y + 1, drawMode);
+        y + 1 < height && !visited[i + width] && isLegal(state, x, y + 1);
 
       if (initialAbove) stack.push(i - width);
       if (initialBelow) stack.push(i + width);
@@ -50,15 +45,15 @@ export const createFloodFill = (
 
         for (
           let sx = x + dir;
-          (dir > 0 ? sx < width : sx >= 0) && isLegal(sx, y, drawMode);
+          (dir > 0 ? sx < width : sx >= 0) && isLegal(state, sx, y);
           sx += dir
         ) {
           const idx = i + (sx - x);
           visited[idx] = 0xff;
-          plot(sx, y, drawMode, drawCodes);
+          plot(state, sx, y);
 
           if (y - 1 >= 0 && !visited[idx - width]) {
-            if (isLegal(sx, y - 1, drawMode)) {
+            if (isLegal(state, sx, y - 1)) {
               if (!visitedAbove) stack.push(idx - width);
               visitedAbove = true;
             } else {
@@ -67,7 +62,7 @@ export const createFloodFill = (
           }
 
           if (y + 1 < height && !visited[idx + width]) {
-            if (isLegal(sx, y + 1, drawMode)) {
+            if (isLegal(state, sx, y + 1)) {
               if (!visitedBelow) stack.push(idx + width);
               visitedBelow = true;
             } else {

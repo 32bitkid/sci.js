@@ -1,29 +1,28 @@
-import type { DrawMode, DrawCodes } from '@4bitlabs/sci0';
+import type { DrawMode, DrawCodes, PicState } from '@4bitlabs/sci0';
 import type { Liner, Plotter } from './screen.js';
 
 export const createLine = (plot: Plotter): Liner =>
   function line(
+    state: PicState,
     x0: number,
     y0: number,
     x1: number,
     y1: number,
-    drawMode: DrawMode,
-    drawCodes: DrawCodes,
   ): void {
     if (x0 === x1) {
       for (let y = Math.min(y0, y1); y <= Math.max(y0, y1); y++)
-        plot(x0, y, drawMode, drawCodes);
+        plot(state, x0, y);
       return;
     }
 
     if (y0 === y1) {
       for (let x = Math.min(x0, x1); x <= Math.max(x0, x1); x++)
-        plot(x, y0, drawMode, drawCodes);
+        plot(state, x, y0);
       return;
     }
 
-    plot(x0, y0, drawMode, drawCodes);
-    plot(x1, y1, drawMode, drawCodes);
+    plot(state, x0, y0);
+    plot(state, x1, y1);
 
     const dx = x1 - x0;
     const dy = y1 - y0;
@@ -36,7 +35,7 @@ export const createLine = (plot: Plotter): Liner =>
 
     if (adx > ady) {
       for (let x = x0, y = y0; sx < 0 ? x >= x1 : x <= x1; x += sx) {
-        plot(x, y, drawMode, drawCodes);
+        plot(state, x, y);
         eps += ady;
         if (eps << 1 >= adx) {
           y += sy;
@@ -45,7 +44,7 @@ export const createLine = (plot: Plotter): Liner =>
       }
     } else {
       for (let x = x0, y = y0; sy < 0 ? y >= y1 : y <= y1; y += sy) {
-        plot(x, y, drawMode, drawCodes);
+        plot(state, x, y);
         eps += adx;
         if (eps << 1 >= ady) {
           x += sx;

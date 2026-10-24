@@ -1,5 +1,5 @@
 import type { DrawCodes } from '@4bitlabs/sci0';
-import type { PaletteSet } from './default-palettes.js';
+import type { PaletteSet } from './create-palettes.js';
 
 export type ResolvedColors = [number, number];
 

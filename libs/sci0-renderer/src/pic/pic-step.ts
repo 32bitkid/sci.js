@@ -7,72 +7,37 @@ export function picStep(
   screen: Screen,
   state: PicState,
 ): void {
-  const { fill, line, brush, blit, setPalette, updatePalette } = screen;
+  const { fill, line, brush, blit } = screen;
   const [mode] = cmd;
   switch (mode) {
-    case 'SET_PALETTE': {
-      const [, idx, ...palette] = cmd;
-      setPalette(idx, palette);
-      break;
-    }
-    case 'UPDATE_PALETTE': {
-      const [, , ...entries] = cmd;
-      updatePalette(entries);
-      break;
-    }
     case 'FILL': {
       const [, pos] = cmd;
       const [x, y] = pos;
-      fill(x, y, state.drawMode, state.drawCodes);
+      fill(state, x, y);
       break;
     }
     case 'PLINE': {
       const [, ...points] = cmd;
       for (let p = 0; p < points.length - 1; p++)
         line(
+          state,
           points[p][0],
           points[p][1],
           points[p + 1][0],
           points[p + 1][1],
-          state.drawMode,
-          state.drawCodes,
         );
       break;
     }
     case 'BRUSH': {
       const [, texture, [cx, cy]] = cmd;
-      brush(
-        cx,
-        cy,
-        state.drawMode,
-        state.drawCodes,
-        state.patternCode,
-        texture,
-      );
+      brush(state, cx, cy, texture);
       break;
     }
     case 'CEL': {
       const [, [x, y], cel] = cmd;
-      blit(x, y, state.drawMode, cel);
+      blit(state, x, y, cel);
       break;
     }
-
-    case 'SET_MONO_PALETTE':
-    case 'SET_MONO':
-    case 'SET_MONO_DIRECT':
-    case 'CLEAR_MONO':
-    case 'CLEAR_MONO_DIRECT':
-    case 'SET_PRIORITY_BANDS':
-    case 'SET_VISUAL':
-    case 'SET_CONTROL':
-    case 'SET_PRIORITY':
-    case 'CLEAR_VISUAL':
-    case 'CLEAR_CONTROL':
-    case 'CLEAR_PRIORITY':
-    case 'SET_PATTERN':
-      /** noop */
-      break;
-
     default:
       exhaustive('unhandled opcode', mode);
   }

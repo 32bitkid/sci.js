@@ -1,10 +1,12 @@
 export enum DrawMode {
-  Visual = 0b001,
-  Priority = 0b010,
-  Control = 0b100,
+  Visual = 0b00001,
+  Priority = 0b00010,
+  Control = 0b00100,
+  Mono = 0b01000,
+  MonoDirect = 0b10000,
 
   /** @hidden */
-  ___ = 0b000,
+  NONE = 0b000,
   /** @hidden */
   VP_ = 0b011,
   /** @hidden */
@@ -24,4 +26,10 @@ export namespace DrawMode {
 
   export const isControlMode = (mode: DrawMode): boolean =>
     (mode & DrawMode.Control) === DrawMode.Control;
+
+  export const isMonoMode = (mode: DrawMode): boolean =>
+    (mode & DrawMode.Mono) === DrawMode.Mono;
+
+  export const isMonoDirectMode = (mode: DrawMode): boolean =>
+    (mode & DrawMode.MonoDirect) === DrawMode.MonoDirect;
 }

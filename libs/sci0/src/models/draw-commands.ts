@@ -13,6 +13,7 @@ export type SetPatternCommand = [
   size: number,
   rect: boolean,
   spray: boolean,
+  UNKNOWN?: boolean,
 ];
 
 export type BrushCommand = ['BRUSH', textureCode: number, Vec2];

@@ -5,14 +5,19 @@ export type { ResourceType } from './models/resource-type.js';
 export type * as DrawCommands from './models/draw-commands.js';
 export type { DrawCodes } from './models/draw-codes.js';
 export type { PatternCode } from './models/pattern-code.js';
-export type { DrawCommand } from './models/draw-command.js';
+export type {
+  DrawCommand,
+  PicStateCommand,
+  PicCommand,
+} from './models/pic-command.js';
 export { DrawMode } from './models/draw-mode.js';
 
 export * as Resource from './models/resource-id.js';
 export * as ResourceTypes from './models/resource-types.js';
 export * as ResourceMatchers from './matchers/index.js';
 
-export { type PicState, picStateWatcher } from './utils/pic-state-watcher.js';
+export type { PicState } from './state/pic-state.js';
+export { picStateWatcher } from './state/pic-state-watcher.js';
 
 export { parseAllMappings } from './parsers/mapping.js';
 export {

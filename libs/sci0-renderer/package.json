@@ -30,5 +30,9 @@
     "@4bitlabs/numeric-deque": "^2.0.1",
     "@4bitlabs/sci0": "^6.2.2",
     "@4bitlabs/vec2": "^3.0.4"
+  },
+  "devDependencies": {
+    "@protobufjs/base64": "^1.1.2",
+    "pako": "^3.0.2"
   }
 }

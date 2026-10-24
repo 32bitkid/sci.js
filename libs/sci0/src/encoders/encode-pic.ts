@@ -8,7 +8,7 @@ import {
   relativePoints,
   absolutePoints,
 } from './point-encoders.js';
-import { picStateWatcher } from '../utils/pic-state-watcher.js';
+import { picStateWatcher } from '../state/pic-state-watcher.js';
 
 export function encodePic(pic: Pic): Uint8Array {
   const chunks: Uint8Array[] = [];
@@ -19,9 +19,9 @@ export function encodePic(pic: Pic): Uint8Array {
     }
   };
 
-  const { observe } = picStateWatcher();
+  const { observeAll } = picStateWatcher();
 
-  for (const cmd of observe(pic)) {
+  for (const cmd of observeAll(pic)) {
     const [mode] = cmd;
     switch (mode) {
       case 'SET_VISUAL': {
@@ -74,9 +74,12 @@ export function encodePic(pic: Pic): Uint8Array {
         break;
       }
       case 'SET_PATTERN': {
-        const [, size, rect, spray] = cmd;
+        const [, size, rect, spray, $ = false] = cmd;
         const code =
-          ((spray ? 1 : 0) << 5) | ((rect ? 1 : 0) << 4) | (size & 0b111);
+          ((spray ? 1 : 0) << 5) |
+          ((rect ? 1 : 0) << 4) |
+          (($ ? 1 : 0) << 3) |
+          (size & 0b111);
         append(Uint8Array.of(OpCode.SetPattern, code));
         break;
       }

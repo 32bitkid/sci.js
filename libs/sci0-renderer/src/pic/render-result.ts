@@ -4,5 +4,6 @@ export interface RenderResult {
   visible: IndexedPixelData;
   priority: IndexedPixelData;
   control: IndexedPixelData;
+  mono: IndexedPixelData;
   tBuffer: Uint32Array;
 }

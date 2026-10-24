@@ -28,6 +28,7 @@ const ZodSetPatternCommand = z.tuple([
   z.int().min(0).max(7),
   z.boolean(),
   z.boolean(),
+  z.boolean().optional(),
 ]);
 
 const ZodBrushCommand = z.tuple([

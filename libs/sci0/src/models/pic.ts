@@ -1,4 +1,4 @@
-import type { DrawCommand } from './draw-command.js';
+import type { PicCommand } from './pic-command.js';
 
 /**
  * A `PIC` resource.
@@ -6,5 +6,5 @@ import type { DrawCommand } from './draw-command.js';
  * @see {@link parsePic}
  */
 export interface Pic {
-  [Symbol.iterator](): Iterator<DrawCommand, void, undefined>;
+  [Symbol.iterator](): Iterator<PicCommand, void, undefined>;
 }

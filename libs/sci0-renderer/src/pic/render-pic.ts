@@ -34,11 +34,11 @@ export const renderPic = (
   const { forcePal, width = 320, height = 190 } = options;
   const size: Vec2 = [width, height];
 
-  const { state, observe } = picStateWatcher();
+  const { state, observeDraws } = picStateWatcher();
   const [result, screen, tick] = createScreenBuffer(size, forcePal);
 
   let step = 0;
-  for (const cmd of observe(pic)) {
+  for (const cmd of observeDraws(pic)) {
     tick(step++);
     picStep(cmd, screen, state);
   }
