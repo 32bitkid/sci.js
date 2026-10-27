@@ -27,15 +27,14 @@ export function picStateWatcher(): PicStateWatcher {
     switch (mode) {
       case 'SET_VISUAL': {
         const [, code] = cmd;
-        state.drawMode |= DrawMode.Visual;
+        state.drawMode |= DrawMode.Visual | DrawMode.Mono;
         const [, priorityCode, controlCode] = state.drawCodes;
         state.drawCodes = [code, priorityCode, controlCode, code];
         return true;
       }
       case 'CLEAR_VISUAL': {
-        state.drawMode &= ~DrawMode.Visual;
-        state.drawMode &= ~DrawMode.Mono;
-        state.drawMode &= ~DrawMode.MonoDirect;
+        state.drawMode &=
+          ~DrawMode.Visual & ~DrawMode.Mono & ~DrawMode.MonoDirect;
         return true;
       }
       case 'SET_PRIORITY': {
@@ -83,13 +82,12 @@ export function picStateWatcher(): PicStateWatcher {
       }
       case 'CLEAR_MONO':
       case 'CLEAR_MONO_DIRECT': {
-        state.drawMode &= ~DrawMode.Mono;
-        state.drawMode &= ~DrawMode.MonoDirect;
+        state.drawMode &= ~DrawMode.Mono & ~DrawMode.MonoDirect;
         return true;
       }
       case 'SET_PALETTE': {
         const [, pal, ...codes] = cmd;
-        state.palette.set(codes, pal * 40);
+        state.palette.set(codes.slice(0, 40), pal * 40);
         return true;
       }
       case 'UPDATE_PALETTE': {
@@ -100,7 +98,7 @@ export function picStateWatcher(): PicStateWatcher {
       }
       case 'SET_MONO_PALETTE': {
         const [, pal, ...codes] = cmd;
-        state.monoPalette.set(codes, pal * 40);
+        state.monoPalette.set(codes.slice(0, 40), pal * 40);
         return true;
       }
       case 'SET_PRIORITY_BANDS': {
