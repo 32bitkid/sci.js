@@ -2,11 +2,11 @@
   "name": "@4bitlabs/blend-filters",
   "version": "0.1.0",
   "description": "Naive blend filters for ImageData (and ImageData-like) images",
-  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/blend-filters#readme",
   "keywords": [
     "image-data",
     "blend-mode"
   ],
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/blend-filters#readme",
   "bugs": {
     "url": "https://github.com/32bitkid/sci.js/issues"
   },
@@ -33,5 +33,8 @@
   },
   "dependencies": {
     "@4bitlabs/image": "^6.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

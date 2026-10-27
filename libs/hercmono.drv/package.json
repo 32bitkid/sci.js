@@ -2,10 +2,10 @@
   "name": "@4bitlabs/hercmono.drv",
   "version": "0.1.0",
   "description": "A render filter for @4bitlabs/sci0-renderer generated PIC resources to replicate HERCMONO.DRV",
-  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/hercmono.drv#readme",
   "keywords": [
     "hercmono.drv"
   ],
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/hercmono.drv#readme",
   "bugs": {
     "url": "https://github.com/32bitkid/sci.js/issues"
   },
@@ -37,5 +37,8 @@
     "@4bitlabs/image": "^6.0.0",
     "@4bitlabs/resize-filters": "^2.1.0",
     "@4bitlabs/wavelength": "^0.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
