@@ -1,0 +1,79 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --clr-ink: #181614;
+  --clr-ink-A10: color-mix(in srgb, var(--clr-ink), transparent 90%);
+  --clr-ink-A20: color-mix(in srgb, var(--clr-ink), transparent 80%);
+  --clr-ink-A30: color-mix(in srgb, var(--clr-ink), transparent 70%);
+  --clr-ink-A40: color-mix(in srgb, var(--clr-ink), transparent 60%);
+  --clr-ink-A50: color-mix(in srgb, var(--clr-ink), transparent 50%);
+  --clr-ink-A60: color-mix(in srgb, var(--clr-ink), transparent 40%);
+  --clr-ink-A70: color-mix(in srgb, var(--clr-ink), transparent 30%);
+  --clr-ink-A80: color-mix(in srgb, var(--clr-ink), transparent 20%);
+  --clr-ink-A90: color-mix(in srgb, var(--clr-ink), transparent 10%);
+
+  --clr-primary: #2a52be;
+  --clr-primary-100: color-mix(in oklab, var(--clr-primary), var(--clr-ink) 80%);
+  --clr-primary-200: color-mix(in oklab, var(--clr-primary), var(--clr-ink) 60%);
+  --clr-primary-300: color-mix(in oklab, var(--clr-primary), var(--clr-ink) 40%);
+  --clr-primary-400: color-mix(in oklab, var(--clr-primary), var(--clr-ink) 20%);
+  --clr-primary-500: var(--clr-primary);
+  --clr-primary-600: color-mix(in oklab, var(--clr-primary), white 20%);
+  --clr-primary-700: color-mix(in oklab, var(--clr-primary), white 40%);
+  --clr-primary-800: color-mix(in oklab, var(--clr-primary), white 60%);
+  --clr-primary-900: color-mix(in oklab, var(--clr-primary), white 80%);
+  --clr-primary-A10: color-mix(in srgb, var(--clr-primary), transparent 90%);
+  --clr-primary-A20: color-mix(in srgb, var(--clr-primary), transparent 80%);
+  --clr-primary-A30: color-mix(in srgb, var(--clr-primary), transparent 70%);
+  --clr-primary-A40: color-mix(in srgb, var(--clr-primary), transparent 60%);
+  --clr-primary-A50: color-mix(in srgb, var(--clr-primary), transparent 50%);
+  --clr-primary-A60: color-mix(in srgb, var(--clr-primary), transparent 40%);
+  --clr-primary-A70: color-mix(in srgb, var(--clr-primary), transparent 30%);
+  --clr-primary-A80: color-mix(in srgb, var(--clr-primary), transparent 20%);
+  --clr-primary-A90: color-mix(in srgb, var(--clr-primary), transparent 10%);
+
+
+  --clr-surface--default: #f5f5f5;
+  --clr-surface--glass: #2f2f2f;
+  --clr-surface: var(--clr-surface--default);
+  --clr-surface-800: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 80%);
+  --clr-surface-500: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 50%);
+  --clr-surface-200: color-mix(in srgb, var(--clr-surface--default), var(--clr-surface--glass) 20%);
+
+  --radius: 0.25rlh;
+  --shadow: 0 0.5rlh 0.5rlh rgba(0 0 0 / 20%);
+
+  --transparent-img: repeating-linear-gradient(
+      -45deg,
+      rgba(0 0 0 / 5%) 0px,
+      rgba(0 0 0 / 5%) 4px,
+      rgba(0 0 0 / 0%) 4px,
+      rgba(0 0 0 / 0%) 8px
+  );
+}
+
+#app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: grid;
+  grid-template-rows: 3rem 1rem calc(100vh - 6.5rem) 1rem 1.5rem;
+  grid-template-columns: 1rem 3rem 1fr 19rem;
+  overflow: hidden;
+
+  grid-template-areas:
+      "header header  header header"
+      ".      .       .      sidebar"
+      ".      toolbar .      sidebar"
+      ".      .       .      sidebar"
+      "status status  status status";
+}

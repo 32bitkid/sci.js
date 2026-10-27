@@ -1,0 +1,75 @@
+import { computed, type Ref, shallowRef, triggerRef, unref, watch } from 'vue';
+import type { RenderResult } from '@4bitlabs/sci0/dist/screen/render-result.ts';
+
+import { type DrawCommand, renderPic } from '@4bitlabs/sci0';
+import { createDitherFilter, renderPixelData } from '@4bitlabs/image';
+import { generateSciDitherPairs, Mixers } from '@4bitlabs/color';
+import { nearestNeighbor } from '@4bitlabs/resize-filters';
+import { isEqual, vec2, type Vec2 } from '@4bitlabs/vec2';
+import { get2dContext } from '../helpers/getContext.js';
+import { setCanvasDimensions } from '../helpers/setCanvasDimensions.js';
+import { clamp } from '../helpers/clamp.js';
+import { mustInject } from '../data/mustInject.js';
+import { paletteKey, stageOptionsKey, viewKey } from '../data/keys.js';
+
+export function useRenderedPixels(picDataRef: Ref<DrawCommand[]>) {
+  const { canvasSize } = mustInject(stageOptionsKey);
+  return computed(() => {
+    const picData = unref(picDataRef);
+    const [width, height] = unref(canvasSize);
+    return renderPic(picData, { width, height });
+  });
+}
+
+export function useCanvasRenderer(
+  renderedRef: Ref<RenderResult>,
+): Ref<OffscreenCanvas> {
+  const { canvasSize } = mustInject(stageOptionsKey);
+  const { finalColors } = mustInject(paletteKey);
+  const { viewZoom: zoomRef } = mustInject(viewKey);
+
+  const canvasRef = shallowRef(new OffscreenCanvas(1, 1));
+
+  const oversampleRef = computed<Vec2>((prev = [1, 1]) => {
+    const zoom = unref(zoomRef);
+    if (zoom > 12) return [1, 1];
+    const samples = Math.round(clamp(zoom, 1, 5));
+    const next = vec2(samples, samples);
+    return isEqual(prev, next) ? prev : next;
+  });
+
+  const isSoftRef = computed<boolean>(() => unref(zoomRef) >= 1);
+  const ditherRef = computed(() =>
+    createDitherFilter(
+      generateSciDitherPairs(
+        unref(finalColors),
+        Mixers.mixBy(0.25),
+        unref(isSoftRef) ? Mixers.softMixer() : ([a, b]) => [a, b],
+      ),
+    ),
+  );
+
+  watch(
+    [renderedRef, canvasSize, oversampleRef, ditherRef],
+    ([pic, [width, height], oversample, dither]) => {
+      const canvas = unref(canvasRef);
+      setCanvasDimensions(
+        canvas,
+        width * oversample[0],
+        height * oversample[1],
+      );
+
+      const imgData = renderPixelData(pic.visible, {
+        dither,
+        post: [nearestNeighbor(oversample)],
+      }) as ImageData;
+
+      const ctx = get2dContext(canvas);
+      ctx.putImageData(imgData, 0, 0);
+      triggerRef(canvasRef);
+    },
+    { immediate: true },
+  );
+
+  return canvasRef;
+}

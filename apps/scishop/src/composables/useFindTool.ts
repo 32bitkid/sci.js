@@ -1,0 +1,50 @@
+import { computed, onMounted, onUnmounted, type Ref, unref } from 'vue';
+
+import type { RenderResult } from '@4bitlabs/sci0';
+import { mustInject } from '../data/mustInject.js';
+import { pointersKey, stageOptionsKey, toolKey } from '../data/keys.js';
+import type { CursorPosition } from './useCursorWatcher.js';
+
+const MAX = ~0 >>> 0;
+
+export function useFindTool(
+  target: Ref<HTMLElement | null>,
+  pixels: Ref<RenderResult>,
+  pos: CursorPosition,
+) {
+  const { selectedIdx, topIdx } = mustInject(pointersKey);
+  const toolRef = mustInject(toolKey);
+  const { canvasSize } = mustInject(stageOptionsKey);
+
+  const commandUnderPosition = computed(() => {
+    const isOver = unref(pos.isOver);
+    if (!isOver) return -1;
+
+    const [x, y] = unref(pos.pixel);
+    const [sWidth] = unref(canvasSize);
+    const { tBuffer } = unref(pixels);
+
+    const cmd = tBuffer[y * sWidth + x];
+    return cmd !== MAX ? cmd : -1;
+  });
+
+  const handleClick = (e: MouseEvent) => {
+    if (unref(toolRef) !== 'find') return;
+    const val = unref(commandUnderPosition);
+    if (val === -1) return;
+    selectedIdx.value = val;
+    if (e.shiftKey) topIdx.value = val + 1;
+  };
+
+  onMounted(() => {
+    const el = unref(target);
+    if (!el) return;
+    el.addEventListener('click', handleClick);
+  });
+
+  onUnmounted(() => {
+    const el = unref(target);
+    if (!el) return;
+    el.removeEventListener('click', handleClick);
+  });
+}

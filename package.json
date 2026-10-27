@@ -27,6 +27,7 @@
     "libs/vec2",
     "libs/crt-lite",
     "apps/scibud",
+    "apps/scishop",
     "apps/sciotf"
   ],
   "scripts": {
