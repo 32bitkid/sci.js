@@ -66,9 +66,7 @@ export const createScreenBuffer = (
       const pal = (state.drawCodes[3] / 40) >>> 0;
       const palIndex = (state.drawCodes[3] % 40) >>> 0;
       mono.pixels[idx] = projectPals(state.monoPalette)[pal][palIndex];
-    }
-
-    if (DrawMode.isMonoDirectMode(state.drawMode)) {
+    } else if (DrawMode.isMonoDirectMode(state.drawMode)) {
       mono.pixels[idx] = state.drawCodes[3];
     }
   };
