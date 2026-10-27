@@ -3,7 +3,7 @@ import type { ImageResizer } from './image-resizer.js';
 import { prepareScale } from './prepare.js';
 
 export function nearestNeighbor(ratio: [number, number]): ImageResizer {
-  const [sx, sy] = [ratio[0] >>> 0, ratio[1] >>> 0];
+  const [sx, sy] = [Math.max(0, ratio[0]), Math.max(0, ratio[1])];
 
   function scale(input: ImageDataLike, output?: ImageDataLike): ImageDataLike;
   function scale(
@@ -22,20 +22,32 @@ export function nearestNeighbor(ratio: [number, number]): ImageResizer {
     } = prepareScale(input, ratio, output);
     const { width: iWidth, height: iHeight } = source;
 
-    const width = iWidth * sx;
+    if (Number.isInteger(sx) && Number.isInteger(sy)) {
+      const width = iWidth * sx;
 
-    for (let y = 0; y < iHeight; y++) {
-      const oIdx = y * sy * width;
+      for (let y = 0; y < iHeight; y++) {
+        const oIdx = y * sy * width;
 
-      // fill the next row
-      for (let x = 0; x < width; x++) {
-        const ix = (x / sx) >>> 0;
-        outP[oIdx + x] = inP[ix + y * iWidth];
+        // fill the next row
+        for (let x = 0; x < width; x++) {
+          const ix = (x / sx) >>> 0;
+          outP[oIdx + x] = inP[ix + y * iWidth];
+        }
+
+        // copy row n - 1 times
+        for (let i = 1; i < sy; i++) {
+          outP.copyWithin(oIdx + i * width, oIdx, oIdx + width);
+        }
       }
-
-      // copy row n - 1 times
-      for (let i = 1; i < sy; i++) {
-        outP.copyWithin(oIdx + i * width, oIdx, oIdx + width);
+    } else {
+      for (let oy = 0; oy < dest.height; oy++) {
+        for (let ox = 0; ox < dest.width; ox++) {
+          const ix = Math.round(ox * (source.width / dest.width));
+          const iy = Math.round(oy * (source.height / dest.height));
+          const iIdx = ix + iy * source.width;
+          const oIdx = ox + oy * dest.width;
+          outP[oIdx] = inP[iIdx];
+        }
       }
     }
 
