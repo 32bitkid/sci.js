@@ -15,10 +15,13 @@
   "author": "J. Holmes <32bitkid@gmail.com>",
   "type": "module",
   "workspaces": [
+    "libs/blend-filters",
     "libs/blur-filters",
     "libs/codecs",
-    "libs/color-space",
     "libs/color",
+    "libs/color-space",
+    "libs/crt-lite",
+    "libs/hercmono.drv",
     "libs/image",
     "libs/pmachine",
     "libs/resize-filters",
@@ -26,7 +29,6 @@
     "libs/sci0-renderer",
     "libs/sci0-zod",
     "libs/vec2",
-    "libs/crt-lite",
     "libs/wavelength",
     "apps/scibud",
     "apps/sciotf"
