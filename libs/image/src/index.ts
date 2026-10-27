@@ -1,4 +1,5 @@
 export { type ImageDataLike, createImageData } from './image-data-like.js';
+export { asRGBA } from './as-rgba.js';
 export {
   type IndexedPixelData,
   type CreateIndexPixelDataOptions,
