@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/blend-filters",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Naive blend filters for ImageData (and ImageData-like) images",
   "keywords": [
     "image-data",

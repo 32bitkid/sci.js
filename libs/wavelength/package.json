@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/wavelength",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A simple package to approximate wavelengths of visible light into RGB colors",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/wavelength#readme",
   "bugs": {
