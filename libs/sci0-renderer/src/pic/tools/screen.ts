@@ -1,10 +1,4 @@
-import type {
-  DrawMode,
-  DrawCodes,
-  Cel,
-  PatternCode,
-  PicState,
-} from '@4bitlabs/sci0';
+import type { Cel, PicState } from '@4bitlabs/sci0';
 import type { ResolvedColors } from '../resolve-dither.js';
 
 export type RawPlotter = (x: number, y: number, color: number) => void;

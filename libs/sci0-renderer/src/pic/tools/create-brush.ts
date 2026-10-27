@@ -1,10 +1,5 @@
 import type { Vec2 } from '@4bitlabs/vec2';
-import type {
-  DrawMode,
-  DrawCodes,
-  PatternCode,
-  PicState,
-} from '@4bitlabs/sci0';
+import type { PicState } from '@4bitlabs/sci0';
 import type { Brusher, Plotter } from './screen.js';
 import { NOISE, NOISE_OFFSETS } from './noise.js';
 import CIRCLES from './circles.js';

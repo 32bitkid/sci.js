@@ -1,11 +1,8 @@
 import type { Vec2 } from '@4bitlabs/vec2';
 import { createIndexedPixelData } from '@4bitlabs/image';
-import { DrawMode, type PicState } from '@4bitlabs/sci0';
+import { DrawMode } from '@4bitlabs/sci0';
 import type {
-  Brusher,
-  Filler,
   IsFillable,
-  Liner,
   Plotter,
   RawPlotter,
   Screen,
@@ -17,9 +14,8 @@ import {
   createLine,
   createBlitter,
 } from './tools/index.js';
-import { createPalettes, type PaletteSet } from './create-palettes.js';
+import type { PaletteSet } from './create-palettes.js';
 import { resolveDither } from './resolve-dither.js';
-import { DEFAULT_MONO, DEFAULT_PALETTE } from './default-palette.js';
 
 export type SetTValueFn = (n: number) => void;
 

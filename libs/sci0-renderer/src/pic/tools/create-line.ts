@@ -1,4 +1,4 @@
-import type { DrawMode, DrawCodes, PicState } from '@4bitlabs/sci0';
+import type { PicState } from '@4bitlabs/sci0';
 import type { Liner, Plotter } from './screen.js';
 
 export const createLine = (plot: Plotter): Liner =>

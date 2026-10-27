@@ -1,8 +1,8 @@
 import { it, expect } from 'vitest';
-import { wavelength, wavelengthI } from './wavelength';
+import { wavelength, wavelengthI } from './wavelength.js';
 import { toHex } from '@4bitlabs/color-space/srgb';
 import { toSRGB } from '@4bitlabs/color-space/xyz';
-import { wavelengthToCSS } from './conversions';
+import { wavelengthToCSS } from './conversions.js';
 
 it.each<[number, `#${string}`, number?]>([
   [430, '#7500ff'],
