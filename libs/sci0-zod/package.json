@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/sci0-zod",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Zod schema for verifying data-structures for @4bitlabs/sci0 and related packages",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/sci0-zod#readme",
   "bugs": {

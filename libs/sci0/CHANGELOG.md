@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [7.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@6.2.2...@4bitlabs/sci0@7.0.0) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+* reworking rendering internals
+* Adding encoding support for picture resources in scibud
+
+### Features
+
+* Adding encoding support for picture resources in scibud
+* reworking rendering internals
+* **sci0:** add encodePic() to encode a draw commands back to bytes
+
+### Bug Fixes
+
+* **sci0:** safer palette setting in pic-state-watcher
+
+
 ## [6.2.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0@6.2.1...@4bitlabs/sci0@6.2.2) (2026-10-17)
 
 **Note:** Version bump only for package @4bitlabs/sci0

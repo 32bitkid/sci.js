@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@5.0.5...@4bitlabs/image@6.0.0) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+* reworking rendering internals
+
+### Features
+
+* **image:** adding asRGBA helper
+* **images:** prototyping a pattern filter renderer
+* reworking rendering internals
+
+
 ## [5.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/image@5.0.4...@4bitlabs/image@5.0.5) (2026-10-17)
 
 ### Bug Fixes

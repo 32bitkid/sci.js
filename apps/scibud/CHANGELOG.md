@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.2.2...@4bitlabs/scibud@4.0.0) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+* Adding encoding support for picture resources in scibud
+
+### Features
+
+* Adding encoding support for picture resources in scibud
+* **scibud:** adding pic from-json command
+* **scibud:** support reading from stdin on pic from-json
+
+
 ## [3.2.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@3.2.1...@4bitlabs/scibud@3.2.2) (2026-10-17)
 
 **Note:** Version bump only for package @4bitlabs/scibud

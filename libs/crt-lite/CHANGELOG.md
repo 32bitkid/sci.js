@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@2.0.4...@4bitlabs/crt-lite@3.0.0) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+* Adding encoding support for picture resources in scibud
+
+### Features
+
+* Adding encoding support for picture resources in scibud
+
+
 ## [2.0.4](https://github.com/32bitkid/sci.js/compare/@4bitlabs/crt-lite@2.0.3...@4bitlabs/crt-lite@2.0.4) (2026-08-18)
 
 **Note:** Version bump only for package @4bitlabs/crt-lite

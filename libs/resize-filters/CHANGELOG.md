@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.1.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@2.0.5...@4bitlabs/resize-filters@2.1.0) (2026-10-27)
+
+### Features
+
+* **resize-filters:** add nearest neighbor resizing to non-integer scalars
+
+
 ## [2.0.5](https://github.com/32bitkid/sci.js/compare/@4bitlabs/resize-filters@2.0.4...@4bitlabs/resize-filters@2.0.5) (2026-10-17)
 
 **Note:** Version bump only for package @4bitlabs/resize-filters

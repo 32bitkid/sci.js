@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.4.0...@4bitlabs/sci0-renderer@2.0.0) (2026-10-27)
+
+### ⚠ BREAKING CHANGES
+
+* reworking rendering internals
+* Adding encoding support for picture resources in scibud
+
+### Features
+
+* Adding encoding support for picture resources in scibud
+* reworking rendering internals
+
+### Bug Fixes
+
+* **sci0-renderer:** only one of these should be set at any given time
+
+
 ## [1.4.0](https://github.com/32bitkid/sci.js/compare/@4bitlabs/sci0-renderer@1.3.1...@4bitlabs/sci0-renderer@1.4.0) (2026-10-17)
 
 ### Features

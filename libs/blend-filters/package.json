@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/blend-filters",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Naive blend filters for ImageData (and ImageData-like) images",
   "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/blend-filters#readme",
   "keywords": [
@@ -32,6 +32,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@4bitlabs/image": "^5.0.5"
+    "@4bitlabs/image": "^6.0.0"
   }
 }
