@@ -1,0 +1,41 @@
+{
+  "name": "@4bitlabs/hercmono.drv",
+  "version": "0.0.0",
+  "description": "A render filter for @4bitlabs/sci0-renderer generated PIC resources to replicate HERCMONO.DRV",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/hercmono.drv#readme",
+  "keywords": [
+    "hercmono.drv"
+  ],
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/32bitkid/sci.js.git"
+  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit && tsdown",
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@4bitlabs/blend-filters": "^0.0.0",
+    "@4bitlabs/blur-filters": "^2.1.2",
+    "@4bitlabs/color-space": "^3.0.4",
+    "@4bitlabs/image": "^5.0.5",
+    "@4bitlabs/resize-filters": "^2.0.5",
+    "@4bitlabs/wavelength": "^0.0.0"
+  }
+}
