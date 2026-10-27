@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { toLab, toOkLab, toSRGB } from './xyz-fns.js';
+import { toLab, toOkLab, toSRGB, toCSS } from './xyz-fns.js';
 import type { XYZTuple } from '../tuples/xyz-tuple.js';
 import type { LabTuple } from '../tuples/lab-tuple.js';
 import type { okLabTuple } from '../tuples/oklab-tuple.js';
@@ -77,6 +77,22 @@ describe('CIE-XYZ color-space', () => {
       expect(actual[1]).toBeCloseTo(expected[1], 3);
       expect(actual[2]).toBeCloseTo(expected[2], 3);
       expect(actual[3]).toBeCloseTo(expected[3], 3);
+    });
+  });
+
+  describe('toCSS()', () => {
+    it.each<[XYZTuple, string]>([
+      [
+        ['CIE-XYZ', 19.7536522709638, 17.580667923785445, 13.90586203841256],
+        'color(xyz-d50 0.19753652811050415 0.1758066862821579 0.13905861973762512)',
+      ],
+      [
+        ['CIE-XYZ', 9.51604, 12.6486, 4.6282, 0.5],
+        'color(xyz-d50 0.09516040235757828 0.12648600339889526 0.046282000839710236 / 0.5)',
+      ],
+    ])('ok', (xyz, expected) => {
+      const actual = toCSS(xyz);
+      expect(actual).toStrictEqual(expected);
     });
   });
 });

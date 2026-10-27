@@ -26,4 +26,4 @@ export {
   toString,
   isXYZTuple,
 } from '../tuples/xyz-tuple.js';
-export { toSRGB, toLab, toOkLab, mix } from './xyz-fns.js';
+export { toSRGB, toLab, toOkLab, mix, toCSS } from './xyz-fns.js';

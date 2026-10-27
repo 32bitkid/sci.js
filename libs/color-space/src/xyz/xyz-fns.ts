@@ -147,3 +147,14 @@ export const mix = (
     alpha,
   );
 };
+
+export const toCSS = (c: XYZTuple): string => {
+  const [, x, y, z, a] = c;
+  const x32 = Math.fround(x / 100).toString(10);
+  const y32 = Math.fround(y / 100).toString(10);
+  const z32 = Math.fround(z / 100).toString(10);
+
+  return typeof a === 'number'
+    ? `color(xyz-d50 ${x32} ${y32} ${z32} / ${Math.fround(a).toString(10)})`
+    : `color(xyz-d50 ${x32} ${y32} ${z32})`;
+};
