@@ -1,5 +1,10 @@
 import { reference } from './ref.js';
 
+/**
+ * @param a base layer RGBA pixel
+ * @param b blend layer RGBA pixel
+ * @returns the resulting RGBA pixel
+ */
 export type BlendMode = (a: number, b: number) => number;
 
 export const multiply = (a: number, b: number): number => {

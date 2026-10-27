@@ -17,7 +17,10 @@ export * as ResourceTypes from './models/resource-types.js';
 export * as ResourceMatchers from './matchers/index.js';
 
 export type { PicState } from './state/pic-state.js';
-export { picStateWatcher } from './state/pic-state-watcher.js';
+export {
+  picStateWatcher,
+  type PicStateWatcher,
+} from './state/pic-state-watcher.js';
 
 export { parseAllMappings } from './parsers/mapping.js';
 export {

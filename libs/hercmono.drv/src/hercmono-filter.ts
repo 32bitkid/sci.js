@@ -10,16 +10,22 @@ import {
 import { nearestNeighbor } from '@4bitlabs/resize-filters';
 
 import { type DitherPreset, DitherPresets } from './hercules-dithers.js';
-import { Phosphors } from './phosphors.js';
+import { Phosphors, type PhosphorTypes } from './phosphors.js';
 
-type HercMonoOptions = {
+export interface HercMonoOptions {
+  /** Selected dither patterns. @defaultValue `"pq2"` */
   patterns?: DitherPreset;
-  phosphors?: keyof typeof Phosphors;
-};
+  /** Selected phosphor type. @defaultValue `"P1"` */
+  phosphors?: PhosphorTypes;
+}
 
 const hercPad = padImageFilter([57, 40, 42], { backgroundColor: 0xff000000 });
 const blur = boxBlur(5);
 
+/**
+ * @param options.patterns
+ * @param options.phosphors
+ */
 export const hercMonoFilter = (
   options: HercMonoOptions = {},
 ): PaletteFilter => {

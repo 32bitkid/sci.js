@@ -36,13 +36,22 @@ const phosphorSample = (
   return color;
 };
 
-export const Phosphors: {
-  P1: [number, number, number];
-  P2: [number, number, number];
-  P3: [number, number, number];
-  P4: [number, number, number];
-  P6: [number, number, number];
-} = {
+/**
+ * The supported standard phosphor types for monochrome CRT rendering.
+ *
+ * - `"P1"` - 525nm, green phosphor. A common phosphor type found in computer monitors of the era.
+ * - `"P2"` - 543nm, blue-green phosphor. Mostly used in oscilloscopes.
+ * - `"P3"` - 602nm, amber phosphor. A common phosphor type found in computer monitors of the era.
+ * - `"P4"` - 565, 540nm, "white" phosphor. A common phosphor type found in computer monitors and TV CRTs.
+ * - `"P6"` - 565, 460nm, "white" phosphor. A common phosphor type found in computer monitors and TV CRTs.
+ *
+ * @see {@link https://en.wikipedia.org/wiki/Phosphor}
+ * @see {@link https://www.labguysworld.com/crt_phosphor_research.pdf}
+ */
+export type PhosphorTypes = 'P1' | 'P2' | 'P3' | 'P4' | 'P6';
+export type PhosphorColors = [on: number, glow: number, off: number];
+
+export const Phosphors: { [key in PhosphorTypes]: PhosphorColors } = {
   P1: [
     toUint32(toSRGB(phosphorSample(525, [490, 580]))),
     toUint32(toSRGB(wavelengthI(525, 0.125))),

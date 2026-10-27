@@ -145,16 +145,11 @@ const d63b31d4b60aea159d7bb667995632d6fcd184e8 = Uint8Array.of(
   0b11111111,
 );
 
-export const DitherPresets: {
-  'astro-chicken': Uint8Array;
-  pq2: Uint8Array;
-  hoyle: Uint8Array;
-  'cbquest-demo': Uint8Array;
-} = {
+export type DitherPreset = 'astro-chicken' | 'pq2' | 'hoyle' | 'cbquest-demo';
+
+export const DitherPresets: { [key in DitherPreset]: Uint8Array } = {
   'astro-chicken': d63b31d4b60aea159d7bb667995632d6fcd184e8,
   hoyle: d63b31d4b60aea159d7bb667995632d6fcd184e8,
   pq2: d63b31d4b60aea159d7bb667995632d6fcd184e8,
   'cbquest-demo': d63b31d4b60aea159d7bb667995632d6fcd184e8,
 };
-
-export type DitherPreset = keyof typeof DitherPresets;
