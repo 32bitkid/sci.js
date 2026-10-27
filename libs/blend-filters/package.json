@@ -1,0 +1,37 @@
+{
+  "name": "@4bitlabs/blend-filters",
+  "version": "0.0.0",
+  "description": "Naive blend filters for ImageData (and ImageData-like) images",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/blend-filters#readme",
+  "keywords": [
+    "image-data",
+    "blend-mode"
+  ],
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/32bitkid/sci.js.git"
+  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit && tsdown",
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@4bitlabs/image": "^5.0.5"
+  }
+}
