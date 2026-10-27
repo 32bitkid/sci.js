@@ -27,6 +27,7 @@
     "libs/sci0-zod",
     "libs/vec2",
     "libs/crt-lite",
+    "libs/wavelength",
     "apps/scibud",
     "apps/sciotf"
   ],

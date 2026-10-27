@@ -1,0 +1,37 @@
+{
+  "name": "@4bitlabs/wavelength",
+  "version": "0.0.0",
+  "description": "A simple package to approximate wavelengths of visible light into RGB colors",
+  "homepage": "https://github.com/32bitkid/sci.js/tree/main/libs/wavelength#readme",
+  "bugs": {
+    "url": "https://github.com/32bitkid/sci.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/32bitkid/sci.js.git"
+  },
+  "license": "ISC",
+  "author": "J. Holmes <j@holmes.codes>",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./xyz": {
+      "types": "./dist/wavelength.d.ts",
+      "import": "./dist/wavelength.js"
+    }
+  },
+  "files": [
+    "./dist/**/*"
+  ],
+  "scripts": {
+    "build": "tsc --noEmit && tsdown",
+    "clean:wipe": "rimraf ./dist",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@4bitlabs/color-space": "^3.0.4"
+  }
+}
