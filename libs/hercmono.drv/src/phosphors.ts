@@ -54,7 +54,7 @@ export type PhosphorColors = [on: number, glow: number, off: number];
 export const Phosphors: { [key in PhosphorTypes]: PhosphorColors } = {
   P1: [
     toUint32(toSRGB(phosphorSample(525, [490, 580]))),
-    toUint32(toSRGB(wavelengthI(525, 0.125))),
+    toUint32(toSRGB(wavelengthI(525, 0.25))),
     0xff000000,
   ],
   P2: [
@@ -64,7 +64,7 @@ export const Phosphors: { [key in PhosphorTypes]: PhosphorColors } = {
   ],
   P3: [
     toUint32(toSRGB(phosphorSample(602, [504, 700]))),
-    toUint32(toSRGB(wavelengthI(602, 0.125))),
+    toUint32(toSRGB(wavelengthI(602, 0.25))),
     0xff000000,
   ],
   P4: [

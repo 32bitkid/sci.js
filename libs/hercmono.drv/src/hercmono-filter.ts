@@ -1,5 +1,5 @@
 import { screenFilter } from '@4bitlabs/blend-filters';
-import { boxBlur } from '@4bitlabs/blur-filters';
+import { boxBlur, hBoxBlur } from '@4bitlabs/blur-filters';
 import {
   type PaletteFilter,
   type IndexedPixelData,
@@ -20,7 +20,8 @@ export interface HercMonoOptions {
 }
 
 const hercPad = padImageFilter([57, 40, 42], { backgroundColor: 0xff000000 });
-const blur = boxBlur(5);
+const blur = boxBlur(2);
+const hBlur = hBoxBlur(16);
 
 /**
  * @param options.patterns
@@ -50,6 +51,6 @@ export const hercMonoFilter = (
         glowRGBA[idx] = set ? glow : off;
       }
 
-    return screenFilter(hercPad(pixelsImg), blur(hercPad(glowImg)));
+    return screenFilter(hercPad(pixelsImg), hBlur(blur(hercPad(glowImg))));
   };
 };
