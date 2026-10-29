@@ -12,7 +12,8 @@
 [kofibadge]: https://shields.io/badge/ko--fi-donate-ff5f5f?logo=ko-fi&style=for-the-badgeKo-fi
 [kofi]: https://ko-fi.com/thirtytwo
 
-A simple package to approximate wavelengths of visible light into RGB colors.
+A simple package to approximate wavelengths of visible light into RGB colors. Based on the methodology described in
+[Simple Analytic Approximations to the CIE XYZ Color Matching Functions](https://jcgt.org/published/0002/02/01/).
 
 ## Hex
 

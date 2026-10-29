@@ -11,3 +11,6 @@
 [kofi]: https://ko-fi.com/thirtytwo
 
 A simple package to approximate wavelengths of visible light into RGB colors.
+
+Based on the methodology described in [Simple Analytic Approximations to the CIE
+XYZ Color Matching Functions](https://jcgt.org/published/0002/02/01/).
