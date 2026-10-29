@@ -82,28 +82,30 @@ export async function picVideoAction(
   const pic = await mustParse(root, engine, picMatcher(id), (d) => parsePic(d));
   const font = await mustParse(root, engine, fontMatcher(0), parseFont);
 
-  const total = pic.length;
+  const total = pic.reduce(
+    (i, cmd) =>
+      i + (['PLINE', 'FILL', 'BRUSH', 'CEL'].includes(cmd[0]) ? 1 : 0),
+    0,
+  );
   const padLength = Math.ceil(Math.log10(total));
 
   const { dir, name, ext } = path.parse(output);
   const crtFilter = optionalDeferredCrtFilter(options.crt);
 
-  const frames = Array(total)
-    .fill(null)
-    .map((_, idx) =>
-      path.format({
-        dir,
-        name: name
-          .replace(/%num/, id.toString(10).padStart(3, '0'))
-          .replace(/%d/, idx.toString(10).padStart(padLength, '0')),
-        ext,
-      }),
-    );
+  const frames: string[] = [];
 
   progress.start(total, 0);
 
   for (const [idx, , layers] of generatePic(pic, { forcePal })) {
-    const outfile = frames[idx];
+    const outfile = path.format({
+      dir,
+      name: name
+        .replace(/%num/, id.toString(10).padStart(3, '0'))
+        .replace(/%d/, idx.toString(10).padStart(padLength, '0')),
+      ext,
+    });
+
+    frames.push(outfile);
     const message = {
       font,
       left: [title, `PIC.${id.toString(10).padStart(3, '0')}`]

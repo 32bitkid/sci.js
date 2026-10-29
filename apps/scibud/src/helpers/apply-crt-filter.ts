@@ -3,8 +3,8 @@ import { createCrtFromContext, type CrtRenderer } from '@4bitlabs/crt-lite';
 import type { ImageDataLike } from '@4bitlabs/image';
 
 const DEFAULT_CRT_OPTIONS = {
-  Fx: -0.025,
-  Fy: -0.035,
+  Fx: -0.015,
+  Fy: -0.025,
   S: 0.995,
   hBlur: 2.5,
   grain: 0,
