@@ -48,7 +48,7 @@ export const fragShaderSource = ({
       
       float diff = radius - distance(pos , center)  / u_Lens.z;
       float l = luma(texture);
-      float d = clamp(smoothstep(-smoothness, smoothness, diff), 0.0, 1.0);
+      float d = clamp(smoothstep(-smoothness, smoothness, diff), (1.0 - intensity), 1.0);
       return mix(color, texture, d);
   } 
   
@@ -101,8 +101,8 @@ export const fragShaderSource = ({
     // Vignette    
     {
       if (u_vignetteAmount > 0.0) {
-        texture.rgb = vignette(texture.rgb, vec3(-0.05), 0.85, 0.55, 1.0 * u_vignetteAmount);
-        texture.rgb = vignette(texture.rgb, vec3(0.05), 0.66, 0.145, 0.2 * u_vignetteAmount);
+        texture.rgb = vignette(texture.rgb, vec3(0.0), 0.85, 0.55, 1.0 * u_vignetteAmount);
+        texture.rgb = vignette(texture.rgb, vec3(0.0), 0.66, 0.145, 0.5 * u_vignetteAmount);
       }
     }
     
