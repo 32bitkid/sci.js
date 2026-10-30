@@ -1,6 +1,6 @@
 {
   "name": "@4bitlabs/hercmono.drv",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A render filter for @4bitlabs/sci0-renderer generated PIC resources to replicate HERCMONO.DRV",
   "keywords": [
     "hercmono.drv"
@@ -36,7 +36,7 @@
     "@4bitlabs/color-space": "^3.1.0",
     "@4bitlabs/image": "^6.0.0",
     "@4bitlabs/resize-filters": "^2.1.0",
-    "@4bitlabs/wavelength": "^0.1.1"
+    "@4bitlabs/wavelength": "^0.1.2"
   },
   "publishConfig": {
     "access": "public"

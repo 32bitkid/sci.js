@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.2](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@4.0.1...@4bitlabs/scibud@4.0.2) (2026-10-30)
+
+### Bug Fixes
+
+* adjust pic-video action for new Pic shape
+* **crt-lite:** fix vignette intensity param
+
+
 ## [4.0.1](https://github.com/32bitkid/sci.js/compare/@4bitlabs/scibud@4.0.0...@4bitlabs/scibud@4.0.1) (2026-10-27)
 
 **Note:** Version bump only for package @4bitlabs/scibud
