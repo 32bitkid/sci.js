@@ -29,7 +29,7 @@ function* picIterable(source: Uint8Array): IterableIterator<PicCommand> {
  * @param source
  * @returns Parsed draw commands as an array.
  */
-export function parsePic(source: Uint8Array): DrawCommand[];
+export function parsePic(source: Uint8Array): PicCommand[];
 /**
  * Parse a {@link Pic} resource from bytes.
  *
