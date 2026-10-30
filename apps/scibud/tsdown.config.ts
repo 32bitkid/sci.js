@@ -5,7 +5,7 @@ export default defineConfig({
   platform: 'node',
   format: ['esm'],
   target: ['node20'],
-  unbundle: true,
+  unbundle: false,
   outputOptions: {
     comments: { legal: true, annotation: true, jsdoc: false },
   },
